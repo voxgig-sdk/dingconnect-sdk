@@ -1,0 +1,151 @@
+# Currency entity test
+
+require "minitest/autorun"
+require "json"
+require_relative "../Dingconnect_sdk"
+require_relative "runner"
+
+class CurrencyEntityTest < Minitest::Test
+  def test_create_instance
+    testsdk = DingconnectSDK.test(nil, nil)
+    ent = testsdk.Currency(nil)
+    assert !ent.nil?
+  end
+
+  # Feature #4: the entity stream(action, ...) method runs the op pipeline and
+  # returns an Enumerator over result items. With the streaming feature active
+  # it yields the feature's incremental output; otherwise it falls back to the
+  # materialised list so stream always yields.
+  def test_stream
+    seed = {
+      "entity" => {
+        "currency" => {
+          "s1" => { "id" => "s1" },
+          "s2" => { "id" => "s2" },
+          "s3" => { "id" => "s3" },
+        },
+      },
+    }
+
+    # Fallback: streaming inactive -> yields the materialised list items.
+    base = DingconnectSDK.test(seed, nil)
+    seen = base.Currency(nil).stream("list", nil, nil).to_a
+    assert_equal 3, seen.length
+
+    # Inbound: streaming active -> yields each item from the feature.
+    cfg = DingconnectConfig.make_config
+    if cfg["feature"].is_a?(Hash) && cfg["feature"].key?("streaming")
+      sdk = DingconnectSDK.test(seed, { "feature" => { "streaming" => { "active" => true } } })
+      got = []
+      sdk.Currency(nil).stream("list", nil, nil).each do |item|
+        if item.is_a?(Array)
+          got.concat(item)
+        else
+          got << item
+        end
+      end
+      assert_equal 3, got.length
+    end
+  end
+
+  def test_basic_flow
+    setup = currency_basic_setup(nil)
+    # Per-op sdk-test-control.json skip.
+    _live = setup[:live] || false
+    ["list"].each do |_op|
+      _should_skip, _reason = Runner.is_control_skipped("entityOp", "currency." + _op, _live ? "live" : "unit")
+      if _should_skip
+        skip(_reason || "skipped via sdk-test-control.json")
+        return
+      end
+    end
+    # The basic flow consumes synthetic IDs from the fixture. In live mode
+    # without an *_ENTID env override, those IDs hit the live API and 4xx.
+    if setup[:synthetic_only]
+      skip "live entity test uses synthetic IDs from fixture — set DINGCONNECT_TEST_CURRENCY_ENTID JSON to run live"
+      return
+    end
+    client = setup[:client]
+
+    # Bootstrap entity data from existing test data.
+    currency_ref01_data_raw = Vs.items(Helpers.to_map(
+      Vs.getpath(setup[:data], "existing.currency")))
+    currency_ref01_data = nil
+    if currency_ref01_data_raw.length > 0
+      currency_ref01_data = Helpers.to_map(currency_ref01_data_raw[0][1])
+    end
+
+    # LIST
+    currency_ref01_ent = client.Currency(nil)
+    currency_ref01_match = {}
+
+    currency_ref01_list_result = currency_ref01_ent.list(currency_ref01_match, nil)
+    assert currency_ref01_list_result.is_a?(Array)
+
+  end
+end
+
+def currency_basic_setup(extra)
+  Runner.load_env_local
+
+  entity_data_file = File.join(__dir__, "..", "..", ".sdk", "test", "entity", "currency", "CurrencyTestData.json")
+  entity_data_source = File.read(entity_data_file)
+  entity_data = JSON.parse(entity_data_source)
+
+  options = {}
+  options["entity"] = entity_data["existing"]
+
+  client = DingconnectSDK.test(options, extra)
+
+  # Generate idmap via transform.
+  idmap = Vs.transform(
+    ["currency01", "currency02", "currency03"],
+    {
+      "`$PACK`" => ["", {
+        "`$KEY`" => "`$COPY`",
+        "`$VAL`" => ["`$FORMAT`", "upper", "`$COPY`"],
+      }],
+    }
+  )
+
+  # Detect ENTID env override before envOverride consumes it. When live
+  # mode is on without a real override, the basic test runs against synthetic
+  # IDs from the fixture and 4xx's. Surface this so the test can skip.
+  entid_env_raw = ENV["DINGCONNECT_TEST_CURRENCY_ENTID"]
+  idmap_overridden = !entid_env_raw.nil? && entid_env_raw.strip.start_with?("{")
+
+  env = Runner.env_override({
+    "DINGCONNECT_TEST_CURRENCY_ENTID" => idmap,
+    "DINGCONNECT_TEST_LIVE" => "FALSE",
+    "DINGCONNECT_TEST_EXPLAIN" => "FALSE",
+    "DINGCONNECT_APIKEY" => "NONE",
+  })
+
+  idmap_resolved = Helpers.to_map(
+    env["DINGCONNECT_TEST_CURRENCY_ENTID"])
+  if idmap_resolved.nil?
+    idmap_resolved = Helpers.to_map(idmap)
+  end
+
+  if env["DINGCONNECT_TEST_LIVE"] == "TRUE"
+    merged_opts = Vs.merge([
+      {
+        "apikey" => env["DINGCONNECT_APIKEY"],
+      },
+      extra || {},
+    ])
+    client = DingconnectSDK.new(Helpers.to_map(merged_opts))
+  end
+
+  live = env["DINGCONNECT_TEST_LIVE"] == "TRUE"
+  {
+    client: client,
+    data: entity_data,
+    idmap: idmap_resolved,
+    env: env,
+    explain: env["DINGCONNECT_TEST_EXPLAIN"] == "TRUE",
+    live: live,
+    synthetic_only: live && !idmap_overridden,
+    now: (Time.now.to_f * 1000).to_i,
+  }
+end

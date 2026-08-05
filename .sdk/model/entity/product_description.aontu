@@ -1,0 +1,71 @@
+# Entity: product_description
+
+main: kit: entity: product_description: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "error_code"
+      req: false
+      type: "`$ARRAY`"
+    }
+    {
+      name: "item"
+      req: false
+      type: "`$ARRAY`"
+    }
+    {
+      name: "result_code"
+      req: false
+      type: "`$INTEGER`"
+    }
+  ]
+
+  name: "product_description"
+  op: {
+    list: {
+      name: "list"
+      points: [
+        {
+          args: {
+            query: [
+              {
+                kind: "query"
+                name: "language_code"
+                orig: "language_code"
+                reqd: false
+                type: "`$ARRAY`"
+              }
+              {
+                kind: "query"
+                name: "sku_code"
+                orig: "sku_code"
+                reqd: false
+                type: "`$ARRAY`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/GetProductDescriptions"
+          parts: [
+            "GetProductDescriptions"
+          ]
+          select: {
+            exist: [
+              "language_code"
+              "sku_code"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

@@ -1,0 +1,30 @@
+{
+  "existing": {
+    "promotion": {
+      "PROMOTION00": {
+        "error_code": [],
+        "item": [],
+        "result_code": "s20"
+      },
+      "PROMOTION01": {
+        "error_code": [],
+        "item": [],
+        "result_code": "s3e"
+      },
+      "PROMOTION02": {
+        "error_code": [],
+        "item": [],
+        "result_code": "s5c"
+      }
+    }
+  },
+  "new": {
+    "promotion": {
+      "promotion_ref01": {
+        "error_code": [],
+        "item": [],
+        "result_code": "s7a"
+      }
+    }
+  }
+}

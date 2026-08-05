@@ -1,0 +1,18 @@
+# Flows
+
+@"BasicAccountLookupFlow.aontu"
+@"BasicBalanceFlow.aontu"
+@"BasicCancelResultFlow.aontu"
+@"BasicCountryFlow.aontu"
+@"BasicCurrencyFlow.aontu"
+@"BasicErrorCodeDescriptionFlow.aontu"
+@"BasicEstimateFlow.aontu"
+@"BasicProductDescriptionFlow.aontu"
+@"BasicProductFlow.aontu"
+@"BasicPromotionDescriptionFlow.aontu"
+@"BasicPromotionFlow.aontu"
+@"BasicProviderFlow.aontu"
+@"BasicProviderStatusFlow.aontu"
+@"BasicRegionFlow.aontu"
+@"BasicSendTransferFlow.aontu"
+@"BasicTransferRecordFlow.aontu"

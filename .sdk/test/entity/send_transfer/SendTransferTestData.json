@@ -1,0 +1,61 @@
+{
+  "existing": {
+    "send_transfer": {
+      "SEND_TRANSFER00": {
+        "account_number": "s64",
+        "distributor_ref": "s65",
+        "error_code": [],
+        "result_code": "s67",
+        "send_currency_iso": "s68",
+        "send_value": 105,
+        "setting": [],
+        "sku_code": "s6b",
+        "transfer_record": {},
+        "validate_only": false,
+        "id": "SEND_TRANSFER00"
+      },
+      "SEND_TRANSFER01": {
+        "account_number": "sc8",
+        "distributor_ref": "sc9",
+        "error_code": [],
+        "result_code": "scb",
+        "send_currency_iso": "scc",
+        "send_value": 205,
+        "setting": [],
+        "sku_code": "scf",
+        "transfer_record": {},
+        "validate_only": false,
+        "id": "SEND_TRANSFER01"
+      },
+      "SEND_TRANSFER02": {
+        "account_number": "s12c",
+        "distributor_ref": "s12d",
+        "error_code": [],
+        "result_code": "s12f",
+        "send_currency_iso": "s130",
+        "send_value": 305,
+        "setting": [],
+        "sku_code": "s133",
+        "transfer_record": {},
+        "validate_only": false,
+        "id": "SEND_TRANSFER02"
+      }
+    }
+  },
+  "new": {
+    "send_transfer": {
+      "send_transfer_ref01": {
+        "account_number": "s190",
+        "distributor_ref": "s191",
+        "error_code": [],
+        "result_code": "s193",
+        "send_currency_iso": "s194",
+        "send_value": 405,
+        "setting": [],
+        "sku_code": "s197",
+        "transfer_record": {},
+        "validate_only": false
+      }
+    }
+  }
+}

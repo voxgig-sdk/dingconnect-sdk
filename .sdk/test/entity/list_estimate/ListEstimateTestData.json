@@ -1,0 +1,33 @@
+{
+  "existing": {
+    "list_estimate": {
+      "LIST_ESTIMATE00": {
+        "error_code": [],
+        "item": [],
+        "result_code": "s20",
+        "id": "LIST_ESTIMATE00"
+      },
+      "LIST_ESTIMATE01": {
+        "error_code": [],
+        "item": [],
+        "result_code": "s3e",
+        "id": "LIST_ESTIMATE01"
+      },
+      "LIST_ESTIMATE02": {
+        "error_code": [],
+        "item": [],
+        "result_code": "s5c",
+        "id": "LIST_ESTIMATE02"
+      }
+    }
+  },
+  "new": {
+    "list_estimate": {
+      "list_estimate_ref01": {
+        "error_code": [],
+        "item": [],
+        "result_code": "s7a"
+      }
+    }
+  }
+}

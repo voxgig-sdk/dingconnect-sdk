@@ -1,0 +1,30 @@
+{
+  "existing": {
+    "region": {
+      "REGION00": {
+        "error_code": [],
+        "item": [],
+        "result_code": "s20"
+      },
+      "REGION01": {
+        "error_code": [],
+        "item": [],
+        "result_code": "s3e"
+      },
+      "REGION02": {
+        "error_code": [],
+        "item": [],
+        "result_code": "s5c"
+      }
+    }
+  },
+  "new": {
+    "region": {
+      "region_ref01": {
+        "error_code": [],
+        "item": [],
+        "result_code": "s7a"
+      }
+    }
+  }
+}

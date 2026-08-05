@@ -1,0 +1,22 @@
+# BasicListProviderStatusFlow
+
+main: kit: flow: BasicListProviderStatusFlow:
+{
+  entity: "list_provider_status",
+  kind: "basic",
+  name: "BasicListProviderStatusFlow",
+  step: [
+    {
+      op: "list",
+      valid: [
+        {
+          apply: "ItemExists",
+          def: {
+            ref: "list_provider_status_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicListProviderStatusFlow"
+}

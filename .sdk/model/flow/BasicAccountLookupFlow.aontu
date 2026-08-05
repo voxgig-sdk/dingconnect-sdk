@@ -1,0 +1,22 @@
+# BasicAccountLookupFlow
+
+main: kit: flow: BasicAccountLookupFlow:
+{
+  entity: "account_lookup",
+  kind: "basic",
+  name: "BasicAccountLookupFlow",
+  step: [
+    {
+      op: "list",
+      valid: [
+        {
+          apply: "ItemExists",
+          def: {
+            ref: "account_lookup_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicAccountLookupFlow"
+}

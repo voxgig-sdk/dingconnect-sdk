@@ -1,0 +1,18 @@
+# BasicTransferRecordFlow
+
+main: kit: flow: BasicTransferRecordFlow:
+{
+  entity: "transfer_record",
+  kind: "basic",
+  name: "BasicTransferRecordFlow",
+  step: [
+    {
+      input: {
+        ref: "transfer_record_ref01"
+      }
+
+      op: "create"
+    }
+  ],
+  "key$": "BasicTransferRecordFlow"
+}

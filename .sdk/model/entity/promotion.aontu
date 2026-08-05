@@ -1,0 +1,79 @@
+# Entity: promotion
+
+main: kit: entity: promotion: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "error_code"
+      req: false
+      type: "`$ARRAY`"
+    }
+    {
+      name: "item"
+      req: false
+      type: "`$ARRAY`"
+    }
+    {
+      name: "result_code"
+      req: false
+      type: "`$INTEGER`"
+    }
+  ]
+
+  name: "promotion"
+  op: {
+    list: {
+      name: "list"
+      points: [
+        {
+          args: {
+            query: [
+              {
+                kind: "query"
+                name: "account_number"
+                orig: "account_number"
+                reqd: false
+                type: "`$STRING`"
+              }
+              {
+                kind: "query"
+                name: "country_iso"
+                orig: "country_iso"
+                reqd: false
+                type: "`$ARRAY`"
+              }
+              {
+                kind: "query"
+                name: "provider_code"
+                orig: "provider_code"
+                reqd: false
+                type: "`$ARRAY`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/GetPromotions"
+          parts: [
+            "GetPromotions"
+          ]
+          select: {
+            exist: [
+              "account_number"
+              "country_iso"
+              "provider_code"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

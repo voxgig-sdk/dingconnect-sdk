@@ -1,0 +1,30 @@
+{
+  "existing": {
+    "currency": {
+      "CURRENCY00": {
+        "error_code": [],
+        "item": [],
+        "result_code": "s20"
+      },
+      "CURRENCY01": {
+        "error_code": [],
+        "item": [],
+        "result_code": "s3e"
+      },
+      "CURRENCY02": {
+        "error_code": [],
+        "item": [],
+        "result_code": "s5c"
+      }
+    }
+  },
+  "new": {
+    "currency": {
+      "currency_ref01": {
+        "error_code": [],
+        "item": [],
+        "result_code": "s7a"
+      }
+    }
+  }
+}

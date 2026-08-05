@@ -1,0 +1,26 @@
+{
+  "existing": {
+    "balance": {
+      "BALANCE00": {
+        "code": "s14",
+        "context": "s15"
+      },
+      "BALANCE01": {
+        "code": "s28",
+        "context": "s29"
+      },
+      "BALANCE02": {
+        "code": "s3c",
+        "context": "s3d"
+      }
+    }
+  },
+  "new": {
+    "balance": {
+      "balance_ref01": {
+        "code": "s50",
+        "context": "s51"
+      }
+    }
+  }
+}

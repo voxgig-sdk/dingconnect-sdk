@@ -1,0 +1,30 @@
+{
+  "existing": {
+    "list_error_code_description": {
+      "LIST_ERROR_CODE_DESCRIPTION00": {
+        "error_code": [],
+        "item": [],
+        "result_code": "s20"
+      },
+      "LIST_ERROR_CODE_DESCRIPTION01": {
+        "error_code": [],
+        "item": [],
+        "result_code": "s3e"
+      },
+      "LIST_ERROR_CODE_DESCRIPTION02": {
+        "error_code": [],
+        "item": [],
+        "result_code": "s5c"
+      }
+    }
+  },
+  "new": {
+    "list_error_code_description": {
+      "list_error_code_description_ref01": {
+        "error_code": [],
+        "item": [],
+        "result_code": "s7a"
+      }
+    }
+  }
+}

@@ -1,0 +1,47 @@
+# Entity: currency
+
+main: kit: entity: currency: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "error_code"
+      req: false
+      type: "`$ARRAY`"
+    }
+    {
+      name: "item"
+      req: false
+      type: "`$ARRAY`"
+    }
+    {
+      name: "result_code"
+      req: false
+      type: "`$INTEGER`"
+    }
+  ]
+
+  name: "currency"
+  op: {
+    list: {
+      name: "list"
+      points: [
+        {
+          method: "GET"
+          orig: "/GetCurrencies"
+          parts: [
+            "GetCurrencies"
+          ]
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

@@ -1,0 +1,30 @@
+{
+  "existing": {
+    "provider_status": {
+      "PROVIDER_STATUS00": {
+        "error_code": [],
+        "item": [],
+        "result_code": "s20"
+      },
+      "PROVIDER_STATUS01": {
+        "error_code": [],
+        "item": [],
+        "result_code": "s3e"
+      },
+      "PROVIDER_STATUS02": {
+        "error_code": [],
+        "item": [],
+        "result_code": "s5c"
+      }
+    }
+  },
+  "new": {
+    "provider_status": {
+      "provider_status_ref01": {
+        "error_code": [],
+        "item": [],
+        "result_code": "s7a"
+      }
+    }
+  }
+}

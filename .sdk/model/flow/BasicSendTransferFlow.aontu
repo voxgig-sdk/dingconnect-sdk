@@ -1,0 +1,18 @@
+# BasicSendTransferFlow
+
+main: kit: flow: BasicSendTransferFlow:
+{
+  entity: "send_transfer",
+  kind: "basic",
+  name: "BasicSendTransferFlow",
+  step: [
+    {
+      input: {
+        ref: "send_transfer_ref01"
+      }
+
+      op: "create"
+    }
+  ],
+  "key$": "BasicSendTransferFlow"
+}

@@ -1,0 +1,22 @@
+# BasicPromotionFlow
+
+main: kit: flow: BasicPromotionFlow:
+{
+  entity: "promotion",
+  kind: "basic",
+  name: "BasicPromotionFlow",
+  step: [
+    {
+      op: "list",
+      valid: [
+        {
+          apply: "ItemExists",
+          def: {
+            ref: "promotion_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicPromotionFlow"
+}

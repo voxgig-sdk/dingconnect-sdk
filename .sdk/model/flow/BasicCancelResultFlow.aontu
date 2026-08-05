@@ -1,0 +1,18 @@
+# BasicCancelResultFlow
+
+main: kit: flow: BasicCancelResultFlow:
+{
+  entity: "cancel_result",
+  kind: "basic",
+  name: "BasicCancelResultFlow",
+  step: [
+    {
+      input: {
+        ref: "cancel_result_ref01"
+      }
+
+      op: "create"
+    }
+  ],
+  "key$": "BasicCancelResultFlow"
+}

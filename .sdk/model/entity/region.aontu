@@ -1,0 +1,63 @@
+# Entity: region
+
+main: kit: entity: region: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "error_code"
+      req: false
+      type: "`$ARRAY`"
+    }
+    {
+      name: "item"
+      req: false
+      type: "`$ARRAY`"
+    }
+    {
+      name: "result_code"
+      req: false
+      type: "`$INTEGER`"
+    }
+  ]
+
+  name: "region"
+  op: {
+    list: {
+      name: "list"
+      points: [
+        {
+          args: {
+            query: [
+              {
+                kind: "query"
+                name: "country_iso"
+                orig: "country_iso"
+                reqd: false
+                type: "`$ARRAY`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/GetRegions"
+          parts: [
+            "GetRegions"
+          ]
+          select: {
+            exist: [
+              "country_iso"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

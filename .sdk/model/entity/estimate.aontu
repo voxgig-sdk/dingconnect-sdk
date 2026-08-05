@@ -1,0 +1,47 @@
+# Entity: estimate
+
+main: kit: entity: estimate: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "error_code"
+      req: false
+      type: "`$ARRAY`"
+    }
+    {
+      name: "item"
+      req: false
+      type: "`$ARRAY`"
+    }
+    {
+      name: "result_code"
+      req: false
+      type: "`$INTEGER`"
+    }
+  ]
+
+  name: "estimate"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          method: "POST"
+          orig: "/EstimatePrices"
+          parts: [
+            "EstimatePrices"
+          ]
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

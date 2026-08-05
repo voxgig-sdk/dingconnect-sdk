@@ -1,0 +1,30 @@
+{
+  "existing": {
+    "promotion_description": {
+      "PROMOTION_DESCRIPTION00": {
+        "error_code": [],
+        "item": [],
+        "result_code": "s20"
+      },
+      "PROMOTION_DESCRIPTION01": {
+        "error_code": [],
+        "item": [],
+        "result_code": "s3e"
+      },
+      "PROMOTION_DESCRIPTION02": {
+        "error_code": [],
+        "item": [],
+        "result_code": "s5c"
+      }
+    }
+  },
+  "new": {
+    "promotion_description": {
+      "promotion_description_ref01": {
+        "error_code": [],
+        "item": [],
+        "result_code": "s7a"
+      }
+    }
+  }
+}

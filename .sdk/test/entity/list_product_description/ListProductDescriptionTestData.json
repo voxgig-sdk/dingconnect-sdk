@@ -1,0 +1,30 @@
+{
+  "existing": {
+    "list_product_description": {
+      "LIST_PRODUCT_DESCRIPTION00": {
+        "error_code": [],
+        "item": [],
+        "result_code": "s20"
+      },
+      "LIST_PRODUCT_DESCRIPTION01": {
+        "error_code": [],
+        "item": [],
+        "result_code": "s3e"
+      },
+      "LIST_PRODUCT_DESCRIPTION02": {
+        "error_code": [],
+        "item": [],
+        "result_code": "s5c"
+      }
+    }
+  },
+  "new": {
+    "list_product_description": {
+      "list_product_description_ref01": {
+        "error_code": [],
+        "item": [],
+        "result_code": "s7a"
+      }
+    }
+  }
+}

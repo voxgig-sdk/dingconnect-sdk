@@ -1,0 +1,22 @@
+# BasicListRegionFlow
+
+main: kit: flow: BasicListRegionFlow:
+{
+  entity: "list_region",
+  kind: "basic",
+  name: "BasicListRegionFlow",
+  step: [
+    {
+      op: "list",
+      valid: [
+        {
+          apply: "ItemExists",
+          def: {
+            ref: "list_region_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicListRegionFlow"
+}

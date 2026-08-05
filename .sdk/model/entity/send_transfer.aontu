@@ -1,0 +1,82 @@
+# Entity: send_transfer
+
+main: kit: entity: send_transfer: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "account_number"
+      req: true
+      type: "`$STRING`"
+    }
+    {
+      name: "distributor_ref"
+      req: true
+      type: "`$STRING`"
+    }
+    {
+      name: "error_code"
+      req: false
+      type: "`$ARRAY`"
+    }
+    {
+      name: "result_code"
+      req: false
+      type: "`$INTEGER`"
+    }
+    {
+      name: "send_currency_iso"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "send_value"
+      req: true
+      type: "`$NUMBER`"
+    }
+    {
+      name: "setting"
+      req: false
+      type: "`$ARRAY`"
+    }
+    {
+      name: "sku_code"
+      req: true
+      type: "`$STRING`"
+    }
+    {
+      name: "transfer_record"
+      req: false
+      type: "`$OBJECT`"
+    }
+    {
+      name: "validate_only"
+      req: false
+      type: "`$BOOLEAN`"
+    }
+  ]
+
+  name: "send_transfer"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          method: "POST"
+          orig: "/SendTransfer"
+          parts: [
+            "SendTransfer"
+          ]
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

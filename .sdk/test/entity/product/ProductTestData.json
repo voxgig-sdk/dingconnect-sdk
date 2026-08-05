@@ -1,0 +1,30 @@
+{
+  "existing": {
+    "product": {
+      "PRODUCT00": {
+        "error_code": [],
+        "item": [],
+        "result_code": "s20"
+      },
+      "PRODUCT01": {
+        "error_code": [],
+        "item": [],
+        "result_code": "s3e"
+      },
+      "PRODUCT02": {
+        "error_code": [],
+        "item": [],
+        "result_code": "s5c"
+      }
+    }
+  },
+  "new": {
+    "product": {
+      "product_ref01": {
+        "error_code": [],
+        "item": [],
+        "result_code": "s7a"
+      }
+    }
+  }
+}

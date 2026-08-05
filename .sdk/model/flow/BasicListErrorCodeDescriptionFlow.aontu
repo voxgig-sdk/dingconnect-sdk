@@ -1,0 +1,22 @@
+# BasicListErrorCodeDescriptionFlow
+
+main: kit: flow: BasicListErrorCodeDescriptionFlow:
+{
+  entity: "list_error_code_description",
+  kind: "basic",
+  name: "BasicListErrorCodeDescriptionFlow",
+  step: [
+    {
+      op: "list",
+      valid: [
+        {
+          apply: "ItemExists",
+          def: {
+            ref: "list_error_code_description_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicListErrorCodeDescriptionFlow"
+}
