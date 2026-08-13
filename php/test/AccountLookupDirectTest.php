@@ -25,7 +25,7 @@ class AccountLookupDirectTest extends TestCase
 
 
         $result = $client->direct([
-            "path" => "GetAccountLookup",
+            "path" => "api/V1/GetAccountLookup",
             "method" => "GET",
             "params" => [],
         ]);

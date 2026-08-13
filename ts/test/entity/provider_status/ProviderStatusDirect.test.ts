@@ -44,7 +44,7 @@ describe('ProviderStatusDirect', async () => {
     const query: any = {}
 
     const result: any = await client.direct({
-      path: 'GetProviderStatus',
+      path: 'api/V1/GetProviderStatus',
       method: 'GET',
       params,
       query,

@@ -20,7 +20,7 @@ import (
 const prompt = "dingconnect"
 
 // entitiesHelp is the space-separated entity list shown by /help.
-const entitiesHelp = "account_lookup balance cancel_result country currency error_code_description estimate product product_description promotion promotion_description provider provider_status region send_transfer transfer_record"
+const entitiesHelp = "account_lookup balance cancel_transfer country currency error_code_description estimate_price list_transfer_record lookup_bill product product_description promotion promotion_description provider provider_status region send_transfer"
 
 func main() {
 	os.Exit(run(os.Args[1:], os.Stdin, os.Stdout, os.Stderr))

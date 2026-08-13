@@ -21,7 +21,7 @@ describe("ProductDescriptionDirect", function()
 
 
     local result, err = client:direct({
-      path = "GetProductDescriptions",
+      path = "api/V1/GetProductDescriptions",
       method = "GET",
       params = {},
     })

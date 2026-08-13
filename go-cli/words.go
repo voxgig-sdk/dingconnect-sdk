@@ -93,16 +93,20 @@ func entityFor(client *sdk.DingconnectSDK, name string) (sdk.DingconnectEntity, 
 		return client.AccountLookup(nil), nil
 	case "balance":
 		return client.Balance(nil), nil
-	case "cancel_result":
-		return client.CancelResult(nil), nil
+	case "cancel_transfer":
+		return client.CancelTransfer(nil), nil
 	case "country":
 		return client.Country(nil), nil
 	case "currency":
 		return client.Currency(nil), nil
 	case "error_code_description":
 		return client.ErrorCodeDescription(nil), nil
-	case "estimate":
-		return client.Estimate(nil), nil
+	case "estimate_price":
+		return client.EstimatePrice(nil), nil
+	case "list_transfer_record":
+		return client.ListTransferRecord(nil), nil
+	case "lookup_bill":
+		return client.LookupBill(nil), nil
 	case "product":
 		return client.Product(nil), nil
 	case "product_description":
@@ -119,8 +123,6 @@ func entityFor(client *sdk.DingconnectSDK, name string) (sdk.DingconnectEntity, 
 		return client.Region(nil), nil
 	case "send_transfer":
 		return client.SendTransfer(nil), nil
-	case "transfer_record":
-		return client.TransferRecord(nil), nil
 
 	}
 	return nil, fmt.Errorf("unknown entity %q", name)

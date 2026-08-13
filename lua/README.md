@@ -45,7 +45,7 @@ local accountlookups, err = client:AccountLookup():list()
 if err then error(err) end
 
 for _, item in ipairs(accountlookups) do
-  print(item["account_number_normalized"])
+  print(item["AccountNumberNormalized"])
 end
 ```
 
@@ -197,11 +197,13 @@ Creates a test-mode client with mock transport. Both arguments may be `nil`.
 | `direct` | `(fetchargs) -> table, err` | Build and send an HTTP request. |
 | `AccountLookup` | `(data) -> AccountLookupEntity` | Create an AccountLookup entity instance. |
 | `Balance` | `(data) -> BalanceEntity` | Create a Balance entity instance. |
-| `CancelResult` | `(data) -> CancelResultEntity` | Create a CancelResult entity instance. |
+| `CancelTransfer` | `(data) -> CancelTransferEntity` | Create a CancelTransfer entity instance. |
 | `Country` | `(data) -> CountryEntity` | Create a Country entity instance. |
 | `Currency` | `(data) -> CurrencyEntity` | Create a Currency entity instance. |
 | `ErrorCodeDescription` | `(data) -> ErrorCodeDescriptionEntity` | Create an ErrorCodeDescription entity instance. |
-| `Estimate` | `(data) -> EstimateEntity` | Create an Estimate entity instance. |
+| `EstimatePrice` | `(data) -> EstimatePriceEntity` | Create an EstimatePrice entity instance. |
+| `ListTransferRecord` | `(data) -> ListTransferRecordEntity` | Create a ListTransferRecord entity instance. |
+| `LookupBill` | `(data) -> LookupBillEntity` | Create a LookupBill entity instance. |
 | `Product` | `(data) -> ProductEntity` | Create a Product entity instance. |
 | `ProductDescription` | `(data) -> ProductDescriptionEntity` | Create a ProductDescription entity instance. |
 | `Promotion` | `(data) -> PromotionEntity` | Create a Promotion entity instance. |
@@ -210,7 +212,6 @@ Creates a test-mode client with mock transport. Both arguments may be `nil`.
 | `ProviderStatus` | `(data) -> ProviderStatusEntity` | Create a ProviderStatus entity instance. |
 | `Region` | `(data) -> RegionEntity` | Create a Region entity instance. |
 | `SendTransfer` | `(data) -> SendTransferEntity` | Create a SendTransfer entity instance. |
-| `TransferRecord` | `(data) -> TransferRecordEntity` | Create a TransferRecord entity instance. |
 
 ### Entity interface
 
@@ -239,9 +240,9 @@ data **directly** — there is no wrapper:
 
 Check `err` first (it is non-`nil` on failure), then use `value`:
 
-    local account_lookup, err = client:AccountLookup():load()
+    local account_lookup, err = client:AccountLookup():list()
     if err then error(err) end
-    -- account_lookup is the loaded record
+    -- account_lookup is the record list
 
 Only `direct()` returns a response envelope — a `table` with `ok`,
 `status`, `headers`, and `data` keys.
@@ -252,210 +253,207 @@ Only `direct()` returns a response envelope — a `table` with `ok`,
 
 | Field | Description |
 | --- | --- |
-| `account_number_normalized` |  |
-| `country_iso` |  |
-| `error_code` |  |
-| `item` |  |
-| `result_code` |  |
+| `AccountNumberNormalized` |  |
+| `CountryIso` |  |
+| `ErrorCodes` |  |
+| `Items` |  |
+| `ResultCode` |  |
 
 Operations: List.
 
-API path: `/GetAccountLookup`
+API path: `/api/V1/GetAccountLookup`
 
 #### Balance
 
 | Field | Description |
 | --- | --- |
-| `code` |  |
-| `context` |  |
+| `Code` |  |
+| `Context` |  |
 
 Operations: List.
 
-API path: `/GetBalance`
+API path: `/api/V1/GetBalance`
 
-#### CancelResult
+#### CancelTransfer
 
 | Field | Description |
 | --- | --- |
-| `error_code` |  |
-| `item` |  |
-| `result_code` |  |
+| `ErrorCodes` |  |
+| `Items` |  |
+| `ResultCode` |  |
 
 Operations: Create.
 
-API path: `/CancelTransfers`
+API path: `/api/V1/CancelTransfers`
 
 #### Country
 
 | Field | Description |
 | --- | --- |
-| `error_code` |  |
-| `item` |  |
-| `result_code` |  |
+| `ErrorCodes` |  |
+| `Items` |  |
+| `ResultCode` |  |
 
 Operations: List.
 
-API path: `/GetCountries`
+API path: `/api/V1/GetCountries`
 
 #### Currency
 
 | Field | Description |
 | --- | --- |
-| `error_code` |  |
-| `item` |  |
-| `result_code` |  |
+| `ErrorCodes` |  |
+| `Items` |  |
+| `ResultCode` |  |
 
 Operations: List.
 
-API path: `/GetCurrencies`
+API path: `/api/V1/GetCurrencies`
 
 #### ErrorCodeDescription
 
 | Field | Description |
 | --- | --- |
-| `error_code` |  |
-| `item` |  |
-| `result_code` |  |
+| `ErrorCodes` |  |
+| `Items` |  |
+| `ResultCode` |  |
 
 Operations: List.
 
-API path: `/GetErrorCodeDescriptions`
+API path: `/api/V1/GetErrorCodeDescriptions`
 
-#### Estimate
+#### EstimatePrice
 
 | Field | Description |
 | --- | --- |
-| `error_code` |  |
-| `item` |  |
-| `result_code` |  |
+| `ErrorCodes` |  |
+| `Items` |  |
+| `ResultCode` |  |
 
 Operations: Create.
 
-API path: `/EstimatePrices`
+API path: `/api/V1/EstimatePrices`
+
+#### ListTransferRecord
+
+| Field | Description |
+| --- | --- |
+| `ErrorCodes` |  |
+| `Items` |  |
+| `ResultCode` |  |
+| `ThereAreMoreItems` |  |
+
+Operations: Create.
+
+API path: `/api/V1/ListTransferRecords`
+
+#### LookupBill
+
+| Field | Description |
+| --- | --- |
+| `ErrorCodes` |  |
+| `Items` |  |
+| `ResultCode` |  |
+
+Operations: Create.
+
+API path: `/api/V1/LookupBills`
 
 #### Product
 
 | Field | Description |
 | --- | --- |
-| `error_code` |  |
-| `item` |  |
-| `result_code` |  |
+| `ErrorCodes` |  |
+| `Items` |  |
+| `ResultCode` |  |
 
 Operations: List.
 
-API path: `/GetProducts`
+API path: `/api/V1/GetProducts`
 
 #### ProductDescription
 
 | Field | Description |
 | --- | --- |
-| `error_code` |  |
-| `item` |  |
-| `result_code` |  |
+| `ErrorCodes` |  |
+| `Items` |  |
+| `ResultCode` |  |
 
 Operations: List.
 
-API path: `/GetProductDescriptions`
+API path: `/api/V1/GetProductDescriptions`
 
 #### Promotion
 
 | Field | Description |
 | --- | --- |
-| `error_code` |  |
-| `item` |  |
-| `result_code` |  |
+| `ErrorCodes` |  |
+| `Items` |  |
+| `ResultCode` |  |
 
 Operations: List.
 
-API path: `/GetPromotions`
+API path: `/api/V1/GetPromotions`
 
 #### PromotionDescription
 
 | Field | Description |
 | --- | --- |
-| `error_code` |  |
-| `item` |  |
-| `result_code` |  |
+| `ErrorCodes` |  |
+| `Items` |  |
+| `ResultCode` |  |
 
 Operations: List.
 
-API path: `/GetPromotionDescriptions`
+API path: `/api/V1/GetPromotionDescriptions`
 
 #### Provider
 
 | Field | Description |
 | --- | --- |
-| `error_code` |  |
-| `item` |  |
-| `result_code` |  |
+| `ErrorCodes` |  |
+| `Items` |  |
+| `ResultCode` |  |
 
 Operations: List.
 
-API path: `/GetProviders`
+API path: `/api/V1/GetProviders`
 
 #### ProviderStatus
 
 | Field | Description |
 | --- | --- |
-| `error_code` |  |
-| `item` |  |
-| `result_code` |  |
+| `ErrorCodes` |  |
+| `Items` |  |
+| `ResultCode` |  |
 
 Operations: List.
 
-API path: `/GetProviderStatus`
+API path: `/api/V1/GetProviderStatus`
 
 #### Region
 
 | Field | Description |
 | --- | --- |
-| `error_code` |  |
-| `item` |  |
-| `result_code` |  |
+| `ErrorCodes` |  |
+| `Items` |  |
+| `ResultCode` |  |
 
 Operations: List.
 
-API path: `/GetRegions`
+API path: `/api/V1/GetRegions`
 
 #### SendTransfer
 
 | Field | Description |
 | --- | --- |
-| `account_number` |  |
-| `distributor_ref` |  |
-| `error_code` |  |
-| `result_code` |  |
-| `send_currency_iso` |  |
-| `send_value` |  |
-| `setting` |  |
-| `sku_code` |  |
-| `transfer_record` |  |
-| `validate_only` |  |
+| `ErrorCodes` |  |
+| `ResultCode` |  |
+| `TransferRecord` |  |
 
 Operations: Create.
 
-API path: `/SendTransfer`
-
-#### TransferRecord
-
-| Field | Description |
-| --- | --- |
-| `account_number` |  |
-| `distributor_ref` |  |
-| `ended_at_utc` |  |
-| `error_code` |  |
-| `item` |  |
-| `result_code` |  |
-| `skip` |  |
-| `sku_code` |  |
-| `started_at_utc` |  |
-| `take` |  |
-| `there_are_more_item` |  |
-| `transfer_ref` |  |
-
-Operations: Create.
-
-API path: `/ListTransferRecords`
+API path: `/api/V1/SendTransfer`
 
 
 
@@ -476,11 +474,11 @@ Create an instance: `local account_lookup = client:AccountLookup(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `account_number_normalized` | `string` |  |
-| `country_iso` | `string` |  |
-| `error_code` | `table` |  |
-| `item` | `table` |  |
-| `result_code` | `number` |  |
+| `AccountNumberNormalized` | `string` |  |
+| `CountryIso` | `string` |  |
+| `ErrorCodes` | `table` |  |
+| `Items` | `table` |  |
+| `ResultCode` | `number` |  |
 
 #### Example: List
 
@@ -503,8 +501,8 @@ Create an instance: `local balance = client:Balance(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `code` | `string` |  |
-| `context` | `string` |  |
+| `Code` | `string` |  |
+| `Context` | `string` |  |
 
 #### Example: List
 
@@ -513,9 +511,9 @@ local balances, err = client:Balance():list()
 ```
 
 
-### CancelResult
+### CancelTransfer
 
-Create an instance: `local cancel_result = client:CancelResult(nil)`
+Create an instance: `local cancel_transfer = client:CancelTransfer(nil)`
 
 #### Operations
 
@@ -527,14 +525,17 @@ Create an instance: `local cancel_result = client:CancelResult(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `error_code` | `table` |  |
-| `item` | `table` |  |
-| `result_code` | `number` |  |
+| `ErrorCodes` | `table` |  |
+| `Items` | `table` |  |
+| `ResultCode` | `number` |  |
 
 #### Example: Create
 
 ```lua
-local cancel_result, err = client:CancelResult():create({
+local cancel_transfer, err = client:CancelTransfer():create({
+  ErrorCodes = {}, -- table
+  Items = {}, -- table
+  ResultCode = 1, -- number
 })
 ```
 
@@ -553,9 +554,9 @@ Create an instance: `local country = client:Country(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `error_code` | `table` |  |
-| `item` | `table` |  |
-| `result_code` | `number` |  |
+| `ErrorCodes` | `table` |  |
+| `Items` | `table` |  |
+| `ResultCode` | `number` |  |
 
 #### Example: List
 
@@ -578,9 +579,9 @@ Create an instance: `local currency = client:Currency(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `error_code` | `table` |  |
-| `item` | `table` |  |
-| `result_code` | `number` |  |
+| `ErrorCodes` | `table` |  |
+| `Items` | `table` |  |
+| `ResultCode` | `number` |  |
 
 #### Example: List
 
@@ -603,9 +604,9 @@ Create an instance: `local error_code_description = client:ErrorCodeDescription(
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `error_code` | `table` |  |
-| `item` | `table` |  |
-| `result_code` | `number` |  |
+| `ErrorCodes` | `table` |  |
+| `Items` | `table` |  |
+| `ResultCode` | `number` |  |
 
 #### Example: List
 
@@ -614,9 +615,9 @@ local error_code_descriptions, err = client:ErrorCodeDescription():list()
 ```
 
 
-### Estimate
+### EstimatePrice
 
-Create an instance: `local estimate = client:Estimate(nil)`
+Create an instance: `local estimate_price = client:EstimatePrice(nil)`
 
 #### Operations
 
@@ -628,14 +629,77 @@ Create an instance: `local estimate = client:Estimate(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `error_code` | `table` |  |
-| `item` | `table` |  |
-| `result_code` | `number` |  |
+| `ErrorCodes` | `table` |  |
+| `Items` | `table` |  |
+| `ResultCode` | `number` |  |
 
 #### Example: Create
 
 ```lua
-local estimate, err = client:Estimate():create({
+local estimate_price, err = client:EstimatePrice():create({
+  ErrorCodes = {}, -- table
+  Items = {}, -- table
+  ResultCode = 1, -- number
+})
+```
+
+
+### ListTransferRecord
+
+Create an instance: `local list_transfer_record = client:ListTransferRecord(nil)`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `create(data)` | Create a new entity with the given data. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `ErrorCodes` | `table` |  |
+| `Items` | `table` |  |
+| `ResultCode` | `number` |  |
+| `ThereAreMoreItems` | `boolean` |  |
+
+#### Example: Create
+
+```lua
+local list_transfer_record, err = client:ListTransferRecord():create({
+  ErrorCodes = {}, -- table
+  Items = {}, -- table
+  ResultCode = 1, -- number
+  ThereAreMoreItems = true, -- boolean
+})
+```
+
+
+### LookupBill
+
+Create an instance: `local lookup_bill = client:LookupBill(nil)`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `create(data)` | Create a new entity with the given data. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `ErrorCodes` | `table` |  |
+| `Items` | `table` |  |
+| `ResultCode` | `number` |  |
+
+#### Example: Create
+
+```lua
+local lookup_bill, err = client:LookupBill():create({
+  ErrorCodes = {}, -- table
+  Items = {}, -- table
+  ResultCode = 1, -- number
 })
 ```
 
@@ -654,9 +718,9 @@ Create an instance: `local product = client:Product(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `error_code` | `table` |  |
-| `item` | `table` |  |
-| `result_code` | `number` |  |
+| `ErrorCodes` | `table` |  |
+| `Items` | `table` |  |
+| `ResultCode` | `number` |  |
 
 #### Example: List
 
@@ -679,9 +743,9 @@ Create an instance: `local product_description = client:ProductDescription(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `error_code` | `table` |  |
-| `item` | `table` |  |
-| `result_code` | `number` |  |
+| `ErrorCodes` | `table` |  |
+| `Items` | `table` |  |
+| `ResultCode` | `number` |  |
 
 #### Example: List
 
@@ -704,9 +768,9 @@ Create an instance: `local promotion = client:Promotion(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `error_code` | `table` |  |
-| `item` | `table` |  |
-| `result_code` | `number` |  |
+| `ErrorCodes` | `table` |  |
+| `Items` | `table` |  |
+| `ResultCode` | `number` |  |
 
 #### Example: List
 
@@ -729,9 +793,9 @@ Create an instance: `local promotion_description = client:PromotionDescription(n
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `error_code` | `table` |  |
-| `item` | `table` |  |
-| `result_code` | `number` |  |
+| `ErrorCodes` | `table` |  |
+| `Items` | `table` |  |
+| `ResultCode` | `number` |  |
 
 #### Example: List
 
@@ -754,9 +818,9 @@ Create an instance: `local provider = client:Provider(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `error_code` | `table` |  |
-| `item` | `table` |  |
-| `result_code` | `number` |  |
+| `ErrorCodes` | `table` |  |
+| `Items` | `table` |  |
+| `ResultCode` | `number` |  |
 
 #### Example: List
 
@@ -779,9 +843,9 @@ Create an instance: `local provider_status = client:ProviderStatus(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `error_code` | `table` |  |
-| `item` | `table` |  |
-| `result_code` | `number` |  |
+| `ErrorCodes` | `table` |  |
+| `Items` | `table` |  |
+| `ResultCode` | `number` |  |
 
 #### Example: List
 
@@ -804,9 +868,9 @@ Create an instance: `local region = client:Region(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `error_code` | `table` |  |
-| `item` | `table` |  |
-| `result_code` | `number` |  |
+| `ErrorCodes` | `table` |  |
+| `Items` | `table` |  |
+| `ResultCode` | `number` |  |
 
 #### Example: List
 
@@ -829,62 +893,17 @@ Create an instance: `local send_transfer = client:SendTransfer(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `account_number` | `string` |  |
-| `distributor_ref` | `string` |  |
-| `error_code` | `table` |  |
-| `result_code` | `number` |  |
-| `send_currency_iso` | `string` |  |
-| `send_value` | `number` |  |
-| `setting` | `table` |  |
-| `sku_code` | `string` |  |
-| `transfer_record` | `table` |  |
-| `validate_only` | `boolean` |  |
+| `ErrorCodes` | `table` |  |
+| `ResultCode` | `number` |  |
+| `TransferRecord` | `table` |  |
 
 #### Example: Create
 
 ```lua
 local send_transfer, err = client:SendTransfer():create({
-  account_number = "example_account_number", -- string
-  distributor_ref = "example_distributor_ref", -- string
-  send_value = 1, -- number
-  sku_code = "example_sku_code", -- string
-})
-```
-
-
-### TransferRecord
-
-Create an instance: `local transfer_record = client:TransferRecord(nil)`
-
-#### Operations
-
-| Method | Description |
-| --- | --- |
-| `create(data)` | Create a new entity with the given data. |
-
-#### Fields
-
-| Field | Type | Description |
-| --- | --- | --- |
-| `account_number` | `string` |  |
-| `distributor_ref` | `table` |  |
-| `ended_at_utc` | `string` |  |
-| `error_code` | `table` |  |
-| `item` | `table` |  |
-| `result_code` | `number` |  |
-| `skip` | `number` |  |
-| `sku_code` | `table` |  |
-| `started_at_utc` | `string` |  |
-| `take` | `number` |  |
-| `there_are_more_item` | `boolean` |  |
-| `transfer_ref` | `table` |  |
-
-#### Example: Create
-
-```lua
-local transfer_record, err = client:TransferRecord():create({
-  skip = 1, -- number
-  take = 1, -- number
+  ErrorCodes = {}, -- table
+  ResultCode = 1, -- number
+  TransferRecord = {}, -- table
 })
 ```
 

@@ -49,9 +49,9 @@ Create a new `AccountLookup` entity instance. Pass `nil` for no initial data.
 
 Create a new `Balance` entity instance. Pass `nil` for no initial data.
 
-#### `CancelResult(data)`
+#### `CancelTransfer(data)`
 
-Create a new `CancelResult` entity instance. Pass `nil` for no initial data.
+Create a new `CancelTransfer` entity instance. Pass `nil` for no initial data.
 
 #### `Country(data)`
 
@@ -65,9 +65,17 @@ Create a new `Currency` entity instance. Pass `nil` for no initial data.
 
 Create a new `ErrorCodeDescription` entity instance. Pass `nil` for no initial data.
 
-#### `Estimate(data)`
+#### `EstimatePrice(data)`
 
-Create a new `Estimate` entity instance. Pass `nil` for no initial data.
+Create a new `EstimatePrice` entity instance. Pass `nil` for no initial data.
+
+#### `ListTransferRecord(data)`
+
+Create a new `ListTransferRecord` entity instance. Pass `nil` for no initial data.
+
+#### `LookupBill(data)`
+
+Create a new `LookupBill` entity instance. Pass `nil` for no initial data.
 
 #### `Product(data)`
 
@@ -100,10 +108,6 @@ Create a new `Region` entity instance. Pass `nil` for no initial data.
 #### `SendTransfer(data)`
 
 Create a new `SendTransfer` entity instance. Pass `nil` for no initial data.
-
-#### `TransferRecord(data)`
-
-Create a new `TransferRecord` entity instance. Pass `nil` for no initial data.
 
 #### `options_map() -> table`
 
@@ -151,11 +155,11 @@ local account_lookup = client:AccountLookup(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `account_number_normalized` | `string` | No |  |
-| `country_iso` | `string` | No |  |
-| `error_code` | `table` | No |  |
-| `item` | `table` | No |  |
-| `result_code` | `number` | No |  |
+| `AccountNumberNormalized` | `string` | No |  |
+| `CountryIso` | `string` | No |  |
+| `ErrorCodes` | `table` | Yes |  |
+| `Items` | `table` | Yes |  |
+| `ResultCode` | `number` | Yes |  |
 
 ### Operations
 
@@ -207,8 +211,8 @@ local balance = client:Balance(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `code` | `string` | No |  |
-| `context` | `string` | No |  |
+| `Code` | `string` | Yes |  |
+| `Context` | `string` | No |  |
 
 ### Operations
 
@@ -250,19 +254,19 @@ Return the entity name.
 
 ---
 
-## CancelResultEntity
+## CancelTransferEntity
 
 ```lua
-local cancel_result = client:CancelResult(nil)
+local cancel_transfer = client:CancelTransfer(nil)
 ```
 
 ### Fields
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `error_code` | `table` | No |  |
-| `item` | `table` | No |  |
-| `result_code` | `number` | No |  |
+| `ErrorCodes` | `table` | Yes |  |
+| `Items` | `table` | Yes |  |
+| `ResultCode` | `number` | Yes |  |
 
 ### Operations
 
@@ -271,7 +275,10 @@ local cancel_result = client:CancelResult(nil)
 Create a new entity with the given data.
 
 ```lua
-local result, err = client:CancelResult():create({
+local result, err = client:CancelTransfer():create({
+  ErrorCodes = --[[ table ]],
+  Items = --[[ table ]],
+  ResultCode = --[[ number ]],
 })
 ```
 
@@ -295,7 +302,7 @@ Set the entity match criteria.
 
 #### `make() -> Entity`
 
-Create a new `CancelResultEntity` instance with the same client and
+Create a new `CancelTransferEntity` instance with the same client and
 options.
 
 #### `get_name() -> string`
@@ -315,9 +322,9 @@ local country = client:Country(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `error_code` | `table` | No |  |
-| `item` | `table` | No |  |
-| `result_code` | `number` | No |  |
+| `ErrorCodes` | `table` | Yes |  |
+| `Items` | `table` | Yes |  |
+| `ResultCode` | `number` | Yes |  |
 
 ### Operations
 
@@ -369,9 +376,9 @@ local currency = client:Currency(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `error_code` | `table` | No |  |
-| `item` | `table` | No |  |
-| `result_code` | `number` | No |  |
+| `ErrorCodes` | `table` | Yes |  |
+| `Items` | `table` | Yes |  |
+| `ResultCode` | `number` | Yes |  |
 
 ### Operations
 
@@ -423,9 +430,9 @@ local error_code_description = client:ErrorCodeDescription(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `error_code` | `table` | No |  |
-| `item` | `table` | No |  |
-| `result_code` | `number` | No |  |
+| `ErrorCodes` | `table` | Yes |  |
+| `Items` | `table` | Yes |  |
+| `ResultCode` | `number` | Yes |  |
 
 ### Operations
 
@@ -467,19 +474,19 @@ Return the entity name.
 
 ---
 
-## EstimateEntity
+## EstimatePriceEntity
 
 ```lua
-local estimate = client:Estimate(nil)
+local estimate_price = client:EstimatePrice(nil)
 ```
 
 ### Fields
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `error_code` | `table` | No |  |
-| `item` | `table` | No |  |
-| `result_code` | `number` | No |  |
+| `ErrorCodes` | `table` | Yes |  |
+| `Items` | `table` | Yes |  |
+| `ResultCode` | `number` | Yes |  |
 
 ### Operations
 
@@ -488,7 +495,10 @@ local estimate = client:Estimate(nil)
 Create a new entity with the given data.
 
 ```lua
-local result, err = client:Estimate():create({
+local result, err = client:EstimatePrice():create({
+  ErrorCodes = --[[ table ]],
+  Items = --[[ table ]],
+  ResultCode = --[[ number ]],
 })
 ```
 
@@ -512,7 +522,125 @@ Set the entity match criteria.
 
 #### `make() -> Entity`
 
-Create a new `EstimateEntity` instance with the same client and
+Create a new `EstimatePriceEntity` instance with the same client and
+options.
+
+#### `get_name() -> string`
+
+Return the entity name.
+
+
+---
+
+## ListTransferRecordEntity
+
+```lua
+local list_transfer_record = client:ListTransferRecord(nil)
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `ErrorCodes` | `table` | Yes |  |
+| `Items` | `table` | Yes |  |
+| `ResultCode` | `number` | Yes |  |
+| `ThereAreMoreItems` | `boolean` | Yes |  |
+
+### Operations
+
+#### `create(reqdata, ctrl) -> any, err`
+
+Create a new entity with the given data.
+
+```lua
+local result, err = client:ListTransferRecord():create({
+  ErrorCodes = --[[ table ]],
+  Items = --[[ table ]],
+  ResultCode = --[[ number ]],
+  ThereAreMoreItems = --[[ boolean ]],
+})
+```
+
+### Common Methods
+
+#### `data_get() -> table`
+
+Get the entity data. Returns a copy of the current data.
+
+#### `data_set(data)`
+
+Set the entity data.
+
+#### `match_get() -> table`
+
+Get the entity match criteria.
+
+#### `match_set(match)`
+
+Set the entity match criteria.
+
+#### `make() -> Entity`
+
+Create a new `ListTransferRecordEntity` instance with the same client and
+options.
+
+#### `get_name() -> string`
+
+Return the entity name.
+
+
+---
+
+## LookupBillEntity
+
+```lua
+local lookup_bill = client:LookupBill(nil)
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `ErrorCodes` | `table` | Yes |  |
+| `Items` | `table` | Yes |  |
+| `ResultCode` | `number` | Yes |  |
+
+### Operations
+
+#### `create(reqdata, ctrl) -> any, err`
+
+Create a new entity with the given data.
+
+```lua
+local result, err = client:LookupBill():create({
+  ErrorCodes = --[[ table ]],
+  Items = --[[ table ]],
+  ResultCode = --[[ number ]],
+})
+```
+
+### Common Methods
+
+#### `data_get() -> table`
+
+Get the entity data. Returns a copy of the current data.
+
+#### `data_set(data)`
+
+Set the entity data.
+
+#### `match_get() -> table`
+
+Get the entity match criteria.
+
+#### `match_set(match)`
+
+Set the entity match criteria.
+
+#### `make() -> Entity`
+
+Create a new `LookupBillEntity` instance with the same client and
 options.
 
 #### `get_name() -> string`
@@ -532,9 +660,9 @@ local product = client:Product(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `error_code` | `table` | No |  |
-| `item` | `table` | No |  |
-| `result_code` | `number` | No |  |
+| `ErrorCodes` | `table` | Yes |  |
+| `Items` | `table` | Yes |  |
+| `ResultCode` | `number` | Yes |  |
 
 ### Operations
 
@@ -586,9 +714,9 @@ local product_description = client:ProductDescription(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `error_code` | `table` | No |  |
-| `item` | `table` | No |  |
-| `result_code` | `number` | No |  |
+| `ErrorCodes` | `table` | Yes |  |
+| `Items` | `table` | Yes |  |
+| `ResultCode` | `number` | Yes |  |
 
 ### Operations
 
@@ -640,9 +768,9 @@ local promotion = client:Promotion(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `error_code` | `table` | No |  |
-| `item` | `table` | No |  |
-| `result_code` | `number` | No |  |
+| `ErrorCodes` | `table` | Yes |  |
+| `Items` | `table` | Yes |  |
+| `ResultCode` | `number` | Yes |  |
 
 ### Operations
 
@@ -694,9 +822,9 @@ local promotion_description = client:PromotionDescription(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `error_code` | `table` | No |  |
-| `item` | `table` | No |  |
-| `result_code` | `number` | No |  |
+| `ErrorCodes` | `table` | Yes |  |
+| `Items` | `table` | Yes |  |
+| `ResultCode` | `number` | Yes |  |
 
 ### Operations
 
@@ -748,9 +876,9 @@ local provider = client:Provider(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `error_code` | `table` | No |  |
-| `item` | `table` | No |  |
-| `result_code` | `number` | No |  |
+| `ErrorCodes` | `table` | Yes |  |
+| `Items` | `table` | Yes |  |
+| `ResultCode` | `number` | Yes |  |
 
 ### Operations
 
@@ -802,9 +930,9 @@ local provider_status = client:ProviderStatus(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `error_code` | `table` | No |  |
-| `item` | `table` | No |  |
-| `result_code` | `number` | No |  |
+| `ErrorCodes` | `table` | Yes |  |
+| `Items` | `table` | Yes |  |
+| `ResultCode` | `number` | Yes |  |
 
 ### Operations
 
@@ -856,9 +984,9 @@ local region = client:Region(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `error_code` | `table` | No |  |
-| `item` | `table` | No |  |
-| `result_code` | `number` | No |  |
+| `ErrorCodes` | `table` | Yes |  |
+| `Items` | `table` | Yes |  |
+| `ResultCode` | `number` | Yes |  |
 
 ### Operations
 
@@ -910,16 +1038,9 @@ local send_transfer = client:SendTransfer(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `account_number` | `string` | Yes |  |
-| `distributor_ref` | `string` | Yes |  |
-| `error_code` | `table` | No |  |
-| `result_code` | `number` | No |  |
-| `send_currency_iso` | `string` | No |  |
-| `send_value` | `number` | Yes |  |
-| `setting` | `table` | No |  |
-| `sku_code` | `string` | Yes |  |
-| `transfer_record` | `table` | No |  |
-| `validate_only` | `boolean` | No |  |
+| `ErrorCodes` | `table` | Yes |  |
+| `ResultCode` | `number` | Yes |  |
+| `TransferRecord` | `table` | Yes |  |
 
 ### Operations
 
@@ -929,10 +1050,9 @@ Create a new entity with the given data.
 
 ```lua
 local result, err = client:SendTransfer():create({
-  account_number = --[[ string ]],
-  distributor_ref = --[[ string ]],
-  send_value = --[[ number ]],
-  sku_code = --[[ string ]],
+  ErrorCodes = --[[ table ]],
+  ResultCode = --[[ number ]],
+  TransferRecord = --[[ table ]],
 })
 ```
 
@@ -957,72 +1077,6 @@ Set the entity match criteria.
 #### `make() -> Entity`
 
 Create a new `SendTransferEntity` instance with the same client and
-options.
-
-#### `get_name() -> string`
-
-Return the entity name.
-
-
----
-
-## TransferRecordEntity
-
-```lua
-local transfer_record = client:TransferRecord(nil)
-```
-
-### Fields
-
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `account_number` | `string` | No |  |
-| `distributor_ref` | `table` | No |  |
-| `ended_at_utc` | `string` | No |  |
-| `error_code` | `table` | No |  |
-| `item` | `table` | No |  |
-| `result_code` | `number` | No |  |
-| `skip` | `number` | Yes |  |
-| `sku_code` | `table` | No |  |
-| `started_at_utc` | `string` | No |  |
-| `take` | `number` | Yes |  |
-| `there_are_more_item` | `boolean` | No |  |
-| `transfer_ref` | `table` | No |  |
-
-### Operations
-
-#### `create(reqdata, ctrl) -> any, err`
-
-Create a new entity with the given data.
-
-```lua
-local result, err = client:TransferRecord():create({
-  skip = --[[ number ]],
-  take = --[[ number ]],
-})
-```
-
-### Common Methods
-
-#### `data_get() -> table`
-
-Get the entity data. Returns a copy of the current data.
-
-#### `data_set(data)`
-
-Set the entity data.
-
-#### `match_get() -> table`
-
-Get the entity match criteria.
-
-#### `match_set(match)`
-
-Set the entity match criteria.
-
-#### `make() -> Entity`
-
-Create a new `TransferRecordEntity` instance with the same client and
 options.
 
 #### `get_name() -> string`

@@ -37,7 +37,7 @@ class PromotionDescriptionEntity extends DingconnectEntityBase<PromotionDescript
 
 
 
-  async list(this: any, reqmatch?: PromotionDescriptionListMatch, ctrl?: Control): Promise<PromotionDescription[]> {
+  async list(this: any, reqmatch?: PromotionDescriptionListMatch, ctrl?: Control): Promise<PromotionDescriptionEntity[]> {
 
     const utility = this._utility
 

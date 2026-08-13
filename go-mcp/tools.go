@@ -16,7 +16,7 @@ import (
 // reqdata map passed through to the SDK. For load, `query` should be
 // `{"id": <value>}`. For list, omit `query` or pass an empty map.
 type Args struct {
-	Entity string         `json:"entity" jsonschema:"account_lookup | balance | cancel_result | country | currency | error_code_description | estimate | product | product_description | promotion | promotion_description | provider | provider_status | region | send_transfer | transfer_record"`
+	Entity string         `json:"entity" jsonschema:"account_lookup | balance | cancel_transfer | country | currency | error_code_description | estimate_price | list_transfer_record | lookup_bill | product | product_description | promotion | promotion_description | provider | provider_status | region | send_transfer"`
 	Query  map[string]any `json:"query,omitempty" jsonschema:"optional match map e.g. {\"id\":1} for load, omit for list"`
 }
 
@@ -81,16 +81,20 @@ func entityFor(client *sdk.DingconnectSDK, name string) (sdk.DingconnectEntity, 
 		return client.AccountLookup(nil), nil
 	case "balance":
 		return client.Balance(nil), nil
-	case "cancel_result":
-		return client.CancelResult(nil), nil
+	case "cancel_transfer":
+		return client.CancelTransfer(nil), nil
 	case "country":
 		return client.Country(nil), nil
 	case "currency":
 		return client.Currency(nil), nil
 	case "error_code_description":
 		return client.ErrorCodeDescription(nil), nil
-	case "estimate":
-		return client.Estimate(nil), nil
+	case "estimate_price":
+		return client.EstimatePrice(nil), nil
+	case "list_transfer_record":
+		return client.ListTransferRecord(nil), nil
+	case "lookup_bill":
+		return client.LookupBill(nil), nil
 	case "product":
 		return client.Product(nil), nil
 	case "product_description":
@@ -107,8 +111,6 @@ func entityFor(client *sdk.DingconnectSDK, name string) (sdk.DingconnectEntity, 
 		return client.Region(nil), nil
 	case "send_transfer":
 		return client.SendTransfer(nil), nil
-	case "transfer_record":
-		return client.TransferRecord(nil), nil
 
 	}
 	return nil, fmt.Errorf("unknown entity %q", name)

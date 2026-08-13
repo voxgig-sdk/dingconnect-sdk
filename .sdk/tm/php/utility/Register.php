@@ -23,6 +23,7 @@ require_once __DIR__ . '/MakeUrl.php';
 require_once __DIR__ . '/Param.php';
 require_once __DIR__ . '/PrepareAuth.php';
 require_once __DIR__ . '/PrepareBody.php';
+require_once __DIR__ . '/Graphql.php';
 require_once __DIR__ . '/PrepareHeaders.php';
 require_once __DIR__ . '/PrepareMethod.php';
 require_once __DIR__ . '/PrepareParams.php';
@@ -59,6 +60,8 @@ DingconnectUtility::setRegistrar(function (DingconnectUtility $u): void {
     $u->prepare_params = [DingconnectPrepareParams::class, 'call'];
     $u->prepare_path = [DingconnectPreparePath::class, 'call'];
     $u->prepare_query = [DingconnectPrepareQuery::class, 'call'];
+    $u->graphql_body = [DingconnectGraphql::class, 'body'];
+    $u->graphql_errors = [DingconnectGraphql::class, 'errors'];
     $u->result_basic = [DingconnectResultBasic::class, 'call'];
     $u->result_body = [DingconnectResultBody::class, 'call'];
     $u->result_headers = [DingconnectResultHeaders::class, 'call'];

@@ -3,9 +3,9 @@
 import json
 import pytest
 
-from utility.voxgig_struct import voxgig_struct as vs
+from dingconnect_sdk.utility.voxgig_struct import voxgig_struct as vs
 from dingconnect_sdk import DingconnectSDK
-from core import helpers
+from dingconnect_sdk.core import helpers
 from test import runner
 
 
@@ -25,7 +25,7 @@ class TestCurrencyDirect:
 
 
         result = client.direct({
-            "path": "GetCurrencies",
+            "path": "api/V1/GetCurrencies",
             "method": "GET",
             "params": {},
         })

@@ -10,7 +10,7 @@ var NewAccountLookupEntityFunc func(client *DingconnectSDK, entopts map[string]a
 
 var NewBalanceEntityFunc func(client *DingconnectSDK, entopts map[string]any) DingconnectEntity
 
-var NewCancelResultEntityFunc func(client *DingconnectSDK, entopts map[string]any) DingconnectEntity
+var NewCancelTransferEntityFunc func(client *DingconnectSDK, entopts map[string]any) DingconnectEntity
 
 var NewCountryEntityFunc func(client *DingconnectSDK, entopts map[string]any) DingconnectEntity
 
@@ -18,7 +18,11 @@ var NewCurrencyEntityFunc func(client *DingconnectSDK, entopts map[string]any) D
 
 var NewErrorCodeDescriptionEntityFunc func(client *DingconnectSDK, entopts map[string]any) DingconnectEntity
 
-var NewEstimateEntityFunc func(client *DingconnectSDK, entopts map[string]any) DingconnectEntity
+var NewEstimatePriceEntityFunc func(client *DingconnectSDK, entopts map[string]any) DingconnectEntity
+
+var NewListTransferRecordEntityFunc func(client *DingconnectSDK, entopts map[string]any) DingconnectEntity
+
+var NewLookupBillEntityFunc func(client *DingconnectSDK, entopts map[string]any) DingconnectEntity
 
 var NewProductEntityFunc func(client *DingconnectSDK, entopts map[string]any) DingconnectEntity
 
@@ -35,6 +39,4 @@ var NewProviderStatusEntityFunc func(client *DingconnectSDK, entopts map[string]
 var NewRegionEntityFunc func(client *DingconnectSDK, entopts map[string]any) DingconnectEntity
 
 var NewSendTransferEntityFunc func(client *DingconnectSDK, entopts map[string]any) DingconnectEntity
-
-var NewTransferRecordEntityFunc func(client *DingconnectSDK, entopts map[string]any) DingconnectEntity
 

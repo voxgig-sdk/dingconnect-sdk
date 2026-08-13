@@ -63,7 +63,7 @@ describe('BalanceEntity', async () => {
     const balance_ref01_ent = client.Balance()
     const balance_ref01_match: any = {}
 
-    const balance_ref01_list = await balance_ref01_ent.list(balance_ref01_match)
+    const balance_ref01_list = (await balance_ref01_ent.list(balance_ref01_match)).map((e: any) => e.data())
 
 
   })

@@ -21,7 +21,7 @@ describe("CountryDirect", function()
 
 
     local result, err = client:direct({
-      path = "GetCountries",
+      path = "api/V1/GetCountries",
       method = "GET",
       params = {},
     })

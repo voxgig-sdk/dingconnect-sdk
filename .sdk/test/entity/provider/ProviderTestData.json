@@ -2,28 +2,28 @@
   "existing": {
     "provider": {
       "PROVIDER00": {
-        "error_code": [],
-        "item": [],
-        "result_code": "s20"
+        "ErrorCodes": [],
+        "Items": [],
+        "ResultCode": "s20"
       },
       "PROVIDER01": {
-        "error_code": [],
-        "item": [],
-        "result_code": "s3e"
+        "ErrorCodes": [],
+        "Items": [],
+        "ResultCode": "s3e"
       },
       "PROVIDER02": {
-        "error_code": [],
-        "item": [],
-        "result_code": "s5c"
+        "ErrorCodes": [],
+        "Items": [],
+        "ResultCode": "s5c"
       }
     }
   },
   "new": {
     "provider": {
       "provider_ref01": {
-        "error_code": [],
-        "item": [],
-        "result_code": "s7a"
+        "ErrorCodes": [],
+        "Items": [],
+        "ResultCode": "s7a"
       }
     }
   }

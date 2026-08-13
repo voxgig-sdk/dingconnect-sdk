@@ -44,7 +44,7 @@ describe('CountryDirect', async () => {
     const query: any = {}
 
     const result: any = await client.direct({
-      path: 'GetCountries',
+      path: 'api/V1/GetCountries',
       method: 'GET',
       params,
       query,

@@ -1,0 +1,33 @@
+{
+  "existing": {
+    "cancel_transfer": {
+      "CANCEL_TRANSFER00": {
+        "ErrorCodes": [],
+        "Items": [],
+        "ResultCode": "s20",
+        "id": "CANCEL_TRANSFER00"
+      },
+      "CANCEL_TRANSFER01": {
+        "ErrorCodes": [],
+        "Items": [],
+        "ResultCode": "s3e",
+        "id": "CANCEL_TRANSFER01"
+      },
+      "CANCEL_TRANSFER02": {
+        "ErrorCodes": [],
+        "Items": [],
+        "ResultCode": "s5c",
+        "id": "CANCEL_TRANSFER02"
+      }
+    }
+  },
+  "new": {
+    "cancel_transfer": {
+      "cancel_transfer_ref01": {
+        "ErrorCodes": [],
+        "Items": [],
+        "ResultCode": "s7a"
+      }
+    }
+  }
+}

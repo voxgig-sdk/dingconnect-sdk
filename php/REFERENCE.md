@@ -50,9 +50,9 @@ Create a new `AccountLookupEntity` instance. Pass `null` for no initial data.
 
 Create a new `BalanceEntity` instance. Pass `null` for no initial data.
 
-#### `CancelResult($data = null)`
+#### `CancelTransfer($data = null)`
 
-Create a new `CancelResultEntity` instance. Pass `null` for no initial data.
+Create a new `CancelTransferEntity` instance. Pass `null` for no initial data.
 
 #### `Country($data = null)`
 
@@ -66,9 +66,17 @@ Create a new `CurrencyEntity` instance. Pass `null` for no initial data.
 
 Create a new `ErrorCodeDescriptionEntity` instance. Pass `null` for no initial data.
 
-#### `Estimate($data = null)`
+#### `EstimatePrice($data = null)`
 
-Create a new `EstimateEntity` instance. Pass `null` for no initial data.
+Create a new `EstimatePriceEntity` instance. Pass `null` for no initial data.
+
+#### `ListTransferRecord($data = null)`
+
+Create a new `ListTransferRecordEntity` instance. Pass `null` for no initial data.
+
+#### `LookupBill($data = null)`
+
+Create a new `LookupBillEntity` instance. Pass `null` for no initial data.
 
 #### `Product($data = null)`
 
@@ -101,10 +109,6 @@ Create a new `RegionEntity` instance. Pass `null` for no initial data.
 #### `SendTransfer($data = null)`
 
 Create a new `SendTransferEntity` instance. Pass `null` for no initial data.
-
-#### `TransferRecord($data = null)`
-
-Create a new `TransferRecordEntity` instance. Pass `null` for no initial data.
 
 #### `options_map(): array`
 
@@ -153,11 +157,11 @@ $account_lookup = $client->AccountLookup();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `account_number_normalized` | `string` | No |  |
-| `country_iso` | `string` | No |  |
-| `error_code` | `array` | No |  |
-| `item` | `array` | No |  |
-| `result_code` | `int` | No |  |
+| `AccountNumberNormalized` | `string` | No |  |
+| `CountryIso` | `string` | No |  |
+| `ErrorCodes` | `array` | Yes |  |
+| `Items` | `array` | Yes |  |
+| `ResultCode` | `int` | Yes |  |
 
 ### Operations
 
@@ -209,8 +213,8 @@ $balance = $client->Balance();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `code` | `string` | No |  |
-| `context` | `string` | No |  |
+| `Code` | `string` | Yes |  |
+| `Context` | `string` | No |  |
 
 ### Operations
 
@@ -252,19 +256,19 @@ Return the entity name.
 
 ---
 
-## CancelResultEntity
+## CancelTransferEntity
 
 ```php
-$cancel_result = $client->CancelResult();
+$cancel_transfer = $client->CancelTransfer();
 ```
 
 ### Fields
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `error_code` | `array` | No |  |
-| `item` | `array` | No |  |
-| `result_code` | `int` | No |  |
+| `ErrorCodes` | `array` | Yes |  |
+| `Items` | `array` | Yes |  |
+| `ResultCode` | `int` | Yes |  |
 
 ### Operations
 
@@ -273,7 +277,10 @@ $cancel_result = $client->CancelResult();
 Create a new entity with the given data. Throws on error.
 
 ```php
-$result = $client->CancelResult()->create([
+$result = $client->CancelTransfer()->create([
+  "ErrorCodes" => null, // array
+  "Items" => null, // array
+  "ResultCode" => null, // int
 ]);
 ```
 
@@ -295,9 +302,9 @@ Get the entity match criteria.
 
 Set the entity match criteria.
 
-#### `make(): CancelResultEntity`
+#### `make(): CancelTransferEntity`
 
-Create a new `CancelResultEntity` instance with the same client and
+Create a new `CancelTransferEntity` instance with the same client and
 options.
 
 #### `get_name(): string`
@@ -317,9 +324,9 @@ $country = $client->Country();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `error_code` | `array` | No |  |
-| `item` | `array` | No |  |
-| `result_code` | `int` | No |  |
+| `ErrorCodes` | `array` | Yes |  |
+| `Items` | `array` | Yes |  |
+| `ResultCode` | `int` | Yes |  |
 
 ### Operations
 
@@ -371,9 +378,9 @@ $currency = $client->Currency();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `error_code` | `array` | No |  |
-| `item` | `array` | No |  |
-| `result_code` | `int` | No |  |
+| `ErrorCodes` | `array` | Yes |  |
+| `Items` | `array` | Yes |  |
+| `ResultCode` | `int` | Yes |  |
 
 ### Operations
 
@@ -425,9 +432,9 @@ $error_code_description = $client->ErrorCodeDescription();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `error_code` | `array` | No |  |
-| `item` | `array` | No |  |
-| `result_code` | `int` | No |  |
+| `ErrorCodes` | `array` | Yes |  |
+| `Items` | `array` | Yes |  |
+| `ResultCode` | `int` | Yes |  |
 
 ### Operations
 
@@ -469,19 +476,19 @@ Return the entity name.
 
 ---
 
-## EstimateEntity
+## EstimatePriceEntity
 
 ```php
-$estimate = $client->Estimate();
+$estimate_price = $client->EstimatePrice();
 ```
 
 ### Fields
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `error_code` | `array` | No |  |
-| `item` | `array` | No |  |
-| `result_code` | `int` | No |  |
+| `ErrorCodes` | `array` | Yes |  |
+| `Items` | `array` | Yes |  |
+| `ResultCode` | `int` | Yes |  |
 
 ### Operations
 
@@ -490,7 +497,10 @@ $estimate = $client->Estimate();
 Create a new entity with the given data. Throws on error.
 
 ```php
-$result = $client->Estimate()->create([
+$result = $client->EstimatePrice()->create([
+  "ErrorCodes" => null, // array
+  "Items" => null, // array
+  "ResultCode" => null, // int
 ]);
 ```
 
@@ -512,9 +522,127 @@ Get the entity match criteria.
 
 Set the entity match criteria.
 
-#### `make(): EstimateEntity`
+#### `make(): EstimatePriceEntity`
 
-Create a new `EstimateEntity` instance with the same client and
+Create a new `EstimatePriceEntity` instance with the same client and
+options.
+
+#### `get_name(): string`
+
+Return the entity name.
+
+
+---
+
+## ListTransferRecordEntity
+
+```php
+$list_transfer_record = $client->ListTransferRecord();
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `ErrorCodes` | `array` | Yes |  |
+| `Items` | `array` | Yes |  |
+| `ResultCode` | `int` | Yes |  |
+| `ThereAreMoreItems` | `bool` | Yes |  |
+
+### Operations
+
+#### `create(array $reqdata, ?array $ctrl = null): mixed`
+
+Create a new entity with the given data. Throws on error.
+
+```php
+$result = $client->ListTransferRecord()->create([
+  "ErrorCodes" => null, // array
+  "Items" => null, // array
+  "ResultCode" => null, // int
+  "ThereAreMoreItems" => null, // bool
+]);
+```
+
+### Common Methods
+
+#### `data_get(): array`
+
+Get the entity data. Returns a copy of the current data.
+
+#### `data_set($data): void`
+
+Set the entity data.
+
+#### `match_get(): array`
+
+Get the entity match criteria.
+
+#### `match_set($match): void`
+
+Set the entity match criteria.
+
+#### `make(): ListTransferRecordEntity`
+
+Create a new `ListTransferRecordEntity` instance with the same client and
+options.
+
+#### `get_name(): string`
+
+Return the entity name.
+
+
+---
+
+## LookupBillEntity
+
+```php
+$lookup_bill = $client->LookupBill();
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `ErrorCodes` | `array` | Yes |  |
+| `Items` | `array` | Yes |  |
+| `ResultCode` | `int` | Yes |  |
+
+### Operations
+
+#### `create(array $reqdata, ?array $ctrl = null): mixed`
+
+Create a new entity with the given data. Throws on error.
+
+```php
+$result = $client->LookupBill()->create([
+  "ErrorCodes" => null, // array
+  "Items" => null, // array
+  "ResultCode" => null, // int
+]);
+```
+
+### Common Methods
+
+#### `data_get(): array`
+
+Get the entity data. Returns a copy of the current data.
+
+#### `data_set($data): void`
+
+Set the entity data.
+
+#### `match_get(): array`
+
+Get the entity match criteria.
+
+#### `match_set($match): void`
+
+Set the entity match criteria.
+
+#### `make(): LookupBillEntity`
+
+Create a new `LookupBillEntity` instance with the same client and
 options.
 
 #### `get_name(): string`
@@ -534,9 +662,9 @@ $product = $client->Product();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `error_code` | `array` | No |  |
-| `item` | `array` | No |  |
-| `result_code` | `int` | No |  |
+| `ErrorCodes` | `array` | Yes |  |
+| `Items` | `array` | Yes |  |
+| `ResultCode` | `int` | Yes |  |
 
 ### Operations
 
@@ -588,9 +716,9 @@ $product_description = $client->ProductDescription();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `error_code` | `array` | No |  |
-| `item` | `array` | No |  |
-| `result_code` | `int` | No |  |
+| `ErrorCodes` | `array` | Yes |  |
+| `Items` | `array` | Yes |  |
+| `ResultCode` | `int` | Yes |  |
 
 ### Operations
 
@@ -642,9 +770,9 @@ $promotion = $client->Promotion();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `error_code` | `array` | No |  |
-| `item` | `array` | No |  |
-| `result_code` | `int` | No |  |
+| `ErrorCodes` | `array` | Yes |  |
+| `Items` | `array` | Yes |  |
+| `ResultCode` | `int` | Yes |  |
 
 ### Operations
 
@@ -696,9 +824,9 @@ $promotion_description = $client->PromotionDescription();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `error_code` | `array` | No |  |
-| `item` | `array` | No |  |
-| `result_code` | `int` | No |  |
+| `ErrorCodes` | `array` | Yes |  |
+| `Items` | `array` | Yes |  |
+| `ResultCode` | `int` | Yes |  |
 
 ### Operations
 
@@ -750,9 +878,9 @@ $provider = $client->Provider();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `error_code` | `array` | No |  |
-| `item` | `array` | No |  |
-| `result_code` | `int` | No |  |
+| `ErrorCodes` | `array` | Yes |  |
+| `Items` | `array` | Yes |  |
+| `ResultCode` | `int` | Yes |  |
 
 ### Operations
 
@@ -804,9 +932,9 @@ $provider_status = $client->ProviderStatus();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `error_code` | `array` | No |  |
-| `item` | `array` | No |  |
-| `result_code` | `int` | No |  |
+| `ErrorCodes` | `array` | Yes |  |
+| `Items` | `array` | Yes |  |
+| `ResultCode` | `int` | Yes |  |
 
 ### Operations
 
@@ -858,9 +986,9 @@ $region = $client->Region();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `error_code` | `array` | No |  |
-| `item` | `array` | No |  |
-| `result_code` | `int` | No |  |
+| `ErrorCodes` | `array` | Yes |  |
+| `Items` | `array` | Yes |  |
+| `ResultCode` | `int` | Yes |  |
 
 ### Operations
 
@@ -912,16 +1040,9 @@ $send_transfer = $client->SendTransfer();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `account_number` | `string` | Yes |  |
-| `distributor_ref` | `string` | Yes |  |
-| `error_code` | `array` | No |  |
-| `result_code` | `int` | No |  |
-| `send_currency_iso` | `string` | No |  |
-| `send_value` | `float` | Yes |  |
-| `setting` | `array` | No |  |
-| `sku_code` | `string` | Yes |  |
-| `transfer_record` | `array` | No |  |
-| `validate_only` | `bool` | No |  |
+| `ErrorCodes` | `array` | Yes |  |
+| `ResultCode` | `int` | Yes |  |
+| `TransferRecord` | `array` | Yes |  |
 
 ### Operations
 
@@ -931,10 +1052,9 @@ Create a new entity with the given data. Throws on error.
 
 ```php
 $result = $client->SendTransfer()->create([
-  "account_number" => null, // string
-  "distributor_ref" => null, // string
-  "send_value" => null, // float
-  "sku_code" => null, // string
+  "ErrorCodes" => null, // array
+  "ResultCode" => null, // int
+  "TransferRecord" => null, // array
 ]);
 ```
 
@@ -959,72 +1079,6 @@ Set the entity match criteria.
 #### `make(): SendTransferEntity`
 
 Create a new `SendTransferEntity` instance with the same client and
-options.
-
-#### `get_name(): string`
-
-Return the entity name.
-
-
----
-
-## TransferRecordEntity
-
-```php
-$transfer_record = $client->TransferRecord();
-```
-
-### Fields
-
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `account_number` | `string` | No |  |
-| `distributor_ref` | `array` | No |  |
-| `ended_at_utc` | `string` | No |  |
-| `error_code` | `array` | No |  |
-| `item` | `array` | No |  |
-| `result_code` | `int` | No |  |
-| `skip` | `int` | Yes |  |
-| `sku_code` | `array` | No |  |
-| `started_at_utc` | `string` | No |  |
-| `take` | `int` | Yes |  |
-| `there_are_more_item` | `bool` | No |  |
-| `transfer_ref` | `array` | No |  |
-
-### Operations
-
-#### `create(array $reqdata, ?array $ctrl = null): mixed`
-
-Create a new entity with the given data. Throws on error.
-
-```php
-$result = $client->TransferRecord()->create([
-  "skip" => null, // int
-  "take" => null, // int
-]);
-```
-
-### Common Methods
-
-#### `data_get(): array`
-
-Get the entity data. Returns a copy of the current data.
-
-#### `data_set($data): void`
-
-Set the entity data.
-
-#### `match_get(): array`
-
-Get the entity match criteria.
-
-#### `match_set($match): void`
-
-Set the entity match criteria.
-
-#### `make(): TransferRecordEntity`
-
-Create a new `TransferRecordEntity` instance with the same client and
 options.
 
 #### `get_name(): string`

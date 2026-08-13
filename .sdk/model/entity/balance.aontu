@@ -6,12 +6,12 @@ main: kit: entity: balance: {
 
   fields: [
     {
-      name: "code"
-      req: false
+      name: "Code"
+      req: true
       type: "`$STRING`"
     }
     {
-      name: "context"
+      name: "Context"
       req: false
       type: "`$STRING`"
     }
@@ -23,14 +23,32 @@ main: kit: entity: balance: {
       name: "list"
       points: [
         {
+          args: {
+            header: [
+              {
+                kind: "header"
+                name: "x_correlation_id"
+                orig: "x_correlation_id"
+                reqd: false
+                type: "`$STRING`"
+              }
+            ]
+          }
           method: "GET"
-          orig: "/GetBalance"
+          orig: "/api/V1/GetBalance"
           parts: [
+            "api"
+            "V1"
             "GetBalance"
           ]
+          select: {
+            exist: [
+              "x_correlation_id"
+            ]
+          }
           transform: {
             req: "`reqdata`"
-            res: "`body`"
+            res: "`body.ErrorCodes`"
           }
         }
       ]

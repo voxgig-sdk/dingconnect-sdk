@@ -2,36 +2,36 @@
   "existing": {
     "account_lookup": {
       "ACCOUNT_LOOKUP00": {
-        "account_number_normalized": "s32",
-        "country_iso": "s33",
-        "error_code": [],
-        "item": [],
-        "result_code": "s36"
+        "AccountNumberNormalized": "s32",
+        "CountryIso": "s33",
+        "ErrorCodes": [],
+        "Items": [],
+        "ResultCode": "s36"
       },
       "ACCOUNT_LOOKUP01": {
-        "account_number_normalized": "s64",
-        "country_iso": "s65",
-        "error_code": [],
-        "item": [],
-        "result_code": "s68"
+        "AccountNumberNormalized": "s64",
+        "CountryIso": "s65",
+        "ErrorCodes": [],
+        "Items": [],
+        "ResultCode": "s68"
       },
       "ACCOUNT_LOOKUP02": {
-        "account_number_normalized": "s96",
-        "country_iso": "s97",
-        "error_code": [],
-        "item": [],
-        "result_code": "s9a"
+        "AccountNumberNormalized": "s96",
+        "CountryIso": "s97",
+        "ErrorCodes": [],
+        "Items": [],
+        "ResultCode": "s9a"
       }
     }
   },
   "new": {
     "account_lookup": {
       "account_lookup_ref01": {
-        "account_number_normalized": "sc8",
-        "country_iso": "sc9",
-        "error_code": [],
-        "item": [],
-        "result_code": "scc"
+        "AccountNumberNormalized": "sc8",
+        "CountryIso": "sc9",
+        "ErrorCodes": [],
+        "Items": [],
+        "ResultCode": "scc"
       }
     }
   }

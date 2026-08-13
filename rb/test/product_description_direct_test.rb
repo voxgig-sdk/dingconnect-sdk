@@ -20,7 +20,7 @@ class ProductDescriptionDirectTest < Minitest::Test
 
 
     result = client.direct({
-      "path" => "GetProductDescriptions",
+      "path" => "api/V1/GetProductDescriptions",
       "method" => "GET",
       "params" => {},
     })

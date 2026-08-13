@@ -38,8 +38,8 @@ func init() {
 	core.NewBalanceEntityFunc = func(client *core.DingconnectSDK, entopts map[string]any) core.DingconnectEntity {
 		return entity.NewBalanceEntity(client, entopts)
 	}
-	core.NewCancelResultEntityFunc = func(client *core.DingconnectSDK, entopts map[string]any) core.DingconnectEntity {
-		return entity.NewCancelResultEntity(client, entopts)
+	core.NewCancelTransferEntityFunc = func(client *core.DingconnectSDK, entopts map[string]any) core.DingconnectEntity {
+		return entity.NewCancelTransferEntity(client, entopts)
 	}
 	core.NewCountryEntityFunc = func(client *core.DingconnectSDK, entopts map[string]any) core.DingconnectEntity {
 		return entity.NewCountryEntity(client, entopts)
@@ -50,8 +50,14 @@ func init() {
 	core.NewErrorCodeDescriptionEntityFunc = func(client *core.DingconnectSDK, entopts map[string]any) core.DingconnectEntity {
 		return entity.NewErrorCodeDescriptionEntity(client, entopts)
 	}
-	core.NewEstimateEntityFunc = func(client *core.DingconnectSDK, entopts map[string]any) core.DingconnectEntity {
-		return entity.NewEstimateEntity(client, entopts)
+	core.NewEstimatePriceEntityFunc = func(client *core.DingconnectSDK, entopts map[string]any) core.DingconnectEntity {
+		return entity.NewEstimatePriceEntity(client, entopts)
+	}
+	core.NewListTransferRecordEntityFunc = func(client *core.DingconnectSDK, entopts map[string]any) core.DingconnectEntity {
+		return entity.NewListTransferRecordEntity(client, entopts)
+	}
+	core.NewLookupBillEntityFunc = func(client *core.DingconnectSDK, entopts map[string]any) core.DingconnectEntity {
+		return entity.NewLookupBillEntity(client, entopts)
 	}
 	core.NewProductEntityFunc = func(client *core.DingconnectSDK, entopts map[string]any) core.DingconnectEntity {
 		return entity.NewProductEntity(client, entopts)
@@ -76,9 +82,6 @@ func init() {
 	}
 	core.NewSendTransferEntityFunc = func(client *core.DingconnectSDK, entopts map[string]any) core.DingconnectEntity {
 		return entity.NewSendTransferEntity(client, entopts)
-	}
-	core.NewTransferRecordEntityFunc = func(client *core.DingconnectSDK, entopts map[string]any) core.DingconnectEntity {
-		return entity.NewTransferRecordEntity(client, entopts)
 	}
 }
 

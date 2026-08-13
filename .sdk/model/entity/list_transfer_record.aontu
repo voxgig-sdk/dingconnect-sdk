@@ -1,0 +1,80 @@
+# Entity: list_transfer_record
+
+main: kit: entity: list_transfer_record: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "ErrorCodes"
+      req: true
+      type: "`$ARRAY`"
+    }
+    {
+      name: "Items"
+      req: true
+      type: "`$ARRAY`"
+    }
+    {
+      name: "ResultCode"
+      req: true
+      type: "`$INTEGER`"
+    }
+    {
+      name: "ThereAreMoreItems"
+      req: true
+      type: "`$BOOLEAN`"
+    }
+  ]
+
+  name: "list_transfer_record"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          args: {
+            header: [
+              {
+                kind: "header"
+                name: "x_correlation_id"
+                orig: "x_correlation_id"
+                reqd: false
+                type: "`$STRING`"
+              }
+            ]
+            query: [
+              {
+                kind: "query"
+                name: "request"
+                orig: "request"
+                reqd: true
+                type: "`$OBJECT`"
+              }
+            ]
+          }
+          method: "POST"
+          orig: "/api/V1/ListTransferRecords"
+          parts: [
+            "api"
+            "V1"
+            "ListTransferRecords"
+          ]
+          select: {
+            exist: [
+              "request"
+              "x_correlation_id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

@@ -37,7 +37,7 @@ class AccountLookupEntity extends DingconnectEntityBase<AccountLookup> {
 
 
 
-  async list(this: any, reqmatch?: AccountLookupListMatch, ctrl?: Control): Promise<AccountLookup[]> {
+  async list(this: any, reqmatch?: AccountLookupListMatch, ctrl?: Control): Promise<AccountLookupEntity[]> {
 
     const utility = this._utility
 

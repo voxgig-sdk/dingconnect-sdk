@@ -227,11 +227,13 @@ Creates a test-mode client with mock transport. Both arguments may be `nil`.
 | `Direct` | `(fetchargs map[string]any) (map[string]any, error)` | Build and send an HTTP request. |
 | `AccountLookup` | `(data map[string]any) DingconnectEntity` | Create an AccountLookup entity instance. |
 | `Balance` | `(data map[string]any) DingconnectEntity` | Create a Balance entity instance. |
-| `CancelResult` | `(data map[string]any) DingconnectEntity` | Create a CancelResult entity instance. |
+| `CancelTransfer` | `(data map[string]any) DingconnectEntity` | Create a CancelTransfer entity instance. |
 | `Country` | `(data map[string]any) DingconnectEntity` | Create a Country entity instance. |
 | `Currency` | `(data map[string]any) DingconnectEntity` | Create a Currency entity instance. |
 | `ErrorCodeDescription` | `(data map[string]any) DingconnectEntity` | Create an ErrorCodeDescription entity instance. |
-| `Estimate` | `(data map[string]any) DingconnectEntity` | Create an Estimate entity instance. |
+| `EstimatePrice` | `(data map[string]any) DingconnectEntity` | Create an EstimatePrice entity instance. |
+| `ListTransferRecord` | `(data map[string]any) DingconnectEntity` | Create a ListTransferRecord entity instance. |
+| `LookupBill` | `(data map[string]any) DingconnectEntity` | Create a LookupBill entity instance. |
 | `Product` | `(data map[string]any) DingconnectEntity` | Create a Product entity instance. |
 | `ProductDescription` | `(data map[string]any) DingconnectEntity` | Create a ProductDescription entity instance. |
 | `Promotion` | `(data map[string]any) DingconnectEntity` | Create a Promotion entity instance. |
@@ -240,7 +242,6 @@ Creates a test-mode client with mock transport. Both arguments may be `nil`.
 | `ProviderStatus` | `(data map[string]any) DingconnectEntity` | Create a ProviderStatus entity instance. |
 | `Region` | `(data map[string]any) DingconnectEntity` | Create a Region entity instance. |
 | `SendTransfer` | `(data map[string]any) DingconnectEntity` | Create a SendTransfer entity instance. |
-| `TransferRecord` | `(data map[string]any) DingconnectEntity` | Create a TransferRecord entity instance. |
 
 ### Entity interface (DingconnectEntity)
 
@@ -282,210 +283,207 @@ Only `Direct()` returns a response envelope — a `map[string]any` with
 
 | Field | Description |
 | --- | --- |
-| `"account_number_normalized"` |  |
-| `"country_iso"` |  |
-| `"error_code"` |  |
-| `"item"` |  |
-| `"result_code"` |  |
+| `"AccountNumberNormalized"` |  |
+| `"CountryIso"` |  |
+| `"ErrorCodes"` |  |
+| `"Items"` |  |
+| `"ResultCode"` |  |
 
 Operations: List.
 
-API path: `/GetAccountLookup`
+API path: `/api/V1/GetAccountLookup`
 
 #### Balance
 
 | Field | Description |
 | --- | --- |
-| `"code"` |  |
-| `"context"` |  |
+| `"Code"` |  |
+| `"Context"` |  |
 
 Operations: List.
 
-API path: `/GetBalance`
+API path: `/api/V1/GetBalance`
 
-#### CancelResult
+#### CancelTransfer
 
 | Field | Description |
 | --- | --- |
-| `"error_code"` |  |
-| `"item"` |  |
-| `"result_code"` |  |
+| `"ErrorCodes"` |  |
+| `"Items"` |  |
+| `"ResultCode"` |  |
 
 Operations: Create.
 
-API path: `/CancelTransfers`
+API path: `/api/V1/CancelTransfers`
 
 #### Country
 
 | Field | Description |
 | --- | --- |
-| `"error_code"` |  |
-| `"item"` |  |
-| `"result_code"` |  |
+| `"ErrorCodes"` |  |
+| `"Items"` |  |
+| `"ResultCode"` |  |
 
 Operations: List.
 
-API path: `/GetCountries`
+API path: `/api/V1/GetCountries`
 
 #### Currency
 
 | Field | Description |
 | --- | --- |
-| `"error_code"` |  |
-| `"item"` |  |
-| `"result_code"` |  |
+| `"ErrorCodes"` |  |
+| `"Items"` |  |
+| `"ResultCode"` |  |
 
 Operations: List.
 
-API path: `/GetCurrencies`
+API path: `/api/V1/GetCurrencies`
 
 #### ErrorCodeDescription
 
 | Field | Description |
 | --- | --- |
-| `"error_code"` |  |
-| `"item"` |  |
-| `"result_code"` |  |
+| `"ErrorCodes"` |  |
+| `"Items"` |  |
+| `"ResultCode"` |  |
 
 Operations: List.
 
-API path: `/GetErrorCodeDescriptions`
+API path: `/api/V1/GetErrorCodeDescriptions`
 
-#### Estimate
+#### EstimatePrice
 
 | Field | Description |
 | --- | --- |
-| `"error_code"` |  |
-| `"item"` |  |
-| `"result_code"` |  |
+| `"ErrorCodes"` |  |
+| `"Items"` |  |
+| `"ResultCode"` |  |
 
 Operations: Create.
 
-API path: `/EstimatePrices`
+API path: `/api/V1/EstimatePrices`
+
+#### ListTransferRecord
+
+| Field | Description |
+| --- | --- |
+| `"ErrorCodes"` |  |
+| `"Items"` |  |
+| `"ResultCode"` |  |
+| `"ThereAreMoreItems"` |  |
+
+Operations: Create.
+
+API path: `/api/V1/ListTransferRecords`
+
+#### LookupBill
+
+| Field | Description |
+| --- | --- |
+| `"ErrorCodes"` |  |
+| `"Items"` |  |
+| `"ResultCode"` |  |
+
+Operations: Create.
+
+API path: `/api/V1/LookupBills`
 
 #### Product
 
 | Field | Description |
 | --- | --- |
-| `"error_code"` |  |
-| `"item"` |  |
-| `"result_code"` |  |
+| `"ErrorCodes"` |  |
+| `"Items"` |  |
+| `"ResultCode"` |  |
 
 Operations: List.
 
-API path: `/GetProducts`
+API path: `/api/V1/GetProducts`
 
 #### ProductDescription
 
 | Field | Description |
 | --- | --- |
-| `"error_code"` |  |
-| `"item"` |  |
-| `"result_code"` |  |
+| `"ErrorCodes"` |  |
+| `"Items"` |  |
+| `"ResultCode"` |  |
 
 Operations: List.
 
-API path: `/GetProductDescriptions`
+API path: `/api/V1/GetProductDescriptions`
 
 #### Promotion
 
 | Field | Description |
 | --- | --- |
-| `"error_code"` |  |
-| `"item"` |  |
-| `"result_code"` |  |
+| `"ErrorCodes"` |  |
+| `"Items"` |  |
+| `"ResultCode"` |  |
 
 Operations: List.
 
-API path: `/GetPromotions`
+API path: `/api/V1/GetPromotions`
 
 #### PromotionDescription
 
 | Field | Description |
 | --- | --- |
-| `"error_code"` |  |
-| `"item"` |  |
-| `"result_code"` |  |
+| `"ErrorCodes"` |  |
+| `"Items"` |  |
+| `"ResultCode"` |  |
 
 Operations: List.
 
-API path: `/GetPromotionDescriptions`
+API path: `/api/V1/GetPromotionDescriptions`
 
 #### Provider
 
 | Field | Description |
 | --- | --- |
-| `"error_code"` |  |
-| `"item"` |  |
-| `"result_code"` |  |
+| `"ErrorCodes"` |  |
+| `"Items"` |  |
+| `"ResultCode"` |  |
 
 Operations: List.
 
-API path: `/GetProviders`
+API path: `/api/V1/GetProviders`
 
 #### ProviderStatus
 
 | Field | Description |
 | --- | --- |
-| `"error_code"` |  |
-| `"item"` |  |
-| `"result_code"` |  |
+| `"ErrorCodes"` |  |
+| `"Items"` |  |
+| `"ResultCode"` |  |
 
 Operations: List.
 
-API path: `/GetProviderStatus`
+API path: `/api/V1/GetProviderStatus`
 
 #### Region
 
 | Field | Description |
 | --- | --- |
-| `"error_code"` |  |
-| `"item"` |  |
-| `"result_code"` |  |
+| `"ErrorCodes"` |  |
+| `"Items"` |  |
+| `"ResultCode"` |  |
 
 Operations: List.
 
-API path: `/GetRegions`
+API path: `/api/V1/GetRegions`
 
 #### SendTransfer
 
 | Field | Description |
 | --- | --- |
-| `"account_number"` |  |
-| `"distributor_ref"` |  |
-| `"error_code"` |  |
-| `"result_code"` |  |
-| `"send_currency_iso"` |  |
-| `"send_value"` |  |
-| `"setting"` |  |
-| `"sku_code"` |  |
-| `"transfer_record"` |  |
-| `"validate_only"` |  |
+| `"ErrorCodes"` |  |
+| `"ResultCode"` |  |
+| `"TransferRecord"` |  |
 
 Operations: Create.
 
-API path: `/SendTransfer`
-
-#### TransferRecord
-
-| Field | Description |
-| --- | --- |
-| `"account_number"` |  |
-| `"distributor_ref"` |  |
-| `"ended_at_utc"` |  |
-| `"error_code"` |  |
-| `"item"` |  |
-| `"result_code"` |  |
-| `"skip"` |  |
-| `"sku_code"` |  |
-| `"started_at_utc"` |  |
-| `"take"` |  |
-| `"there_are_more_item"` |  |
-| `"transfer_ref"` |  |
-
-Operations: Create.
-
-API path: `/ListTransferRecords`
+API path: `/api/V1/SendTransfer`
 
 
 
@@ -506,11 +504,11 @@ Create an instance: `accountLookup := client.AccountLookup(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `account_number_normalized` | `string` |  |
-| `country_iso` | `string` |  |
-| `error_code` | `[]any` |  |
-| `item` | `[]any` |  |
-| `result_code` | `int` |  |
+| `AccountNumberNormalized` | `string` |  |
+| `CountryIso` | `string` |  |
+| `ErrorCodes` | `[]any` |  |
+| `Items` | `[]any` |  |
+| `ResultCode` | `int` |  |
 
 #### Example: List
 
@@ -537,8 +535,8 @@ Create an instance: `balance := client.Balance(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `code` | `string` |  |
-| `context` | `string` |  |
+| `Code` | `string` |  |
+| `Context` | `string` |  |
 
 #### Example: List
 
@@ -551,9 +549,9 @@ fmt.Println(balances) // the array of records
 ```
 
 
-### CancelResult
+### CancelTransfer
 
-Create an instance: `cancelResult := client.CancelResult(nil)`
+Create an instance: `cancelTransfer := client.CancelTransfer(nil)`
 
 #### Operations
 
@@ -565,14 +563,17 @@ Create an instance: `cancelResult := client.CancelResult(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `error_code` | `[]any` |  |
-| `item` | `[]any` |  |
-| `result_code` | `int` |  |
+| `ErrorCodes` | `[]any` |  |
+| `Items` | `[]any` |  |
+| `ResultCode` | `int` |  |
 
 #### Example: Create
 
 ```go
-result, err := client.CancelResult(nil).Create(map[string]any{
+result, err := client.CancelTransfer(nil).Create(map[string]any{
+    "ErrorCodes": []any{},
+    "Items": []any{},
+    "ResultCode": 1,
 }, nil)
 if err != nil {
     panic(err)
@@ -595,9 +596,9 @@ Create an instance: `country := client.Country(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `error_code` | `[]any` |  |
-| `item` | `[]any` |  |
-| `result_code` | `int` |  |
+| `ErrorCodes` | `[]any` |  |
+| `Items` | `[]any` |  |
+| `ResultCode` | `int` |  |
 
 #### Example: List
 
@@ -624,9 +625,9 @@ Create an instance: `currency := client.Currency(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `error_code` | `[]any` |  |
-| `item` | `[]any` |  |
-| `result_code` | `int` |  |
+| `ErrorCodes` | `[]any` |  |
+| `Items` | `[]any` |  |
+| `ResultCode` | `int` |  |
 
 #### Example: List
 
@@ -653,9 +654,9 @@ Create an instance: `errorCodeDescription := client.ErrorCodeDescription(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `error_code` | `[]any` |  |
-| `item` | `[]any` |  |
-| `result_code` | `int` |  |
+| `ErrorCodes` | `[]any` |  |
+| `Items` | `[]any` |  |
+| `ResultCode` | `int` |  |
 
 #### Example: List
 
@@ -668,9 +669,9 @@ fmt.Println(errorCodeDescriptions) // the array of records
 ```
 
 
-### Estimate
+### EstimatePrice
 
-Create an instance: `estimate := client.Estimate(nil)`
+Create an instance: `estimatePrice := client.EstimatePrice(nil)`
 
 #### Operations
 
@@ -682,14 +683,85 @@ Create an instance: `estimate := client.Estimate(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `error_code` | `[]any` |  |
-| `item` | `[]any` |  |
-| `result_code` | `int` |  |
+| `ErrorCodes` | `[]any` |  |
+| `Items` | `[]any` |  |
+| `ResultCode` | `int` |  |
 
 #### Example: Create
 
 ```go
-result, err := client.Estimate(nil).Create(map[string]any{
+result, err := client.EstimatePrice(nil).Create(map[string]any{
+    "ErrorCodes": []any{},
+    "Items": []any{},
+    "ResultCode": 1,
+}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result)
+```
+
+
+### ListTransferRecord
+
+Create an instance: `listTransferRecord := client.ListTransferRecord(nil)`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `Create(data, ctrl)` | Create a new entity with the given data. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `ErrorCodes` | `[]any` |  |
+| `Items` | `[]any` |  |
+| `ResultCode` | `int` |  |
+| `ThereAreMoreItems` | `bool` |  |
+
+#### Example: Create
+
+```go
+result, err := client.ListTransferRecord(nil).Create(map[string]any{
+    "ErrorCodes": []any{},
+    "Items": []any{},
+    "ResultCode": 1,
+    "ThereAreMoreItems": true,
+}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result)
+```
+
+
+### LookupBill
+
+Create an instance: `lookupBill := client.LookupBill(nil)`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `Create(data, ctrl)` | Create a new entity with the given data. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `ErrorCodes` | `[]any` |  |
+| `Items` | `[]any` |  |
+| `ResultCode` | `int` |  |
+
+#### Example: Create
+
+```go
+result, err := client.LookupBill(nil).Create(map[string]any{
+    "ErrorCodes": []any{},
+    "Items": []any{},
+    "ResultCode": 1,
 }, nil)
 if err != nil {
     panic(err)
@@ -712,9 +784,9 @@ Create an instance: `product := client.Product(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `error_code` | `[]any` |  |
-| `item` | `[]any` |  |
-| `result_code` | `int` |  |
+| `ErrorCodes` | `[]any` |  |
+| `Items` | `[]any` |  |
+| `ResultCode` | `int` |  |
 
 #### Example: List
 
@@ -741,9 +813,9 @@ Create an instance: `productDescription := client.ProductDescription(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `error_code` | `[]any` |  |
-| `item` | `[]any` |  |
-| `result_code` | `int` |  |
+| `ErrorCodes` | `[]any` |  |
+| `Items` | `[]any` |  |
+| `ResultCode` | `int` |  |
 
 #### Example: List
 
@@ -770,9 +842,9 @@ Create an instance: `promotion := client.Promotion(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `error_code` | `[]any` |  |
-| `item` | `[]any` |  |
-| `result_code` | `int` |  |
+| `ErrorCodes` | `[]any` |  |
+| `Items` | `[]any` |  |
+| `ResultCode` | `int` |  |
 
 #### Example: List
 
@@ -799,9 +871,9 @@ Create an instance: `promotionDescription := client.PromotionDescription(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `error_code` | `[]any` |  |
-| `item` | `[]any` |  |
-| `result_code` | `int` |  |
+| `ErrorCodes` | `[]any` |  |
+| `Items` | `[]any` |  |
+| `ResultCode` | `int` |  |
 
 #### Example: List
 
@@ -828,9 +900,9 @@ Create an instance: `provider := client.Provider(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `error_code` | `[]any` |  |
-| `item` | `[]any` |  |
-| `result_code` | `int` |  |
+| `ErrorCodes` | `[]any` |  |
+| `Items` | `[]any` |  |
+| `ResultCode` | `int` |  |
 
 #### Example: List
 
@@ -857,9 +929,9 @@ Create an instance: `providerStatus := client.ProviderStatus(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `error_code` | `[]any` |  |
-| `item` | `[]any` |  |
-| `result_code` | `int` |  |
+| `ErrorCodes` | `[]any` |  |
+| `Items` | `[]any` |  |
+| `ResultCode` | `int` |  |
 
 #### Example: List
 
@@ -886,9 +958,9 @@ Create an instance: `region := client.Region(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `error_code` | `[]any` |  |
-| `item` | `[]any` |  |
-| `result_code` | `int` |  |
+| `ErrorCodes` | `[]any` |  |
+| `Items` | `[]any` |  |
+| `ResultCode` | `int` |  |
 
 #### Example: List
 
@@ -915,66 +987,17 @@ Create an instance: `sendTransfer := client.SendTransfer(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `account_number` | `string` |  |
-| `distributor_ref` | `string` |  |
-| `error_code` | `[]any` |  |
-| `result_code` | `int` |  |
-| `send_currency_iso` | `string` |  |
-| `send_value` | `float64` |  |
-| `setting` | `[]any` |  |
-| `sku_code` | `string` |  |
-| `transfer_record` | `map[string]any` |  |
-| `validate_only` | `bool` |  |
+| `ErrorCodes` | `[]any` |  |
+| `ResultCode` | `int` |  |
+| `TransferRecord` | `map[string]any` |  |
 
 #### Example: Create
 
 ```go
 result, err := client.SendTransfer(nil).Create(map[string]any{
-    "account_number": "example_account_number",
-    "distributor_ref": "example_distributor_ref",
-    "send_value": 1,
-    "sku_code": "example_sku_code",
-}, nil)
-if err != nil {
-    panic(err)
-}
-fmt.Println(result)
-```
-
-
-### TransferRecord
-
-Create an instance: `transferRecord := client.TransferRecord(nil)`
-
-#### Operations
-
-| Method | Description |
-| --- | --- |
-| `Create(data, ctrl)` | Create a new entity with the given data. |
-
-#### Fields
-
-| Field | Type | Description |
-| --- | --- | --- |
-| `account_number` | `string` |  |
-| `distributor_ref` | `[]any` |  |
-| `ended_at_utc` | `string` |  |
-| `error_code` | `[]any` |  |
-| `item` | `[]any` |  |
-| `result_code` | `int` |  |
-| `skip` | `int` |  |
-| `sku_code` | `[]any` |  |
-| `started_at_utc` | `string` |  |
-| `take` | `int` |  |
-| `there_are_more_item` | `bool` |  |
-| `transfer_ref` | `[]any` |  |
-
-#### Example: Create
-
-```go
-result, err := client.TransferRecord(nil).Create(map[string]any{
-    "skip": 1,
-    "take": 1,
+    "ErrorCodes": []any{},
+    "ResultCode": 1,
+    "TransferRecord": map[string]any{},
 }, nil)
 if err != nil {
     panic(err)

@@ -3,9 +3,9 @@
 import json
 import pytest
 
-from utility.voxgig_struct import voxgig_struct as vs
+from dingconnect_sdk.utility.voxgig_struct import voxgig_struct as vs
 from dingconnect_sdk import DingconnectSDK
-from core import helpers
+from dingconnect_sdk.core import helpers
 from test import runner
 
 
@@ -25,7 +25,7 @@ class TestBalanceDirect:
 
 
         result = client.direct({
-            "path": "GetBalance",
+            "path": "api/V1/GetBalance",
             "method": "GET",
             "params": {},
         })

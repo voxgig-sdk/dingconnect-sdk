@@ -37,7 +37,7 @@ class ErrorCodeDescriptionEntity extends DingconnectEntityBase<ErrorCodeDescript
 
 
 
-  async list(this: any, reqmatch?: ErrorCodeDescriptionListMatch, ctrl?: Control): Promise<ErrorCodeDescription[]> {
+  async list(this: any, reqmatch?: ErrorCodeDescriptionListMatch, ctrl?: Control): Promise<ErrorCodeDescriptionEntity[]> {
 
     const utility = this._utility
 

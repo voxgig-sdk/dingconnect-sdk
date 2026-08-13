@@ -1,10 +1,14 @@
 {
-  "def": "dingconnect-openapi.json",
+  "def": "dingconnect-v1-swagger-2.0.json",
   "main": {
     "def": {
       "desc": ""
     },
     "kit": {
+      "author": {
+        "name": "",
+        "url": ""
+      },
       "config": {
         "docs_order": [
           "ts",
@@ -18,6 +22,7 @@
           "content-type": "application/json"
         }
       },
+      "contributor": {},
       "entity": {
         "account_lookup": {
           "active": true,
@@ -27,32 +32,32 @@
           "fields": [
             {
               "active": true,
-              "name": "account_number_normalized",
+              "name": "AccountNumberNormalized",
               "req": false,
               "type": "`$STRING`"
             },
             {
               "active": true,
-              "name": "country_iso",
+              "name": "CountryIso",
               "req": false,
               "type": "`$STRING`"
             },
             {
               "active": true,
-              "name": "error_code",
-              "req": false,
+              "name": "ErrorCodes",
+              "req": true,
               "type": "`$ARRAY`"
             },
             {
               "active": true,
-              "name": "item",
-              "req": false,
+              "name": "Items",
+              "req": true,
               "type": "`$ARRAY`"
             },
             {
               "active": true,
-              "name": "result_code",
-              "req": false,
+              "name": "ResultCode",
+              "req": true,
               "type": "`$INTEGER`"
             }
           ],
@@ -65,25 +70,39 @@
                 {
                   "active": true,
                   "args": {
+                    "header": [
+                      {
+                        "active": true,
+                        "kind": "header",
+                        "name": "x_correlation_id",
+                        "orig": "x_correlation_id",
+                        "reqd": false,
+                        "type": "`$STRING`"
+                      }
+                    ],
                     "query": [
                       {
                         "active": true,
                         "kind": "query",
                         "name": "account_number",
                         "orig": "account_number",
-                        "reqd": true,
-                        "type": "`$STRING`"
+                        "reqd": false,
+                        "type": "`$INTEGER`"
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
-                  "orig": "/GetAccountLookup",
+                  "orig": "/api/V1/GetAccountLookup",
                   "parts": [
+                    "api",
+                    "V1",
                     "GetAccountLookup"
                   ],
                   "select": {
                     "exist": [
-                      "account_number"
+                      "account_number",
+                      "x_correlation_id"
                     ]
                   },
                   "transform": {
@@ -106,13 +125,13 @@
           "fields": [
             {
               "active": true,
-              "name": "code",
-              "req": false,
+              "name": "Code",
+              "req": true,
               "type": "`$STRING`"
             },
             {
               "active": true,
-              "name": "context",
+              "name": "Context",
               "req": false,
               "type": "`$STRING`"
             }
@@ -125,16 +144,34 @@
               "points": [
                 {
                   "active": true,
-                  "args": {},
+                  "args": {
+                    "header": [
+                      {
+                        "active": true,
+                        "kind": "header",
+                        "name": "x_correlation_id",
+                        "orig": "x_correlation_id",
+                        "reqd": false,
+                        "type": "`$STRING`"
+                      }
+                    ]
+                  },
+                  "kind": "http",
                   "method": "GET",
-                  "orig": "/GetBalance",
+                  "orig": "/api/V1/GetBalance",
                   "parts": [
+                    "api",
+                    "V1",
                     "GetBalance"
                   ],
-                  "select": {},
+                  "select": {
+                    "exist": [
+                      "x_correlation_id"
+                    ]
+                  },
                   "transform": {
                     "req": "`reqdata`",
-                    "res": "`body`"
+                    "res": "`body.ErrorCodes`"
                   }
                 }
               ]
@@ -144,7 +181,7 @@
             "ancestors": []
           }
         },
-        "cancel_result": {
+        "cancel_transfer": {
           "active": true,
           "alias": {
             "field": {}
@@ -152,24 +189,24 @@
           "fields": [
             {
               "active": true,
-              "name": "error_code",
-              "req": false,
+              "name": "ErrorCodes",
+              "req": true,
               "type": "`$ARRAY`"
             },
             {
               "active": true,
-              "name": "item",
-              "req": false,
+              "name": "Items",
+              "req": true,
               "type": "`$ARRAY`"
             },
             {
               "active": true,
-              "name": "result_code",
-              "req": false,
+              "name": "ResultCode",
+              "req": true,
               "type": "`$INTEGER`"
             }
           ],
-          "name": "cancel_result",
+          "name": "cancel_transfer",
           "op": {
             "create": {
               "input": "data",
@@ -177,13 +214,42 @@
               "points": [
                 {
                   "active": true,
-                  "args": {},
+                  "args": {
+                    "header": [
+                      {
+                        "active": true,
+                        "kind": "header",
+                        "name": "x_correlation_id",
+                        "orig": "x_correlation_id",
+                        "reqd": false,
+                        "type": "`$STRING`"
+                      }
+                    ],
+                    "query": [
+                      {
+                        "active": true,
+                        "kind": "query",
+                        "name": "cancellation_request",
+                        "orig": "cancellation_request",
+                        "reqd": true,
+                        "type": "`$ARRAY`"
+                      }
+                    ]
+                  },
+                  "kind": "http",
                   "method": "POST",
-                  "orig": "/CancelTransfers",
+                  "orig": "/api/V1/CancelTransfers",
                   "parts": [
+                    "api",
+                    "V1",
                     "CancelTransfers"
                   ],
-                  "select": {},
+                  "select": {
+                    "exist": [
+                      "cancellation_request",
+                      "x_correlation_id"
+                    ]
+                  },
                   "transform": {
                     "req": "`reqdata`",
                     "res": "`body`"
@@ -204,20 +270,20 @@
           "fields": [
             {
               "active": true,
-              "name": "error_code",
-              "req": false,
+              "name": "ErrorCodes",
+              "req": true,
               "type": "`$ARRAY`"
             },
             {
               "active": true,
-              "name": "item",
-              "req": false,
+              "name": "Items",
+              "req": true,
               "type": "`$ARRAY`"
             },
             {
               "active": true,
-              "name": "result_code",
-              "req": false,
+              "name": "ResultCode",
+              "req": true,
               "type": "`$INTEGER`"
             }
           ],
@@ -229,13 +295,31 @@
               "points": [
                 {
                   "active": true,
-                  "args": {},
+                  "args": {
+                    "header": [
+                      {
+                        "active": true,
+                        "kind": "header",
+                        "name": "x_correlation_id",
+                        "orig": "x_correlation_id",
+                        "reqd": false,
+                        "type": "`$STRING`"
+                      }
+                    ]
+                  },
+                  "kind": "http",
                   "method": "GET",
-                  "orig": "/GetCountries",
+                  "orig": "/api/V1/GetCountries",
                   "parts": [
+                    "api",
+                    "V1",
                     "GetCountries"
                   ],
-                  "select": {},
+                  "select": {
+                    "exist": [
+                      "x_correlation_id"
+                    ]
+                  },
                   "transform": {
                     "req": "`reqdata`",
                     "res": "`body`"
@@ -256,20 +340,20 @@
           "fields": [
             {
               "active": true,
-              "name": "error_code",
-              "req": false,
+              "name": "ErrorCodes",
+              "req": true,
               "type": "`$ARRAY`"
             },
             {
               "active": true,
-              "name": "item",
-              "req": false,
+              "name": "Items",
+              "req": true,
               "type": "`$ARRAY`"
             },
             {
               "active": true,
-              "name": "result_code",
-              "req": false,
+              "name": "ResultCode",
+              "req": true,
               "type": "`$INTEGER`"
             }
           ],
@@ -281,13 +365,31 @@
               "points": [
                 {
                   "active": true,
-                  "args": {},
+                  "args": {
+                    "header": [
+                      {
+                        "active": true,
+                        "kind": "header",
+                        "name": "x_correlation_id",
+                        "orig": "x_correlation_id",
+                        "reqd": false,
+                        "type": "`$STRING`"
+                      }
+                    ]
+                  },
+                  "kind": "http",
                   "method": "GET",
-                  "orig": "/GetCurrencies",
+                  "orig": "/api/V1/GetCurrencies",
                   "parts": [
+                    "api",
+                    "V1",
                     "GetCurrencies"
                   ],
-                  "select": {},
+                  "select": {
+                    "exist": [
+                      "x_correlation_id"
+                    ]
+                  },
                   "transform": {
                     "req": "`reqdata`",
                     "res": "`body`"
@@ -308,20 +410,20 @@
           "fields": [
             {
               "active": true,
-              "name": "error_code",
-              "req": false,
+              "name": "ErrorCodes",
+              "req": true,
               "type": "`$ARRAY`"
             },
             {
               "active": true,
-              "name": "item",
-              "req": false,
+              "name": "Items",
+              "req": true,
               "type": "`$ARRAY`"
             },
             {
               "active": true,
-              "name": "result_code",
-              "req": false,
+              "name": "ResultCode",
+              "req": true,
               "type": "`$INTEGER`"
             }
           ],
@@ -333,13 +435,31 @@
               "points": [
                 {
                   "active": true,
-                  "args": {},
+                  "args": {
+                    "header": [
+                      {
+                        "active": true,
+                        "kind": "header",
+                        "name": "x_correlation_id",
+                        "orig": "x_correlation_id",
+                        "reqd": false,
+                        "type": "`$STRING`"
+                      }
+                    ]
+                  },
+                  "kind": "http",
                   "method": "GET",
-                  "orig": "/GetErrorCodeDescriptions",
+                  "orig": "/api/V1/GetErrorCodeDescriptions",
                   "parts": [
+                    "api",
+                    "V1",
                     "GetErrorCodeDescriptions"
                   ],
-                  "select": {},
+                  "select": {
+                    "exist": [
+                      "x_correlation_id"
+                    ]
+                  },
                   "transform": {
                     "req": "`reqdata`",
                     "res": "`body`"
@@ -352,7 +472,7 @@
             "ancestors": []
           }
         },
-        "estimate": {
+        "estimate_price": {
           "active": true,
           "alias": {
             "field": {}
@@ -360,24 +480,24 @@
           "fields": [
             {
               "active": true,
-              "name": "error_code",
-              "req": false,
+              "name": "ErrorCodes",
+              "req": true,
               "type": "`$ARRAY`"
             },
             {
               "active": true,
-              "name": "item",
-              "req": false,
+              "name": "Items",
+              "req": true,
               "type": "`$ARRAY`"
             },
             {
               "active": true,
-              "name": "result_code",
-              "req": false,
+              "name": "ResultCode",
+              "req": true,
               "type": "`$INTEGER`"
             }
           ],
-          "name": "estimate",
+          "name": "estimate_price",
           "op": {
             "create": {
               "input": "data",
@@ -385,13 +505,210 @@
               "points": [
                 {
                   "active": true,
-                  "args": {},
+                  "args": {
+                    "header": [
+                      {
+                        "active": true,
+                        "kind": "header",
+                        "name": "x_correlation_id",
+                        "orig": "x_correlation_id",
+                        "reqd": false,
+                        "type": "`$STRING`"
+                      }
+                    ],
+                    "query": [
+                      {
+                        "active": true,
+                        "kind": "query",
+                        "name": "requested_estimation",
+                        "orig": "requested_estimation",
+                        "reqd": true,
+                        "type": "`$ARRAY`"
+                      }
+                    ]
+                  },
+                  "kind": "http",
                   "method": "POST",
-                  "orig": "/EstimatePrices",
+                  "orig": "/api/V1/EstimatePrices",
                   "parts": [
+                    "api",
+                    "V1",
                     "EstimatePrices"
                   ],
-                  "select": {},
+                  "select": {
+                    "exist": [
+                      "requested_estimation",
+                      "x_correlation_id"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            }
+          },
+          "relations": {
+            "ancestors": []
+          }
+        },
+        "list_transfer_record": {
+          "active": true,
+          "alias": {
+            "field": {}
+          },
+          "fields": [
+            {
+              "active": true,
+              "name": "ErrorCodes",
+              "req": true,
+              "type": "`$ARRAY`"
+            },
+            {
+              "active": true,
+              "name": "Items",
+              "req": true,
+              "type": "`$ARRAY`"
+            },
+            {
+              "active": true,
+              "name": "ResultCode",
+              "req": true,
+              "type": "`$INTEGER`"
+            },
+            {
+              "active": true,
+              "name": "ThereAreMoreItems",
+              "req": true,
+              "type": "`$BOOLEAN`"
+            }
+          ],
+          "name": "list_transfer_record",
+          "op": {
+            "create": {
+              "input": "data",
+              "name": "create",
+              "points": [
+                {
+                  "active": true,
+                  "args": {
+                    "header": [
+                      {
+                        "active": true,
+                        "kind": "header",
+                        "name": "x_correlation_id",
+                        "orig": "x_correlation_id",
+                        "reqd": false,
+                        "type": "`$STRING`"
+                      }
+                    ],
+                    "query": [
+                      {
+                        "active": true,
+                        "kind": "query",
+                        "name": "request",
+                        "orig": "request",
+                        "reqd": true,
+                        "type": "`$OBJECT`"
+                      }
+                    ]
+                  },
+                  "kind": "http",
+                  "method": "POST",
+                  "orig": "/api/V1/ListTransferRecords",
+                  "parts": [
+                    "api",
+                    "V1",
+                    "ListTransferRecords"
+                  ],
+                  "select": {
+                    "exist": [
+                      "request",
+                      "x_correlation_id"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            }
+          },
+          "relations": {
+            "ancestors": []
+          }
+        },
+        "lookup_bill": {
+          "active": true,
+          "alias": {
+            "field": {}
+          },
+          "fields": [
+            {
+              "active": true,
+              "name": "ErrorCodes",
+              "req": true,
+              "type": "`$ARRAY`"
+            },
+            {
+              "active": true,
+              "name": "Items",
+              "req": true,
+              "type": "`$ARRAY`"
+            },
+            {
+              "active": true,
+              "name": "ResultCode",
+              "req": true,
+              "type": "`$INTEGER`"
+            }
+          ],
+          "name": "lookup_bill",
+          "op": {
+            "create": {
+              "input": "data",
+              "name": "create",
+              "points": [
+                {
+                  "active": true,
+                  "args": {
+                    "header": [
+                      {
+                        "active": true,
+                        "kind": "header",
+                        "name": "x_correlation_id",
+                        "orig": "x_correlation_id",
+                        "reqd": false,
+                        "type": "`$STRING`"
+                      }
+                    ],
+                    "query": [
+                      {
+                        "active": true,
+                        "kind": "query",
+                        "name": "request",
+                        "orig": "request",
+                        "reqd": true,
+                        "type": "`$OBJECT`"
+                      }
+                    ]
+                  },
+                  "kind": "http",
+                  "method": "POST",
+                  "orig": "/api/V1/LookupBills",
+                  "parts": [
+                    "api",
+                    "V1",
+                    "LookupBills"
+                  ],
+                  "select": {
+                    "exist": [
+                      "request",
+                      "x_correlation_id"
+                    ]
+                  },
                   "transform": {
                     "req": "`reqdata`",
                     "res": "`body`"
@@ -412,20 +729,20 @@
           "fields": [
             {
               "active": true,
-              "name": "error_code",
-              "req": false,
+              "name": "ErrorCodes",
+              "req": true,
               "type": "`$ARRAY`"
             },
             {
               "active": true,
-              "name": "item",
-              "req": false,
+              "name": "Items",
+              "req": true,
               "type": "`$ARRAY`"
             },
             {
               "active": true,
-              "name": "result_code",
-              "req": false,
+              "name": "ResultCode",
+              "req": true,
               "type": "`$INTEGER`"
             }
           ],
@@ -438,6 +755,16 @@
                 {
                   "active": true,
                   "args": {
+                    "header": [
+                      {
+                        "active": true,
+                        "kind": "header",
+                        "name": "x_correlation_id",
+                        "orig": "x_correlation_id",
+                        "reqd": false,
+                        "type": "`$STRING`"
+                      }
+                    ],
                     "query": [
                       {
                         "active": true,
@@ -445,7 +772,7 @@
                         "name": "account_number",
                         "orig": "account_number",
                         "reqd": false,
-                        "type": "`$STRING`"
+                        "type": "`$INTEGER`"
                       },
                       {
                         "active": true,
@@ -453,7 +780,7 @@
                         "name": "benefit",
                         "orig": "benefit",
                         "reqd": false,
-                        "type": "`$ARRAY`"
+                        "type": "`$ANY`"
                       },
                       {
                         "active": true,
@@ -461,7 +788,7 @@
                         "name": "country_iso",
                         "orig": "country_iso",
                         "reqd": false,
-                        "type": "`$ARRAY`"
+                        "type": "`$ANY`"
                       },
                       {
                         "active": true,
@@ -469,7 +796,7 @@
                         "name": "provider_code",
                         "orig": "provider_code",
                         "reqd": false,
-                        "type": "`$ARRAY`"
+                        "type": "`$ANY`"
                       },
                       {
                         "active": true,
@@ -477,7 +804,7 @@
                         "name": "region_code",
                         "orig": "region_code",
                         "reqd": false,
-                        "type": "`$ARRAY`"
+                        "type": "`$ANY`"
                       },
                       {
                         "active": true,
@@ -485,13 +812,16 @@
                         "name": "sku_code",
                         "orig": "sku_code",
                         "reqd": false,
-                        "type": "`$ARRAY`"
+                        "type": "`$ANY`"
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
-                  "orig": "/GetProducts",
+                  "orig": "/api/V1/GetProducts",
                   "parts": [
+                    "api",
+                    "V1",
                     "GetProducts"
                   ],
                   "select": {
@@ -501,7 +831,8 @@
                       "country_iso",
                       "provider_code",
                       "region_code",
-                      "sku_code"
+                      "sku_code",
+                      "x_correlation_id"
                     ]
                   },
                   "transform": {
@@ -524,20 +855,20 @@
           "fields": [
             {
               "active": true,
-              "name": "error_code",
-              "req": false,
+              "name": "ErrorCodes",
+              "req": true,
               "type": "`$ARRAY`"
             },
             {
               "active": true,
-              "name": "item",
-              "req": false,
+              "name": "Items",
+              "req": true,
               "type": "`$ARRAY`"
             },
             {
               "active": true,
-              "name": "result_code",
-              "req": false,
+              "name": "ResultCode",
+              "req": true,
               "type": "`$INTEGER`"
             }
           ],
@@ -550,6 +881,16 @@
                 {
                   "active": true,
                   "args": {
+                    "header": [
+                      {
+                        "active": true,
+                        "kind": "header",
+                        "name": "x_correlation_id",
+                        "orig": "x_correlation_id",
+                        "reqd": false,
+                        "type": "`$STRING`"
+                      }
+                    ],
                     "query": [
                       {
                         "active": true,
@@ -557,7 +898,7 @@
                         "name": "language_code",
                         "orig": "language_code",
                         "reqd": false,
-                        "type": "`$ARRAY`"
+                        "type": "`$ANY`"
                       },
                       {
                         "active": true,
@@ -565,19 +906,23 @@
                         "name": "sku_code",
                         "orig": "sku_code",
                         "reqd": false,
-                        "type": "`$ARRAY`"
+                        "type": "`$ANY`"
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
-                  "orig": "/GetProductDescriptions",
+                  "orig": "/api/V1/GetProductDescriptions",
                   "parts": [
+                    "api",
+                    "V1",
                     "GetProductDescriptions"
                   ],
                   "select": {
                     "exist": [
                       "language_code",
-                      "sku_code"
+                      "sku_code",
+                      "x_correlation_id"
                     ]
                   },
                   "transform": {
@@ -600,20 +945,20 @@
           "fields": [
             {
               "active": true,
-              "name": "error_code",
-              "req": false,
+              "name": "ErrorCodes",
+              "req": true,
               "type": "`$ARRAY`"
             },
             {
               "active": true,
-              "name": "item",
-              "req": false,
+              "name": "Items",
+              "req": true,
               "type": "`$ARRAY`"
             },
             {
               "active": true,
-              "name": "result_code",
-              "req": false,
+              "name": "ResultCode",
+              "req": true,
               "type": "`$INTEGER`"
             }
           ],
@@ -626,6 +971,16 @@
                 {
                   "active": true,
                   "args": {
+                    "header": [
+                      {
+                        "active": true,
+                        "kind": "header",
+                        "name": "x_correlation_id",
+                        "orig": "x_correlation_id",
+                        "reqd": false,
+                        "type": "`$STRING`"
+                      }
+                    ],
                     "query": [
                       {
                         "active": true,
@@ -633,7 +988,7 @@
                         "name": "account_number",
                         "orig": "account_number",
                         "reqd": false,
-                        "type": "`$STRING`"
+                        "type": "`$INTEGER`"
                       },
                       {
                         "active": true,
@@ -641,7 +996,7 @@
                         "name": "country_iso",
                         "orig": "country_iso",
                         "reqd": false,
-                        "type": "`$ARRAY`"
+                        "type": "`$ANY`"
                       },
                       {
                         "active": true,
@@ -649,20 +1004,24 @@
                         "name": "provider_code",
                         "orig": "provider_code",
                         "reqd": false,
-                        "type": "`$ARRAY`"
+                        "type": "`$ANY`"
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
-                  "orig": "/GetPromotions",
+                  "orig": "/api/V1/GetPromotions",
                   "parts": [
+                    "api",
+                    "V1",
                     "GetPromotions"
                   ],
                   "select": {
                     "exist": [
                       "account_number",
                       "country_iso",
-                      "provider_code"
+                      "provider_code",
+                      "x_correlation_id"
                     ]
                   },
                   "transform": {
@@ -685,20 +1044,20 @@
           "fields": [
             {
               "active": true,
-              "name": "error_code",
-              "req": false,
+              "name": "ErrorCodes",
+              "req": true,
               "type": "`$ARRAY`"
             },
             {
               "active": true,
-              "name": "item",
-              "req": false,
+              "name": "Items",
+              "req": true,
               "type": "`$ARRAY`"
             },
             {
               "active": true,
-              "name": "result_code",
-              "req": false,
+              "name": "ResultCode",
+              "req": true,
               "type": "`$INTEGER`"
             }
           ],
@@ -711,6 +1070,16 @@
                 {
                   "active": true,
                   "args": {
+                    "header": [
+                      {
+                        "active": true,
+                        "kind": "header",
+                        "name": "x_correlation_id",
+                        "orig": "x_correlation_id",
+                        "reqd": false,
+                        "type": "`$STRING`"
+                      }
+                    ],
                     "query": [
                       {
                         "active": true,
@@ -718,18 +1087,22 @@
                         "name": "language_code",
                         "orig": "language_code",
                         "reqd": false,
-                        "type": "`$ARRAY`"
+                        "type": "`$ANY`"
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
-                  "orig": "/GetPromotionDescriptions",
+                  "orig": "/api/V1/GetPromotionDescriptions",
                   "parts": [
+                    "api",
+                    "V1",
                     "GetPromotionDescriptions"
                   ],
                   "select": {
                     "exist": [
-                      "language_code"
+                      "language_code",
+                      "x_correlation_id"
                     ]
                   },
                   "transform": {
@@ -752,20 +1125,20 @@
           "fields": [
             {
               "active": true,
-              "name": "error_code",
-              "req": false,
+              "name": "ErrorCodes",
+              "req": true,
               "type": "`$ARRAY`"
             },
             {
               "active": true,
-              "name": "item",
-              "req": false,
+              "name": "Items",
+              "req": true,
               "type": "`$ARRAY`"
             },
             {
               "active": true,
-              "name": "result_code",
-              "req": false,
+              "name": "ResultCode",
+              "req": true,
               "type": "`$INTEGER`"
             }
           ],
@@ -778,6 +1151,16 @@
                 {
                   "active": true,
                   "args": {
+                    "header": [
+                      {
+                        "active": true,
+                        "kind": "header",
+                        "name": "x_correlation_id",
+                        "orig": "x_correlation_id",
+                        "reqd": false,
+                        "type": "`$STRING`"
+                      }
+                    ],
                     "query": [
                       {
                         "active": true,
@@ -785,7 +1168,7 @@
                         "name": "account_number",
                         "orig": "account_number",
                         "reqd": false,
-                        "type": "`$STRING`"
+                        "type": "`$INTEGER`"
                       },
                       {
                         "active": true,
@@ -793,7 +1176,7 @@
                         "name": "country_iso",
                         "orig": "country_iso",
                         "reqd": false,
-                        "type": "`$ARRAY`"
+                        "type": "`$ANY`"
                       },
                       {
                         "active": true,
@@ -801,7 +1184,7 @@
                         "name": "provider_code",
                         "orig": "provider_code",
                         "reqd": false,
-                        "type": "`$ARRAY`"
+                        "type": "`$ANY`"
                       },
                       {
                         "active": true,
@@ -809,13 +1192,16 @@
                         "name": "region_code",
                         "orig": "region_code",
                         "reqd": false,
-                        "type": "`$ARRAY`"
+                        "type": "`$ANY`"
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
-                  "orig": "/GetProviders",
+                  "orig": "/api/V1/GetProviders",
                   "parts": [
+                    "api",
+                    "V1",
                     "GetProviders"
                   ],
                   "select": {
@@ -823,7 +1209,8 @@
                       "account_number",
                       "country_iso",
                       "provider_code",
-                      "region_code"
+                      "region_code",
+                      "x_correlation_id"
                     ]
                   },
                   "transform": {
@@ -846,20 +1233,20 @@
           "fields": [
             {
               "active": true,
-              "name": "error_code",
-              "req": false,
+              "name": "ErrorCodes",
+              "req": true,
               "type": "`$ARRAY`"
             },
             {
               "active": true,
-              "name": "item",
-              "req": false,
+              "name": "Items",
+              "req": true,
               "type": "`$ARRAY`"
             },
             {
               "active": true,
-              "name": "result_code",
-              "req": false,
+              "name": "ResultCode",
+              "req": true,
               "type": "`$INTEGER`"
             }
           ],
@@ -872,6 +1259,16 @@
                 {
                   "active": true,
                   "args": {
+                    "header": [
+                      {
+                        "active": true,
+                        "kind": "header",
+                        "name": "x_correlation_id",
+                        "orig": "x_correlation_id",
+                        "reqd": false,
+                        "type": "`$STRING`"
+                      }
+                    ],
                     "query": [
                       {
                         "active": true,
@@ -879,18 +1276,22 @@
                         "name": "provider_code",
                         "orig": "provider_code",
                         "reqd": false,
-                        "type": "`$ARRAY`"
+                        "type": "`$ANY`"
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
-                  "orig": "/GetProviderStatus",
+                  "orig": "/api/V1/GetProviderStatus",
                   "parts": [
+                    "api",
+                    "V1",
                     "GetProviderStatus"
                   ],
                   "select": {
                     "exist": [
-                      "provider_code"
+                      "provider_code",
+                      "x_correlation_id"
                     ]
                   },
                   "transform": {
@@ -913,20 +1314,20 @@
           "fields": [
             {
               "active": true,
-              "name": "error_code",
-              "req": false,
+              "name": "ErrorCodes",
+              "req": true,
               "type": "`$ARRAY`"
             },
             {
               "active": true,
-              "name": "item",
-              "req": false,
+              "name": "Items",
+              "req": true,
               "type": "`$ARRAY`"
             },
             {
               "active": true,
-              "name": "result_code",
-              "req": false,
+              "name": "ResultCode",
+              "req": true,
               "type": "`$INTEGER`"
             }
           ],
@@ -939,6 +1340,16 @@
                 {
                   "active": true,
                   "args": {
+                    "header": [
+                      {
+                        "active": true,
+                        "kind": "header",
+                        "name": "x_correlation_id",
+                        "orig": "x_correlation_id",
+                        "reqd": false,
+                        "type": "`$STRING`"
+                      }
+                    ],
                     "query": [
                       {
                         "active": true,
@@ -946,18 +1357,22 @@
                         "name": "country_iso",
                         "orig": "country_iso",
                         "reqd": false,
-                        "type": "`$ARRAY`"
+                        "type": "`$ANY`"
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
-                  "orig": "/GetRegions",
+                  "orig": "/api/V1/GetRegions",
                   "parts": [
+                    "api",
+                    "V1",
                     "GetRegions"
                   ],
                   "select": {
                     "exist": [
-                      "country_iso"
+                      "country_iso",
+                      "x_correlation_id"
                     ]
                   },
                   "transform": {
@@ -980,63 +1395,21 @@
           "fields": [
             {
               "active": true,
-              "name": "account_number",
+              "name": "ErrorCodes",
               "req": true,
-              "type": "`$STRING`"
-            },
-            {
-              "active": true,
-              "name": "distributor_ref",
-              "req": true,
-              "type": "`$STRING`"
-            },
-            {
-              "active": true,
-              "name": "error_code",
-              "req": false,
               "type": "`$ARRAY`"
             },
             {
               "active": true,
-              "name": "result_code",
-              "req": false,
+              "name": "ResultCode",
+              "req": true,
               "type": "`$INTEGER`"
             },
             {
               "active": true,
-              "name": "send_currency_iso",
-              "req": false,
-              "type": "`$STRING`"
-            },
-            {
-              "active": true,
-              "name": "send_value",
+              "name": "TransferRecord",
               "req": true,
-              "type": "`$NUMBER`"
-            },
-            {
-              "active": true,
-              "name": "setting",
-              "req": false,
-              "type": "`$ARRAY`"
-            },
-            {
-              "active": true,
-              "name": "sku_code",
-              "req": true,
-              "type": "`$STRING`"
-            },
-            {
-              "active": true,
-              "name": "transfer_record",
-              "req": false,
               "type": "`$OBJECT`"
-            },
-            {
-              "active": true,
-              "name": "validate_only",
-              "req": false,
-              "type": "`$BOOLEAN`"
             }
           ],
           "name": "send_transfer",
@@ -1047,119 +1420,42 @@
               "points": [
                 {
                   "active": true,
-                  "args": {},
+                  "args": {
+                    "header": [
+                      {
+                        "active": true,
+                        "kind": "header",
+                        "name": "x_correlation_id",
+                        "orig": "x_correlation_id",
+                        "reqd": false,
+                        "type": "`$STRING`"
+                      }
+                    ],
+                    "query": [
+                      {
+                        "active": true,
+                        "kind": "query",
+                        "name": "request",
+                        "orig": "request",
+                        "reqd": true,
+                        "type": "`$OBJECT`"
+                      }
+                    ]
+                  },
+                  "kind": "http",
                   "method": "POST",
-                  "orig": "/SendTransfer",
+                  "orig": "/api/V1/SendTransfer",
                   "parts": [
+                    "api",
+                    "V1",
                     "SendTransfer"
                   ],
-                  "select": {},
-                  "transform": {
-                    "req": "`reqdata`",
-                    "res": "`body`"
-                  }
-                }
-              ]
-            }
-          },
-          "relations": {
-            "ancestors": []
-          }
-        },
-        "transfer_record": {
-          "active": true,
-          "alias": {
-            "field": {}
-          },
-          "fields": [
-            {
-              "active": true,
-              "name": "account_number",
-              "req": false,
-              "type": "`$STRING`"
-            },
-            {
-              "active": true,
-              "name": "distributor_ref",
-              "req": false,
-              "type": "`$ARRAY`"
-            },
-            {
-              "active": true,
-              "name": "ended_at_utc",
-              "req": false,
-              "type": "`$STRING`"
-            },
-            {
-              "active": true,
-              "name": "error_code",
-              "req": false,
-              "type": "`$ARRAY`"
-            },
-            {
-              "active": true,
-              "name": "item",
-              "req": false,
-              "type": "`$ARRAY`"
-            },
-            {
-              "active": true,
-              "name": "result_code",
-              "req": false,
-              "type": "`$INTEGER`"
-            },
-            {
-              "active": true,
-              "name": "skip",
-              "req": true,
-              "type": "`$INTEGER`"
-            },
-            {
-              "active": true,
-              "name": "sku_code",
-              "req": false,
-              "type": "`$ARRAY`"
-            },
-            {
-              "active": true,
-              "name": "started_at_utc",
-              "req": false,
-              "type": "`$STRING`"
-            },
-            {
-              "active": true,
-              "name": "take",
-              "req": true,
-              "type": "`$INTEGER`"
-            },
-            {
-              "active": true,
-              "name": "there_are_more_item",
-              "req": false,
-              "type": "`$BOOLEAN`"
-            },
-            {
-              "active": true,
-              "name": "transfer_ref",
-              "req": false,
-              "type": "`$ARRAY`"
-            }
-          ],
-          "name": "transfer_record",
-          "op": {
-            "create": {
-              "input": "data",
-              "name": "create",
-              "points": [
-                {
-                  "active": true,
-                  "args": {},
-                  "method": "POST",
-                  "orig": "/ListTransferRecords",
-                  "parts": [
-                    "ListTransferRecords"
-                  ],
-                  "select": {},
+                  "select": {
+                    "exist": [
+                      "request",
+                      "x_correlation_id"
+                    ]
+                  },
                   "transform": {
                     "req": "`reqdata`",
                     "res": "`body`"
@@ -1319,19 +1615,19 @@
             }
           ]
         },
-        "BasicCancelResultFlow": {
+        "BasicCancelTransferFlow": {
           "active": true,
-          "entity": "cancel_result",
-          "key$": "BasicCancelResultFlow",
+          "entity": "cancel_transfer",
+          "key$": "BasicCancelTransferFlow",
           "kind": "basic",
-          "name": "BasicCancelResultFlow",
+          "name": "BasicCancelTransferFlow",
           "param": {},
           "step": [
             {
               "active": true,
               "data": {},
               "input": {
-                "ref": "cancel_result_ref01"
+                "ref": "cancel_transfer_ref01"
               },
               "match": {},
               "op": "create",
@@ -1418,19 +1714,61 @@
             }
           ]
         },
-        "BasicEstimateFlow": {
+        "BasicEstimatePriceFlow": {
           "active": true,
-          "entity": "estimate",
-          "key$": "BasicEstimateFlow",
+          "entity": "estimate_price",
+          "key$": "BasicEstimatePriceFlow",
           "kind": "basic",
-          "name": "BasicEstimateFlow",
+          "name": "BasicEstimatePriceFlow",
           "param": {},
           "step": [
             {
               "active": true,
               "data": {},
               "input": {
-                "ref": "estimate_ref01"
+                "ref": "estimate_price_ref01"
+              },
+              "match": {},
+              "op": "create",
+              "spec": [],
+              "valid": []
+            }
+          ]
+        },
+        "BasicListTransferRecordFlow": {
+          "active": true,
+          "entity": "list_transfer_record",
+          "key$": "BasicListTransferRecordFlow",
+          "kind": "basic",
+          "name": "BasicListTransferRecordFlow",
+          "param": {},
+          "step": [
+            {
+              "active": true,
+              "data": {},
+              "input": {
+                "ref": "list_transfer_record_ref01"
+              },
+              "match": {},
+              "op": "create",
+              "spec": [],
+              "valid": []
+            }
+          ]
+        },
+        "BasicLookupBillFlow": {
+          "active": true,
+          "entity": "lookup_bill",
+          "key$": "BasicLookupBillFlow",
+          "kind": "basic",
+          "name": "BasicLookupBillFlow",
+          "param": {},
+          "step": [
+            {
+              "active": true,
+              "data": {},
+              "input": {
+                "ref": "lookup_bill_ref01"
               },
               "match": {},
               "op": "create",
@@ -1641,65 +1979,63 @@
               "valid": []
             }
           ]
-        },
-        "BasicTransferRecordFlow": {
-          "active": true,
-          "entity": "transfer_record",
-          "key$": "BasicTransferRecordFlow",
-          "kind": "basic",
-          "name": "BasicTransferRecordFlow",
-          "param": {},
-          "step": [
-            {
-              "active": true,
-              "data": {},
-              "input": {
-                "ref": "transfer_record_ref01"
-              },
-              "match": {},
-              "op": "create",
-              "spec": [],
-              "valid": []
-            }
-          ]
         }
       },
       "info": {
-        "contact": {
-          "url": "https://www.dingconnect.com/Api"
-        },
-        "description": "The DingConnect mobile top-up API (Ding / Ezetop Unlimited Company, Dublin): catalogue discovery (countries, providers, products, promotions), account lookup, price estimation, and instant top-up transfers to 5B+ phones worldwide.\n\nThis definition was authored by Voxgig from DingConnect's public developer documentation (dingconnect.com/Api) and the community Go client vlab-research/go-dingconnect, because DingConnect's own swagger definition requires an API key to download. DingConnect's docs invite generating client SDKs from the swagger definition; replace this file with the first-party definition when a key is available.\n\nApplication-level failure is reported in the body with HTTP 200: ResultCode (1 success, 2 partial, 4 failed) is the real signal, with ErrorCodes enumerated by GetErrorCodeDescriptions.",
+        "description": "The Ding API is a Level 0 REST web service.  We have used the <a href=\"http://swagger.io\">swagger</a> standard to describe this service. As a result, we are able to provide this interactive documentation page. For further information, you may view the <a href=\"/api/description\">additional documentation</a>; read our <a href=\"/api/faq\">FAQ</a> or contact partnersupport@ding.com",
         "security": {
           "in": "header",
           "name": "api_key",
           "prefix": "",
-          "scheme": "ApiKeyAuth",
+          "scheme": "APIKeyHeader",
           "type": "apiKey"
         },
         "servers": [
           {
-            "description": "Production (no sandbox; use SendTransfer.ValidateOnly for dry runs)",
-            "url": "https://api.dingconnect.com/api/V1"
+            "url": "https://api.dingconnect.com"
           }
         ],
-        "summary": "The DingConnect mobile top-up API (Ding / Ezetop Unlimited Company, Dublin): catalogue discovery (countries, providers, products, promotions), account lookup, price estimation, and instant top-up transfers to 5B+ phones worldwide.",
-        "title": "DingConnect API",
+        "summary": "The Ding API is a Level 0 REST web service.",
+        "title": "Ding API",
         "version": "V1",
-        "website": "https://www.dingconnect.com/Api"
+        "website": "https://dingconnect.com"
       },
       "option": {},
+      "repo": {
+        "host": "github.com",
+        "path": ""
+      },
       "target": {
         "go": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "//"
           },
           "deps": {},
           "ext": "go",
+          "feature": {
+            "fullset": [
+              "test/feature_test.go"
+            ],
+            "trim": true
+          },
           "module": {
-            "name": "dingconnect"
+            "goversion": "",
+            "name": "dingconnect",
+            "package": "",
+            "path": ""
           },
           "name": "go",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -1721,22 +2057,40 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "srcfeature": false,
           "title": "Golang"
         },
         "go-cli": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "//"
           },
           "deps": {},
           "ext": "go",
+          "feature": {
+            "fullset": [],
+            "trim": true
+          },
           "module": {
-            "name": "dingconnect"
+            "goversion": "",
+            "name": "dingconnect",
+            "package": "",
+            "path": ""
           },
           "name": "go-cli",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "phase": {
             "agentguide": {
               "active": false
@@ -1775,21 +2129,39 @@
                 "recipe": "github"
               },
               "via": "root"
-            }
+            },
+            "version": "0.0.1"
           },
           "title": "Go CLI"
         },
         "go-mcp": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "//"
           },
           "deps": {},
           "ext": "go",
+          "feature": {
+            "fullset": [],
+            "trim": true
+          },
           "module": {
-            "name": "dingconnect"
+            "goversion": "",
+            "name": "dingconnect",
+            "package": "",
+            "path": ""
           },
           "name": "go-mcp",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "phase": {
             "agentguide": {
               "active": false
@@ -1828,12 +2200,17 @@
                 "recipe": "github"
               },
               "via": "root"
-            }
+            },
+            "version": "0.0.1"
           },
           "title": "Go MCP server"
         },
         "lua": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "--"
           },
@@ -1845,10 +2222,23 @@
             }
           },
           "ext": "lua",
+          "feature": {
+            "fullset": [],
+            "trim": true
+          },
           "module": {
-            "name": "dingconnect"
+            "goversion": "",
+            "name": "dingconnect",
+            "package": "",
+            "path": ""
           },
           "name": "lua",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -1870,22 +2260,40 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "srcfeature": false,
           "title": "Lua"
         },
         "php": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "//"
           },
           "deps": {},
           "ext": "php",
+          "feature": {
+            "fullset": [],
+            "trim": true
+          },
           "module": {
-            "name": "dingconnect"
+            "goversion": "",
+            "name": "dingconnect",
+            "package": "",
+            "path": ""
           },
           "name": "php",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -1907,13 +2315,18 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "srcfeature": false,
           "title": "PHP"
         },
         "py": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "#"
           },
@@ -1925,10 +2338,23 @@
             }
           },
           "ext": "py",
+          "feature": {
+            "fullset": [],
+            "trim": true
+          },
           "module": {
-            "name": "dingconnect"
+            "goversion": "",
+            "name": "dingconnect",
+            "package": "",
+            "path": ""
           },
           "name": "py",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -1950,13 +2376,18 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "srcfeature": false,
           "title": "Python"
         },
         "rb": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "#"
           },
@@ -1973,10 +2404,23 @@
             }
           },
           "ext": "rb",
+          "feature": {
+            "fullset": [],
+            "trim": true
+          },
           "module": {
-            "name": "dingconnect"
+            "goversion": "",
+            "name": "dingconnect",
+            "package": "",
+            "path": ""
           },
           "name": "rb",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -1998,13 +2442,18 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "srcfeature": false,
           "title": "Ruby"
         },
         "ts": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "base": "node_modules/@voxgig/sdkgen/project/.sdk",
           "comment": {
             "line": "//"
@@ -2027,10 +2476,23 @@
             }
           },
           "ext": "ts",
+          "feature": {
+            "fullset": [],
+            "trim": true
+          },
           "module": {
-            "name": "dingconnect"
+            "goversion": "",
+            "name": "dingconnect",
+            "package": "",
+            "path": ""
           },
           "name": "ts",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -2052,9 +2514,17 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "title": "TypeScript"
+        }
+      },
+      "test": {
+        "live": {
+          "app": false,
+          "base": "",
+          "strict": false
         }
       }
     }

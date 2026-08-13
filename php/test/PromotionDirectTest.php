@@ -25,7 +25,7 @@ class PromotionDirectTest extends TestCase
 
 
         $result = $client->direct([
-            "path" => "GetPromotions",
+            "path" => "api/V1/GetPromotions",
             "method" => "GET",
             "params" => [],
         ]);

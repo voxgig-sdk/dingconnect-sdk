@@ -1,4 +1,4 @@
-# ProjectName SDK exists test
+# Dingconnect SDK exists test
 
 import pytest
 from dingconnect_sdk import DingconnectSDK

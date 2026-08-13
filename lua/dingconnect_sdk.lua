@@ -181,7 +181,41 @@ function DingconnectSDK:prepare(fetchargs)
 end
 
 
+-- Raw endpoint access is operator-controllable, like every entity op.
+-- Blocking it means denying BOTH the 'direct' and 'graphql' tokens, since
+-- either one reaches the same endpoint.
 function DingconnectSDK:direct(fetchargs)
+  if not self:_op_allowed("direct") then
+    return self:_op_denied("direct"), nil
+  end
+
+  return self:_raw_request(fetchargs)
+end
+
+
+-- Is this raw-access op permitted by the SDK's allow.op option?
+function DingconnectSDK:_op_allowed(op)
+  local allow = vs.getpath(self.options, "allow.op")
+  return type(allow) == "string" and allow:find(op, 1, true) ~= nil
+end
+
+
+function DingconnectSDK:_op_denied(op)
+  local allow = vs.getpath(self.options, "allow.op")
+  if type(allow) ~= "string" then allow = "" end
+  return {
+    ok = false,
+    err = "DingconnectSDK: " .. op .. ": operation not allowed by" ..
+      " SDK option allow.op value: \"" .. allow .. "\"",
+  }
+end
+
+
+-- Ungated request path shared by direct and graphql, each of which checks its
+-- own allow.op token first. Private, rather than a flag on fetchargs: a
+-- caller-supplied marker would let anyone opt straight back out of the gate
+-- by passing it.
+function DingconnectSDK:_raw_request(fetchargs)
   local utility = self._utility
 
   local fetchdef, err = self:prepare(fetchargs)
@@ -250,6 +284,57 @@ function DingconnectSDK:direct(fetchargs)
 end
 
 
+-- Raw GraphQL access: the pressure valve that makes the generated surface's
+-- deliberate omissions (per-call selection sets, typed filter builders,
+-- batching, subscriptions) livable — the whole schema stays reachable.
+--
+-- Thin wrapper over the same prepare/fetch path direct uses, with the one
+-- thing raw direct cannot do for GraphQL: a GraphQL failure rides HTTP 200 as
+-- a top-level `errors` array, so status alone would report a failed query as
+-- ok.
+--
+-- NOTE: like direct, this bypasses the feature pipeline — no retry, ratelimit
+-- or paging features apply.
+function DingconnectSDK:graphql(query, variables, ctrl)
+  if not self:_op_allowed("graphql") then
+    return self:_op_denied("graphql"), nil
+  end
+
+  local res, err = self:_raw_request({
+    method = "POST",
+    headers = { ["content-type"] = "application/json" },
+    body = {
+      query = query,
+      variables = type(variables) == "table" and variables or {},
+    },
+    ctrl = type(ctrl) == "table" and ctrl or {},
+  })
+
+  if err ~= nil or type(res) ~= "table" then
+    return res, err
+  end
+
+  -- Errors are read BEFORE any status check: a GraphQL parse or validation
+  -- failure comes back as HTTP 400 carrying the standard { errors = {...} }
+  -- body, and the raw path represents a non-2xx as ok=false with no err — so
+  -- returning early on status would discard the server's own diagnostics,
+  -- which are the only useful part of that response.
+  local errors = vs.getpath(res, "data.errors")
+
+  if type(errors) == "table" and 0 < #errors then
+    local msg = vs.getprop(errors[1], "message")
+    if type(msg) ~= "string" or msg == "" then
+      msg = "graphql error"
+    end
+    res.ok = false
+    res.err = "DingconnectSDK: graphql: " .. msg
+    res.graphql = errors
+  end
+
+  return res, nil
+end
+
+
 
 -- Idiomatic facade: client:AccountLookup():list() / client:AccountLookup():load({ id = ... })
 -- Entity access is capitalised (PascalCase) for parity with the other SDKs.
@@ -279,15 +364,15 @@ function DingconnectSDK:Balance(data)
 end
 
 
--- Idiomatic facade: client:CancelResult():list() / client:CancelResult():load({ id = ... })
+-- Idiomatic facade: client:CancelTransfer():list() / client:CancelTransfer():load({ id = ... })
 -- Entity access is capitalised (PascalCase) for parity with the other SDKs.
-function DingconnectSDK:CancelResult(data)
-  local EntityMod = require("entity.cancel_result_entity")
+function DingconnectSDK:CancelTransfer(data)
+  local EntityMod = require("entity.cancel_transfer_entity")
   if data == nil then
-    if self._cancel_result == nil then
-      self._cancel_result = EntityMod.new(self, nil)
+    if self._cancel_transfer == nil then
+      self._cancel_transfer = EntityMod.new(self, nil)
     end
-    return self._cancel_result
+    return self._cancel_transfer
   end
   return EntityMod.new(self, data)
 end
@@ -335,15 +420,43 @@ function DingconnectSDK:ErrorCodeDescription(data)
 end
 
 
--- Idiomatic facade: client:Estimate():list() / client:Estimate():load({ id = ... })
+-- Idiomatic facade: client:EstimatePrice():list() / client:EstimatePrice():load({ id = ... })
 -- Entity access is capitalised (PascalCase) for parity with the other SDKs.
-function DingconnectSDK:Estimate(data)
-  local EntityMod = require("entity.estimate_entity")
+function DingconnectSDK:EstimatePrice(data)
+  local EntityMod = require("entity.estimate_price_entity")
   if data == nil then
-    if self._estimate == nil then
-      self._estimate = EntityMod.new(self, nil)
+    if self._estimate_price == nil then
+      self._estimate_price = EntityMod.new(self, nil)
     end
-    return self._estimate
+    return self._estimate_price
+  end
+  return EntityMod.new(self, data)
+end
+
+
+-- Idiomatic facade: client:ListTransferRecord():list() / client:ListTransferRecord():load({ id = ... })
+-- Entity access is capitalised (PascalCase) for parity with the other SDKs.
+function DingconnectSDK:ListTransferRecord(data)
+  local EntityMod = require("entity.list_transfer_record_entity")
+  if data == nil then
+    if self._list_transfer_record == nil then
+      self._list_transfer_record = EntityMod.new(self, nil)
+    end
+    return self._list_transfer_record
+  end
+  return EntityMod.new(self, data)
+end
+
+
+-- Idiomatic facade: client:LookupBill():list() / client:LookupBill():load({ id = ... })
+-- Entity access is capitalised (PascalCase) for parity with the other SDKs.
+function DingconnectSDK:LookupBill(data)
+  local EntityMod = require("entity.lookup_bill_entity")
+  if data == nil then
+    if self._lookup_bill == nil then
+      self._lookup_bill = EntityMod.new(self, nil)
+    end
+    return self._lookup_bill
   end
   return EntityMod.new(self, data)
 end
@@ -456,20 +569,6 @@ function DingconnectSDK:SendTransfer(data)
       self._send_transfer = EntityMod.new(self, nil)
     end
     return self._send_transfer
-  end
-  return EntityMod.new(self, data)
-end
-
-
--- Idiomatic facade: client:TransferRecord():list() / client:TransferRecord():load({ id = ... })
--- Entity access is capitalised (PascalCase) for parity with the other SDKs.
-function DingconnectSDK:TransferRecord(data)
-  local EntityMod = require("entity.transfer_record_entity")
-  if data == nil then
-    if self._transfer_record == nil then
-      self._transfer_record = EntityMod.new(self, nil)
-    end
-    return self._transfer_record
   end
   return EntityMod.new(self, data)
 end

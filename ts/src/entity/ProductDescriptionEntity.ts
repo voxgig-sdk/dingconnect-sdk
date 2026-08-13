@@ -37,7 +37,7 @@ class ProductDescriptionEntity extends DingconnectEntityBase<ProductDescription>
 
 
 
-  async list(this: any, reqmatch?: ProductDescriptionListMatch, ctrl?: Control): Promise<ProductDescription[]> {
+  async list(this: any, reqmatch?: ProductDescriptionListMatch, ctrl?: Control): Promise<ProductDescriptionEntity[]> {
 
     const utility = this._utility
 

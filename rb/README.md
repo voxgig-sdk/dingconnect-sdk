@@ -39,7 +39,7 @@ begin
   # list returns an Array of AccountLookup records — iterate directly.
   accountlookups = client.AccountLookup.list
   accountlookups.each do |item|
-    puts "#{item["account_number_normalized"]}"
+    puts "#{item["AccountNumberNormalized"]}"
   end
 rescue => err
   warn "list failed: #{err}"
@@ -121,7 +121,8 @@ Create a mock client for unit testing — no server required:
 ```ruby
 client = DingconnectSDK.test
 
-# Entity ops return the bare mock record (raises on error).
+# Entity ops return the ENTITY (raises on error);
+# call data_get for the mock record.
 currency = client.Currency.list()
 puts currency
 ```
@@ -203,11 +204,13 @@ Creates a test-mode client with mock transport. Both arguments may be `nil`.
 | `direct` | `(fetchargs) -> Hash` | Build and send an HTTP request. Returns a result hash (`result["ok"]`); does not raise. |
 | `AccountLookup` | `(data) -> AccountLookupEntity` | Create an AccountLookup entity instance. |
 | `Balance` | `(data) -> BalanceEntity` | Create a Balance entity instance. |
-| `CancelResult` | `(data) -> CancelResultEntity` | Create a CancelResult entity instance. |
+| `CancelTransfer` | `(data) -> CancelTransferEntity` | Create a CancelTransfer entity instance. |
 | `Country` | `(data) -> CountryEntity` | Create a Country entity instance. |
 | `Currency` | `(data) -> CurrencyEntity` | Create a Currency entity instance. |
 | `ErrorCodeDescription` | `(data) -> ErrorCodeDescriptionEntity` | Create an ErrorCodeDescription entity instance. |
-| `Estimate` | `(data) -> EstimateEntity` | Create an Estimate entity instance. |
+| `EstimatePrice` | `(data) -> EstimatePriceEntity` | Create an EstimatePrice entity instance. |
+| `ListTransferRecord` | `(data) -> ListTransferRecordEntity` | Create a ListTransferRecord entity instance. |
+| `LookupBill` | `(data) -> LookupBillEntity` | Create a LookupBill entity instance. |
 | `Product` | `(data) -> ProductEntity` | Create a Product entity instance. |
 | `ProductDescription` | `(data) -> ProductDescriptionEntity` | Create a ProductDescription entity instance. |
 | `Promotion` | `(data) -> PromotionEntity` | Create a Promotion entity instance. |
@@ -216,7 +219,6 @@ Creates a test-mode client with mock transport. Both arguments may be `nil`.
 | `ProviderStatus` | `(data) -> ProviderStatusEntity` | Create a ProviderStatus entity instance. |
 | `Region` | `(data) -> RegionEntity` | Create a Region entity instance. |
 | `SendTransfer` | `(data) -> SendTransferEntity` | Create a SendTransfer entity instance. |
-| `TransferRecord` | `(data) -> TransferRecordEntity` | Create a TransferRecord entity instance. |
 
 ### Entity interface
 
@@ -256,210 +258,207 @@ returns a result `Hash` with these keys:
 
 | Field | Description |
 | --- | --- |
-| `account_number_normalized` |  |
-| `country_iso` |  |
-| `error_code` |  |
-| `item` |  |
-| `result_code` |  |
+| `AccountNumberNormalized` |  |
+| `CountryIso` |  |
+| `ErrorCodes` |  |
+| `Items` |  |
+| `ResultCode` |  |
 
 Operations: List.
 
-API path: `/GetAccountLookup`
+API path: `/api/V1/GetAccountLookup`
 
 #### Balance
 
 | Field | Description |
 | --- | --- |
-| `code` |  |
-| `context` |  |
+| `Code` |  |
+| `Context` |  |
 
 Operations: List.
 
-API path: `/GetBalance`
+API path: `/api/V1/GetBalance`
 
-#### CancelResult
+#### CancelTransfer
 
 | Field | Description |
 | --- | --- |
-| `error_code` |  |
-| `item` |  |
-| `result_code` |  |
+| `ErrorCodes` |  |
+| `Items` |  |
+| `ResultCode` |  |
 
 Operations: Create.
 
-API path: `/CancelTransfers`
+API path: `/api/V1/CancelTransfers`
 
 #### Country
 
 | Field | Description |
 | --- | --- |
-| `error_code` |  |
-| `item` |  |
-| `result_code` |  |
+| `ErrorCodes` |  |
+| `Items` |  |
+| `ResultCode` |  |
 
 Operations: List.
 
-API path: `/GetCountries`
+API path: `/api/V1/GetCountries`
 
 #### Currency
 
 | Field | Description |
 | --- | --- |
-| `error_code` |  |
-| `item` |  |
-| `result_code` |  |
+| `ErrorCodes` |  |
+| `Items` |  |
+| `ResultCode` |  |
 
 Operations: List.
 
-API path: `/GetCurrencies`
+API path: `/api/V1/GetCurrencies`
 
 #### ErrorCodeDescription
 
 | Field | Description |
 | --- | --- |
-| `error_code` |  |
-| `item` |  |
-| `result_code` |  |
+| `ErrorCodes` |  |
+| `Items` |  |
+| `ResultCode` |  |
 
 Operations: List.
 
-API path: `/GetErrorCodeDescriptions`
+API path: `/api/V1/GetErrorCodeDescriptions`
 
-#### Estimate
+#### EstimatePrice
 
 | Field | Description |
 | --- | --- |
-| `error_code` |  |
-| `item` |  |
-| `result_code` |  |
+| `ErrorCodes` |  |
+| `Items` |  |
+| `ResultCode` |  |
 
 Operations: Create.
 
-API path: `/EstimatePrices`
+API path: `/api/V1/EstimatePrices`
+
+#### ListTransferRecord
+
+| Field | Description |
+| --- | --- |
+| `ErrorCodes` |  |
+| `Items` |  |
+| `ResultCode` |  |
+| `ThereAreMoreItems` |  |
+
+Operations: Create.
+
+API path: `/api/V1/ListTransferRecords`
+
+#### LookupBill
+
+| Field | Description |
+| --- | --- |
+| `ErrorCodes` |  |
+| `Items` |  |
+| `ResultCode` |  |
+
+Operations: Create.
+
+API path: `/api/V1/LookupBills`
 
 #### Product
 
 | Field | Description |
 | --- | --- |
-| `error_code` |  |
-| `item` |  |
-| `result_code` |  |
+| `ErrorCodes` |  |
+| `Items` |  |
+| `ResultCode` |  |
 
 Operations: List.
 
-API path: `/GetProducts`
+API path: `/api/V1/GetProducts`
 
 #### ProductDescription
 
 | Field | Description |
 | --- | --- |
-| `error_code` |  |
-| `item` |  |
-| `result_code` |  |
+| `ErrorCodes` |  |
+| `Items` |  |
+| `ResultCode` |  |
 
 Operations: List.
 
-API path: `/GetProductDescriptions`
+API path: `/api/V1/GetProductDescriptions`
 
 #### Promotion
 
 | Field | Description |
 | --- | --- |
-| `error_code` |  |
-| `item` |  |
-| `result_code` |  |
+| `ErrorCodes` |  |
+| `Items` |  |
+| `ResultCode` |  |
 
 Operations: List.
 
-API path: `/GetPromotions`
+API path: `/api/V1/GetPromotions`
 
 #### PromotionDescription
 
 | Field | Description |
 | --- | --- |
-| `error_code` |  |
-| `item` |  |
-| `result_code` |  |
+| `ErrorCodes` |  |
+| `Items` |  |
+| `ResultCode` |  |
 
 Operations: List.
 
-API path: `/GetPromotionDescriptions`
+API path: `/api/V1/GetPromotionDescriptions`
 
 #### Provider
 
 | Field | Description |
 | --- | --- |
-| `error_code` |  |
-| `item` |  |
-| `result_code` |  |
+| `ErrorCodes` |  |
+| `Items` |  |
+| `ResultCode` |  |
 
 Operations: List.
 
-API path: `/GetProviders`
+API path: `/api/V1/GetProviders`
 
 #### ProviderStatus
 
 | Field | Description |
 | --- | --- |
-| `error_code` |  |
-| `item` |  |
-| `result_code` |  |
+| `ErrorCodes` |  |
+| `Items` |  |
+| `ResultCode` |  |
 
 Operations: List.
 
-API path: `/GetProviderStatus`
+API path: `/api/V1/GetProviderStatus`
 
 #### Region
 
 | Field | Description |
 | --- | --- |
-| `error_code` |  |
-| `item` |  |
-| `result_code` |  |
+| `ErrorCodes` |  |
+| `Items` |  |
+| `ResultCode` |  |
 
 Operations: List.
 
-API path: `/GetRegions`
+API path: `/api/V1/GetRegions`
 
 #### SendTransfer
 
 | Field | Description |
 | --- | --- |
-| `account_number` |  |
-| `distributor_ref` |  |
-| `error_code` |  |
-| `result_code` |  |
-| `send_currency_iso` |  |
-| `send_value` |  |
-| `setting` |  |
-| `sku_code` |  |
-| `transfer_record` |  |
-| `validate_only` |  |
+| `ErrorCodes` |  |
+| `ResultCode` |  |
+| `TransferRecord` |  |
 
 Operations: Create.
 
-API path: `/SendTransfer`
-
-#### TransferRecord
-
-| Field | Description |
-| --- | --- |
-| `account_number` |  |
-| `distributor_ref` |  |
-| `ended_at_utc` |  |
-| `error_code` |  |
-| `item` |  |
-| `result_code` |  |
-| `skip` |  |
-| `sku_code` |  |
-| `started_at_utc` |  |
-| `take` |  |
-| `there_are_more_item` |  |
-| `transfer_ref` |  |
-
-Operations: Create.
-
-API path: `/ListTransferRecords`
+API path: `/api/V1/SendTransfer`
 
 
 
@@ -480,11 +479,11 @@ Create an instance: `account_lookup = client.AccountLookup`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `account_number_normalized` | `String` |  |
-| `country_iso` | `String` |  |
-| `error_code` | `Array` |  |
-| `item` | `Array` |  |
-| `result_code` | `Integer` |  |
+| `AccountNumberNormalized` | `String` |  |
+| `CountryIso` | `String` |  |
+| `ErrorCodes` | `Array` |  |
+| `Items` | `Array` |  |
+| `ResultCode` | `Integer` |  |
 
 #### Example: List
 
@@ -508,8 +507,8 @@ Create an instance: `balance = client.Balance`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `code` | `String` |  |
-| `context` | `String` |  |
+| `Code` | `String` |  |
+| `Context` | `String` |  |
 
 #### Example: List
 
@@ -519,9 +518,9 @@ balances = client.Balance.list
 ```
 
 
-### CancelResult
+### CancelTransfer
 
-Create an instance: `cancel_result = client.CancelResult`
+Create an instance: `cancel_transfer = client.CancelTransfer`
 
 #### Operations
 
@@ -533,14 +532,17 @@ Create an instance: `cancel_result = client.CancelResult`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `error_code` | `Array` |  |
-| `item` | `Array` |  |
-| `result_code` | `Integer` |  |
+| `ErrorCodes` | `Array` |  |
+| `Items` | `Array` |  |
+| `ResultCode` | `Integer` |  |
 
 #### Example: Create
 
 ```ruby
-cancel_result = client.CancelResult.create({
+cancel_transfer = client.CancelTransfer.create({
+  "ErrorCodes" => [], # Array
+  "Items" => [], # Array
+  "ResultCode" => 1, # Integer
 })
 ```
 
@@ -559,9 +561,9 @@ Create an instance: `country = client.Country`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `error_code` | `Array` |  |
-| `item` | `Array` |  |
-| `result_code` | `Integer` |  |
+| `ErrorCodes` | `Array` |  |
+| `Items` | `Array` |  |
+| `ResultCode` | `Integer` |  |
 
 #### Example: List
 
@@ -585,9 +587,9 @@ Create an instance: `currency = client.Currency`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `error_code` | `Array` |  |
-| `item` | `Array` |  |
-| `result_code` | `Integer` |  |
+| `ErrorCodes` | `Array` |  |
+| `Items` | `Array` |  |
+| `ResultCode` | `Integer` |  |
 
 #### Example: List
 
@@ -611,9 +613,9 @@ Create an instance: `error_code_description = client.ErrorCodeDescription`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `error_code` | `Array` |  |
-| `item` | `Array` |  |
-| `result_code` | `Integer` |  |
+| `ErrorCodes` | `Array` |  |
+| `Items` | `Array` |  |
+| `ResultCode` | `Integer` |  |
 
 #### Example: List
 
@@ -623,9 +625,9 @@ error_code_descriptions = client.ErrorCodeDescription.list
 ```
 
 
-### Estimate
+### EstimatePrice
 
-Create an instance: `estimate = client.Estimate`
+Create an instance: `estimate_price = client.EstimatePrice`
 
 #### Operations
 
@@ -637,14 +639,77 @@ Create an instance: `estimate = client.Estimate`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `error_code` | `Array` |  |
-| `item` | `Array` |  |
-| `result_code` | `Integer` |  |
+| `ErrorCodes` | `Array` |  |
+| `Items` | `Array` |  |
+| `ResultCode` | `Integer` |  |
 
 #### Example: Create
 
 ```ruby
-estimate = client.Estimate.create({
+estimate_price = client.EstimatePrice.create({
+  "ErrorCodes" => [], # Array
+  "Items" => [], # Array
+  "ResultCode" => 1, # Integer
+})
+```
+
+
+### ListTransferRecord
+
+Create an instance: `list_transfer_record = client.ListTransferRecord`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `create(data)` | Create a new entity with the given data. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `ErrorCodes` | `Array` |  |
+| `Items` | `Array` |  |
+| `ResultCode` | `Integer` |  |
+| `ThereAreMoreItems` | `Boolean` |  |
+
+#### Example: Create
+
+```ruby
+list_transfer_record = client.ListTransferRecord.create({
+  "ErrorCodes" => [], # Array
+  "Items" => [], # Array
+  "ResultCode" => 1, # Integer
+  "ThereAreMoreItems" => true, # Boolean
+})
+```
+
+
+### LookupBill
+
+Create an instance: `lookup_bill = client.LookupBill`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `create(data)` | Create a new entity with the given data. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `ErrorCodes` | `Array` |  |
+| `Items` | `Array` |  |
+| `ResultCode` | `Integer` |  |
+
+#### Example: Create
+
+```ruby
+lookup_bill = client.LookupBill.create({
+  "ErrorCodes" => [], # Array
+  "Items" => [], # Array
+  "ResultCode" => 1, # Integer
 })
 ```
 
@@ -663,9 +728,9 @@ Create an instance: `product = client.Product`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `error_code` | `Array` |  |
-| `item` | `Array` |  |
-| `result_code` | `Integer` |  |
+| `ErrorCodes` | `Array` |  |
+| `Items` | `Array` |  |
+| `ResultCode` | `Integer` |  |
 
 #### Example: List
 
@@ -689,9 +754,9 @@ Create an instance: `product_description = client.ProductDescription`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `error_code` | `Array` |  |
-| `item` | `Array` |  |
-| `result_code` | `Integer` |  |
+| `ErrorCodes` | `Array` |  |
+| `Items` | `Array` |  |
+| `ResultCode` | `Integer` |  |
 
 #### Example: List
 
@@ -715,9 +780,9 @@ Create an instance: `promotion = client.Promotion`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `error_code` | `Array` |  |
-| `item` | `Array` |  |
-| `result_code` | `Integer` |  |
+| `ErrorCodes` | `Array` |  |
+| `Items` | `Array` |  |
+| `ResultCode` | `Integer` |  |
 
 #### Example: List
 
@@ -741,9 +806,9 @@ Create an instance: `promotion_description = client.PromotionDescription`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `error_code` | `Array` |  |
-| `item` | `Array` |  |
-| `result_code` | `Integer` |  |
+| `ErrorCodes` | `Array` |  |
+| `Items` | `Array` |  |
+| `ResultCode` | `Integer` |  |
 
 #### Example: List
 
@@ -767,9 +832,9 @@ Create an instance: `provider = client.Provider`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `error_code` | `Array` |  |
-| `item` | `Array` |  |
-| `result_code` | `Integer` |  |
+| `ErrorCodes` | `Array` |  |
+| `Items` | `Array` |  |
+| `ResultCode` | `Integer` |  |
 
 #### Example: List
 
@@ -793,9 +858,9 @@ Create an instance: `provider_status = client.ProviderStatus`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `error_code` | `Array` |  |
-| `item` | `Array` |  |
-| `result_code` | `Integer` |  |
+| `ErrorCodes` | `Array` |  |
+| `Items` | `Array` |  |
+| `ResultCode` | `Integer` |  |
 
 #### Example: List
 
@@ -819,9 +884,9 @@ Create an instance: `region = client.Region`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `error_code` | `Array` |  |
-| `item` | `Array` |  |
-| `result_code` | `Integer` |  |
+| `ErrorCodes` | `Array` |  |
+| `Items` | `Array` |  |
+| `ResultCode` | `Integer` |  |
 
 #### Example: List
 
@@ -845,62 +910,17 @@ Create an instance: `send_transfer = client.SendTransfer`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `account_number` | `String` |  |
-| `distributor_ref` | `String` |  |
-| `error_code` | `Array` |  |
-| `result_code` | `Integer` |  |
-| `send_currency_iso` | `String` |  |
-| `send_value` | `Float` |  |
-| `setting` | `Array` |  |
-| `sku_code` | `String` |  |
-| `transfer_record` | `Hash` |  |
-| `validate_only` | `Boolean` |  |
+| `ErrorCodes` | `Array` |  |
+| `ResultCode` | `Integer` |  |
+| `TransferRecord` | `Hash` |  |
 
 #### Example: Create
 
 ```ruby
 send_transfer = client.SendTransfer.create({
-  "account_number" => "example_account_number", # String
-  "distributor_ref" => "example_distributor_ref", # String
-  "send_value" => 1, # Float
-  "sku_code" => "example_sku_code", # String
-})
-```
-
-
-### TransferRecord
-
-Create an instance: `transfer_record = client.TransferRecord`
-
-#### Operations
-
-| Method | Description |
-| --- | --- |
-| `create(data)` | Create a new entity with the given data. |
-
-#### Fields
-
-| Field | Type | Description |
-| --- | --- | --- |
-| `account_number` | `String` |  |
-| `distributor_ref` | `Array` |  |
-| `ended_at_utc` | `String` |  |
-| `error_code` | `Array` |  |
-| `item` | `Array` |  |
-| `result_code` | `Integer` |  |
-| `skip` | `Integer` |  |
-| `sku_code` | `Array` |  |
-| `started_at_utc` | `String` |  |
-| `take` | `Integer` |  |
-| `there_are_more_item` | `Boolean` |  |
-| `transfer_ref` | `Array` |  |
-
-#### Example: Create
-
-```ruby
-transfer_record = client.TransferRecord.create({
-  "skip" => 1, # Integer
-  "take" => 1, # Integer
+  "ErrorCodes" => [], # Array
+  "ResultCode" => 1, # Integer
+  "TransferRecord" => {}, # Hash
 })
 ```
 

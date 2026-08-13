@@ -25,7 +25,7 @@ class CurrencyDirectTest extends TestCase
 
 
         $result = $client->direct([
-            "path" => "GetCurrencies",
+            "path" => "api/V1/GetCurrencies",
             "method" => "GET",
             "params" => [],
         ]);

@@ -31,7 +31,7 @@ Each feature is generated into every SDK target — as a directory
 `<lang>/src/feature/<name>/` (ts/js) or a flat file in the `<lang>/feature/`
 package (other languages). Each target's guide documents its features.
 
-**Entities** (16): `AccountLookup`, `Balance`, `CancelResult`, `Country`, `Currency`, `ErrorCodeDescription`, `Estimate`, `Product`, `ProductDescription`, `Promotion`, `PromotionDescription`, `Provider`, `ProviderStatus`, `Region`, `SendTransfer`, `TransferRecord`.
+**Entities** (17): `AccountLookup`, `Balance`, `CancelTransfer`, `Country`, `Currency`, `ErrorCodeDescription`, `EstimatePrice`, `ListTransferRecord`, `LookupBill`, `Product`, `ProductDescription`, `Promotion`, `PromotionDescription`, `Provider`, `ProviderStatus`, `Region`, `SendTransfer`.
 
 ## Generating and updating the SDK
 

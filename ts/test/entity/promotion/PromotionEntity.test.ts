@@ -63,7 +63,7 @@ describe('PromotionEntity', async () => {
     const promotion_ref01_ent = client.Promotion()
     const promotion_ref01_match: any = {}
 
-    const promotion_ref01_list = await promotion_ref01_ent.list(promotion_ref01_match)
+    const promotion_ref01_list = (await promotion_ref01_ent.list(promotion_ref01_match)).map((e: any) => e.data())
 
 
   })

@@ -21,7 +21,7 @@ describe("CurrencyDirect", function()
 
 
     local result, err = client:direct({
-      path = "GetCurrencies",
+      path = "api/V1/GetCurrencies",
       method = "GET",
       params = {},
     })

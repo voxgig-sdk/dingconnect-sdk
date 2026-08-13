@@ -37,7 +37,7 @@ class ProviderStatusEntity extends DingconnectEntityBase<ProviderStatus> {
 
 
 
-  async list(this: any, reqmatch?: ProviderStatusListMatch, ctrl?: Control): Promise<ProviderStatus[]> {
+  async list(this: any, reqmatch?: ProviderStatusListMatch, ctrl?: Control): Promise<ProviderStatusEntity[]> {
 
     const utility = this._utility
 

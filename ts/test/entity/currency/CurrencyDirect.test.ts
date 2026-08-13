@@ -44,7 +44,7 @@ describe('CurrencyDirect', async () => {
     const query: any = {}
 
     const result: any = await client.direct({
-      path: 'GetCurrencies',
+      path: 'api/V1/GetCurrencies',
       method: 'GET',
       params,
       query,

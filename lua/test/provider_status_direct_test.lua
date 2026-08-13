@@ -21,7 +21,7 @@ describe("ProviderStatusDirect", function()
 
 
     local result, err = client:direct({
-      path = "GetProviderStatus",
+      path = "api/V1/GetProviderStatus",
       method = "GET",
       params = {},
     })

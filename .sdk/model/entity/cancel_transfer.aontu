@@ -1,0 +1,75 @@
+# Entity: cancel_transfer
+
+main: kit: entity: cancel_transfer: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "ErrorCodes"
+      req: true
+      type: "`$ARRAY`"
+    }
+    {
+      name: "Items"
+      req: true
+      type: "`$ARRAY`"
+    }
+    {
+      name: "ResultCode"
+      req: true
+      type: "`$INTEGER`"
+    }
+  ]
+
+  name: "cancel_transfer"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          args: {
+            header: [
+              {
+                kind: "header"
+                name: "x_correlation_id"
+                orig: "x_correlation_id"
+                reqd: false
+                type: "`$STRING`"
+              }
+            ]
+            query: [
+              {
+                kind: "query"
+                name: "cancellation_request"
+                orig: "cancellation_request"
+                reqd: true
+                type: "`$ARRAY`"
+              }
+            ]
+          }
+          method: "POST"
+          orig: "/api/V1/CancelTransfers"
+          parts: [
+            "api"
+            "V1"
+            "CancelTransfers"
+          ]
+          select: {
+            exist: [
+              "cancellation_request"
+              "x_correlation_id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

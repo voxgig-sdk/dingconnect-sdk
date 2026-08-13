@@ -37,7 +37,7 @@ const SDK_NAME = 'DingconnectSDK'
 
 // A fixture for every entity, so list()/load() resolve offline with no
 // network. Snippet client construction is rewritten to seed this.
-const TEST_SEED = {"entity":{"account_lookup":{"test01":{"id":"test01"}},"balance":{"test01":{"id":"test01"}},"cancel_result":{"test01":{"id":"test01"}},"country":{"test01":{"id":"test01"}},"currency":{"test01":{"id":"test01"}},"error_code_description":{"test01":{"id":"test01"}},"estimate":{"test01":{"id":"test01"}},"product":{"test01":{"id":"test01"}},"product_description":{"test01":{"id":"test01"}},"promotion":{"test01":{"id":"test01"}},"promotion_description":{"test01":{"id":"test01"}},"provider":{"test01":{"id":"test01"}},"provider_status":{"test01":{"id":"test01"}},"region":{"test01":{"id":"test01"}},"send_transfer":{"test01":{"id":"test01"}},"transfer_record":{"test01":{"id":"test01"}}}}
+const TEST_SEED = {"entity":{"account_lookup":{"test01":{"id":"test01"}},"balance":{"test01":{"id":"test01"}},"cancel_transfer":{"test01":{"id":"test01"}},"country":{"test01":{"id":"test01"}},"currency":{"test01":{"id":"test01"}},"error_code_description":{"test01":{"id":"test01"}},"estimate_price":{"test01":{"id":"test01"}},"list_transfer_record":{"test01":{"id":"test01"}},"lookup_bill":{"test01":{"id":"test01"}},"product":{"test01":{"id":"test01"}},"product_description":{"test01":{"id":"test01"}},"promotion":{"test01":{"id":"test01"}},"promotion_description":{"test01":{"id":"test01"}},"provider":{"test01":{"id":"test01"}},"provider_status":{"test01":{"id":"test01"}},"region":{"test01":{"id":"test01"}},"send_transfer":{"test01":{"id":"test01"}}}}
 const SEED_ARG = JSON.stringify(TEST_SEED)
 const SEEDED_CTOR = SDK_NAME + '.test(' + SEED_ARG + ')'
 

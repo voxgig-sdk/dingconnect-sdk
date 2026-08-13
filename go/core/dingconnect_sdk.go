@@ -2,6 +2,7 @@ package core
 
 import (
 	"fmt"
+	"strings"
 
 	vs "github.com/voxgig-sdk/dingconnect-sdk/go/utility/struct"
 )
@@ -174,7 +175,37 @@ func (sdk *DingconnectSDK) Prepare(fetchargs map[string]any) (map[string]any, er
 	return utility.MakeFetchDef(ctx)
 }
 
+// Raw endpoint access is operator-controllable, like every entity op.
+// Blocking it means denying BOTH the 'direct' and 'graphql' tokens, since
+// either one reaches the same endpoint.
 func (sdk *DingconnectSDK) Direct(fetchargs map[string]any) (map[string]any, error) {
+	if !sdk.opAllowed("direct") {
+		return sdk.opDenied("direct"), nil
+	}
+
+	return sdk.rawRequest(fetchargs)
+}
+
+// Is this raw-access op permitted by the SDK's allow.op option?
+func (sdk *DingconnectSDK) opAllowed(op string) bool {
+	allowOp, _ := vs.GetPath([]any{"allow", "op"}, sdk.options).(string)
+	return strings.Contains(allowOp, op)
+}
+
+func (sdk *DingconnectSDK) opDenied(op string) map[string]any {
+	allowOp, _ := vs.GetPath([]any{"allow", "op"}, sdk.options).(string)
+	return map[string]any{
+		"ok": false,
+		"err": fmt.Errorf("DingconnectSDK: %s: operation not allowed by"+
+			" SDK option allow.op value: \"%s\"", op, allowOp),
+	}
+}
+
+// Ungated request path shared by Direct and Graphql, each of which checks
+// its own allow.op token first. Unexported, rather than a flag on fetchargs:
+// a caller-supplied marker would let anyone opt straight back out of the
+// gate by passing it.
+func (sdk *DingconnectSDK) rawRequest(fetchargs map[string]any) (map[string]any, error) {
 	utility := sdk.utility
 
 	fetchdef, err := sdk.Prepare(fetchargs)
@@ -250,6 +281,62 @@ func (sdk *DingconnectSDK) Direct(fetchargs map[string]any) (map[string]any, err
 	return map[string]any{"ok": false, "err": ctx.MakeError("direct_invalid", "invalid response type")}, nil
 }
 
+// Raw GraphQL access: the pressure valve that makes the generated surface's
+// deliberate omissions (per-call selection sets, typed filter builders,
+// batching, subscriptions) livable — the whole schema stays reachable.
+//
+// Thin wrapper over the same prepare/fetch path Direct uses, with the one
+// thing raw Direct cannot do for GraphQL: a GraphQL failure rides HTTP 200
+// as a top-level `errors` array, so status alone would report a failed query
+// as ok.
+//
+// NOTE: like Direct, this bypasses the feature pipeline — no retry,
+// ratelimit or paging features apply.
+func (sdk *DingconnectSDK) Graphql(
+	query string, variables map[string]any, ctrl map[string]any,
+) (map[string]any, error) {
+	if !sdk.opAllowed("graphql") {
+		return sdk.opDenied("graphql"), nil
+	}
+
+	if variables == nil {
+		variables = map[string]any{}
+	}
+	if ctrl == nil {
+		ctrl = map[string]any{}
+	}
+
+	res, err := sdk.rawRequest(map[string]any{
+		"method":  "POST",
+		"headers": map[string]any{"content-type": "application/json"},
+		"body":    map[string]any{"query": query, "variables": variables},
+		"ctrl":    ctrl,
+	})
+
+	if err != nil {
+		return res, err
+	}
+
+	// Errors are read BEFORE any status check: a GraphQL parse or validation
+	// failure comes back as HTTP 400 carrying the standard { errors: [...] }
+	// body, and the raw path represents a non-2xx as ok:false with no err —
+	// so returning early on status would discard the server's own
+	// diagnostics, which are the only useful part of that response.
+	errors, _ := vs.GetPath([]any{"data", "errors"}, res).([]any)
+
+	if 0 < len(errors) {
+		msg, _ := vs.GetProp(errors[0], "message").(string)
+		if msg == "" {
+			msg = "graphql error"
+		}
+		res["ok"] = false
+		res["err"] = fmt.Errorf("DingconnectSDK: graphql: %s", msg)
+		res["graphql"] = errors
+	}
+
+	return res, nil
+}
+
 
 // AccountLookup returns a AccountLookup entity bound to this client.
 // Idiomatic usage: client.AccountLookup(nil).List(nil, nil) or
@@ -267,11 +354,11 @@ func (sdk *DingconnectSDK) Balance(data map[string]any) DingconnectEntity {
 }
 
 
-// CancelResult returns a CancelResult entity bound to this client.
-// Idiomatic usage: client.CancelResult(nil).List(nil, nil) or
-// client.CancelResult(nil).Load(map[string]any{"id": ...}, nil).
-func (sdk *DingconnectSDK) CancelResult(data map[string]any) DingconnectEntity {
-	return NewCancelResultEntityFunc(sdk, data)
+// CancelTransfer returns a CancelTransfer entity bound to this client.
+// Idiomatic usage: client.CancelTransfer(nil).List(nil, nil) or
+// client.CancelTransfer(nil).Load(map[string]any{"id": ...}, nil).
+func (sdk *DingconnectSDK) CancelTransfer(data map[string]any) DingconnectEntity {
+	return NewCancelTransferEntityFunc(sdk, data)
 }
 
 
@@ -299,11 +386,27 @@ func (sdk *DingconnectSDK) ErrorCodeDescription(data map[string]any) Dingconnect
 }
 
 
-// Estimate returns a Estimate entity bound to this client.
-// Idiomatic usage: client.Estimate(nil).List(nil, nil) or
-// client.Estimate(nil).Load(map[string]any{"id": ...}, nil).
-func (sdk *DingconnectSDK) Estimate(data map[string]any) DingconnectEntity {
-	return NewEstimateEntityFunc(sdk, data)
+// EstimatePrice returns a EstimatePrice entity bound to this client.
+// Idiomatic usage: client.EstimatePrice(nil).List(nil, nil) or
+// client.EstimatePrice(nil).Load(map[string]any{"id": ...}, nil).
+func (sdk *DingconnectSDK) EstimatePrice(data map[string]any) DingconnectEntity {
+	return NewEstimatePriceEntityFunc(sdk, data)
+}
+
+
+// ListTransferRecord returns a ListTransferRecord entity bound to this client.
+// Idiomatic usage: client.ListTransferRecord(nil).List(nil, nil) or
+// client.ListTransferRecord(nil).Load(map[string]any{"id": ...}, nil).
+func (sdk *DingconnectSDK) ListTransferRecord(data map[string]any) DingconnectEntity {
+	return NewListTransferRecordEntityFunc(sdk, data)
+}
+
+
+// LookupBill returns a LookupBill entity bound to this client.
+// Idiomatic usage: client.LookupBill(nil).List(nil, nil) or
+// client.LookupBill(nil).Load(map[string]any{"id": ...}, nil).
+func (sdk *DingconnectSDK) LookupBill(data map[string]any) DingconnectEntity {
+	return NewLookupBillEntityFunc(sdk, data)
 }
 
 
@@ -368,14 +471,6 @@ func (sdk *DingconnectSDK) Region(data map[string]any) DingconnectEntity {
 // client.SendTransfer(nil).Load(map[string]any{"id": ...}, nil).
 func (sdk *DingconnectSDK) SendTransfer(data map[string]any) DingconnectEntity {
 	return NewSendTransferEntityFunc(sdk, data)
-}
-
-
-// TransferRecord returns a TransferRecord entity bound to this client.
-// Idiomatic usage: client.TransferRecord(nil).List(nil, nil) or
-// client.TransferRecord(nil).Load(map[string]any{"id": ...}, nil).
-func (sdk *DingconnectSDK) TransferRecord(data map[string]any) DingconnectEntity {
-	return NewTransferRecordEntityFunc(sdk, data)
 }
 
 

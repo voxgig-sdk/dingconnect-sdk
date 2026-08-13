@@ -25,7 +25,7 @@ class CountryDirectTest extends TestCase
 
 
         $result = $client->direct([
-            "path" => "GetCountries",
+            "path" => "api/V1/GetCountries",
             "method" => "GET",
             "params" => [],
         ]);

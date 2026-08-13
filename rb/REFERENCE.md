@@ -50,9 +50,9 @@ Create a new `AccountLookup` entity instance. Pass `nil` for no initial data.
 
 Create a new `Balance` entity instance. Pass `nil` for no initial data.
 
-#### `CancelResult(data = nil)`
+#### `CancelTransfer(data = nil)`
 
-Create a new `CancelResult` entity instance. Pass `nil` for no initial data.
+Create a new `CancelTransfer` entity instance. Pass `nil` for no initial data.
 
 #### `Country(data = nil)`
 
@@ -66,9 +66,17 @@ Create a new `Currency` entity instance. Pass `nil` for no initial data.
 
 Create a new `ErrorCodeDescription` entity instance. Pass `nil` for no initial data.
 
-#### `Estimate(data = nil)`
+#### `EstimatePrice(data = nil)`
 
-Create a new `Estimate` entity instance. Pass `nil` for no initial data.
+Create a new `EstimatePrice` entity instance. Pass `nil` for no initial data.
+
+#### `ListTransferRecord(data = nil)`
+
+Create a new `ListTransferRecord` entity instance. Pass `nil` for no initial data.
+
+#### `LookupBill(data = nil)`
+
+Create a new `LookupBill` entity instance. Pass `nil` for no initial data.
 
 #### `Product(data = nil)`
 
@@ -101,10 +109,6 @@ Create a new `Region` entity instance. Pass `nil` for no initial data.
 #### `SendTransfer(data = nil)`
 
 Create a new `SendTransfer` entity instance. Pass `nil` for no initial data.
-
-#### `TransferRecord(data = nil)`
-
-Create a new `TransferRecord` entity instance. Pass `nil` for no initial data.
 
 #### `options_map -> Hash`
 
@@ -154,11 +158,11 @@ account_lookup = client.AccountLookup
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `account_number_normalized` | `String` | No |  |
-| `country_iso` | `String` | No |  |
-| `error_code` | `Array` | No |  |
-| `item` | `Array` | No |  |
-| `result_code` | `Integer` | No |  |
+| `AccountNumberNormalized` | `String` | No |  |
+| `CountryIso` | `String` | No |  |
+| `ErrorCodes` | `Array` | Yes |  |
+| `Items` | `Array` | Yes |  |
+| `ResultCode` | `Integer` | Yes |  |
 
 ### Operations
 
@@ -210,8 +214,8 @@ balance = client.Balance
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `code` | `String` | No |  |
-| `context` | `String` | No |  |
+| `Code` | `String` | Yes |  |
+| `Context` | `String` | No |  |
 
 ### Operations
 
@@ -253,19 +257,19 @@ Return the entity name.
 
 ---
 
-## CancelResultEntity
+## CancelTransferEntity
 
 ```ruby
-cancel_result = client.CancelResult
+cancel_transfer = client.CancelTransfer
 ```
 
 ### Fields
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `error_code` | `Array` | No |  |
-| `item` | `Array` | No |  |
-| `result_code` | `Integer` | No |  |
+| `ErrorCodes` | `Array` | Yes |  |
+| `Items` | `Array` | Yes |  |
+| `ResultCode` | `Integer` | Yes |  |
 
 ### Operations
 
@@ -274,7 +278,10 @@ cancel_result = client.CancelResult
 Create a new entity with the given data. Raises on error.
 
 ```ruby
-result = client.CancelResult.create({
+result = client.CancelTransfer.create({
+  "ErrorCodes" => [], # Array
+  "Items" => [], # Array
+  "ResultCode" => 1, # Integer
 })
 ```
 
@@ -298,7 +305,7 @@ Set the entity match criteria.
 
 #### `make -> Entity`
 
-Create a new `CancelResultEntity` instance with the same client and
+Create a new `CancelTransferEntity` instance with the same client and
 options.
 
 #### `get_name -> String`
@@ -318,9 +325,9 @@ country = client.Country
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `error_code` | `Array` | No |  |
-| `item` | `Array` | No |  |
-| `result_code` | `Integer` | No |  |
+| `ErrorCodes` | `Array` | Yes |  |
+| `Items` | `Array` | Yes |  |
+| `ResultCode` | `Integer` | Yes |  |
 
 ### Operations
 
@@ -372,9 +379,9 @@ currency = client.Currency
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `error_code` | `Array` | No |  |
-| `item` | `Array` | No |  |
-| `result_code` | `Integer` | No |  |
+| `ErrorCodes` | `Array` | Yes |  |
+| `Items` | `Array` | Yes |  |
+| `ResultCode` | `Integer` | Yes |  |
 
 ### Operations
 
@@ -426,9 +433,9 @@ error_code_description = client.ErrorCodeDescription
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `error_code` | `Array` | No |  |
-| `item` | `Array` | No |  |
-| `result_code` | `Integer` | No |  |
+| `ErrorCodes` | `Array` | Yes |  |
+| `Items` | `Array` | Yes |  |
+| `ResultCode` | `Integer` | Yes |  |
 
 ### Operations
 
@@ -470,19 +477,19 @@ Return the entity name.
 
 ---
 
-## EstimateEntity
+## EstimatePriceEntity
 
 ```ruby
-estimate = client.Estimate
+estimate_price = client.EstimatePrice
 ```
 
 ### Fields
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `error_code` | `Array` | No |  |
-| `item` | `Array` | No |  |
-| `result_code` | `Integer` | No |  |
+| `ErrorCodes` | `Array` | Yes |  |
+| `Items` | `Array` | Yes |  |
+| `ResultCode` | `Integer` | Yes |  |
 
 ### Operations
 
@@ -491,7 +498,10 @@ estimate = client.Estimate
 Create a new entity with the given data. Raises on error.
 
 ```ruby
-result = client.Estimate.create({
+result = client.EstimatePrice.create({
+  "ErrorCodes" => [], # Array
+  "Items" => [], # Array
+  "ResultCode" => 1, # Integer
 })
 ```
 
@@ -515,7 +525,125 @@ Set the entity match criteria.
 
 #### `make -> Entity`
 
-Create a new `EstimateEntity` instance with the same client and
+Create a new `EstimatePriceEntity` instance with the same client and
+options.
+
+#### `get_name -> String`
+
+Return the entity name.
+
+
+---
+
+## ListTransferRecordEntity
+
+```ruby
+list_transfer_record = client.ListTransferRecord
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `ErrorCodes` | `Array` | Yes |  |
+| `Items` | `Array` | Yes |  |
+| `ResultCode` | `Integer` | Yes |  |
+| `ThereAreMoreItems` | `Boolean` | Yes |  |
+
+### Operations
+
+#### `create(reqdata, ctrl = nil) -> result`
+
+Create a new entity with the given data. Raises on error.
+
+```ruby
+result = client.ListTransferRecord.create({
+  "ErrorCodes" => [], # Array
+  "Items" => [], # Array
+  "ResultCode" => 1, # Integer
+  "ThereAreMoreItems" => true, # Boolean
+})
+```
+
+### Common Methods
+
+#### `data_get -> Hash`
+
+Get the entity data. Returns a copy of the current data.
+
+#### `data_set(data)`
+
+Set the entity data.
+
+#### `match_get -> Hash`
+
+Get the entity match criteria.
+
+#### `match_set(match)`
+
+Set the entity match criteria.
+
+#### `make -> Entity`
+
+Create a new `ListTransferRecordEntity` instance with the same client and
+options.
+
+#### `get_name -> String`
+
+Return the entity name.
+
+
+---
+
+## LookupBillEntity
+
+```ruby
+lookup_bill = client.LookupBill
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `ErrorCodes` | `Array` | Yes |  |
+| `Items` | `Array` | Yes |  |
+| `ResultCode` | `Integer` | Yes |  |
+
+### Operations
+
+#### `create(reqdata, ctrl = nil) -> result`
+
+Create a new entity with the given data. Raises on error.
+
+```ruby
+result = client.LookupBill.create({
+  "ErrorCodes" => [], # Array
+  "Items" => [], # Array
+  "ResultCode" => 1, # Integer
+})
+```
+
+### Common Methods
+
+#### `data_get -> Hash`
+
+Get the entity data. Returns a copy of the current data.
+
+#### `data_set(data)`
+
+Set the entity data.
+
+#### `match_get -> Hash`
+
+Get the entity match criteria.
+
+#### `match_set(match)`
+
+Set the entity match criteria.
+
+#### `make -> Entity`
+
+Create a new `LookupBillEntity` instance with the same client and
 options.
 
 #### `get_name -> String`
@@ -535,9 +663,9 @@ product = client.Product
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `error_code` | `Array` | No |  |
-| `item` | `Array` | No |  |
-| `result_code` | `Integer` | No |  |
+| `ErrorCodes` | `Array` | Yes |  |
+| `Items` | `Array` | Yes |  |
+| `ResultCode` | `Integer` | Yes |  |
 
 ### Operations
 
@@ -589,9 +717,9 @@ product_description = client.ProductDescription
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `error_code` | `Array` | No |  |
-| `item` | `Array` | No |  |
-| `result_code` | `Integer` | No |  |
+| `ErrorCodes` | `Array` | Yes |  |
+| `Items` | `Array` | Yes |  |
+| `ResultCode` | `Integer` | Yes |  |
 
 ### Operations
 
@@ -643,9 +771,9 @@ promotion = client.Promotion
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `error_code` | `Array` | No |  |
-| `item` | `Array` | No |  |
-| `result_code` | `Integer` | No |  |
+| `ErrorCodes` | `Array` | Yes |  |
+| `Items` | `Array` | Yes |  |
+| `ResultCode` | `Integer` | Yes |  |
 
 ### Operations
 
@@ -697,9 +825,9 @@ promotion_description = client.PromotionDescription
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `error_code` | `Array` | No |  |
-| `item` | `Array` | No |  |
-| `result_code` | `Integer` | No |  |
+| `ErrorCodes` | `Array` | Yes |  |
+| `Items` | `Array` | Yes |  |
+| `ResultCode` | `Integer` | Yes |  |
 
 ### Operations
 
@@ -751,9 +879,9 @@ provider = client.Provider
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `error_code` | `Array` | No |  |
-| `item` | `Array` | No |  |
-| `result_code` | `Integer` | No |  |
+| `ErrorCodes` | `Array` | Yes |  |
+| `Items` | `Array` | Yes |  |
+| `ResultCode` | `Integer` | Yes |  |
 
 ### Operations
 
@@ -805,9 +933,9 @@ provider_status = client.ProviderStatus
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `error_code` | `Array` | No |  |
-| `item` | `Array` | No |  |
-| `result_code` | `Integer` | No |  |
+| `ErrorCodes` | `Array` | Yes |  |
+| `Items` | `Array` | Yes |  |
+| `ResultCode` | `Integer` | Yes |  |
 
 ### Operations
 
@@ -859,9 +987,9 @@ region = client.Region
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `error_code` | `Array` | No |  |
-| `item` | `Array` | No |  |
-| `result_code` | `Integer` | No |  |
+| `ErrorCodes` | `Array` | Yes |  |
+| `Items` | `Array` | Yes |  |
+| `ResultCode` | `Integer` | Yes |  |
 
 ### Operations
 
@@ -913,16 +1041,9 @@ send_transfer = client.SendTransfer
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `account_number` | `String` | Yes |  |
-| `distributor_ref` | `String` | Yes |  |
-| `error_code` | `Array` | No |  |
-| `result_code` | `Integer` | No |  |
-| `send_currency_iso` | `String` | No |  |
-| `send_value` | `Float` | Yes |  |
-| `setting` | `Array` | No |  |
-| `sku_code` | `String` | Yes |  |
-| `transfer_record` | `Hash` | No |  |
-| `validate_only` | `Boolean` | No |  |
+| `ErrorCodes` | `Array` | Yes |  |
+| `ResultCode` | `Integer` | Yes |  |
+| `TransferRecord` | `Hash` | Yes |  |
 
 ### Operations
 
@@ -932,10 +1053,9 @@ Create a new entity with the given data. Raises on error.
 
 ```ruby
 result = client.SendTransfer.create({
-  "account_number" => "example_account_number", # String
-  "distributor_ref" => "example_distributor_ref", # String
-  "send_value" => 1, # Float
-  "sku_code" => "example_sku_code", # String
+  "ErrorCodes" => [], # Array
+  "ResultCode" => 1, # Integer
+  "TransferRecord" => {}, # Hash
 })
 ```
 
@@ -960,72 +1080,6 @@ Set the entity match criteria.
 #### `make -> Entity`
 
 Create a new `SendTransferEntity` instance with the same client and
-options.
-
-#### `get_name -> String`
-
-Return the entity name.
-
-
----
-
-## TransferRecordEntity
-
-```ruby
-transfer_record = client.TransferRecord
-```
-
-### Fields
-
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `account_number` | `String` | No |  |
-| `distributor_ref` | `Array` | No |  |
-| `ended_at_utc` | `String` | No |  |
-| `error_code` | `Array` | No |  |
-| `item` | `Array` | No |  |
-| `result_code` | `Integer` | No |  |
-| `skip` | `Integer` | Yes |  |
-| `sku_code` | `Array` | No |  |
-| `started_at_utc` | `String` | No |  |
-| `take` | `Integer` | Yes |  |
-| `there_are_more_item` | `Boolean` | No |  |
-| `transfer_ref` | `Array` | No |  |
-
-### Operations
-
-#### `create(reqdata, ctrl = nil) -> result`
-
-Create a new entity with the given data. Raises on error.
-
-```ruby
-result = client.TransferRecord.create({
-  "skip" => 1, # Integer
-  "take" => 1, # Integer
-})
-```
-
-### Common Methods
-
-#### `data_get -> Hash`
-
-Get the entity data. Returns a copy of the current data.
-
-#### `data_set(data)`
-
-Set the entity data.
-
-#### `match_get -> Hash`
-
-Get the entity match criteria.
-
-#### `match_set(match)`
-
-Set the entity match criteria.
-
-#### `make -> Entity`
-
-Create a new `TransferRecordEntity` instance with the same client and
 options.
 
 #### `get_name -> String`

@@ -20,7 +20,7 @@ class RegionDirectTest < Minitest::Test
 
 
     result = client.direct({
-      "path" => "GetRegions",
+      "path" => "api/V1/GetRegions",
       "method" => "GET",
       "params" => {},
     })

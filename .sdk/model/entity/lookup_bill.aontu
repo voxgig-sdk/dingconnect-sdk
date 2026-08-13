@@ -1,0 +1,75 @@
+# Entity: lookup_bill
+
+main: kit: entity: lookup_bill: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "ErrorCodes"
+      req: true
+      type: "`$ARRAY`"
+    }
+    {
+      name: "Items"
+      req: true
+      type: "`$ARRAY`"
+    }
+    {
+      name: "ResultCode"
+      req: true
+      type: "`$INTEGER`"
+    }
+  ]
+
+  name: "lookup_bill"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          args: {
+            header: [
+              {
+                kind: "header"
+                name: "x_correlation_id"
+                orig: "x_correlation_id"
+                reqd: false
+                type: "`$STRING`"
+              }
+            ]
+            query: [
+              {
+                kind: "query"
+                name: "request"
+                orig: "request"
+                reqd: true
+                type: "`$OBJECT`"
+              }
+            ]
+          }
+          method: "POST"
+          orig: "/api/V1/LookupBills"
+          parts: [
+            "api"
+            "V1"
+            "LookupBills"
+          ]
+          select: {
+            exist: [
+              "request"
+              "x_correlation_id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

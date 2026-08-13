@@ -44,7 +44,7 @@ describe('ErrorCodeDescriptionDirect', async () => {
     const query: any = {}
 
     const result: any = await client.direct({
-      path: 'GetErrorCodeDescriptions',
+      path: 'api/V1/GetErrorCodeDescriptions',
       method: 'GET',
       params,
       query,

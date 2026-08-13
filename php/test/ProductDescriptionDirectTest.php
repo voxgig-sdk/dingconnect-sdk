@@ -25,7 +25,7 @@ class ProductDescriptionDirectTest extends TestCase
 
 
         $result = $client->direct([
-            "path" => "GetProductDescriptions",
+            "path" => "api/V1/GetProductDescriptions",
             "method" => "GET",
             "params" => [],
         ]);

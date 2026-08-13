@@ -6,15 +6,15 @@ import re
 
 import pytest
 
-from utility.voxgig_struct import voxgig_struct as vs
+from dingconnect_sdk.utility.voxgig_struct import voxgig_struct as vs
 from dingconnect_sdk import DingconnectSDK
-from core.spec import DingconnectSpec
-from core.result import DingconnectResult
-from core.response import DingconnectResponse
-from core.operation import DingconnectOperation
-from core.error import DingconnectError
-from core import helpers
-from feature.base_feature import DingconnectBaseFeature
+from dingconnect_sdk.core.spec import DingconnectSpec
+from dingconnect_sdk.core.result import DingconnectResult
+from dingconnect_sdk.core.response import DingconnectResponse
+from dingconnect_sdk.core.operation import DingconnectOperation
+from dingconnect_sdk.core.error import DingconnectError
+from dingconnect_sdk.core import helpers
+from dingconnect_sdk.feature.base_feature import DingconnectBaseFeature
 
 _TEST_DIR = os.path.dirname(os.path.abspath(__file__))
 

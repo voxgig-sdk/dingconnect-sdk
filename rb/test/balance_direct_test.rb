@@ -20,7 +20,7 @@ class BalanceDirectTest < Minitest::Test
 
 
     result = client.direct({
-      "path" => "GetBalance",
+      "path" => "api/V1/GetBalance",
       "method" => "GET",
       "params" => {},
     })

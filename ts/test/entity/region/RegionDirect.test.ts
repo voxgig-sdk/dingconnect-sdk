@@ -44,7 +44,7 @@ describe('RegionDirect', async () => {
     const query: any = {}
 
     const result: any = await client.direct({
-      path: 'GetRegions',
+      path: 'api/V1/GetRegions',
       method: 'GET',
       params,
       query,

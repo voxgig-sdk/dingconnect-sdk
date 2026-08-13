@@ -6,18 +6,18 @@ main: kit: entity: currency: {
 
   fields: [
     {
-      name: "error_code"
-      req: false
+      name: "ErrorCodes"
+      req: true
       type: "`$ARRAY`"
     }
     {
-      name: "item"
-      req: false
+      name: "Items"
+      req: true
       type: "`$ARRAY`"
     }
     {
-      name: "result_code"
-      req: false
+      name: "ResultCode"
+      req: true
       type: "`$INTEGER`"
     }
   ]
@@ -28,11 +28,29 @@ main: kit: entity: currency: {
       name: "list"
       points: [
         {
+          args: {
+            header: [
+              {
+                kind: "header"
+                name: "x_correlation_id"
+                orig: "x_correlation_id"
+                reqd: false
+                type: "`$STRING`"
+              }
+            ]
+          }
           method: "GET"
-          orig: "/GetCurrencies"
+          orig: "/api/V1/GetCurrencies"
           parts: [
+            "api"
+            "V1"
             "GetCurrencies"
           ]
+          select: {
+            exist: [
+              "x_correlation_id"
+            ]
+          }
           transform: {
             req: "`reqdata`"
             res: "`body`"

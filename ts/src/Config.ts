@@ -36,7 +36,7 @@ class Config {
 
 
   options = {
-    base: 'https://api.dingconnect.com/api/V1',
+    base: 'https://api.dingconnect.com',
 
     auth: {
       prefix: '',
@@ -54,7 +54,7 @@ class Config {
       balance: {
       },
 
-      cancel_result: {
+      cancel_transfer: {
       },
 
       country: {
@@ -66,7 +66,13 @@ class Config {
       error_code_description: {
       },
 
-      estimate: {
+      estimate_price: {
+      },
+
+      list_transfer_record: {
+      },
+
+      lookup_bill: {
       },
 
       product: {
@@ -93,9 +99,6 @@ class Config {
       send_transfer: {
       },
 
-      transfer_record: {
-      },
-
     }
   }
 
@@ -105,36 +108,36 @@ class Config {
       "fields": [
         {
           "active": true,
-          "name": "account_number_normalized",
+          "name": "AccountNumberNormalized",
           "req": false,
           "type": "`$STRING`",
           "index$": 0
         },
         {
           "active": true,
-          "name": "country_iso",
+          "name": "CountryIso",
           "req": false,
           "type": "`$STRING`",
           "index$": 1
         },
         {
           "active": true,
-          "name": "error_code",
-          "req": false,
+          "name": "ErrorCodes",
+          "req": true,
           "type": "`$ARRAY`",
           "index$": 2
         },
         {
           "active": true,
-          "name": "item",
-          "req": false,
+          "name": "Items",
+          "req": true,
           "type": "`$ARRAY`",
           "index$": 3
         },
         {
           "active": true,
-          "name": "result_code",
-          "req": false,
+          "name": "ResultCode",
+          "req": true,
           "type": "`$INTEGER`",
           "index$": 4
         }
@@ -148,25 +151,39 @@ class Config {
             {
               "active": true,
               "args": {
+                "header": [
+                  {
+                    "active": true,
+                    "kind": "header",
+                    "name": "x_correlation_id",
+                    "orig": "x_correlation_id",
+                    "reqd": false,
+                    "type": "`$STRING`"
+                  }
+                ],
                 "query": [
                   {
                     "active": true,
                     "kind": "query",
                     "name": "account_number",
                     "orig": "account_number",
-                    "reqd": true,
-                    "type": "`$STRING`"
+                    "reqd": false,
+                    "type": "`$INTEGER`"
                   }
                 ]
               },
+              "kind": "http",
               "method": "GET",
-              "orig": "/GetAccountLookup",
+              "orig": "/api/V1/GetAccountLookup",
               "parts": [
+                "api",
+                "V1",
                 "GetAccountLookup"
               ],
               "select": {
                 "exist": [
-                  "account_number"
+                  "account_number",
+                  "x_correlation_id"
                 ]
               },
               "transform": {
@@ -187,14 +204,14 @@ class Config {
       "fields": [
         {
           "active": true,
-          "name": "code",
-          "req": false,
+          "name": "Code",
+          "req": true,
           "type": "`$STRING`",
           "index$": 0
         },
         {
           "active": true,
-          "name": "context",
+          "name": "Context",
           "req": false,
           "type": "`$STRING`",
           "index$": 1
@@ -208,16 +225,34 @@ class Config {
           "points": [
             {
               "active": true,
-              "args": {},
+              "args": {
+                "header": [
+                  {
+                    "active": true,
+                    "kind": "header",
+                    "name": "x_correlation_id",
+                    "orig": "x_correlation_id",
+                    "reqd": false,
+                    "type": "`$STRING`"
+                  }
+                ]
+              },
+              "kind": "http",
               "method": "GET",
-              "orig": "/GetBalance",
+              "orig": "/api/V1/GetBalance",
               "parts": [
+                "api",
+                "V1",
                 "GetBalance"
               ],
-              "select": {},
+              "select": {
+                "exist": [
+                  "x_correlation_id"
+                ]
+              },
               "transform": {
                 "req": "`reqdata`",
-                "res": "`body`"
+                "res": "`body.ErrorCodes`"
               },
               "index$": 0
             }
@@ -229,31 +264,31 @@ class Config {
         "ancestors": []
       }
     },
-    "cancel_result": {
+    "cancel_transfer": {
       "fields": [
         {
           "active": true,
-          "name": "error_code",
-          "req": false,
+          "name": "ErrorCodes",
+          "req": true,
           "type": "`$ARRAY`",
           "index$": 0
         },
         {
           "active": true,
-          "name": "item",
-          "req": false,
+          "name": "Items",
+          "req": true,
           "type": "`$ARRAY`",
           "index$": 1
         },
         {
           "active": true,
-          "name": "result_code",
-          "req": false,
+          "name": "ResultCode",
+          "req": true,
           "type": "`$INTEGER`",
           "index$": 2
         }
       ],
-      "name": "cancel_result",
+      "name": "cancel_transfer",
       "op": {
         "create": {
           "input": "data",
@@ -261,13 +296,42 @@ class Config {
           "points": [
             {
               "active": true,
-              "args": {},
+              "args": {
+                "header": [
+                  {
+                    "active": true,
+                    "kind": "header",
+                    "name": "x_correlation_id",
+                    "orig": "x_correlation_id",
+                    "reqd": false,
+                    "type": "`$STRING`"
+                  }
+                ],
+                "query": [
+                  {
+                    "active": true,
+                    "kind": "query",
+                    "name": "cancellation_request",
+                    "orig": "cancellation_request",
+                    "reqd": true,
+                    "type": "`$ARRAY`"
+                  }
+                ]
+              },
+              "kind": "http",
               "method": "POST",
-              "orig": "/CancelTransfers",
+              "orig": "/api/V1/CancelTransfers",
               "parts": [
+                "api",
+                "V1",
                 "CancelTransfers"
               ],
-              "select": {},
+              "select": {
+                "exist": [
+                  "cancellation_request",
+                  "x_correlation_id"
+                ]
+              },
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
@@ -286,22 +350,22 @@ class Config {
       "fields": [
         {
           "active": true,
-          "name": "error_code",
-          "req": false,
+          "name": "ErrorCodes",
+          "req": true,
           "type": "`$ARRAY`",
           "index$": 0
         },
         {
           "active": true,
-          "name": "item",
-          "req": false,
+          "name": "Items",
+          "req": true,
           "type": "`$ARRAY`",
           "index$": 1
         },
         {
           "active": true,
-          "name": "result_code",
-          "req": false,
+          "name": "ResultCode",
+          "req": true,
           "type": "`$INTEGER`",
           "index$": 2
         }
@@ -314,13 +378,31 @@ class Config {
           "points": [
             {
               "active": true,
-              "args": {},
+              "args": {
+                "header": [
+                  {
+                    "active": true,
+                    "kind": "header",
+                    "name": "x_correlation_id",
+                    "orig": "x_correlation_id",
+                    "reqd": false,
+                    "type": "`$STRING`"
+                  }
+                ]
+              },
+              "kind": "http",
               "method": "GET",
-              "orig": "/GetCountries",
+              "orig": "/api/V1/GetCountries",
               "parts": [
+                "api",
+                "V1",
                 "GetCountries"
               ],
-              "select": {},
+              "select": {
+                "exist": [
+                  "x_correlation_id"
+                ]
+              },
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
@@ -339,22 +421,22 @@ class Config {
       "fields": [
         {
           "active": true,
-          "name": "error_code",
-          "req": false,
+          "name": "ErrorCodes",
+          "req": true,
           "type": "`$ARRAY`",
           "index$": 0
         },
         {
           "active": true,
-          "name": "item",
-          "req": false,
+          "name": "Items",
+          "req": true,
           "type": "`$ARRAY`",
           "index$": 1
         },
         {
           "active": true,
-          "name": "result_code",
-          "req": false,
+          "name": "ResultCode",
+          "req": true,
           "type": "`$INTEGER`",
           "index$": 2
         }
@@ -367,13 +449,31 @@ class Config {
           "points": [
             {
               "active": true,
-              "args": {},
+              "args": {
+                "header": [
+                  {
+                    "active": true,
+                    "kind": "header",
+                    "name": "x_correlation_id",
+                    "orig": "x_correlation_id",
+                    "reqd": false,
+                    "type": "`$STRING`"
+                  }
+                ]
+              },
+              "kind": "http",
               "method": "GET",
-              "orig": "/GetCurrencies",
+              "orig": "/api/V1/GetCurrencies",
               "parts": [
+                "api",
+                "V1",
                 "GetCurrencies"
               ],
-              "select": {},
+              "select": {
+                "exist": [
+                  "x_correlation_id"
+                ]
+              },
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
@@ -392,22 +492,22 @@ class Config {
       "fields": [
         {
           "active": true,
-          "name": "error_code",
-          "req": false,
+          "name": "ErrorCodes",
+          "req": true,
           "type": "`$ARRAY`",
           "index$": 0
         },
         {
           "active": true,
-          "name": "item",
-          "req": false,
+          "name": "Items",
+          "req": true,
           "type": "`$ARRAY`",
           "index$": 1
         },
         {
           "active": true,
-          "name": "result_code",
-          "req": false,
+          "name": "ResultCode",
+          "req": true,
           "type": "`$INTEGER`",
           "index$": 2
         }
@@ -420,13 +520,31 @@ class Config {
           "points": [
             {
               "active": true,
-              "args": {},
+              "args": {
+                "header": [
+                  {
+                    "active": true,
+                    "kind": "header",
+                    "name": "x_correlation_id",
+                    "orig": "x_correlation_id",
+                    "reqd": false,
+                    "type": "`$STRING`"
+                  }
+                ]
+              },
+              "kind": "http",
               "method": "GET",
-              "orig": "/GetErrorCodeDescriptions",
+              "orig": "/api/V1/GetErrorCodeDescriptions",
               "parts": [
+                "api",
+                "V1",
                 "GetErrorCodeDescriptions"
               ],
-              "select": {},
+              "select": {
+                "exist": [
+                  "x_correlation_id"
+                ]
+              },
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
@@ -441,31 +559,31 @@ class Config {
         "ancestors": []
       }
     },
-    "estimate": {
+    "estimate_price": {
       "fields": [
         {
           "active": true,
-          "name": "error_code",
-          "req": false,
+          "name": "ErrorCodes",
+          "req": true,
           "type": "`$ARRAY`",
           "index$": 0
         },
         {
           "active": true,
-          "name": "item",
-          "req": false,
+          "name": "Items",
+          "req": true,
           "type": "`$ARRAY`",
           "index$": 1
         },
         {
           "active": true,
-          "name": "result_code",
-          "req": false,
+          "name": "ResultCode",
+          "req": true,
           "type": "`$INTEGER`",
           "index$": 2
         }
       ],
-      "name": "estimate",
+      "name": "estimate_price",
       "op": {
         "create": {
           "input": "data",
@@ -473,13 +591,213 @@ class Config {
           "points": [
             {
               "active": true,
-              "args": {},
+              "args": {
+                "header": [
+                  {
+                    "active": true,
+                    "kind": "header",
+                    "name": "x_correlation_id",
+                    "orig": "x_correlation_id",
+                    "reqd": false,
+                    "type": "`$STRING`"
+                  }
+                ],
+                "query": [
+                  {
+                    "active": true,
+                    "kind": "query",
+                    "name": "requested_estimation",
+                    "orig": "requested_estimation",
+                    "reqd": true,
+                    "type": "`$ARRAY`"
+                  }
+                ]
+              },
+              "kind": "http",
               "method": "POST",
-              "orig": "/EstimatePrices",
+              "orig": "/api/V1/EstimatePrices",
               "parts": [
+                "api",
+                "V1",
                 "EstimatePrices"
               ],
-              "select": {},
+              "select": {
+                "exist": [
+                  "requested_estimation",
+                  "x_correlation_id"
+                ]
+              },
+              "transform": {
+                "req": "`reqdata`",
+                "res": "`body`"
+              },
+              "index$": 0
+            }
+          ],
+          "key$": "create"
+        }
+      },
+      "relations": {
+        "ancestors": []
+      }
+    },
+    "list_transfer_record": {
+      "fields": [
+        {
+          "active": true,
+          "name": "ErrorCodes",
+          "req": true,
+          "type": "`$ARRAY`",
+          "index$": 0
+        },
+        {
+          "active": true,
+          "name": "Items",
+          "req": true,
+          "type": "`$ARRAY`",
+          "index$": 1
+        },
+        {
+          "active": true,
+          "name": "ResultCode",
+          "req": true,
+          "type": "`$INTEGER`",
+          "index$": 2
+        },
+        {
+          "active": true,
+          "name": "ThereAreMoreItems",
+          "req": true,
+          "type": "`$BOOLEAN`",
+          "index$": 3
+        }
+      ],
+      "name": "list_transfer_record",
+      "op": {
+        "create": {
+          "input": "data",
+          "name": "create",
+          "points": [
+            {
+              "active": true,
+              "args": {
+                "header": [
+                  {
+                    "active": true,
+                    "kind": "header",
+                    "name": "x_correlation_id",
+                    "orig": "x_correlation_id",
+                    "reqd": false,
+                    "type": "`$STRING`"
+                  }
+                ],
+                "query": [
+                  {
+                    "active": true,
+                    "kind": "query",
+                    "name": "request",
+                    "orig": "request",
+                    "reqd": true,
+                    "type": "`$OBJECT`"
+                  }
+                ]
+              },
+              "kind": "http",
+              "method": "POST",
+              "orig": "/api/V1/ListTransferRecords",
+              "parts": [
+                "api",
+                "V1",
+                "ListTransferRecords"
+              ],
+              "select": {
+                "exist": [
+                  "request",
+                  "x_correlation_id"
+                ]
+              },
+              "transform": {
+                "req": "`reqdata`",
+                "res": "`body`"
+              },
+              "index$": 0
+            }
+          ],
+          "key$": "create"
+        }
+      },
+      "relations": {
+        "ancestors": []
+      }
+    },
+    "lookup_bill": {
+      "fields": [
+        {
+          "active": true,
+          "name": "ErrorCodes",
+          "req": true,
+          "type": "`$ARRAY`",
+          "index$": 0
+        },
+        {
+          "active": true,
+          "name": "Items",
+          "req": true,
+          "type": "`$ARRAY`",
+          "index$": 1
+        },
+        {
+          "active": true,
+          "name": "ResultCode",
+          "req": true,
+          "type": "`$INTEGER`",
+          "index$": 2
+        }
+      ],
+      "name": "lookup_bill",
+      "op": {
+        "create": {
+          "input": "data",
+          "name": "create",
+          "points": [
+            {
+              "active": true,
+              "args": {
+                "header": [
+                  {
+                    "active": true,
+                    "kind": "header",
+                    "name": "x_correlation_id",
+                    "orig": "x_correlation_id",
+                    "reqd": false,
+                    "type": "`$STRING`"
+                  }
+                ],
+                "query": [
+                  {
+                    "active": true,
+                    "kind": "query",
+                    "name": "request",
+                    "orig": "request",
+                    "reqd": true,
+                    "type": "`$OBJECT`"
+                  }
+                ]
+              },
+              "kind": "http",
+              "method": "POST",
+              "orig": "/api/V1/LookupBills",
+              "parts": [
+                "api",
+                "V1",
+                "LookupBills"
+              ],
+              "select": {
+                "exist": [
+                  "request",
+                  "x_correlation_id"
+                ]
+              },
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
@@ -498,22 +816,22 @@ class Config {
       "fields": [
         {
           "active": true,
-          "name": "error_code",
-          "req": false,
+          "name": "ErrorCodes",
+          "req": true,
           "type": "`$ARRAY`",
           "index$": 0
         },
         {
           "active": true,
-          "name": "item",
-          "req": false,
+          "name": "Items",
+          "req": true,
           "type": "`$ARRAY`",
           "index$": 1
         },
         {
           "active": true,
-          "name": "result_code",
-          "req": false,
+          "name": "ResultCode",
+          "req": true,
           "type": "`$INTEGER`",
           "index$": 2
         }
@@ -527,6 +845,16 @@ class Config {
             {
               "active": true,
               "args": {
+                "header": [
+                  {
+                    "active": true,
+                    "kind": "header",
+                    "name": "x_correlation_id",
+                    "orig": "x_correlation_id",
+                    "reqd": false,
+                    "type": "`$STRING`"
+                  }
+                ],
                 "query": [
                   {
                     "active": true,
@@ -534,7 +862,7 @@ class Config {
                     "name": "account_number",
                     "orig": "account_number",
                     "reqd": false,
-                    "type": "`$STRING`"
+                    "type": "`$INTEGER`"
                   },
                   {
                     "active": true,
@@ -542,7 +870,7 @@ class Config {
                     "name": "benefit",
                     "orig": "benefit",
                     "reqd": false,
-                    "type": "`$ARRAY`"
+                    "type": "`$ANY`"
                   },
                   {
                     "active": true,
@@ -550,7 +878,7 @@ class Config {
                     "name": "country_iso",
                     "orig": "country_iso",
                     "reqd": false,
-                    "type": "`$ARRAY`"
+                    "type": "`$ANY`"
                   },
                   {
                     "active": true,
@@ -558,7 +886,7 @@ class Config {
                     "name": "provider_code",
                     "orig": "provider_code",
                     "reqd": false,
-                    "type": "`$ARRAY`"
+                    "type": "`$ANY`"
                   },
                   {
                     "active": true,
@@ -566,7 +894,7 @@ class Config {
                     "name": "region_code",
                     "orig": "region_code",
                     "reqd": false,
-                    "type": "`$ARRAY`"
+                    "type": "`$ANY`"
                   },
                   {
                     "active": true,
@@ -574,13 +902,16 @@ class Config {
                     "name": "sku_code",
                     "orig": "sku_code",
                     "reqd": false,
-                    "type": "`$ARRAY`"
+                    "type": "`$ANY`"
                   }
                 ]
               },
+              "kind": "http",
               "method": "GET",
-              "orig": "/GetProducts",
+              "orig": "/api/V1/GetProducts",
               "parts": [
+                "api",
+                "V1",
                 "GetProducts"
               ],
               "select": {
@@ -590,7 +921,8 @@ class Config {
                   "country_iso",
                   "provider_code",
                   "region_code",
-                  "sku_code"
+                  "sku_code",
+                  "x_correlation_id"
                 ]
               },
               "transform": {
@@ -611,22 +943,22 @@ class Config {
       "fields": [
         {
           "active": true,
-          "name": "error_code",
-          "req": false,
+          "name": "ErrorCodes",
+          "req": true,
           "type": "`$ARRAY`",
           "index$": 0
         },
         {
           "active": true,
-          "name": "item",
-          "req": false,
+          "name": "Items",
+          "req": true,
           "type": "`$ARRAY`",
           "index$": 1
         },
         {
           "active": true,
-          "name": "result_code",
-          "req": false,
+          "name": "ResultCode",
+          "req": true,
           "type": "`$INTEGER`",
           "index$": 2
         }
@@ -640,6 +972,16 @@ class Config {
             {
               "active": true,
               "args": {
+                "header": [
+                  {
+                    "active": true,
+                    "kind": "header",
+                    "name": "x_correlation_id",
+                    "orig": "x_correlation_id",
+                    "reqd": false,
+                    "type": "`$STRING`"
+                  }
+                ],
                 "query": [
                   {
                     "active": true,
@@ -647,7 +989,7 @@ class Config {
                     "name": "language_code",
                     "orig": "language_code",
                     "reqd": false,
-                    "type": "`$ARRAY`"
+                    "type": "`$ANY`"
                   },
                   {
                     "active": true,
@@ -655,19 +997,23 @@ class Config {
                     "name": "sku_code",
                     "orig": "sku_code",
                     "reqd": false,
-                    "type": "`$ARRAY`"
+                    "type": "`$ANY`"
                   }
                 ]
               },
+              "kind": "http",
               "method": "GET",
-              "orig": "/GetProductDescriptions",
+              "orig": "/api/V1/GetProductDescriptions",
               "parts": [
+                "api",
+                "V1",
                 "GetProductDescriptions"
               ],
               "select": {
                 "exist": [
                   "language_code",
-                  "sku_code"
+                  "sku_code",
+                  "x_correlation_id"
                 ]
               },
               "transform": {
@@ -688,22 +1034,22 @@ class Config {
       "fields": [
         {
           "active": true,
-          "name": "error_code",
-          "req": false,
+          "name": "ErrorCodes",
+          "req": true,
           "type": "`$ARRAY`",
           "index$": 0
         },
         {
           "active": true,
-          "name": "item",
-          "req": false,
+          "name": "Items",
+          "req": true,
           "type": "`$ARRAY`",
           "index$": 1
         },
         {
           "active": true,
-          "name": "result_code",
-          "req": false,
+          "name": "ResultCode",
+          "req": true,
           "type": "`$INTEGER`",
           "index$": 2
         }
@@ -717,6 +1063,16 @@ class Config {
             {
               "active": true,
               "args": {
+                "header": [
+                  {
+                    "active": true,
+                    "kind": "header",
+                    "name": "x_correlation_id",
+                    "orig": "x_correlation_id",
+                    "reqd": false,
+                    "type": "`$STRING`"
+                  }
+                ],
                 "query": [
                   {
                     "active": true,
@@ -724,7 +1080,7 @@ class Config {
                     "name": "account_number",
                     "orig": "account_number",
                     "reqd": false,
-                    "type": "`$STRING`"
+                    "type": "`$INTEGER`"
                   },
                   {
                     "active": true,
@@ -732,7 +1088,7 @@ class Config {
                     "name": "country_iso",
                     "orig": "country_iso",
                     "reqd": false,
-                    "type": "`$ARRAY`"
+                    "type": "`$ANY`"
                   },
                   {
                     "active": true,
@@ -740,20 +1096,24 @@ class Config {
                     "name": "provider_code",
                     "orig": "provider_code",
                     "reqd": false,
-                    "type": "`$ARRAY`"
+                    "type": "`$ANY`"
                   }
                 ]
               },
+              "kind": "http",
               "method": "GET",
-              "orig": "/GetPromotions",
+              "orig": "/api/V1/GetPromotions",
               "parts": [
+                "api",
+                "V1",
                 "GetPromotions"
               ],
               "select": {
                 "exist": [
                   "account_number",
                   "country_iso",
-                  "provider_code"
+                  "provider_code",
+                  "x_correlation_id"
                 ]
               },
               "transform": {
@@ -774,22 +1134,22 @@ class Config {
       "fields": [
         {
           "active": true,
-          "name": "error_code",
-          "req": false,
+          "name": "ErrorCodes",
+          "req": true,
           "type": "`$ARRAY`",
           "index$": 0
         },
         {
           "active": true,
-          "name": "item",
-          "req": false,
+          "name": "Items",
+          "req": true,
           "type": "`$ARRAY`",
           "index$": 1
         },
         {
           "active": true,
-          "name": "result_code",
-          "req": false,
+          "name": "ResultCode",
+          "req": true,
           "type": "`$INTEGER`",
           "index$": 2
         }
@@ -803,6 +1163,16 @@ class Config {
             {
               "active": true,
               "args": {
+                "header": [
+                  {
+                    "active": true,
+                    "kind": "header",
+                    "name": "x_correlation_id",
+                    "orig": "x_correlation_id",
+                    "reqd": false,
+                    "type": "`$STRING`"
+                  }
+                ],
                 "query": [
                   {
                     "active": true,
@@ -810,18 +1180,22 @@ class Config {
                     "name": "language_code",
                     "orig": "language_code",
                     "reqd": false,
-                    "type": "`$ARRAY`"
+                    "type": "`$ANY`"
                   }
                 ]
               },
+              "kind": "http",
               "method": "GET",
-              "orig": "/GetPromotionDescriptions",
+              "orig": "/api/V1/GetPromotionDescriptions",
               "parts": [
+                "api",
+                "V1",
                 "GetPromotionDescriptions"
               ],
               "select": {
                 "exist": [
-                  "language_code"
+                  "language_code",
+                  "x_correlation_id"
                 ]
               },
               "transform": {
@@ -842,22 +1216,22 @@ class Config {
       "fields": [
         {
           "active": true,
-          "name": "error_code",
-          "req": false,
+          "name": "ErrorCodes",
+          "req": true,
           "type": "`$ARRAY`",
           "index$": 0
         },
         {
           "active": true,
-          "name": "item",
-          "req": false,
+          "name": "Items",
+          "req": true,
           "type": "`$ARRAY`",
           "index$": 1
         },
         {
           "active": true,
-          "name": "result_code",
-          "req": false,
+          "name": "ResultCode",
+          "req": true,
           "type": "`$INTEGER`",
           "index$": 2
         }
@@ -871,6 +1245,16 @@ class Config {
             {
               "active": true,
               "args": {
+                "header": [
+                  {
+                    "active": true,
+                    "kind": "header",
+                    "name": "x_correlation_id",
+                    "orig": "x_correlation_id",
+                    "reqd": false,
+                    "type": "`$STRING`"
+                  }
+                ],
                 "query": [
                   {
                     "active": true,
@@ -878,7 +1262,7 @@ class Config {
                     "name": "account_number",
                     "orig": "account_number",
                     "reqd": false,
-                    "type": "`$STRING`"
+                    "type": "`$INTEGER`"
                   },
                   {
                     "active": true,
@@ -886,7 +1270,7 @@ class Config {
                     "name": "country_iso",
                     "orig": "country_iso",
                     "reqd": false,
-                    "type": "`$ARRAY`"
+                    "type": "`$ANY`"
                   },
                   {
                     "active": true,
@@ -894,7 +1278,7 @@ class Config {
                     "name": "provider_code",
                     "orig": "provider_code",
                     "reqd": false,
-                    "type": "`$ARRAY`"
+                    "type": "`$ANY`"
                   },
                   {
                     "active": true,
@@ -902,13 +1286,16 @@ class Config {
                     "name": "region_code",
                     "orig": "region_code",
                     "reqd": false,
-                    "type": "`$ARRAY`"
+                    "type": "`$ANY`"
                   }
                 ]
               },
+              "kind": "http",
               "method": "GET",
-              "orig": "/GetProviders",
+              "orig": "/api/V1/GetProviders",
               "parts": [
+                "api",
+                "V1",
                 "GetProviders"
               ],
               "select": {
@@ -916,7 +1303,8 @@ class Config {
                   "account_number",
                   "country_iso",
                   "provider_code",
-                  "region_code"
+                  "region_code",
+                  "x_correlation_id"
                 ]
               },
               "transform": {
@@ -937,22 +1325,22 @@ class Config {
       "fields": [
         {
           "active": true,
-          "name": "error_code",
-          "req": false,
+          "name": "ErrorCodes",
+          "req": true,
           "type": "`$ARRAY`",
           "index$": 0
         },
         {
           "active": true,
-          "name": "item",
-          "req": false,
+          "name": "Items",
+          "req": true,
           "type": "`$ARRAY`",
           "index$": 1
         },
         {
           "active": true,
-          "name": "result_code",
-          "req": false,
+          "name": "ResultCode",
+          "req": true,
           "type": "`$INTEGER`",
           "index$": 2
         }
@@ -966,6 +1354,16 @@ class Config {
             {
               "active": true,
               "args": {
+                "header": [
+                  {
+                    "active": true,
+                    "kind": "header",
+                    "name": "x_correlation_id",
+                    "orig": "x_correlation_id",
+                    "reqd": false,
+                    "type": "`$STRING`"
+                  }
+                ],
                 "query": [
                   {
                     "active": true,
@@ -973,18 +1371,22 @@ class Config {
                     "name": "provider_code",
                     "orig": "provider_code",
                     "reqd": false,
-                    "type": "`$ARRAY`"
+                    "type": "`$ANY`"
                   }
                 ]
               },
+              "kind": "http",
               "method": "GET",
-              "orig": "/GetProviderStatus",
+              "orig": "/api/V1/GetProviderStatus",
               "parts": [
+                "api",
+                "V1",
                 "GetProviderStatus"
               ],
               "select": {
                 "exist": [
-                  "provider_code"
+                  "provider_code",
+                  "x_correlation_id"
                 ]
               },
               "transform": {
@@ -1005,22 +1407,22 @@ class Config {
       "fields": [
         {
           "active": true,
-          "name": "error_code",
-          "req": false,
+          "name": "ErrorCodes",
+          "req": true,
           "type": "`$ARRAY`",
           "index$": 0
         },
         {
           "active": true,
-          "name": "item",
-          "req": false,
+          "name": "Items",
+          "req": true,
           "type": "`$ARRAY`",
           "index$": 1
         },
         {
           "active": true,
-          "name": "result_code",
-          "req": false,
+          "name": "ResultCode",
+          "req": true,
           "type": "`$INTEGER`",
           "index$": 2
         }
@@ -1034,6 +1436,16 @@ class Config {
             {
               "active": true,
               "args": {
+                "header": [
+                  {
+                    "active": true,
+                    "kind": "header",
+                    "name": "x_correlation_id",
+                    "orig": "x_correlation_id",
+                    "reqd": false,
+                    "type": "`$STRING`"
+                  }
+                ],
                 "query": [
                   {
                     "active": true,
@@ -1041,18 +1453,22 @@ class Config {
                     "name": "country_iso",
                     "orig": "country_iso",
                     "reqd": false,
-                    "type": "`$ARRAY`"
+                    "type": "`$ANY`"
                   }
                 ]
               },
+              "kind": "http",
               "method": "GET",
-              "orig": "/GetRegions",
+              "orig": "/api/V1/GetRegions",
               "parts": [
+                "api",
+                "V1",
                 "GetRegions"
               ],
               "select": {
                 "exist": [
-                  "country_iso"
+                  "country_iso",
+                  "x_correlation_id"
                 ]
               },
               "transform": {
@@ -1073,73 +1489,24 @@ class Config {
       "fields": [
         {
           "active": true,
-          "name": "account_number",
+          "name": "ErrorCodes",
           "req": true,
-          "type": "`$STRING`",
+          "type": "`$ARRAY`",
           "index$": 0
         },
         {
           "active": true,
-          "name": "distributor_ref",
+          "name": "ResultCode",
           "req": true,
-          "type": "`$STRING`",
+          "type": "`$INTEGER`",
           "index$": 1
         },
         {
           "active": true,
-          "name": "error_code",
-          "req": false,
-          "type": "`$ARRAY`",
-          "index$": 2
-        },
-        {
-          "active": true,
-          "name": "result_code",
-          "req": false,
-          "type": "`$INTEGER`",
-          "index$": 3
-        },
-        {
-          "active": true,
-          "name": "send_currency_iso",
-          "req": false,
-          "type": "`$STRING`",
-          "index$": 4
-        },
-        {
-          "active": true,
-          "name": "send_value",
+          "name": "TransferRecord",
           "req": true,
-          "type": "`$NUMBER`",
-          "index$": 5
-        },
-        {
-          "active": true,
-          "name": "setting",
-          "req": false,
-          "type": "`$ARRAY`",
-          "index$": 6
-        },
-        {
-          "active": true,
-          "name": "sku_code",
-          "req": true,
-          "type": "`$STRING`",
-          "index$": 7
-        },
-        {
-          "active": true,
-          "name": "transfer_record",
-          "req": false,
           "type": "`$OBJECT`",
-          "index$": 8
-        },
-        {
-          "active": true,
-          "name": "validate_only",
-          "req": false,
-          "type": "`$BOOLEAN`",
-          "index$": 9
+          "index$": 2
         }
       ],
       "name": "send_transfer",
@@ -1150,129 +1517,42 @@ class Config {
           "points": [
             {
               "active": true,
-              "args": {},
+              "args": {
+                "header": [
+                  {
+                    "active": true,
+                    "kind": "header",
+                    "name": "x_correlation_id",
+                    "orig": "x_correlation_id",
+                    "reqd": false,
+                    "type": "`$STRING`"
+                  }
+                ],
+                "query": [
+                  {
+                    "active": true,
+                    "kind": "query",
+                    "name": "request",
+                    "orig": "request",
+                    "reqd": true,
+                    "type": "`$OBJECT`"
+                  }
+                ]
+              },
+              "kind": "http",
               "method": "POST",
-              "orig": "/SendTransfer",
+              "orig": "/api/V1/SendTransfer",
               "parts": [
+                "api",
+                "V1",
                 "SendTransfer"
               ],
-              "select": {},
-              "transform": {
-                "req": "`reqdata`",
-                "res": "`body`"
+              "select": {
+                "exist": [
+                  "request",
+                  "x_correlation_id"
+                ]
               },
-              "index$": 0
-            }
-          ],
-          "key$": "create"
-        }
-      },
-      "relations": {
-        "ancestors": []
-      }
-    },
-    "transfer_record": {
-      "fields": [
-        {
-          "active": true,
-          "name": "account_number",
-          "req": false,
-          "type": "`$STRING`",
-          "index$": 0
-        },
-        {
-          "active": true,
-          "name": "distributor_ref",
-          "req": false,
-          "type": "`$ARRAY`",
-          "index$": 1
-        },
-        {
-          "active": true,
-          "name": "ended_at_utc",
-          "req": false,
-          "type": "`$STRING`",
-          "index$": 2
-        },
-        {
-          "active": true,
-          "name": "error_code",
-          "req": false,
-          "type": "`$ARRAY`",
-          "index$": 3
-        },
-        {
-          "active": true,
-          "name": "item",
-          "req": false,
-          "type": "`$ARRAY`",
-          "index$": 4
-        },
-        {
-          "active": true,
-          "name": "result_code",
-          "req": false,
-          "type": "`$INTEGER`",
-          "index$": 5
-        },
-        {
-          "active": true,
-          "name": "skip",
-          "req": true,
-          "type": "`$INTEGER`",
-          "index$": 6
-        },
-        {
-          "active": true,
-          "name": "sku_code",
-          "req": false,
-          "type": "`$ARRAY`",
-          "index$": 7
-        },
-        {
-          "active": true,
-          "name": "started_at_utc",
-          "req": false,
-          "type": "`$STRING`",
-          "index$": 8
-        },
-        {
-          "active": true,
-          "name": "take",
-          "req": true,
-          "type": "`$INTEGER`",
-          "index$": 9
-        },
-        {
-          "active": true,
-          "name": "there_are_more_item",
-          "req": false,
-          "type": "`$BOOLEAN`",
-          "index$": 10
-        },
-        {
-          "active": true,
-          "name": "transfer_ref",
-          "req": false,
-          "type": "`$ARRAY`",
-          "index$": 11
-        }
-      ],
-      "name": "transfer_record",
-      "op": {
-        "create": {
-          "input": "data",
-          "name": "create",
-          "points": [
-            {
-              "active": true,
-              "args": {},
-              "method": "POST",
-              "orig": "/ListTransferRecords",
-              "parts": [
-                "ListTransferRecords"
-              ],
-              "select": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"

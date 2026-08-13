@@ -1,0 +1,18 @@
+# BasicCancelTransferFlow
+
+main: kit: flow: BasicCancelTransferFlow:
+{
+  entity: "cancel_transfer",
+  kind: "basic",
+  name: "BasicCancelTransferFlow",
+  step: [
+    {
+      input: {
+        ref: "cancel_transfer_ref01"
+      }
+
+      op: "create"
+    }
+  ],
+  "key$": "BasicCancelTransferFlow"
+}

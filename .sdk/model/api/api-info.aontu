@@ -4,31 +4,23 @@
 main: {
   kit: {
     info: {
-      contact: {
-        url: "https://www.dingconnect.com/Api"
-      }
-      description: `The DingConnect mobile top-up API (Ding / Ezetop Unlimited Company, Dublin): catalogue discovery (countries, providers, products, promotions), account lookup, price estimation, and instant top-up transfers to 5B+ phones worldwide.
-
-This definition was authored by Voxgig from DingConnect's public developer documentation (dingconnect.com/Api) and the community Go client vlab-research/go-dingconnect, because DingConnect's own swagger definition requires an API key to download. DingConnect's docs invite generating client SDKs from the swagger definition; replace this file with the first-party definition when a key is available.
-
-Application-level failure is reported in the body with HTTP 200: ResultCode (1 success, 2 partial, 4 failed) is the real signal, with ErrorCodes enumerated by GetErrorCodeDescriptions.`
+      description: "The Ding API is a Level 0 REST web service.  We have used the <a href=\"http://swagger.io\">swagger</a> standard to describe this service. As a result, we are able to provide this interactive documentation page. For further information, you may view the <a href=\"/api/description\">additional documentation</a>; read our <a href=\"/api/faq\">FAQ</a> or contact partnersupport@ding.com"
       security: {
         in: "header"
         name: "api_key"
         prefix: ""
-        scheme: "ApiKeyAuth"
+        scheme: "APIKeyHeader"
         type: "apiKey"
       }
       servers: [
         {
-          description: "Production (no sandbox; use SendTransfer.ValidateOnly for dry runs)"
-          url: "https://api.dingconnect.com/api/V1"
+          url: "https://api.dingconnect.com"
         }
       ]
-      summary: "The DingConnect mobile top-up API (Ding / Ezetop Unlimited Company, Dublin): catalogue discovery (countries, providers, products, promotions), account lookup, price estimation, and instant top-up transfers to 5B+ phones worldwide."
-      title: "DingConnect API"
+      summary: "The Ding API is a Level 0 REST web service."
+      title: "Ding API"
       version: "V1"
-      website: "https://www.dingconnect.com/Api"
+      website: "https://dingconnect.com"
     }
   }
 }

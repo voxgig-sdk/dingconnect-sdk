@@ -8,7 +8,7 @@ source = {
   dir = "dingconnect-sdk/lua"
 }
 description = {
-  summary = "Unofficial generated Lua SDK for the DingConnect public API. Not affiliated with or endorsed by the upstream API provider.",
+  summary = "Unofficial generated Lua SDK for the Ding public API. Not affiliated with or endorsed by the upstream API provider.",
   homepage = "https://github.com/voxgig-sdk/dingconnect-sdk",
   issues_url = "https://github.com/voxgig-sdk/dingconnect-sdk/issues",
   license = "MIT",

@@ -6,264 +6,252 @@
 // @voxgig/apidef VALID_CANON). Do not edit by hand.
 package entity
 
-import "encoding/json"
+import (
+	"encoding/json"
+
+	"github.com/voxgig-sdk/dingconnect-sdk/go/core"
+)
 
 // AccountLookup is the typed data model for the account_lookup entity.
 type AccountLookup struct {
-	AccountNumberNormalized *string `json:"account_number_normalized,omitempty"`
-	CountryIso *string `json:"country_iso,omitempty"`
-	ErrorCode *[]any `json:"error_code,omitempty"`
-	Item *[]any `json:"item,omitempty"`
-	ResultCode *int `json:"result_code,omitempty"`
+	AccountNumberNormalized *string `json:"AccountNumberNormalized,omitempty"`
+	CountryIso *string `json:"CountryIso,omitempty"`
+	ErrorCodes []any `json:"ErrorCodes"`
+	Items []any `json:"Items"`
+	ResultCode int `json:"ResultCode"`
 }
 
 // AccountLookupListMatch is the typed request payload for AccountLookup.ListTyped.
 type AccountLookupListMatch struct {
-	AccountNumberNormalized *string `json:"account_number_normalized,omitempty"`
-	CountryIso *string `json:"country_iso,omitempty"`
-	ErrorCode *[]any `json:"error_code,omitempty"`
-	Item *[]any `json:"item,omitempty"`
-	ResultCode *int `json:"result_code,omitempty"`
+	AccountNumberNormalized *string `json:"AccountNumberNormalized,omitempty"`
+	CountryIso *string `json:"CountryIso,omitempty"`
+	ErrorCodes *[]any `json:"ErrorCodes,omitempty"`
+	Items *[]any `json:"Items,omitempty"`
+	ResultCode *int `json:"ResultCode,omitempty"`
 }
 
 // Balance is the typed data model for the balance entity.
 type Balance struct {
-	Code *string `json:"code,omitempty"`
-	Context *string `json:"context,omitempty"`
+	Code string `json:"Code"`
+	Context *string `json:"Context,omitempty"`
 }
 
 // BalanceListMatch is the typed request payload for Balance.ListTyped.
 type BalanceListMatch struct {
-	Code *string `json:"code,omitempty"`
-	Context *string `json:"context,omitempty"`
+	Code *string `json:"Code,omitempty"`
+	Context *string `json:"Context,omitempty"`
 }
 
-// CancelResult is the typed data model for the cancel_result entity.
-type CancelResult struct {
-	ErrorCode *[]any `json:"error_code,omitempty"`
-	Item *[]any `json:"item,omitempty"`
-	ResultCode *int `json:"result_code,omitempty"`
+// CancelTransfer is the typed data model for the cancel_transfer entity.
+type CancelTransfer struct {
+	ErrorCodes []any `json:"ErrorCodes"`
+	Items []any `json:"Items"`
+	ResultCode int `json:"ResultCode"`
 }
 
-// CancelResultCreateData is the typed request payload for CancelResult.CreateTyped.
-type CancelResultCreateData struct {
-	ErrorCode *[]any `json:"error_code,omitempty"`
-	Item *[]any `json:"item,omitempty"`
-	ResultCode *int `json:"result_code,omitempty"`
+// CancelTransferCreateData is the typed request payload for CancelTransfer.CreateTyped.
+type CancelTransferCreateData struct {
+	ErrorCodes []any `json:"ErrorCodes"`
+	Items []any `json:"Items"`
+	ResultCode int `json:"ResultCode"`
 }
 
 // Country is the typed data model for the country entity.
 type Country struct {
-	ErrorCode *[]any `json:"error_code,omitempty"`
-	Item *[]any `json:"item,omitempty"`
-	ResultCode *int `json:"result_code,omitempty"`
+	ErrorCodes []any `json:"ErrorCodes"`
+	Items []any `json:"Items"`
+	ResultCode int `json:"ResultCode"`
 }
 
 // CountryListMatch is the typed request payload for Country.ListTyped.
 type CountryListMatch struct {
-	ErrorCode *[]any `json:"error_code,omitempty"`
-	Item *[]any `json:"item,omitempty"`
-	ResultCode *int `json:"result_code,omitempty"`
+	ErrorCodes *[]any `json:"ErrorCodes,omitempty"`
+	Items *[]any `json:"Items,omitempty"`
+	ResultCode *int `json:"ResultCode,omitempty"`
 }
 
 // Currency is the typed data model for the currency entity.
 type Currency struct {
-	ErrorCode *[]any `json:"error_code,omitempty"`
-	Item *[]any `json:"item,omitempty"`
-	ResultCode *int `json:"result_code,omitempty"`
+	ErrorCodes []any `json:"ErrorCodes"`
+	Items []any `json:"Items"`
+	ResultCode int `json:"ResultCode"`
 }
 
 // CurrencyListMatch is the typed request payload for Currency.ListTyped.
 type CurrencyListMatch struct {
-	ErrorCode *[]any `json:"error_code,omitempty"`
-	Item *[]any `json:"item,omitempty"`
-	ResultCode *int `json:"result_code,omitempty"`
+	ErrorCodes *[]any `json:"ErrorCodes,omitempty"`
+	Items *[]any `json:"Items,omitempty"`
+	ResultCode *int `json:"ResultCode,omitempty"`
 }
 
 // ErrorCodeDescription is the typed data model for the error_code_description entity.
 type ErrorCodeDescription struct {
-	ErrorCode *[]any `json:"error_code,omitempty"`
-	Item *[]any `json:"item,omitempty"`
-	ResultCode *int `json:"result_code,omitempty"`
+	ErrorCodes []any `json:"ErrorCodes"`
+	Items []any `json:"Items"`
+	ResultCode int `json:"ResultCode"`
 }
 
 // ErrorCodeDescriptionListMatch is the typed request payload for ErrorCodeDescription.ListTyped.
 type ErrorCodeDescriptionListMatch struct {
-	ErrorCode *[]any `json:"error_code,omitempty"`
-	Item *[]any `json:"item,omitempty"`
-	ResultCode *int `json:"result_code,omitempty"`
+	ErrorCodes *[]any `json:"ErrorCodes,omitempty"`
+	Items *[]any `json:"Items,omitempty"`
+	ResultCode *int `json:"ResultCode,omitempty"`
 }
 
-// Estimate is the typed data model for the estimate entity.
-type Estimate struct {
-	ErrorCode *[]any `json:"error_code,omitempty"`
-	Item *[]any `json:"item,omitempty"`
-	ResultCode *int `json:"result_code,omitempty"`
+// EstimatePrice is the typed data model for the estimate_price entity.
+type EstimatePrice struct {
+	ErrorCodes []any `json:"ErrorCodes"`
+	Items []any `json:"Items"`
+	ResultCode int `json:"ResultCode"`
 }
 
-// EstimateCreateData is the typed request payload for Estimate.CreateTyped.
-type EstimateCreateData struct {
-	ErrorCode *[]any `json:"error_code,omitempty"`
-	Item *[]any `json:"item,omitempty"`
-	ResultCode *int `json:"result_code,omitempty"`
+// EstimatePriceCreateData is the typed request payload for EstimatePrice.CreateTyped.
+type EstimatePriceCreateData struct {
+	ErrorCodes []any `json:"ErrorCodes"`
+	Items []any `json:"Items"`
+	ResultCode int `json:"ResultCode"`
+}
+
+// ListTransferRecord is the typed data model for the list_transfer_record entity.
+type ListTransferRecord struct {
+	ErrorCodes []any `json:"ErrorCodes"`
+	Items []any `json:"Items"`
+	ResultCode int `json:"ResultCode"`
+	ThereAreMoreItems bool `json:"ThereAreMoreItems"`
+}
+
+// ListTransferRecordCreateData is the typed request payload for ListTransferRecord.CreateTyped.
+type ListTransferRecordCreateData struct {
+	ErrorCodes []any `json:"ErrorCodes"`
+	Items []any `json:"Items"`
+	ResultCode int `json:"ResultCode"`
+	ThereAreMoreItems bool `json:"ThereAreMoreItems"`
+}
+
+// LookupBill is the typed data model for the lookup_bill entity.
+type LookupBill struct {
+	ErrorCodes []any `json:"ErrorCodes"`
+	Items []any `json:"Items"`
+	ResultCode int `json:"ResultCode"`
+}
+
+// LookupBillCreateData is the typed request payload for LookupBill.CreateTyped.
+type LookupBillCreateData struct {
+	ErrorCodes []any `json:"ErrorCodes"`
+	Items []any `json:"Items"`
+	ResultCode int `json:"ResultCode"`
 }
 
 // Product is the typed data model for the product entity.
 type Product struct {
-	ErrorCode *[]any `json:"error_code,omitempty"`
-	Item *[]any `json:"item,omitempty"`
-	ResultCode *int `json:"result_code,omitempty"`
+	ErrorCodes []any `json:"ErrorCodes"`
+	Items []any `json:"Items"`
+	ResultCode int `json:"ResultCode"`
 }
 
 // ProductListMatch is the typed request payload for Product.ListTyped.
 type ProductListMatch struct {
-	ErrorCode *[]any `json:"error_code,omitempty"`
-	Item *[]any `json:"item,omitempty"`
-	ResultCode *int `json:"result_code,omitempty"`
+	ErrorCodes *[]any `json:"ErrorCodes,omitempty"`
+	Items *[]any `json:"Items,omitempty"`
+	ResultCode *int `json:"ResultCode,omitempty"`
 }
 
 // ProductDescription is the typed data model for the product_description entity.
 type ProductDescription struct {
-	ErrorCode *[]any `json:"error_code,omitempty"`
-	Item *[]any `json:"item,omitempty"`
-	ResultCode *int `json:"result_code,omitempty"`
+	ErrorCodes []any `json:"ErrorCodes"`
+	Items []any `json:"Items"`
+	ResultCode int `json:"ResultCode"`
 }
 
 // ProductDescriptionListMatch is the typed request payload for ProductDescription.ListTyped.
 type ProductDescriptionListMatch struct {
-	ErrorCode *[]any `json:"error_code,omitempty"`
-	Item *[]any `json:"item,omitempty"`
-	ResultCode *int `json:"result_code,omitempty"`
+	ErrorCodes *[]any `json:"ErrorCodes,omitempty"`
+	Items *[]any `json:"Items,omitempty"`
+	ResultCode *int `json:"ResultCode,omitempty"`
 }
 
 // Promotion is the typed data model for the promotion entity.
 type Promotion struct {
-	ErrorCode *[]any `json:"error_code,omitempty"`
-	Item *[]any `json:"item,omitempty"`
-	ResultCode *int `json:"result_code,omitempty"`
+	ErrorCodes []any `json:"ErrorCodes"`
+	Items []any `json:"Items"`
+	ResultCode int `json:"ResultCode"`
 }
 
 // PromotionListMatch is the typed request payload for Promotion.ListTyped.
 type PromotionListMatch struct {
-	ErrorCode *[]any `json:"error_code,omitempty"`
-	Item *[]any `json:"item,omitempty"`
-	ResultCode *int `json:"result_code,omitempty"`
+	ErrorCodes *[]any `json:"ErrorCodes,omitempty"`
+	Items *[]any `json:"Items,omitempty"`
+	ResultCode *int `json:"ResultCode,omitempty"`
 }
 
 // PromotionDescription is the typed data model for the promotion_description entity.
 type PromotionDescription struct {
-	ErrorCode *[]any `json:"error_code,omitempty"`
-	Item *[]any `json:"item,omitempty"`
-	ResultCode *int `json:"result_code,omitempty"`
+	ErrorCodes []any `json:"ErrorCodes"`
+	Items []any `json:"Items"`
+	ResultCode int `json:"ResultCode"`
 }
 
 // PromotionDescriptionListMatch is the typed request payload for PromotionDescription.ListTyped.
 type PromotionDescriptionListMatch struct {
-	ErrorCode *[]any `json:"error_code,omitempty"`
-	Item *[]any `json:"item,omitempty"`
-	ResultCode *int `json:"result_code,omitempty"`
+	ErrorCodes *[]any `json:"ErrorCodes,omitempty"`
+	Items *[]any `json:"Items,omitempty"`
+	ResultCode *int `json:"ResultCode,omitempty"`
 }
 
 // Provider is the typed data model for the provider entity.
 type Provider struct {
-	ErrorCode *[]any `json:"error_code,omitempty"`
-	Item *[]any `json:"item,omitempty"`
-	ResultCode *int `json:"result_code,omitempty"`
+	ErrorCodes []any `json:"ErrorCodes"`
+	Items []any `json:"Items"`
+	ResultCode int `json:"ResultCode"`
 }
 
 // ProviderListMatch is the typed request payload for Provider.ListTyped.
 type ProviderListMatch struct {
-	ErrorCode *[]any `json:"error_code,omitempty"`
-	Item *[]any `json:"item,omitempty"`
-	ResultCode *int `json:"result_code,omitempty"`
+	ErrorCodes *[]any `json:"ErrorCodes,omitempty"`
+	Items *[]any `json:"Items,omitempty"`
+	ResultCode *int `json:"ResultCode,omitempty"`
 }
 
 // ProviderStatus is the typed data model for the provider_status entity.
 type ProviderStatus struct {
-	ErrorCode *[]any `json:"error_code,omitempty"`
-	Item *[]any `json:"item,omitempty"`
-	ResultCode *int `json:"result_code,omitempty"`
+	ErrorCodes []any `json:"ErrorCodes"`
+	Items []any `json:"Items"`
+	ResultCode int `json:"ResultCode"`
 }
 
 // ProviderStatusListMatch is the typed request payload for ProviderStatus.ListTyped.
 type ProviderStatusListMatch struct {
-	ErrorCode *[]any `json:"error_code,omitempty"`
-	Item *[]any `json:"item,omitempty"`
-	ResultCode *int `json:"result_code,omitempty"`
+	ErrorCodes *[]any `json:"ErrorCodes,omitempty"`
+	Items *[]any `json:"Items,omitempty"`
+	ResultCode *int `json:"ResultCode,omitempty"`
 }
 
 // Region is the typed data model for the region entity.
 type Region struct {
-	ErrorCode *[]any `json:"error_code,omitempty"`
-	Item *[]any `json:"item,omitempty"`
-	ResultCode *int `json:"result_code,omitempty"`
+	ErrorCodes []any `json:"ErrorCodes"`
+	Items []any `json:"Items"`
+	ResultCode int `json:"ResultCode"`
 }
 
 // RegionListMatch is the typed request payload for Region.ListTyped.
 type RegionListMatch struct {
-	ErrorCode *[]any `json:"error_code,omitempty"`
-	Item *[]any `json:"item,omitempty"`
-	ResultCode *int `json:"result_code,omitempty"`
+	ErrorCodes *[]any `json:"ErrorCodes,omitempty"`
+	Items *[]any `json:"Items,omitempty"`
+	ResultCode *int `json:"ResultCode,omitempty"`
 }
 
 // SendTransfer is the typed data model for the send_transfer entity.
 type SendTransfer struct {
-	AccountNumber string `json:"account_number"`
-	DistributorRef string `json:"distributor_ref"`
-	ErrorCode *[]any `json:"error_code,omitempty"`
-	ResultCode *int `json:"result_code,omitempty"`
-	SendCurrencyIso *string `json:"send_currency_iso,omitempty"`
-	SendValue float64 `json:"send_value"`
-	Setting *[]any `json:"setting,omitempty"`
-	SkuCode string `json:"sku_code"`
-	TransferRecord *map[string]any `json:"transfer_record,omitempty"`
-	ValidateOnly *bool `json:"validate_only,omitempty"`
+	ErrorCodes []any `json:"ErrorCodes"`
+	ResultCode int `json:"ResultCode"`
+	TransferRecord map[string]any `json:"TransferRecord"`
 }
 
 // SendTransferCreateData is the typed request payload for SendTransfer.CreateTyped.
 type SendTransferCreateData struct {
-	AccountNumber string `json:"account_number"`
-	DistributorRef string `json:"distributor_ref"`
-	ErrorCode *[]any `json:"error_code,omitempty"`
-	ResultCode *int `json:"result_code,omitempty"`
-	SendCurrencyIso *string `json:"send_currency_iso,omitempty"`
-	SendValue float64 `json:"send_value"`
-	Setting *[]any `json:"setting,omitempty"`
-	SkuCode string `json:"sku_code"`
-	TransferRecord *map[string]any `json:"transfer_record,omitempty"`
-	ValidateOnly *bool `json:"validate_only,omitempty"`
-}
-
-// TransferRecord is the typed data model for the transfer_record entity.
-type TransferRecord struct {
-	AccountNumber *string `json:"account_number,omitempty"`
-	DistributorRef *[]any `json:"distributor_ref,omitempty"`
-	EndedAtUtc *string `json:"ended_at_utc,omitempty"`
-	ErrorCode *[]any `json:"error_code,omitempty"`
-	Item *[]any `json:"item,omitempty"`
-	ResultCode *int `json:"result_code,omitempty"`
-	Skip int `json:"skip"`
-	SkuCode *[]any `json:"sku_code,omitempty"`
-	StartedAtUtc *string `json:"started_at_utc,omitempty"`
-	Take int `json:"take"`
-	ThereAreMoreItem *bool `json:"there_are_more_item,omitempty"`
-	TransferRef *[]any `json:"transfer_ref,omitempty"`
-}
-
-// TransferRecordCreateData is the typed request payload for TransferRecord.CreateTyped.
-type TransferRecordCreateData struct {
-	AccountNumber *string `json:"account_number,omitempty"`
-	DistributorRef *[]any `json:"distributor_ref,omitempty"`
-	EndedAtUtc *string `json:"ended_at_utc,omitempty"`
-	ErrorCode *[]any `json:"error_code,omitempty"`
-	Item *[]any `json:"item,omitempty"`
-	ResultCode *int `json:"result_code,omitempty"`
-	Skip int `json:"skip"`
-	SkuCode *[]any `json:"sku_code,omitempty"`
-	StartedAtUtc *string `json:"started_at_utc,omitempty"`
-	Take int `json:"take"`
-	ThereAreMoreItem *bool `json:"there_are_more_item,omitempty"`
-	TransferRef *[]any `json:"transfer_ref,omitempty"`
+	ErrorCodes []any `json:"ErrorCodes"`
+	ResultCode int `json:"ResultCode"`
+	TransferRecord map[string]any `json:"TransferRecord"`
 }
 
 // asMap turns a typed request/data struct into the map[string]any the
@@ -278,12 +266,26 @@ func asMap(v any) map[string]any {
 	return out
 }
 
-// typedFrom decodes a runtime value (a map[string]any produced by the op
-// pipeline) into a typed model T via a JSON round-trip. On any error it
-// returns the zero value of T; the op's own (value, error) tuple carries the
-// real error.
+// entityData unwraps an entity to its data map.
+//
+// Operations resolve to the ENTITY, not the raw data (see AGENTS.md), and an
+// entity's fields are UNEXPORTED — marshalling one directly yields `{}`, so
+// every typed accessor would silently hand back a zero-valued struct. The
+// typed boundary therefore takes the data hop first.
+func entityData(v any) any {
+	if ent, ok := v.(core.Entity); ok {
+		return ent.Data()
+	}
+	return v
+}
+
+// typedFrom decodes a runtime value (an entity, or the map[string]any the op
+// pipeline produced) into a typed model T via a JSON round-trip. On any error
+// it returns the zero value of T; the op's own (value, error) tuple carries
+// the real error.
 func typedFrom[T any](v any) T {
 	var out T
+	v = entityData(v)
 	if v == nil {
 		return out
 	}
@@ -295,12 +297,20 @@ func typedFrom[T any](v any) T {
 	return out
 }
 
-// typedSliceFrom decodes a runtime list value ([]any of maps) into a typed
-// slice []T via a JSON round-trip, for list ops.
+// typedSliceFrom decodes a runtime list value into a typed slice []T via a
+// JSON round-trip, for list ops. `list` resolves to a slice of ENTITY
+// instances, so each element takes the data hop.
 func typedSliceFrom[T any](v any) []T {
 	var out []T
 	if v == nil {
 		return out
+	}
+	if list, ok := v.([]any); ok {
+		unwrapped := make([]any, 0, len(list))
+		for _, item := range list {
+			unwrapped = append(unwrapped, entityData(item))
+		}
+		v = unwrapped
 	}
 	b, err := json.Marshal(v)
 	if err != nil {

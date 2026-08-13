@@ -50,9 +50,9 @@ Create a new `AccountLookupEntity` instance. Pass `None` for no initial data.
 
 Create a new `BalanceEntity` instance. Pass `None` for no initial data.
 
-#### `CancelResult(data=None)`
+#### `CancelTransfer(data=None)`
 
-Create a new `CancelResultEntity` instance. Pass `None` for no initial data.
+Create a new `CancelTransferEntity` instance. Pass `None` for no initial data.
 
 #### `Country(data=None)`
 
@@ -66,9 +66,17 @@ Create a new `CurrencyEntity` instance. Pass `None` for no initial data.
 
 Create a new `ErrorCodeDescriptionEntity` instance. Pass `None` for no initial data.
 
-#### `Estimate(data=None)`
+#### `EstimatePrice(data=None)`
 
-Create a new `EstimateEntity` instance. Pass `None` for no initial data.
+Create a new `EstimatePriceEntity` instance. Pass `None` for no initial data.
+
+#### `ListTransferRecord(data=None)`
+
+Create a new `ListTransferRecordEntity` instance. Pass `None` for no initial data.
+
+#### `LookupBill(data=None)`
+
+Create a new `LookupBillEntity` instance. Pass `None` for no initial data.
 
 #### `Product(data=None)`
 
@@ -101,10 +109,6 @@ Create a new `RegionEntity` instance. Pass `None` for no initial data.
 #### `SendTransfer(data=None)`
 
 Create a new `SendTransferEntity` instance. Pass `None` for no initial data.
-
-#### `TransferRecord(data=None)`
-
-Create a new `TransferRecordEntity` instance. Pass `None` for no initial data.
 
 #### `options_map() -> dict`
 
@@ -148,11 +152,11 @@ account_lookup = client.AccountLookup()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `account_number_normalized` | `str` | No |  |
-| `country_iso` | `str` | No |  |
-| `error_code` | `list` | No |  |
-| `item` | `list` | No |  |
-| `result_code` | `int` | No |  |
+| `AccountNumberNormalized` | `str` | No |  |
+| `CountryIso` | `str` | No |  |
+| `ErrorCodes` | `list` | Yes |  |
+| `Items` | `list` | Yes |  |
+| `ResultCode` | `int` | Yes |  |
 
 ### Operations
 
@@ -205,8 +209,8 @@ balance = client.Balance()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `code` | `str` | No |  |
-| `context` | `str` | No |  |
+| `Code` | `str` | Yes |  |
+| `Context` | `str` | No |  |
 
 ### Operations
 
@@ -249,19 +253,19 @@ Return the entity name.
 
 ---
 
-## CancelResultEntity
+## CancelTransferEntity
 
 ```python
-cancel_result = client.CancelResult()
+cancel_transfer = client.CancelTransfer()
 ```
 
 ### Fields
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `error_code` | `list` | No |  |
-| `item` | `list` | No |  |
-| `result_code` | `int` | No |  |
+| `ErrorCodes` | `list` | Yes |  |
+| `Items` | `list` | Yes |  |
+| `ResultCode` | `int` | Yes |  |
 
 ### Operations
 
@@ -270,7 +274,10 @@ cancel_result = client.CancelResult()
 Create a new entity with the given data. Returns the created entity data and raises on error.
 
 ```python
-result = client.CancelResult().create({
+result = client.CancelTransfer().create({
+    "ErrorCodes": [],  # list
+    "Items": [],  # list
+    "ResultCode": 1,  # int
 })
 ```
 
@@ -294,7 +301,7 @@ Set the entity match criteria.
 
 #### `make() -> Entity`
 
-Create a new `CancelResultEntity` instance with the same options.
+Create a new `CancelTransferEntity` instance with the same options.
 
 #### `get_name() -> str`
 
@@ -313,9 +320,9 @@ country = client.Country()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `error_code` | `list` | No |  |
-| `item` | `list` | No |  |
-| `result_code` | `int` | No |  |
+| `ErrorCodes` | `list` | Yes |  |
+| `Items` | `list` | Yes |  |
+| `ResultCode` | `int` | Yes |  |
 
 ### Operations
 
@@ -368,9 +375,9 @@ currency = client.Currency()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `error_code` | `list` | No |  |
-| `item` | `list` | No |  |
-| `result_code` | `int` | No |  |
+| `ErrorCodes` | `list` | Yes |  |
+| `Items` | `list` | Yes |  |
+| `ResultCode` | `int` | Yes |  |
 
 ### Operations
 
@@ -423,9 +430,9 @@ error_code_description = client.ErrorCodeDescription()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `error_code` | `list` | No |  |
-| `item` | `list` | No |  |
-| `result_code` | `int` | No |  |
+| `ErrorCodes` | `list` | Yes |  |
+| `Items` | `list` | Yes |  |
+| `ResultCode` | `int` | Yes |  |
 
 ### Operations
 
@@ -468,19 +475,19 @@ Return the entity name.
 
 ---
 
-## EstimateEntity
+## EstimatePriceEntity
 
 ```python
-estimate = client.Estimate()
+estimate_price = client.EstimatePrice()
 ```
 
 ### Fields
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `error_code` | `list` | No |  |
-| `item` | `list` | No |  |
-| `result_code` | `int` | No |  |
+| `ErrorCodes` | `list` | Yes |  |
+| `Items` | `list` | Yes |  |
+| `ResultCode` | `int` | Yes |  |
 
 ### Operations
 
@@ -489,7 +496,10 @@ estimate = client.Estimate()
 Create a new entity with the given data. Returns the created entity data and raises on error.
 
 ```python
-result = client.Estimate().create({
+result = client.EstimatePrice().create({
+    "ErrorCodes": [],  # list
+    "Items": [],  # list
+    "ResultCode": 1,  # int
 })
 ```
 
@@ -513,7 +523,123 @@ Set the entity match criteria.
 
 #### `make() -> Entity`
 
-Create a new `EstimateEntity` instance with the same options.
+Create a new `EstimatePriceEntity` instance with the same options.
+
+#### `get_name() -> str`
+
+Return the entity name.
+
+
+---
+
+## ListTransferRecordEntity
+
+```python
+list_transfer_record = client.ListTransferRecord()
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `ErrorCodes` | `list` | Yes |  |
+| `Items` | `list` | Yes |  |
+| `ResultCode` | `int` | Yes |  |
+| `ThereAreMoreItems` | `bool` | Yes |  |
+
+### Operations
+
+#### `create(reqdata, ctrl=None) -> dict`
+
+Create a new entity with the given data. Returns the created entity data and raises on error.
+
+```python
+result = client.ListTransferRecord().create({
+    "ErrorCodes": [],  # list
+    "Items": [],  # list
+    "ResultCode": 1,  # int
+    "ThereAreMoreItems": True,  # bool
+})
+```
+
+### Common Methods
+
+#### `data_get() -> dict`
+
+Get the entity data.
+
+#### `data_set(data)`
+
+Set the entity data.
+
+#### `match_get() -> dict`
+
+Get the entity match criteria.
+
+#### `match_set(match)`
+
+Set the entity match criteria.
+
+#### `make() -> Entity`
+
+Create a new `ListTransferRecordEntity` instance with the same options.
+
+#### `get_name() -> str`
+
+Return the entity name.
+
+
+---
+
+## LookupBillEntity
+
+```python
+lookup_bill = client.LookupBill()
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `ErrorCodes` | `list` | Yes |  |
+| `Items` | `list` | Yes |  |
+| `ResultCode` | `int` | Yes |  |
+
+### Operations
+
+#### `create(reqdata, ctrl=None) -> dict`
+
+Create a new entity with the given data. Returns the created entity data and raises on error.
+
+```python
+result = client.LookupBill().create({
+    "ErrorCodes": [],  # list
+    "Items": [],  # list
+    "ResultCode": 1,  # int
+})
+```
+
+### Common Methods
+
+#### `data_get() -> dict`
+
+Get the entity data.
+
+#### `data_set(data)`
+
+Set the entity data.
+
+#### `match_get() -> dict`
+
+Get the entity match criteria.
+
+#### `match_set(match)`
+
+Set the entity match criteria.
+
+#### `make() -> Entity`
+
+Create a new `LookupBillEntity` instance with the same options.
 
 #### `get_name() -> str`
 
@@ -532,9 +658,9 @@ product = client.Product()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `error_code` | `list` | No |  |
-| `item` | `list` | No |  |
-| `result_code` | `int` | No |  |
+| `ErrorCodes` | `list` | Yes |  |
+| `Items` | `list` | Yes |  |
+| `ResultCode` | `int` | Yes |  |
 
 ### Operations
 
@@ -587,9 +713,9 @@ product_description = client.ProductDescription()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `error_code` | `list` | No |  |
-| `item` | `list` | No |  |
-| `result_code` | `int` | No |  |
+| `ErrorCodes` | `list` | Yes |  |
+| `Items` | `list` | Yes |  |
+| `ResultCode` | `int` | Yes |  |
 
 ### Operations
 
@@ -642,9 +768,9 @@ promotion = client.Promotion()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `error_code` | `list` | No |  |
-| `item` | `list` | No |  |
-| `result_code` | `int` | No |  |
+| `ErrorCodes` | `list` | Yes |  |
+| `Items` | `list` | Yes |  |
+| `ResultCode` | `int` | Yes |  |
 
 ### Operations
 
@@ -697,9 +823,9 @@ promotion_description = client.PromotionDescription()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `error_code` | `list` | No |  |
-| `item` | `list` | No |  |
-| `result_code` | `int` | No |  |
+| `ErrorCodes` | `list` | Yes |  |
+| `Items` | `list` | Yes |  |
+| `ResultCode` | `int` | Yes |  |
 
 ### Operations
 
@@ -752,9 +878,9 @@ provider = client.Provider()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `error_code` | `list` | No |  |
-| `item` | `list` | No |  |
-| `result_code` | `int` | No |  |
+| `ErrorCodes` | `list` | Yes |  |
+| `Items` | `list` | Yes |  |
+| `ResultCode` | `int` | Yes |  |
 
 ### Operations
 
@@ -807,9 +933,9 @@ provider_status = client.ProviderStatus()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `error_code` | `list` | No |  |
-| `item` | `list` | No |  |
-| `result_code` | `int` | No |  |
+| `ErrorCodes` | `list` | Yes |  |
+| `Items` | `list` | Yes |  |
+| `ResultCode` | `int` | Yes |  |
 
 ### Operations
 
@@ -862,9 +988,9 @@ region = client.Region()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `error_code` | `list` | No |  |
-| `item` | `list` | No |  |
-| `result_code` | `int` | No |  |
+| `ErrorCodes` | `list` | Yes |  |
+| `Items` | `list` | Yes |  |
+| `ResultCode` | `int` | Yes |  |
 
 ### Operations
 
@@ -917,16 +1043,9 @@ send_transfer = client.SendTransfer()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `account_number` | `str` | Yes |  |
-| `distributor_ref` | `str` | Yes |  |
-| `error_code` | `list` | No |  |
-| `result_code` | `int` | No |  |
-| `send_currency_iso` | `str` | No |  |
-| `send_value` | `float` | Yes |  |
-| `setting` | `list` | No |  |
-| `sku_code` | `str` | Yes |  |
-| `transfer_record` | `dict` | No |  |
-| `validate_only` | `bool` | No |  |
+| `ErrorCodes` | `list` | Yes |  |
+| `ResultCode` | `int` | Yes |  |
+| `TransferRecord` | `dict` | Yes |  |
 
 ### Operations
 
@@ -936,10 +1055,9 @@ Create a new entity with the given data. Returns the created entity data and rai
 
 ```python
 result = client.SendTransfer().create({
-    "account_number": "example_account_number",  # str
-    "distributor_ref": "example_distributor_ref",  # str
-    "send_value": 1,  # float
-    "sku_code": "example_sku_code",  # str
+    "ErrorCodes": [],  # list
+    "ResultCode": 1,  # int
+    "TransferRecord": {},  # dict
 })
 ```
 
@@ -964,71 +1082,6 @@ Set the entity match criteria.
 #### `make() -> Entity`
 
 Create a new `SendTransferEntity` instance with the same options.
-
-#### `get_name() -> str`
-
-Return the entity name.
-
-
----
-
-## TransferRecordEntity
-
-```python
-transfer_record = client.TransferRecord()
-```
-
-### Fields
-
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `account_number` | `str` | No |  |
-| `distributor_ref` | `list` | No |  |
-| `ended_at_utc` | `str` | No |  |
-| `error_code` | `list` | No |  |
-| `item` | `list` | No |  |
-| `result_code` | `int` | No |  |
-| `skip` | `int` | Yes |  |
-| `sku_code` | `list` | No |  |
-| `started_at_utc` | `str` | No |  |
-| `take` | `int` | Yes |  |
-| `there_are_more_item` | `bool` | No |  |
-| `transfer_ref` | `list` | No |  |
-
-### Operations
-
-#### `create(reqdata, ctrl=None) -> dict`
-
-Create a new entity with the given data. Returns the created entity data and raises on error.
-
-```python
-result = client.TransferRecord().create({
-    "skip": 1,  # int
-    "take": 1,  # int
-})
-```
-
-### Common Methods
-
-#### `data_get() -> dict`
-
-Get the entity data.
-
-#### `data_set(data)`
-
-Set the entity data.
-
-#### `match_get() -> dict`
-
-Get the entity match criteria.
-
-#### `match_set(match)`
-
-Set the entity match criteria.
-
-#### `make() -> Entity`
-
-Create a new `TransferRecordEntity` instance with the same options.
 
 #### `get_name() -> str`
 

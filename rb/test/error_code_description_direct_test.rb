@@ -20,7 +20,7 @@ class ErrorCodeDescriptionDirectTest < Minitest::Test
 
 
     result = client.direct({
-      "path" => "GetErrorCodeDescriptions",
+      "path" => "api/V1/GetErrorCodeDescriptions",
       "method" => "GET",
       "params" => {},
     })

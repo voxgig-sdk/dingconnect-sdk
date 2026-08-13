@@ -14,12 +14,12 @@ from __future__ import annotations
 
 from urllib.parse import quote
 
-from config import make_config
-from features import _make_feature
-from core.control import DingconnectControl
-from core.error import DingconnectError
-from core.result import DingconnectResult
-from core.spec import DingconnectSpec
+from projectname_sdk.config import make_config
+from projectname_sdk.features import _make_feature
+from projectname_sdk.core.control import DingconnectControl
+from projectname_sdk.core.error import DingconnectError
+from projectname_sdk.core.result import DingconnectResult
+from projectname_sdk.core.spec import DingconnectSpec
 
 
 # True when this SDK was generated with the named feature.

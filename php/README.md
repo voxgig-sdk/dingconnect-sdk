@@ -40,7 +40,7 @@ try {
     // list() returns an array of AccountLookup records — iterate directly.
     $accountlookups = $client->AccountLookup()->list();
     foreach ($accountlookups as $item) {
-        echo $item["account_number_normalized"] . "\n";
+        echo $item["AccountNumberNormalized"] . "\n";
     }
 } catch (\Throwable $err) {
     echo "Error: " . $err->getMessage();
@@ -127,7 +127,8 @@ Create a mock client for unit testing — no server required:
 ```php
 $client = DingconnectSDK::test();
 
-// Entity ops return the bare mock record (throws on error).
+// Entity ops return the ENTITY (throws on error);
+// call data_get() for the mock record.
 $currency = $client->Currency()->list();
 print_r($currency);
 ```
@@ -212,11 +213,13 @@ Creates a test-mode client with mock transport. Both arguments may be `null`.
 | `direct` | `(array $fetchargs): array` | Build and send an HTTP request. |
 | `AccountLookup` | `($data): AccountLookupEntity` | Create an AccountLookup entity instance. |
 | `Balance` | `($data): BalanceEntity` | Create a Balance entity instance. |
-| `CancelResult` | `($data): CancelResultEntity` | Create a CancelResult entity instance. |
+| `CancelTransfer` | `($data): CancelTransferEntity` | Create a CancelTransfer entity instance. |
 | `Country` | `($data): CountryEntity` | Create a Country entity instance. |
 | `Currency` | `($data): CurrencyEntity` | Create a Currency entity instance. |
 | `ErrorCodeDescription` | `($data): ErrorCodeDescriptionEntity` | Create an ErrorCodeDescription entity instance. |
-| `Estimate` | `($data): EstimateEntity` | Create an Estimate entity instance. |
+| `EstimatePrice` | `($data): EstimatePriceEntity` | Create an EstimatePrice entity instance. |
+| `ListTransferRecord` | `($data): ListTransferRecordEntity` | Create a ListTransferRecord entity instance. |
+| `LookupBill` | `($data): LookupBillEntity` | Create a LookupBill entity instance. |
 | `Product` | `($data): ProductEntity` | Create a Product entity instance. |
 | `ProductDescription` | `($data): ProductDescriptionEntity` | Create a ProductDescription entity instance. |
 | `Promotion` | `($data): PromotionEntity` | Create a Promotion entity instance. |
@@ -225,7 +228,6 @@ Creates a test-mode client with mock transport. Both arguments may be `null`.
 | `ProviderStatus` | `($data): ProviderStatusEntity` | Create a ProviderStatus entity instance. |
 | `Region` | `($data): RegionEntity` | Create a Region entity instance. |
 | `SendTransfer` | `($data): SendTransferEntity` | Create a SendTransfer entity instance. |
-| `TransferRecord` | `($data): TransferRecordEntity` | Create a TransferRecord entity instance. |
 
 ### Entity interface
 
@@ -244,7 +246,7 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return the bare result data (an `array` for single-entity
+Entity operations return the ENTITY (call data_get() for the record) (an `array` for single-entity
 ops, a `list` for `list`) and throw on error. Wrap calls in
 `try`/`catch` to handle failures.
 
@@ -266,210 +268,207 @@ On error, `ok` is `false` and `$err` contains the error value.
 
 | Field | Description |
 | --- | --- |
-| `account_number_normalized` |  |
-| `country_iso` |  |
-| `error_code` |  |
-| `item` |  |
-| `result_code` |  |
+| `AccountNumberNormalized` |  |
+| `CountryIso` |  |
+| `ErrorCodes` |  |
+| `Items` |  |
+| `ResultCode` |  |
 
 Operations: List.
 
-API path: `/GetAccountLookup`
+API path: `/api/V1/GetAccountLookup`
 
 #### Balance
 
 | Field | Description |
 | --- | --- |
-| `code` |  |
-| `context` |  |
+| `Code` |  |
+| `Context` |  |
 
 Operations: List.
 
-API path: `/GetBalance`
+API path: `/api/V1/GetBalance`
 
-#### CancelResult
+#### CancelTransfer
 
 | Field | Description |
 | --- | --- |
-| `error_code` |  |
-| `item` |  |
-| `result_code` |  |
+| `ErrorCodes` |  |
+| `Items` |  |
+| `ResultCode` |  |
 
 Operations: Create.
 
-API path: `/CancelTransfers`
+API path: `/api/V1/CancelTransfers`
 
 #### Country
 
 | Field | Description |
 | --- | --- |
-| `error_code` |  |
-| `item` |  |
-| `result_code` |  |
+| `ErrorCodes` |  |
+| `Items` |  |
+| `ResultCode` |  |
 
 Operations: List.
 
-API path: `/GetCountries`
+API path: `/api/V1/GetCountries`
 
 #### Currency
 
 | Field | Description |
 | --- | --- |
-| `error_code` |  |
-| `item` |  |
-| `result_code` |  |
+| `ErrorCodes` |  |
+| `Items` |  |
+| `ResultCode` |  |
 
 Operations: List.
 
-API path: `/GetCurrencies`
+API path: `/api/V1/GetCurrencies`
 
 #### ErrorCodeDescription
 
 | Field | Description |
 | --- | --- |
-| `error_code` |  |
-| `item` |  |
-| `result_code` |  |
+| `ErrorCodes` |  |
+| `Items` |  |
+| `ResultCode` |  |
 
 Operations: List.
 
-API path: `/GetErrorCodeDescriptions`
+API path: `/api/V1/GetErrorCodeDescriptions`
 
-#### Estimate
+#### EstimatePrice
 
 | Field | Description |
 | --- | --- |
-| `error_code` |  |
-| `item` |  |
-| `result_code` |  |
+| `ErrorCodes` |  |
+| `Items` |  |
+| `ResultCode` |  |
 
 Operations: Create.
 
-API path: `/EstimatePrices`
+API path: `/api/V1/EstimatePrices`
+
+#### ListTransferRecord
+
+| Field | Description |
+| --- | --- |
+| `ErrorCodes` |  |
+| `Items` |  |
+| `ResultCode` |  |
+| `ThereAreMoreItems` |  |
+
+Operations: Create.
+
+API path: `/api/V1/ListTransferRecords`
+
+#### LookupBill
+
+| Field | Description |
+| --- | --- |
+| `ErrorCodes` |  |
+| `Items` |  |
+| `ResultCode` |  |
+
+Operations: Create.
+
+API path: `/api/V1/LookupBills`
 
 #### Product
 
 | Field | Description |
 | --- | --- |
-| `error_code` |  |
-| `item` |  |
-| `result_code` |  |
+| `ErrorCodes` |  |
+| `Items` |  |
+| `ResultCode` |  |
 
 Operations: List.
 
-API path: `/GetProducts`
+API path: `/api/V1/GetProducts`
 
 #### ProductDescription
 
 | Field | Description |
 | --- | --- |
-| `error_code` |  |
-| `item` |  |
-| `result_code` |  |
+| `ErrorCodes` |  |
+| `Items` |  |
+| `ResultCode` |  |
 
 Operations: List.
 
-API path: `/GetProductDescriptions`
+API path: `/api/V1/GetProductDescriptions`
 
 #### Promotion
 
 | Field | Description |
 | --- | --- |
-| `error_code` |  |
-| `item` |  |
-| `result_code` |  |
+| `ErrorCodes` |  |
+| `Items` |  |
+| `ResultCode` |  |
 
 Operations: List.
 
-API path: `/GetPromotions`
+API path: `/api/V1/GetPromotions`
 
 #### PromotionDescription
 
 | Field | Description |
 | --- | --- |
-| `error_code` |  |
-| `item` |  |
-| `result_code` |  |
+| `ErrorCodes` |  |
+| `Items` |  |
+| `ResultCode` |  |
 
 Operations: List.
 
-API path: `/GetPromotionDescriptions`
+API path: `/api/V1/GetPromotionDescriptions`
 
 #### Provider
 
 | Field | Description |
 | --- | --- |
-| `error_code` |  |
-| `item` |  |
-| `result_code` |  |
+| `ErrorCodes` |  |
+| `Items` |  |
+| `ResultCode` |  |
 
 Operations: List.
 
-API path: `/GetProviders`
+API path: `/api/V1/GetProviders`
 
 #### ProviderStatus
 
 | Field | Description |
 | --- | --- |
-| `error_code` |  |
-| `item` |  |
-| `result_code` |  |
+| `ErrorCodes` |  |
+| `Items` |  |
+| `ResultCode` |  |
 
 Operations: List.
 
-API path: `/GetProviderStatus`
+API path: `/api/V1/GetProviderStatus`
 
 #### Region
 
 | Field | Description |
 | --- | --- |
-| `error_code` |  |
-| `item` |  |
-| `result_code` |  |
+| `ErrorCodes` |  |
+| `Items` |  |
+| `ResultCode` |  |
 
 Operations: List.
 
-API path: `/GetRegions`
+API path: `/api/V1/GetRegions`
 
 #### SendTransfer
 
 | Field | Description |
 | --- | --- |
-| `account_number` |  |
-| `distributor_ref` |  |
-| `error_code` |  |
-| `result_code` |  |
-| `send_currency_iso` |  |
-| `send_value` |  |
-| `setting` |  |
-| `sku_code` |  |
-| `transfer_record` |  |
-| `validate_only` |  |
+| `ErrorCodes` |  |
+| `ResultCode` |  |
+| `TransferRecord` |  |
 
 Operations: Create.
 
-API path: `/SendTransfer`
-
-#### TransferRecord
-
-| Field | Description |
-| --- | --- |
-| `account_number` |  |
-| `distributor_ref` |  |
-| `ended_at_utc` |  |
-| `error_code` |  |
-| `item` |  |
-| `result_code` |  |
-| `skip` |  |
-| `sku_code` |  |
-| `started_at_utc` |  |
-| `take` |  |
-| `there_are_more_item` |  |
-| `transfer_ref` |  |
-
-Operations: Create.
-
-API path: `/ListTransferRecords`
+API path: `/api/V1/SendTransfer`
 
 
 
@@ -490,11 +489,11 @@ Create an instance: `$account_lookup = $client->AccountLookup();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `account_number_normalized` | `string` |  |
-| `country_iso` | `string` |  |
-| `error_code` | `array` |  |
-| `item` | `array` |  |
-| `result_code` | `int` |  |
+| `AccountNumberNormalized` | `string` |  |
+| `CountryIso` | `string` |  |
+| `ErrorCodes` | `array` |  |
+| `Items` | `array` |  |
+| `ResultCode` | `int` |  |
 
 #### Example: List
 
@@ -518,8 +517,8 @@ Create an instance: `$balance = $client->Balance();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `code` | `string` |  |
-| `context` | `string` |  |
+| `Code` | `string` |  |
+| `Context` | `string` |  |
 
 #### Example: List
 
@@ -529,9 +528,9 @@ $balances = $client->Balance()->list();
 ```
 
 
-### CancelResult
+### CancelTransfer
 
-Create an instance: `$cancel_result = $client->CancelResult();`
+Create an instance: `$cancel_transfer = $client->CancelTransfer();`
 
 #### Operations
 
@@ -543,14 +542,17 @@ Create an instance: `$cancel_result = $client->CancelResult();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `error_code` | `array` |  |
-| `item` | `array` |  |
-| `result_code` | `int` |  |
+| `ErrorCodes` | `array` |  |
+| `Items` | `array` |  |
+| `ResultCode` | `int` |  |
 
 #### Example: Create
 
 ```php
-$cancel_result = $client->CancelResult()->create([
+$cancel_transfer = $client->CancelTransfer()->create([
+    "ErrorCodes" => null, // array
+    "Items" => null, // array
+    "ResultCode" => null, // int
 ]);
 ```
 
@@ -569,9 +571,9 @@ Create an instance: `$country = $client->Country();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `error_code` | `array` |  |
-| `item` | `array` |  |
-| `result_code` | `int` |  |
+| `ErrorCodes` | `array` |  |
+| `Items` | `array` |  |
+| `ResultCode` | `int` |  |
 
 #### Example: List
 
@@ -595,9 +597,9 @@ Create an instance: `$currency = $client->Currency();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `error_code` | `array` |  |
-| `item` | `array` |  |
-| `result_code` | `int` |  |
+| `ErrorCodes` | `array` |  |
+| `Items` | `array` |  |
+| `ResultCode` | `int` |  |
 
 #### Example: List
 
@@ -621,9 +623,9 @@ Create an instance: `$error_code_description = $client->ErrorCodeDescription();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `error_code` | `array` |  |
-| `item` | `array` |  |
-| `result_code` | `int` |  |
+| `ErrorCodes` | `array` |  |
+| `Items` | `array` |  |
+| `ResultCode` | `int` |  |
 
 #### Example: List
 
@@ -633,9 +635,9 @@ $error_code_descriptions = $client->ErrorCodeDescription()->list();
 ```
 
 
-### Estimate
+### EstimatePrice
 
-Create an instance: `$estimate = $client->Estimate();`
+Create an instance: `$estimate_price = $client->EstimatePrice();`
 
 #### Operations
 
@@ -647,14 +649,77 @@ Create an instance: `$estimate = $client->Estimate();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `error_code` | `array` |  |
-| `item` | `array` |  |
-| `result_code` | `int` |  |
+| `ErrorCodes` | `array` |  |
+| `Items` | `array` |  |
+| `ResultCode` | `int` |  |
 
 #### Example: Create
 
 ```php
-$estimate = $client->Estimate()->create([
+$estimate_price = $client->EstimatePrice()->create([
+    "ErrorCodes" => null, // array
+    "Items" => null, // array
+    "ResultCode" => null, // int
+]);
+```
+
+
+### ListTransferRecord
+
+Create an instance: `$list_transfer_record = $client->ListTransferRecord();`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `create(data)` | Create a new entity with the given data. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `ErrorCodes` | `array` |  |
+| `Items` | `array` |  |
+| `ResultCode` | `int` |  |
+| `ThereAreMoreItems` | `bool` |  |
+
+#### Example: Create
+
+```php
+$list_transfer_record = $client->ListTransferRecord()->create([
+    "ErrorCodes" => null, // array
+    "Items" => null, // array
+    "ResultCode" => null, // int
+    "ThereAreMoreItems" => null, // bool
+]);
+```
+
+
+### LookupBill
+
+Create an instance: `$lookup_bill = $client->LookupBill();`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `create(data)` | Create a new entity with the given data. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `ErrorCodes` | `array` |  |
+| `Items` | `array` |  |
+| `ResultCode` | `int` |  |
+
+#### Example: Create
+
+```php
+$lookup_bill = $client->LookupBill()->create([
+    "ErrorCodes" => null, // array
+    "Items" => null, // array
+    "ResultCode" => null, // int
 ]);
 ```
 
@@ -673,9 +738,9 @@ Create an instance: `$product = $client->Product();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `error_code` | `array` |  |
-| `item` | `array` |  |
-| `result_code` | `int` |  |
+| `ErrorCodes` | `array` |  |
+| `Items` | `array` |  |
+| `ResultCode` | `int` |  |
 
 #### Example: List
 
@@ -699,9 +764,9 @@ Create an instance: `$product_description = $client->ProductDescription();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `error_code` | `array` |  |
-| `item` | `array` |  |
-| `result_code` | `int` |  |
+| `ErrorCodes` | `array` |  |
+| `Items` | `array` |  |
+| `ResultCode` | `int` |  |
 
 #### Example: List
 
@@ -725,9 +790,9 @@ Create an instance: `$promotion = $client->Promotion();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `error_code` | `array` |  |
-| `item` | `array` |  |
-| `result_code` | `int` |  |
+| `ErrorCodes` | `array` |  |
+| `Items` | `array` |  |
+| `ResultCode` | `int` |  |
 
 #### Example: List
 
@@ -751,9 +816,9 @@ Create an instance: `$promotion_description = $client->PromotionDescription();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `error_code` | `array` |  |
-| `item` | `array` |  |
-| `result_code` | `int` |  |
+| `ErrorCodes` | `array` |  |
+| `Items` | `array` |  |
+| `ResultCode` | `int` |  |
 
 #### Example: List
 
@@ -777,9 +842,9 @@ Create an instance: `$provider = $client->Provider();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `error_code` | `array` |  |
-| `item` | `array` |  |
-| `result_code` | `int` |  |
+| `ErrorCodes` | `array` |  |
+| `Items` | `array` |  |
+| `ResultCode` | `int` |  |
 
 #### Example: List
 
@@ -803,9 +868,9 @@ Create an instance: `$provider_status = $client->ProviderStatus();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `error_code` | `array` |  |
-| `item` | `array` |  |
-| `result_code` | `int` |  |
+| `ErrorCodes` | `array` |  |
+| `Items` | `array` |  |
+| `ResultCode` | `int` |  |
 
 #### Example: List
 
@@ -829,9 +894,9 @@ Create an instance: `$region = $client->Region();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `error_code` | `array` |  |
-| `item` | `array` |  |
-| `result_code` | `int` |  |
+| `ErrorCodes` | `array` |  |
+| `Items` | `array` |  |
+| `ResultCode` | `int` |  |
 
 #### Example: List
 
@@ -855,62 +920,17 @@ Create an instance: `$send_transfer = $client->SendTransfer();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `account_number` | `string` |  |
-| `distributor_ref` | `string` |  |
-| `error_code` | `array` |  |
-| `result_code` | `int` |  |
-| `send_currency_iso` | `string` |  |
-| `send_value` | `float` |  |
-| `setting` | `array` |  |
-| `sku_code` | `string` |  |
-| `transfer_record` | `array` |  |
-| `validate_only` | `bool` |  |
+| `ErrorCodes` | `array` |  |
+| `ResultCode` | `int` |  |
+| `TransferRecord` | `array` |  |
 
 #### Example: Create
 
 ```php
 $send_transfer = $client->SendTransfer()->create([
-    "account_number" => null, // string
-    "distributor_ref" => null, // string
-    "send_value" => null, // float
-    "sku_code" => null, // string
-]);
-```
-
-
-### TransferRecord
-
-Create an instance: `$transfer_record = $client->TransferRecord();`
-
-#### Operations
-
-| Method | Description |
-| --- | --- |
-| `create(data)` | Create a new entity with the given data. |
-
-#### Fields
-
-| Field | Type | Description |
-| --- | --- | --- |
-| `account_number` | `string` |  |
-| `distributor_ref` | `array` |  |
-| `ended_at_utc` | `string` |  |
-| `error_code` | `array` |  |
-| `item` | `array` |  |
-| `result_code` | `int` |  |
-| `skip` | `int` |  |
-| `sku_code` | `array` |  |
-| `started_at_utc` | `string` |  |
-| `take` | `int` |  |
-| `there_are_more_item` | `bool` |  |
-| `transfer_ref` | `array` |  |
-
-#### Example: Create
-
-```php
-$transfer_record = $client->TransferRecord()->create([
-    "skip" => null, // int
-    "take" => null, // int
+    "ErrorCodes" => null, // array
+    "ResultCode" => null, // int
+    "TransferRecord" => null, // array
 ]);
 ```
 

@@ -13,7 +13,7 @@ func MakeConfig() map[string]any {
 			},
 		},
 		"options": map[string]any{
-			"base": "https://api.dingconnect.com/api/V1",
+			"base": "https://api.dingconnect.com",
 			"auth": map[string]any{
 				"prefix": "",
 			},
@@ -23,11 +23,13 @@ func MakeConfig() map[string]any {
 			"entity": map[string]any{
 				"account_lookup": map[string]any{},
 				"balance": map[string]any{},
-				"cancel_result": map[string]any{},
+				"cancel_transfer": map[string]any{},
 				"country": map[string]any{},
 				"currency": map[string]any{},
 				"error_code_description": map[string]any{},
-				"estimate": map[string]any{},
+				"estimate_price": map[string]any{},
+				"list_transfer_record": map[string]any{},
+				"lookup_bill": map[string]any{},
 				"product": map[string]any{},
 				"product_description": map[string]any{},
 				"promotion": map[string]any{},
@@ -36,7 +38,6 @@ func MakeConfig() map[string]any {
 				"provider_status": map[string]any{},
 				"region": map[string]any{},
 				"send_transfer": map[string]any{},
-				"transfer_record": map[string]any{},
 			},
 		},
 		"entity": map[string]any{
@@ -44,36 +45,36 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"active": true,
-						"name": "account_number_normalized",
+						"name": "AccountNumberNormalized",
 						"req": false,
 						"type": "`$STRING`",
 						"index$": 0,
 					},
 					map[string]any{
 						"active": true,
-						"name": "country_iso",
+						"name": "CountryIso",
 						"req": false,
 						"type": "`$STRING`",
 						"index$": 1,
 					},
 					map[string]any{
 						"active": true,
-						"name": "error_code",
-						"req": false,
+						"name": "ErrorCodes",
+						"req": true,
 						"type": "`$ARRAY`",
 						"index$": 2,
 					},
 					map[string]any{
 						"active": true,
-						"name": "item",
-						"req": false,
+						"name": "Items",
+						"req": true,
 						"type": "`$ARRAY`",
 						"index$": 3,
 					},
 					map[string]any{
 						"active": true,
-						"name": "result_code",
-						"req": false,
+						"name": "ResultCode",
+						"req": true,
 						"type": "`$INTEGER`",
 						"index$": 4,
 					},
@@ -87,25 +88,39 @@ func MakeConfig() map[string]any {
 							map[string]any{
 								"active": true,
 								"args": map[string]any{
+									"header": []any{
+										map[string]any{
+											"active": true,
+											"kind": "header",
+											"name": "x_correlation_id",
+											"orig": "x_correlation_id",
+											"reqd": false,
+											"type": "`$STRING`",
+										},
+									},
 									"query": []any{
 										map[string]any{
 											"active": true,
 											"kind": "query",
 											"name": "account_number",
 											"orig": "account_number",
-											"reqd": true,
-											"type": "`$STRING`",
+											"reqd": false,
+											"type": "`$INTEGER`",
 										},
 									},
 								},
+								"kind": "http",
 								"method": "GET",
-								"orig": "/GetAccountLookup",
+								"orig": "/api/V1/GetAccountLookup",
 								"parts": []any{
+									"api",
+									"V1",
 									"GetAccountLookup",
 								},
 								"select": map[string]any{
 									"exist": []any{
 										"account_number",
+										"x_correlation_id",
 									},
 								},
 								"transform": map[string]any{
@@ -115,7 +130,6 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "list",
 					},
 				},
 				"relations": map[string]any{
@@ -126,14 +140,14 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"active": true,
-						"name": "code",
-						"req": false,
+						"name": "Code",
+						"req": true,
 						"type": "`$STRING`",
 						"index$": 0,
 					},
 					map[string]any{
 						"active": true,
-						"name": "context",
+						"name": "Context",
 						"req": false,
 						"type": "`$STRING`",
 						"index$": 1,
@@ -147,52 +161,69 @@ func MakeConfig() map[string]any {
 						"points": []any{
 							map[string]any{
 								"active": true,
-								"args": map[string]any{},
+								"args": map[string]any{
+									"header": []any{
+										map[string]any{
+											"active": true,
+											"kind": "header",
+											"name": "x_correlation_id",
+											"orig": "x_correlation_id",
+											"reqd": false,
+											"type": "`$STRING`",
+										},
+									},
+								},
+								"kind": "http",
 								"method": "GET",
-								"orig": "/GetBalance",
+								"orig": "/api/V1/GetBalance",
 								"parts": []any{
+									"api",
+									"V1",
 									"GetBalance",
 								},
-								"select": map[string]any{},
+								"select": map[string]any{
+									"exist": []any{
+										"x_correlation_id",
+									},
+								},
 								"transform": map[string]any{
 									"req": "`reqdata`",
-									"res": "`body`",
+									"res": "`body.ErrorCodes`",
 								},
 								"index$": 0,
 							},
 						},
-						"key$": "list",
 					},
 				},
 				"relations": map[string]any{
 					"ancestors": []any{},
 				},
 			},
-			"cancel_result": map[string]any{
+			"cancel_transfer": map[string]any{
 				"fields": []any{
 					map[string]any{
 						"active": true,
-						"name": "error_code",
-						"req": false,
+						"name": "ErrorCodes",
+						"req": true,
 						"type": "`$ARRAY`",
 						"index$": 0,
 					},
 					map[string]any{
 						"active": true,
-						"name": "item",
-						"req": false,
+						"name": "Items",
+						"req": true,
 						"type": "`$ARRAY`",
 						"index$": 1,
 					},
 					map[string]any{
 						"active": true,
-						"name": "result_code",
-						"req": false,
+						"name": "ResultCode",
+						"req": true,
 						"type": "`$INTEGER`",
 						"index$": 2,
 					},
 				},
-				"name": "cancel_result",
+				"name": "cancel_transfer",
 				"op": map[string]any{
 					"create": map[string]any{
 						"input": "data",
@@ -200,13 +231,42 @@ func MakeConfig() map[string]any {
 						"points": []any{
 							map[string]any{
 								"active": true,
-								"args": map[string]any{},
+								"args": map[string]any{
+									"header": []any{
+										map[string]any{
+											"active": true,
+											"kind": "header",
+											"name": "x_correlation_id",
+											"orig": "x_correlation_id",
+											"reqd": false,
+											"type": "`$STRING`",
+										},
+									},
+									"query": []any{
+										map[string]any{
+											"active": true,
+											"kind": "query",
+											"name": "cancellation_request",
+											"orig": "cancellation_request",
+											"reqd": true,
+											"type": "`$ARRAY`",
+										},
+									},
+								},
+								"kind": "http",
 								"method": "POST",
-								"orig": "/CancelTransfers",
+								"orig": "/api/V1/CancelTransfers",
 								"parts": []any{
+									"api",
+									"V1",
 									"CancelTransfers",
 								},
-								"select": map[string]any{},
+								"select": map[string]any{
+									"exist": []any{
+										"cancellation_request",
+										"x_correlation_id",
+									},
+								},
 								"transform": map[string]any{
 									"req": "`reqdata`",
 									"res": "`body`",
@@ -214,7 +274,6 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "create",
 					},
 				},
 				"relations": map[string]any{
@@ -225,22 +284,22 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"active": true,
-						"name": "error_code",
-						"req": false,
+						"name": "ErrorCodes",
+						"req": true,
 						"type": "`$ARRAY`",
 						"index$": 0,
 					},
 					map[string]any{
 						"active": true,
-						"name": "item",
-						"req": false,
+						"name": "Items",
+						"req": true,
 						"type": "`$ARRAY`",
 						"index$": 1,
 					},
 					map[string]any{
 						"active": true,
-						"name": "result_code",
-						"req": false,
+						"name": "ResultCode",
+						"req": true,
 						"type": "`$INTEGER`",
 						"index$": 2,
 					},
@@ -253,13 +312,31 @@ func MakeConfig() map[string]any {
 						"points": []any{
 							map[string]any{
 								"active": true,
-								"args": map[string]any{},
+								"args": map[string]any{
+									"header": []any{
+										map[string]any{
+											"active": true,
+											"kind": "header",
+											"name": "x_correlation_id",
+											"orig": "x_correlation_id",
+											"reqd": false,
+											"type": "`$STRING`",
+										},
+									},
+								},
+								"kind": "http",
 								"method": "GET",
-								"orig": "/GetCountries",
+								"orig": "/api/V1/GetCountries",
 								"parts": []any{
+									"api",
+									"V1",
 									"GetCountries",
 								},
-								"select": map[string]any{},
+								"select": map[string]any{
+									"exist": []any{
+										"x_correlation_id",
+									},
+								},
 								"transform": map[string]any{
 									"req": "`reqdata`",
 									"res": "`body`",
@@ -267,7 +344,6 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "list",
 					},
 				},
 				"relations": map[string]any{
@@ -278,22 +354,22 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"active": true,
-						"name": "error_code",
-						"req": false,
+						"name": "ErrorCodes",
+						"req": true,
 						"type": "`$ARRAY`",
 						"index$": 0,
 					},
 					map[string]any{
 						"active": true,
-						"name": "item",
-						"req": false,
+						"name": "Items",
+						"req": true,
 						"type": "`$ARRAY`",
 						"index$": 1,
 					},
 					map[string]any{
 						"active": true,
-						"name": "result_code",
-						"req": false,
+						"name": "ResultCode",
+						"req": true,
 						"type": "`$INTEGER`",
 						"index$": 2,
 					},
@@ -306,13 +382,31 @@ func MakeConfig() map[string]any {
 						"points": []any{
 							map[string]any{
 								"active": true,
-								"args": map[string]any{},
+								"args": map[string]any{
+									"header": []any{
+										map[string]any{
+											"active": true,
+											"kind": "header",
+											"name": "x_correlation_id",
+											"orig": "x_correlation_id",
+											"reqd": false,
+											"type": "`$STRING`",
+										},
+									},
+								},
+								"kind": "http",
 								"method": "GET",
-								"orig": "/GetCurrencies",
+								"orig": "/api/V1/GetCurrencies",
 								"parts": []any{
+									"api",
+									"V1",
 									"GetCurrencies",
 								},
-								"select": map[string]any{},
+								"select": map[string]any{
+									"exist": []any{
+										"x_correlation_id",
+									},
+								},
 								"transform": map[string]any{
 									"req": "`reqdata`",
 									"res": "`body`",
@@ -320,7 +414,6 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "list",
 					},
 				},
 				"relations": map[string]any{
@@ -331,22 +424,22 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"active": true,
-						"name": "error_code",
-						"req": false,
+						"name": "ErrorCodes",
+						"req": true,
 						"type": "`$ARRAY`",
 						"index$": 0,
 					},
 					map[string]any{
 						"active": true,
-						"name": "item",
-						"req": false,
+						"name": "Items",
+						"req": true,
 						"type": "`$ARRAY`",
 						"index$": 1,
 					},
 					map[string]any{
 						"active": true,
-						"name": "result_code",
-						"req": false,
+						"name": "ResultCode",
+						"req": true,
 						"type": "`$INTEGER`",
 						"index$": 2,
 					},
@@ -359,13 +452,31 @@ func MakeConfig() map[string]any {
 						"points": []any{
 							map[string]any{
 								"active": true,
-								"args": map[string]any{},
+								"args": map[string]any{
+									"header": []any{
+										map[string]any{
+											"active": true,
+											"kind": "header",
+											"name": "x_correlation_id",
+											"orig": "x_correlation_id",
+											"reqd": false,
+											"type": "`$STRING`",
+										},
+									},
+								},
+								"kind": "http",
 								"method": "GET",
-								"orig": "/GetErrorCodeDescriptions",
+								"orig": "/api/V1/GetErrorCodeDescriptions",
 								"parts": []any{
+									"api",
+									"V1",
 									"GetErrorCodeDescriptions",
 								},
-								"select": map[string]any{},
+								"select": map[string]any{
+									"exist": []any{
+										"x_correlation_id",
+									},
+								},
 								"transform": map[string]any{
 									"req": "`reqdata`",
 									"res": "`body`",
@@ -373,38 +484,37 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "list",
 					},
 				},
 				"relations": map[string]any{
 					"ancestors": []any{},
 				},
 			},
-			"estimate": map[string]any{
+			"estimate_price": map[string]any{
 				"fields": []any{
 					map[string]any{
 						"active": true,
-						"name": "error_code",
-						"req": false,
+						"name": "ErrorCodes",
+						"req": true,
 						"type": "`$ARRAY`",
 						"index$": 0,
 					},
 					map[string]any{
 						"active": true,
-						"name": "item",
-						"req": false,
+						"name": "Items",
+						"req": true,
 						"type": "`$ARRAY`",
 						"index$": 1,
 					},
 					map[string]any{
 						"active": true,
-						"name": "result_code",
-						"req": false,
+						"name": "ResultCode",
+						"req": true,
 						"type": "`$INTEGER`",
 						"index$": 2,
 					},
 				},
-				"name": "estimate",
+				"name": "estimate_price",
 				"op": map[string]any{
 					"create": map[string]any{
 						"input": "data",
@@ -412,13 +522,42 @@ func MakeConfig() map[string]any {
 						"points": []any{
 							map[string]any{
 								"active": true,
-								"args": map[string]any{},
+								"args": map[string]any{
+									"header": []any{
+										map[string]any{
+											"active": true,
+											"kind": "header",
+											"name": "x_correlation_id",
+											"orig": "x_correlation_id",
+											"reqd": false,
+											"type": "`$STRING`",
+										},
+									},
+									"query": []any{
+										map[string]any{
+											"active": true,
+											"kind": "query",
+											"name": "requested_estimation",
+											"orig": "requested_estimation",
+											"reqd": true,
+											"type": "`$ARRAY`",
+										},
+									},
+								},
+								"kind": "http",
 								"method": "POST",
-								"orig": "/EstimatePrices",
+								"orig": "/api/V1/EstimatePrices",
 								"parts": []any{
+									"api",
+									"V1",
 									"EstimatePrices",
 								},
-								"select": map[string]any{},
+								"select": map[string]any{
+									"exist": []any{
+										"requested_estimation",
+										"x_correlation_id",
+									},
+								},
 								"transform": map[string]any{
 									"req": "`reqdata`",
 									"res": "`body`",
@@ -426,7 +565,175 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "create",
+					},
+				},
+				"relations": map[string]any{
+					"ancestors": []any{},
+				},
+			},
+			"list_transfer_record": map[string]any{
+				"fields": []any{
+					map[string]any{
+						"active": true,
+						"name": "ErrorCodes",
+						"req": true,
+						"type": "`$ARRAY`",
+						"index$": 0,
+					},
+					map[string]any{
+						"active": true,
+						"name": "Items",
+						"req": true,
+						"type": "`$ARRAY`",
+						"index$": 1,
+					},
+					map[string]any{
+						"active": true,
+						"name": "ResultCode",
+						"req": true,
+						"type": "`$INTEGER`",
+						"index$": 2,
+					},
+					map[string]any{
+						"active": true,
+						"name": "ThereAreMoreItems",
+						"req": true,
+						"type": "`$BOOLEAN`",
+						"index$": 3,
+					},
+				},
+				"name": "list_transfer_record",
+				"op": map[string]any{
+					"create": map[string]any{
+						"input": "data",
+						"name": "create",
+						"points": []any{
+							map[string]any{
+								"active": true,
+								"args": map[string]any{
+									"header": []any{
+										map[string]any{
+											"active": true,
+											"kind": "header",
+											"name": "x_correlation_id",
+											"orig": "x_correlation_id",
+											"reqd": false,
+											"type": "`$STRING`",
+										},
+									},
+									"query": []any{
+										map[string]any{
+											"active": true,
+											"kind": "query",
+											"name": "request",
+											"orig": "request",
+											"reqd": true,
+											"type": "`$OBJECT`",
+										},
+									},
+								},
+								"kind": "http",
+								"method": "POST",
+								"orig": "/api/V1/ListTransferRecords",
+								"parts": []any{
+									"api",
+									"V1",
+									"ListTransferRecords",
+								},
+								"select": map[string]any{
+									"exist": []any{
+										"request",
+										"x_correlation_id",
+									},
+								},
+								"transform": map[string]any{
+									"req": "`reqdata`",
+									"res": "`body`",
+								},
+								"index$": 0,
+							},
+						},
+					},
+				},
+				"relations": map[string]any{
+					"ancestors": []any{},
+				},
+			},
+			"lookup_bill": map[string]any{
+				"fields": []any{
+					map[string]any{
+						"active": true,
+						"name": "ErrorCodes",
+						"req": true,
+						"type": "`$ARRAY`",
+						"index$": 0,
+					},
+					map[string]any{
+						"active": true,
+						"name": "Items",
+						"req": true,
+						"type": "`$ARRAY`",
+						"index$": 1,
+					},
+					map[string]any{
+						"active": true,
+						"name": "ResultCode",
+						"req": true,
+						"type": "`$INTEGER`",
+						"index$": 2,
+					},
+				},
+				"name": "lookup_bill",
+				"op": map[string]any{
+					"create": map[string]any{
+						"input": "data",
+						"name": "create",
+						"points": []any{
+							map[string]any{
+								"active": true,
+								"args": map[string]any{
+									"header": []any{
+										map[string]any{
+											"active": true,
+											"kind": "header",
+											"name": "x_correlation_id",
+											"orig": "x_correlation_id",
+											"reqd": false,
+											"type": "`$STRING`",
+										},
+									},
+									"query": []any{
+										map[string]any{
+											"active": true,
+											"kind": "query",
+											"name": "request",
+											"orig": "request",
+											"reqd": true,
+											"type": "`$OBJECT`",
+										},
+									},
+								},
+								"kind": "http",
+								"method": "POST",
+								"orig": "/api/V1/LookupBills",
+								"parts": []any{
+									"api",
+									"V1",
+									"LookupBills",
+								},
+								"select": map[string]any{
+									"exist": []any{
+										"request",
+										"x_correlation_id",
+									},
+								},
+								"transform": map[string]any{
+									"req": "`reqdata`",
+									"res": "`body`",
+								},
+								"index$": 0,
+							},
+						},
 					},
 				},
 				"relations": map[string]any{
@@ -437,22 +744,22 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"active": true,
-						"name": "error_code",
-						"req": false,
+						"name": "ErrorCodes",
+						"req": true,
 						"type": "`$ARRAY`",
 						"index$": 0,
 					},
 					map[string]any{
 						"active": true,
-						"name": "item",
-						"req": false,
+						"name": "Items",
+						"req": true,
 						"type": "`$ARRAY`",
 						"index$": 1,
 					},
 					map[string]any{
 						"active": true,
-						"name": "result_code",
-						"req": false,
+						"name": "ResultCode",
+						"req": true,
 						"type": "`$INTEGER`",
 						"index$": 2,
 					},
@@ -466,6 +773,16 @@ func MakeConfig() map[string]any {
 							map[string]any{
 								"active": true,
 								"args": map[string]any{
+									"header": []any{
+										map[string]any{
+											"active": true,
+											"kind": "header",
+											"name": "x_correlation_id",
+											"orig": "x_correlation_id",
+											"reqd": false,
+											"type": "`$STRING`",
+										},
+									},
 									"query": []any{
 										map[string]any{
 											"active": true,
@@ -473,7 +790,7 @@ func MakeConfig() map[string]any {
 											"name": "account_number",
 											"orig": "account_number",
 											"reqd": false,
-											"type": "`$STRING`",
+											"type": "`$INTEGER`",
 										},
 										map[string]any{
 											"active": true,
@@ -481,7 +798,7 @@ func MakeConfig() map[string]any {
 											"name": "benefit",
 											"orig": "benefit",
 											"reqd": false,
-											"type": "`$ARRAY`",
+											"type": "`$ANY`",
 										},
 										map[string]any{
 											"active": true,
@@ -489,7 +806,7 @@ func MakeConfig() map[string]any {
 											"name": "country_iso",
 											"orig": "country_iso",
 											"reqd": false,
-											"type": "`$ARRAY`",
+											"type": "`$ANY`",
 										},
 										map[string]any{
 											"active": true,
@@ -497,7 +814,7 @@ func MakeConfig() map[string]any {
 											"name": "provider_code",
 											"orig": "provider_code",
 											"reqd": false,
-											"type": "`$ARRAY`",
+											"type": "`$ANY`",
 										},
 										map[string]any{
 											"active": true,
@@ -505,7 +822,7 @@ func MakeConfig() map[string]any {
 											"name": "region_code",
 											"orig": "region_code",
 											"reqd": false,
-											"type": "`$ARRAY`",
+											"type": "`$ANY`",
 										},
 										map[string]any{
 											"active": true,
@@ -513,13 +830,16 @@ func MakeConfig() map[string]any {
 											"name": "sku_code",
 											"orig": "sku_code",
 											"reqd": false,
-											"type": "`$ARRAY`",
+											"type": "`$ANY`",
 										},
 									},
 								},
+								"kind": "http",
 								"method": "GET",
-								"orig": "/GetProducts",
+								"orig": "/api/V1/GetProducts",
 								"parts": []any{
+									"api",
+									"V1",
 									"GetProducts",
 								},
 								"select": map[string]any{
@@ -530,6 +850,7 @@ func MakeConfig() map[string]any {
 										"provider_code",
 										"region_code",
 										"sku_code",
+										"x_correlation_id",
 									},
 								},
 								"transform": map[string]any{
@@ -539,7 +860,6 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "list",
 					},
 				},
 				"relations": map[string]any{
@@ -550,22 +870,22 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"active": true,
-						"name": "error_code",
-						"req": false,
+						"name": "ErrorCodes",
+						"req": true,
 						"type": "`$ARRAY`",
 						"index$": 0,
 					},
 					map[string]any{
 						"active": true,
-						"name": "item",
-						"req": false,
+						"name": "Items",
+						"req": true,
 						"type": "`$ARRAY`",
 						"index$": 1,
 					},
 					map[string]any{
 						"active": true,
-						"name": "result_code",
-						"req": false,
+						"name": "ResultCode",
+						"req": true,
 						"type": "`$INTEGER`",
 						"index$": 2,
 					},
@@ -579,6 +899,16 @@ func MakeConfig() map[string]any {
 							map[string]any{
 								"active": true,
 								"args": map[string]any{
+									"header": []any{
+										map[string]any{
+											"active": true,
+											"kind": "header",
+											"name": "x_correlation_id",
+											"orig": "x_correlation_id",
+											"reqd": false,
+											"type": "`$STRING`",
+										},
+									},
 									"query": []any{
 										map[string]any{
 											"active": true,
@@ -586,7 +916,7 @@ func MakeConfig() map[string]any {
 											"name": "language_code",
 											"orig": "language_code",
 											"reqd": false,
-											"type": "`$ARRAY`",
+											"type": "`$ANY`",
 										},
 										map[string]any{
 											"active": true,
@@ -594,19 +924,23 @@ func MakeConfig() map[string]any {
 											"name": "sku_code",
 											"orig": "sku_code",
 											"reqd": false,
-											"type": "`$ARRAY`",
+											"type": "`$ANY`",
 										},
 									},
 								},
+								"kind": "http",
 								"method": "GET",
-								"orig": "/GetProductDescriptions",
+								"orig": "/api/V1/GetProductDescriptions",
 								"parts": []any{
+									"api",
+									"V1",
 									"GetProductDescriptions",
 								},
 								"select": map[string]any{
 									"exist": []any{
 										"language_code",
 										"sku_code",
+										"x_correlation_id",
 									},
 								},
 								"transform": map[string]any{
@@ -616,7 +950,6 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "list",
 					},
 				},
 				"relations": map[string]any{
@@ -627,22 +960,22 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"active": true,
-						"name": "error_code",
-						"req": false,
+						"name": "ErrorCodes",
+						"req": true,
 						"type": "`$ARRAY`",
 						"index$": 0,
 					},
 					map[string]any{
 						"active": true,
-						"name": "item",
-						"req": false,
+						"name": "Items",
+						"req": true,
 						"type": "`$ARRAY`",
 						"index$": 1,
 					},
 					map[string]any{
 						"active": true,
-						"name": "result_code",
-						"req": false,
+						"name": "ResultCode",
+						"req": true,
 						"type": "`$INTEGER`",
 						"index$": 2,
 					},
@@ -656,6 +989,16 @@ func MakeConfig() map[string]any {
 							map[string]any{
 								"active": true,
 								"args": map[string]any{
+									"header": []any{
+										map[string]any{
+											"active": true,
+											"kind": "header",
+											"name": "x_correlation_id",
+											"orig": "x_correlation_id",
+											"reqd": false,
+											"type": "`$STRING`",
+										},
+									},
 									"query": []any{
 										map[string]any{
 											"active": true,
@@ -663,7 +1006,7 @@ func MakeConfig() map[string]any {
 											"name": "account_number",
 											"orig": "account_number",
 											"reqd": false,
-											"type": "`$STRING`",
+											"type": "`$INTEGER`",
 										},
 										map[string]any{
 											"active": true,
@@ -671,7 +1014,7 @@ func MakeConfig() map[string]any {
 											"name": "country_iso",
 											"orig": "country_iso",
 											"reqd": false,
-											"type": "`$ARRAY`",
+											"type": "`$ANY`",
 										},
 										map[string]any{
 											"active": true,
@@ -679,13 +1022,16 @@ func MakeConfig() map[string]any {
 											"name": "provider_code",
 											"orig": "provider_code",
 											"reqd": false,
-											"type": "`$ARRAY`",
+											"type": "`$ANY`",
 										},
 									},
 								},
+								"kind": "http",
 								"method": "GET",
-								"orig": "/GetPromotions",
+								"orig": "/api/V1/GetPromotions",
 								"parts": []any{
+									"api",
+									"V1",
 									"GetPromotions",
 								},
 								"select": map[string]any{
@@ -693,6 +1039,7 @@ func MakeConfig() map[string]any {
 										"account_number",
 										"country_iso",
 										"provider_code",
+										"x_correlation_id",
 									},
 								},
 								"transform": map[string]any{
@@ -702,7 +1049,6 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "list",
 					},
 				},
 				"relations": map[string]any{
@@ -713,22 +1059,22 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"active": true,
-						"name": "error_code",
-						"req": false,
+						"name": "ErrorCodes",
+						"req": true,
 						"type": "`$ARRAY`",
 						"index$": 0,
 					},
 					map[string]any{
 						"active": true,
-						"name": "item",
-						"req": false,
+						"name": "Items",
+						"req": true,
 						"type": "`$ARRAY`",
 						"index$": 1,
 					},
 					map[string]any{
 						"active": true,
-						"name": "result_code",
-						"req": false,
+						"name": "ResultCode",
+						"req": true,
 						"type": "`$INTEGER`",
 						"index$": 2,
 					},
@@ -742,6 +1088,16 @@ func MakeConfig() map[string]any {
 							map[string]any{
 								"active": true,
 								"args": map[string]any{
+									"header": []any{
+										map[string]any{
+											"active": true,
+											"kind": "header",
+											"name": "x_correlation_id",
+											"orig": "x_correlation_id",
+											"reqd": false,
+											"type": "`$STRING`",
+										},
+									},
 									"query": []any{
 										map[string]any{
 											"active": true,
@@ -749,18 +1105,22 @@ func MakeConfig() map[string]any {
 											"name": "language_code",
 											"orig": "language_code",
 											"reqd": false,
-											"type": "`$ARRAY`",
+											"type": "`$ANY`",
 										},
 									},
 								},
+								"kind": "http",
 								"method": "GET",
-								"orig": "/GetPromotionDescriptions",
+								"orig": "/api/V1/GetPromotionDescriptions",
 								"parts": []any{
+									"api",
+									"V1",
 									"GetPromotionDescriptions",
 								},
 								"select": map[string]any{
 									"exist": []any{
 										"language_code",
+										"x_correlation_id",
 									},
 								},
 								"transform": map[string]any{
@@ -770,7 +1130,6 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "list",
 					},
 				},
 				"relations": map[string]any{
@@ -781,22 +1140,22 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"active": true,
-						"name": "error_code",
-						"req": false,
+						"name": "ErrorCodes",
+						"req": true,
 						"type": "`$ARRAY`",
 						"index$": 0,
 					},
 					map[string]any{
 						"active": true,
-						"name": "item",
-						"req": false,
+						"name": "Items",
+						"req": true,
 						"type": "`$ARRAY`",
 						"index$": 1,
 					},
 					map[string]any{
 						"active": true,
-						"name": "result_code",
-						"req": false,
+						"name": "ResultCode",
+						"req": true,
 						"type": "`$INTEGER`",
 						"index$": 2,
 					},
@@ -810,6 +1169,16 @@ func MakeConfig() map[string]any {
 							map[string]any{
 								"active": true,
 								"args": map[string]any{
+									"header": []any{
+										map[string]any{
+											"active": true,
+											"kind": "header",
+											"name": "x_correlation_id",
+											"orig": "x_correlation_id",
+											"reqd": false,
+											"type": "`$STRING`",
+										},
+									},
 									"query": []any{
 										map[string]any{
 											"active": true,
@@ -817,7 +1186,7 @@ func MakeConfig() map[string]any {
 											"name": "account_number",
 											"orig": "account_number",
 											"reqd": false,
-											"type": "`$STRING`",
+											"type": "`$INTEGER`",
 										},
 										map[string]any{
 											"active": true,
@@ -825,7 +1194,7 @@ func MakeConfig() map[string]any {
 											"name": "country_iso",
 											"orig": "country_iso",
 											"reqd": false,
-											"type": "`$ARRAY`",
+											"type": "`$ANY`",
 										},
 										map[string]any{
 											"active": true,
@@ -833,7 +1202,7 @@ func MakeConfig() map[string]any {
 											"name": "provider_code",
 											"orig": "provider_code",
 											"reqd": false,
-											"type": "`$ARRAY`",
+											"type": "`$ANY`",
 										},
 										map[string]any{
 											"active": true,
@@ -841,13 +1210,16 @@ func MakeConfig() map[string]any {
 											"name": "region_code",
 											"orig": "region_code",
 											"reqd": false,
-											"type": "`$ARRAY`",
+											"type": "`$ANY`",
 										},
 									},
 								},
+								"kind": "http",
 								"method": "GET",
-								"orig": "/GetProviders",
+								"orig": "/api/V1/GetProviders",
 								"parts": []any{
+									"api",
+									"V1",
 									"GetProviders",
 								},
 								"select": map[string]any{
@@ -856,6 +1228,7 @@ func MakeConfig() map[string]any {
 										"country_iso",
 										"provider_code",
 										"region_code",
+										"x_correlation_id",
 									},
 								},
 								"transform": map[string]any{
@@ -865,7 +1238,6 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "list",
 					},
 				},
 				"relations": map[string]any{
@@ -876,22 +1248,22 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"active": true,
-						"name": "error_code",
-						"req": false,
+						"name": "ErrorCodes",
+						"req": true,
 						"type": "`$ARRAY`",
 						"index$": 0,
 					},
 					map[string]any{
 						"active": true,
-						"name": "item",
-						"req": false,
+						"name": "Items",
+						"req": true,
 						"type": "`$ARRAY`",
 						"index$": 1,
 					},
 					map[string]any{
 						"active": true,
-						"name": "result_code",
-						"req": false,
+						"name": "ResultCode",
+						"req": true,
 						"type": "`$INTEGER`",
 						"index$": 2,
 					},
@@ -905,6 +1277,16 @@ func MakeConfig() map[string]any {
 							map[string]any{
 								"active": true,
 								"args": map[string]any{
+									"header": []any{
+										map[string]any{
+											"active": true,
+											"kind": "header",
+											"name": "x_correlation_id",
+											"orig": "x_correlation_id",
+											"reqd": false,
+											"type": "`$STRING`",
+										},
+									},
 									"query": []any{
 										map[string]any{
 											"active": true,
@@ -912,18 +1294,22 @@ func MakeConfig() map[string]any {
 											"name": "provider_code",
 											"orig": "provider_code",
 											"reqd": false,
-											"type": "`$ARRAY`",
+											"type": "`$ANY`",
 										},
 									},
 								},
+								"kind": "http",
 								"method": "GET",
-								"orig": "/GetProviderStatus",
+								"orig": "/api/V1/GetProviderStatus",
 								"parts": []any{
+									"api",
+									"V1",
 									"GetProviderStatus",
 								},
 								"select": map[string]any{
 									"exist": []any{
 										"provider_code",
+										"x_correlation_id",
 									},
 								},
 								"transform": map[string]any{
@@ -933,7 +1319,6 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "list",
 					},
 				},
 				"relations": map[string]any{
@@ -944,22 +1329,22 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"active": true,
-						"name": "error_code",
-						"req": false,
+						"name": "ErrorCodes",
+						"req": true,
 						"type": "`$ARRAY`",
 						"index$": 0,
 					},
 					map[string]any{
 						"active": true,
-						"name": "item",
-						"req": false,
+						"name": "Items",
+						"req": true,
 						"type": "`$ARRAY`",
 						"index$": 1,
 					},
 					map[string]any{
 						"active": true,
-						"name": "result_code",
-						"req": false,
+						"name": "ResultCode",
+						"req": true,
 						"type": "`$INTEGER`",
 						"index$": 2,
 					},
@@ -973,6 +1358,16 @@ func MakeConfig() map[string]any {
 							map[string]any{
 								"active": true,
 								"args": map[string]any{
+									"header": []any{
+										map[string]any{
+											"active": true,
+											"kind": "header",
+											"name": "x_correlation_id",
+											"orig": "x_correlation_id",
+											"reqd": false,
+											"type": "`$STRING`",
+										},
+									},
 									"query": []any{
 										map[string]any{
 											"active": true,
@@ -980,18 +1375,22 @@ func MakeConfig() map[string]any {
 											"name": "country_iso",
 											"orig": "country_iso",
 											"reqd": false,
-											"type": "`$ARRAY`",
+											"type": "`$ANY`",
 										},
 									},
 								},
+								"kind": "http",
 								"method": "GET",
-								"orig": "/GetRegions",
+								"orig": "/api/V1/GetRegions",
 								"parts": []any{
+									"api",
+									"V1",
 									"GetRegions",
 								},
 								"select": map[string]any{
 									"exist": []any{
 										"country_iso",
+										"x_correlation_id",
 									},
 								},
 								"transform": map[string]any{
@@ -1001,7 +1400,6 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "list",
 					},
 				},
 				"relations": map[string]any{
@@ -1012,73 +1410,24 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"active": true,
-						"name": "account_number",
+						"name": "ErrorCodes",
 						"req": true,
-						"type": "`$STRING`",
+						"type": "`$ARRAY`",
 						"index$": 0,
 					},
 					map[string]any{
 						"active": true,
-						"name": "distributor_ref",
+						"name": "ResultCode",
 						"req": true,
-						"type": "`$STRING`",
+						"type": "`$INTEGER`",
 						"index$": 1,
 					},
 					map[string]any{
 						"active": true,
-						"name": "error_code",
-						"req": false,
-						"type": "`$ARRAY`",
-						"index$": 2,
-					},
-					map[string]any{
-						"active": true,
-						"name": "result_code",
-						"req": false,
-						"type": "`$INTEGER`",
-						"index$": 3,
-					},
-					map[string]any{
-						"active": true,
-						"name": "send_currency_iso",
-						"req": false,
-						"type": "`$STRING`",
-						"index$": 4,
-					},
-					map[string]any{
-						"active": true,
-						"name": "send_value",
+						"name": "TransferRecord",
 						"req": true,
-						"type": "`$NUMBER`",
-						"index$": 5,
-					},
-					map[string]any{
-						"active": true,
-						"name": "setting",
-						"req": false,
-						"type": "`$ARRAY`",
-						"index$": 6,
-					},
-					map[string]any{
-						"active": true,
-						"name": "sku_code",
-						"req": true,
-						"type": "`$STRING`",
-						"index$": 7,
-					},
-					map[string]any{
-						"active": true,
-						"name": "transfer_record",
-						"req": false,
 						"type": "`$OBJECT`",
-						"index$": 8,
-					},
-					map[string]any{
-						"active": true,
-						"name": "validate_only",
-						"req": false,
-						"type": "`$BOOLEAN`",
-						"index$": 9,
+						"index$": 2,
 					},
 				},
 				"name": "send_transfer",
@@ -1089,13 +1438,42 @@ func MakeConfig() map[string]any {
 						"points": []any{
 							map[string]any{
 								"active": true,
-								"args": map[string]any{},
+								"args": map[string]any{
+									"header": []any{
+										map[string]any{
+											"active": true,
+											"kind": "header",
+											"name": "x_correlation_id",
+											"orig": "x_correlation_id",
+											"reqd": false,
+											"type": "`$STRING`",
+										},
+									},
+									"query": []any{
+										map[string]any{
+											"active": true,
+											"kind": "query",
+											"name": "request",
+											"orig": "request",
+											"reqd": true,
+											"type": "`$OBJECT`",
+										},
+									},
+								},
+								"kind": "http",
 								"method": "POST",
-								"orig": "/SendTransfer",
+								"orig": "/api/V1/SendTransfer",
 								"parts": []any{
+									"api",
+									"V1",
 									"SendTransfer",
 								},
-								"select": map[string]any{},
+								"select": map[string]any{
+									"exist": []any{
+										"request",
+										"x_correlation_id",
+									},
+								},
 								"transform": map[string]any{
 									"req": "`reqdata`",
 									"res": "`body`",
@@ -1103,123 +1481,6 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "create",
-					},
-				},
-				"relations": map[string]any{
-					"ancestors": []any{},
-				},
-			},
-			"transfer_record": map[string]any{
-				"fields": []any{
-					map[string]any{
-						"active": true,
-						"name": "account_number",
-						"req": false,
-						"type": "`$STRING`",
-						"index$": 0,
-					},
-					map[string]any{
-						"active": true,
-						"name": "distributor_ref",
-						"req": false,
-						"type": "`$ARRAY`",
-						"index$": 1,
-					},
-					map[string]any{
-						"active": true,
-						"name": "ended_at_utc",
-						"req": false,
-						"type": "`$STRING`",
-						"index$": 2,
-					},
-					map[string]any{
-						"active": true,
-						"name": "error_code",
-						"req": false,
-						"type": "`$ARRAY`",
-						"index$": 3,
-					},
-					map[string]any{
-						"active": true,
-						"name": "item",
-						"req": false,
-						"type": "`$ARRAY`",
-						"index$": 4,
-					},
-					map[string]any{
-						"active": true,
-						"name": "result_code",
-						"req": false,
-						"type": "`$INTEGER`",
-						"index$": 5,
-					},
-					map[string]any{
-						"active": true,
-						"name": "skip",
-						"req": true,
-						"type": "`$INTEGER`",
-						"index$": 6,
-					},
-					map[string]any{
-						"active": true,
-						"name": "sku_code",
-						"req": false,
-						"type": "`$ARRAY`",
-						"index$": 7,
-					},
-					map[string]any{
-						"active": true,
-						"name": "started_at_utc",
-						"req": false,
-						"type": "`$STRING`",
-						"index$": 8,
-					},
-					map[string]any{
-						"active": true,
-						"name": "take",
-						"req": true,
-						"type": "`$INTEGER`",
-						"index$": 9,
-					},
-					map[string]any{
-						"active": true,
-						"name": "there_are_more_item",
-						"req": false,
-						"type": "`$BOOLEAN`",
-						"index$": 10,
-					},
-					map[string]any{
-						"active": true,
-						"name": "transfer_ref",
-						"req": false,
-						"type": "`$ARRAY`",
-						"index$": 11,
-					},
-				},
-				"name": "transfer_record",
-				"op": map[string]any{
-					"create": map[string]any{
-						"input": "data",
-						"name": "create",
-						"points": []any{
-							map[string]any{
-								"active": true,
-								"args": map[string]any{},
-								"method": "POST",
-								"orig": "/ListTransferRecords",
-								"parts": []any{
-									"ListTransferRecords",
-								},
-								"select": map[string]any{},
-								"transform": map[string]any{
-									"req": "`reqdata`",
-									"res": "`body`",
-								},
-								"index$": 0,
-							},
-						},
-						"key$": "create",
 					},
 				},
 				"relations": map[string]any{

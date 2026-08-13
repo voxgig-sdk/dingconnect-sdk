@@ -44,7 +44,7 @@ describe('ProductDirect', async () => {
     const query: any = {}
 
     const result: any = await client.direct({
-      path: 'GetProducts',
+      path: 'api/V1/GetProducts',
       method: 'GET',
       params,
       query,

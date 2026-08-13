@@ -20,7 +20,7 @@ class ProviderDirectTest < Minitest::Test
 
 
     result = client.direct({
-      "path" => "GetProviders",
+      "path" => "api/V1/GetProviders",
       "method" => "GET",
       "params" => {},
     })

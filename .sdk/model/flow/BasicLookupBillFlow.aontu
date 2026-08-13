@@ -1,0 +1,18 @@
+# BasicLookupBillFlow
+
+main: kit: flow: BasicLookupBillFlow:
+{
+  entity: "lookup_bill",
+  kind: "basic",
+  name: "BasicLookupBillFlow",
+  step: [
+    {
+      input: {
+        ref: "lookup_bill_ref01"
+      }
+
+      op: "create"
+    }
+  ],
+  "key$": "BasicLookupBillFlow"
+}

@@ -73,9 +73,9 @@ Create a new `Balance` entity instance.
 
 **Returns:** `BalanceEntity` instance.
 
-#### `CancelResult(data?: object)`
+#### `CancelTransfer(data?: object)`
 
-Create a new `CancelResult` entity instance.
+Create a new `CancelTransfer` entity instance.
 
 **Parameters:**
 
@@ -83,7 +83,7 @@ Create a new `CancelResult` entity instance.
 | --- | --- | --- |
 | `data` | `object` | Initial entity data. |
 
-**Returns:** `CancelResultEntity` instance.
+**Returns:** `CancelTransferEntity` instance.
 
 #### `Country(data?: object)`
 
@@ -121,9 +121,9 @@ Create a new `ErrorCodeDescription` entity instance.
 
 **Returns:** `ErrorCodeDescriptionEntity` instance.
 
-#### `Estimate(data?: object)`
+#### `EstimatePrice(data?: object)`
 
-Create a new `Estimate` entity instance.
+Create a new `EstimatePrice` entity instance.
 
 **Parameters:**
 
@@ -131,7 +131,31 @@ Create a new `Estimate` entity instance.
 | --- | --- | --- |
 | `data` | `object` | Initial entity data. |
 
-**Returns:** `EstimateEntity` instance.
+**Returns:** `EstimatePriceEntity` instance.
+
+#### `ListTransferRecord(data?: object)`
+
+Create a new `ListTransferRecord` entity instance.
+
+**Parameters:**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| `data` | `object` | Initial entity data. |
+
+**Returns:** `ListTransferRecordEntity` instance.
+
+#### `LookupBill(data?: object)`
+
+Create a new `LookupBill` entity instance.
+
+**Parameters:**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| `data` | `object` | Initial entity data. |
+
+**Returns:** `LookupBillEntity` instance.
 
 #### `Product(data?: object)`
 
@@ -229,18 +253,6 @@ Create a new `SendTransfer` entity instance.
 
 **Returns:** `SendTransferEntity` instance.
 
-#### `TransferRecord(data?: object)`
-
-Create a new `TransferRecord` entity instance.
-
-**Parameters:**
-
-| Name | Type | Description |
-| --- | --- | --- |
-| `data` | `object` | Initial entity data. |
-
-**Returns:** `TransferRecordEntity` instance.
-
 #### `options()`
 
 Return a deep copy of the current SDK options.
@@ -297,11 +309,11 @@ const account_lookup = client.AccountLookup()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `account_number_normalized` | `string` | No |  |
-| `country_iso` | `string` | No |  |
-| `error_code` | `any[]` | No |  |
-| `item` | `any[]` | No |  |
-| `result_code` | `number` | No |  |
+| `AccountNumberNormalized` | `string` | No |  |
+| `CountryIso` | `string` | No |  |
+| `ErrorCodes` | `any[]` | Yes |  |
+| `Items` | `any[]` | Yes |  |
+| `ResultCode` | `number` | Yes |  |
 
 ### Operations
 
@@ -351,8 +363,8 @@ const balance = client.Balance()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `code` | `string` | No |  |
-| `context` | `string` | No |  |
+| `Code` | `string` | Yes |  |
+| `Context` | `string` | No |  |
 
 ### Operations
 
@@ -392,19 +404,19 @@ Return a copy of the entity options.
 
 ---
 
-## CancelResultEntity
+## CancelTransferEntity
 
 ```ts
-const cancel_result = client.CancelResult()
+const cancel_transfer = client.CancelTransfer()
 ```
 
 ### Fields
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `error_code` | `any[]` | No |  |
-| `item` | `any[]` | No |  |
-| `result_code` | `number` | No |  |
+| `ErrorCodes` | `any[]` | Yes |  |
+| `Items` | `any[]` | Yes |  |
+| `ResultCode` | `number` | Yes |  |
 
 ### Operations
 
@@ -413,7 +425,10 @@ const cancel_result = client.CancelResult()
 Create a new entity with the given data.
 
 ```ts
-const result = await client.CancelResult().create({
+const result = await client.CancelTransfer().create({
+  ErrorCodes: [],
+  Items: [],
+  ResultCode: 1,
 })
 ```
 
@@ -431,7 +446,7 @@ Get or set the entity match criteria. Works the same as `data()`.
 
 #### `make()`
 
-Create a new `CancelResultEntity` instance with the same client and
+Create a new `CancelTransferEntity` instance with the same client and
 options.
 
 #### `client()`
@@ -455,9 +470,9 @@ const country = client.Country()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `error_code` | `any[]` | No |  |
-| `item` | `any[]` | No |  |
-| `result_code` | `number` | No |  |
+| `ErrorCodes` | `any[]` | Yes |  |
+| `Items` | `any[]` | Yes |  |
+| `ResultCode` | `number` | Yes |  |
 
 ### Operations
 
@@ -507,9 +522,9 @@ const currency = client.Currency()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `error_code` | `any[]` | No |  |
-| `item` | `any[]` | No |  |
-| `result_code` | `number` | No |  |
+| `ErrorCodes` | `any[]` | Yes |  |
+| `Items` | `any[]` | Yes |  |
+| `ResultCode` | `number` | Yes |  |
 
 ### Operations
 
@@ -559,9 +574,9 @@ const error_code_description = client.ErrorCodeDescription()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `error_code` | `any[]` | No |  |
-| `item` | `any[]` | No |  |
-| `result_code` | `number` | No |  |
+| `ErrorCodes` | `any[]` | Yes |  |
+| `Items` | `any[]` | Yes |  |
+| `ResultCode` | `number` | Yes |  |
 
 ### Operations
 
@@ -601,19 +616,19 @@ Return a copy of the entity options.
 
 ---
 
-## EstimateEntity
+## EstimatePriceEntity
 
 ```ts
-const estimate = client.Estimate()
+const estimate_price = client.EstimatePrice()
 ```
 
 ### Fields
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `error_code` | `any[]` | No |  |
-| `item` | `any[]` | No |  |
-| `result_code` | `number` | No |  |
+| `ErrorCodes` | `any[]` | Yes |  |
+| `Items` | `any[]` | Yes |  |
+| `ResultCode` | `number` | Yes |  |
 
 ### Operations
 
@@ -622,7 +637,10 @@ const estimate = client.Estimate()
 Create a new entity with the given data.
 
 ```ts
-const result = await client.Estimate().create({
+const result = await client.EstimatePrice().create({
+  ErrorCodes: [],
+  Items: [],
+  ResultCode: 1,
 })
 ```
 
@@ -640,7 +658,121 @@ Get or set the entity match criteria. Works the same as `data()`.
 
 #### `make()`
 
-Create a new `EstimateEntity` instance with the same client and
+Create a new `EstimatePriceEntity` instance with the same client and
+options.
+
+#### `client()`
+
+Return the parent `DingconnectSDK` instance.
+
+#### `entopts()`
+
+Return a copy of the entity options.
+
+
+---
+
+## ListTransferRecordEntity
+
+```ts
+const list_transfer_record = client.ListTransferRecord()
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `ErrorCodes` | `any[]` | Yes |  |
+| `Items` | `any[]` | Yes |  |
+| `ResultCode` | `number` | Yes |  |
+| `ThereAreMoreItems` | `boolean` | Yes |  |
+
+### Operations
+
+#### `create(data: object, ctrl?: object)`
+
+Create a new entity with the given data.
+
+```ts
+const result = await client.ListTransferRecord().create({
+  ErrorCodes: [],
+  Items: [],
+  ResultCode: 1,
+  ThereAreMoreItems: true,
+})
+```
+
+### Common Methods
+
+#### `data(data?: object)`
+
+Get or set the entity data. When called with data, sets the entity's
+internal data and returns the current data. When called without
+arguments, returns a copy of the current data.
+
+#### `match(match?: object)`
+
+Get or set the entity match criteria. Works the same as `data()`.
+
+#### `make()`
+
+Create a new `ListTransferRecordEntity` instance with the same client and
+options.
+
+#### `client()`
+
+Return the parent `DingconnectSDK` instance.
+
+#### `entopts()`
+
+Return a copy of the entity options.
+
+
+---
+
+## LookupBillEntity
+
+```ts
+const lookup_bill = client.LookupBill()
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `ErrorCodes` | `any[]` | Yes |  |
+| `Items` | `any[]` | Yes |  |
+| `ResultCode` | `number` | Yes |  |
+
+### Operations
+
+#### `create(data: object, ctrl?: object)`
+
+Create a new entity with the given data.
+
+```ts
+const result = await client.LookupBill().create({
+  ErrorCodes: [],
+  Items: [],
+  ResultCode: 1,
+})
+```
+
+### Common Methods
+
+#### `data(data?: object)`
+
+Get or set the entity data. When called with data, sets the entity's
+internal data and returns the current data. When called without
+arguments, returns a copy of the current data.
+
+#### `match(match?: object)`
+
+Get or set the entity match criteria. Works the same as `data()`.
+
+#### `make()`
+
+Create a new `LookupBillEntity` instance with the same client and
 options.
 
 #### `client()`
@@ -664,9 +796,9 @@ const product = client.Product()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `error_code` | `any[]` | No |  |
-| `item` | `any[]` | No |  |
-| `result_code` | `number` | No |  |
+| `ErrorCodes` | `any[]` | Yes |  |
+| `Items` | `any[]` | Yes |  |
+| `ResultCode` | `number` | Yes |  |
 
 ### Operations
 
@@ -716,9 +848,9 @@ const product_description = client.ProductDescription()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `error_code` | `any[]` | No |  |
-| `item` | `any[]` | No |  |
-| `result_code` | `number` | No |  |
+| `ErrorCodes` | `any[]` | Yes |  |
+| `Items` | `any[]` | Yes |  |
+| `ResultCode` | `number` | Yes |  |
 
 ### Operations
 
@@ -768,9 +900,9 @@ const promotion = client.Promotion()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `error_code` | `any[]` | No |  |
-| `item` | `any[]` | No |  |
-| `result_code` | `number` | No |  |
+| `ErrorCodes` | `any[]` | Yes |  |
+| `Items` | `any[]` | Yes |  |
+| `ResultCode` | `number` | Yes |  |
 
 ### Operations
 
@@ -820,9 +952,9 @@ const promotion_description = client.PromotionDescription()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `error_code` | `any[]` | No |  |
-| `item` | `any[]` | No |  |
-| `result_code` | `number` | No |  |
+| `ErrorCodes` | `any[]` | Yes |  |
+| `Items` | `any[]` | Yes |  |
+| `ResultCode` | `number` | Yes |  |
 
 ### Operations
 
@@ -872,9 +1004,9 @@ const provider = client.Provider()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `error_code` | `any[]` | No |  |
-| `item` | `any[]` | No |  |
-| `result_code` | `number` | No |  |
+| `ErrorCodes` | `any[]` | Yes |  |
+| `Items` | `any[]` | Yes |  |
+| `ResultCode` | `number` | Yes |  |
 
 ### Operations
 
@@ -924,9 +1056,9 @@ const provider_status = client.ProviderStatus()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `error_code` | `any[]` | No |  |
-| `item` | `any[]` | No |  |
-| `result_code` | `number` | No |  |
+| `ErrorCodes` | `any[]` | Yes |  |
+| `Items` | `any[]` | Yes |  |
+| `ResultCode` | `number` | Yes |  |
 
 ### Operations
 
@@ -976,9 +1108,9 @@ const region = client.Region()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `error_code` | `any[]` | No |  |
-| `item` | `any[]` | No |  |
-| `result_code` | `number` | No |  |
+| `ErrorCodes` | `any[]` | Yes |  |
+| `Items` | `any[]` | Yes |  |
+| `ResultCode` | `number` | Yes |  |
 
 ### Operations
 
@@ -1028,16 +1160,9 @@ const send_transfer = client.SendTransfer()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `account_number` | `string` | Yes |  |
-| `distributor_ref` | `string` | Yes |  |
-| `error_code` | `any[]` | No |  |
-| `result_code` | `number` | No |  |
-| `send_currency_iso` | `string` | No |  |
-| `send_value` | `number` | Yes |  |
-| `setting` | `any[]` | No |  |
-| `sku_code` | `string` | Yes |  |
-| `transfer_record` | `Record<string, any>` | No |  |
-| `validate_only` | `boolean` | No |  |
+| `ErrorCodes` | `any[]` | Yes |  |
+| `ResultCode` | `number` | Yes |  |
+| `TransferRecord` | `Record<string, any>` | Yes |  |
 
 ### Operations
 
@@ -1047,10 +1172,9 @@ Create a new entity with the given data.
 
 ```ts
 const result = await client.SendTransfer().create({
-  account_number: 'example_account_number',
-  distributor_ref: 'example_distributor_ref',
-  send_value: 1,
-  sku_code: 'example_sku_code',
+  ErrorCodes: [],
+  ResultCode: 1,
+  TransferRecord: {},
 })
 ```
 
@@ -1069,70 +1193,6 @@ Get or set the entity match criteria. Works the same as `data()`.
 #### `make()`
 
 Create a new `SendTransferEntity` instance with the same client and
-options.
-
-#### `client()`
-
-Return the parent `DingconnectSDK` instance.
-
-#### `entopts()`
-
-Return a copy of the entity options.
-
-
----
-
-## TransferRecordEntity
-
-```ts
-const transfer_record = client.TransferRecord()
-```
-
-### Fields
-
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `account_number` | `string` | No |  |
-| `distributor_ref` | `any[]` | No |  |
-| `ended_at_utc` | `string` | No |  |
-| `error_code` | `any[]` | No |  |
-| `item` | `any[]` | No |  |
-| `result_code` | `number` | No |  |
-| `skip` | `number` | Yes |  |
-| `sku_code` | `any[]` | No |  |
-| `started_at_utc` | `string` | No |  |
-| `take` | `number` | Yes |  |
-| `there_are_more_item` | `boolean` | No |  |
-| `transfer_ref` | `any[]` | No |  |
-
-### Operations
-
-#### `create(data: object, ctrl?: object)`
-
-Create a new entity with the given data.
-
-```ts
-const result = await client.TransferRecord().create({
-  skip: 1,
-  take: 1,
-})
-```
-
-### Common Methods
-
-#### `data(data?: object)`
-
-Get or set the entity data. When called with data, sets the entity's
-internal data and returns the current data. When called without
-arguments, returns a copy of the current data.
-
-#### `match(match?: object)`
-
-Get or set the entity match criteria. Works the same as `data()`.
-
-#### `make()`
-
-Create a new `TransferRecordEntity` instance with the same client and
 options.
 
 #### `client()`

@@ -20,7 +20,7 @@ class CountryDirectTest < Minitest::Test
 
 
     result = client.direct({
-      "path" => "GetCountries",
+      "path" => "api/V1/GetCountries",
       "method" => "GET",
       "params" => {},
     })

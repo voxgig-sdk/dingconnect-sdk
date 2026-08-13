@@ -44,7 +44,7 @@ class SendTransferEntityTest extends TestCase
             Vs::getpath($setup["data"], "new.send_transfer"), "send_transfer_ref01"));
 
         $send_transfer_ref01_data_result = $send_transfer_ref01_ent->create($send_transfer_ref01_data, null);
-        $send_transfer_ref01_data = Helpers::to_map($send_transfer_ref01_data_result);
+        $send_transfer_ref01_data = Helpers::to_map(is_object($send_transfer_ref01_data_result) && method_exists($send_transfer_ref01_data_result, 'data_get') ? $send_transfer_ref01_data_result->data_get() : $send_transfer_ref01_data_result);
         $this->assertNotNull($send_transfer_ref01_data);
 
     }

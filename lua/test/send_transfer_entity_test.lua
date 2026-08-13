@@ -41,7 +41,7 @@ describe("SendTransferEntity", function()
 
     local send_transfer_ref01_data_result, err = send_transfer_ref01_ent:create(send_transfer_ref01_data, nil)
     assert.is_nil(err)
-    send_transfer_ref01_data = helpers.to_map(send_transfer_ref01_data_result)
+    send_transfer_ref01_data = helpers.to_map(type(send_transfer_ref01_data_result) == 'table' and send_transfer_ref01_data_result.data_get and send_transfer_ref01_data_result:data_get() or send_transfer_ref01_data_result)
     assert.is_not_nil(send_transfer_ref01_data)
 
   end)

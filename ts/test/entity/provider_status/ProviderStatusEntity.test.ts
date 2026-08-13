@@ -63,7 +63,7 @@ describe('ProviderStatusEntity', async () => {
     const provider_status_ref01_ent = client.ProviderStatus()
     const provider_status_ref01_match: any = {}
 
-    const provider_status_ref01_list = await provider_status_ref01_ent.list(provider_status_ref01_match)
+    const provider_status_ref01_list = (await provider_status_ref01_ent.list(provider_status_ref01_match)).map((e: any) => e.data())
 
 
   })

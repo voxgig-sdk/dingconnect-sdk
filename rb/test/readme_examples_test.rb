@@ -44,11 +44,13 @@ class ReadmeExamplesTest < Minitest::Test
   ENTITIES = {
     "AccountLookup" => "account_lookup",
     "Balance" => "balance",
-    "CancelResult" => "cancel_result",
+    "CancelTransfer" => "cancel_transfer",
     "Country" => "country",
     "Currency" => "currency",
     "ErrorCodeDescription" => "error_code_description",
-    "Estimate" => "estimate",
+    "EstimatePrice" => "estimate_price",
+    "ListTransferRecord" => "list_transfer_record",
+    "LookupBill" => "lookup_bill",
     "Product" => "product",
     "ProductDescription" => "product_description",
     "Promotion" => "promotion",
@@ -57,7 +59,6 @@ class ReadmeExamplesTest < Minitest::Test
     "ProviderStatus" => "provider_status",
     "Region" => "region",
     "SendTransfer" => "send_transfer",
-    "TransferRecord" => "transfer_record",
   }
 
   # Documented SDK method names — used only to recognise the NARROW

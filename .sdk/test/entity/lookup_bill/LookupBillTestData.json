@@ -1,0 +1,33 @@
+{
+  "existing": {
+    "lookup_bill": {
+      "LOOKUP_BILL00": {
+        "ErrorCodes": [],
+        "Items": [],
+        "ResultCode": "s20",
+        "id": "LOOKUP_BILL00"
+      },
+      "LOOKUP_BILL01": {
+        "ErrorCodes": [],
+        "Items": [],
+        "ResultCode": "s3e",
+        "id": "LOOKUP_BILL01"
+      },
+      "LOOKUP_BILL02": {
+        "ErrorCodes": [],
+        "Items": [],
+        "ResultCode": "s5c",
+        "id": "LOOKUP_BILL02"
+      }
+    }
+  },
+  "new": {
+    "lookup_bill": {
+      "lookup_bill_ref01": {
+        "ErrorCodes": [],
+        "Items": [],
+        "ResultCode": "s7a"
+      }
+    }
+  }
+}

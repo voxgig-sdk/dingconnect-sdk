@@ -63,7 +63,7 @@ describe('ErrorCodeDescriptionEntity', async () => {
     const error_code_description_ref01_ent = client.ErrorCodeDescription()
     const error_code_description_ref01_match: any = {}
 
-    const error_code_description_ref01_list = await error_code_description_ref01_ent.list(error_code_description_ref01_match)
+    const error_code_description_ref01_list = (await error_code_description_ref01_ent.list(error_code_description_ref01_match)).map((e: any) => e.data())
 
 
   })

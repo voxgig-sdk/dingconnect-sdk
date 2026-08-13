@@ -6,28 +6,28 @@ main: kit: entity: account_lookup: {
 
   fields: [
     {
-      name: "account_number_normalized"
+      name: "AccountNumberNormalized"
       req: false
       type: "`$STRING`"
     }
     {
-      name: "country_iso"
+      name: "CountryIso"
       req: false
       type: "`$STRING`"
     }
     {
-      name: "error_code"
-      req: false
+      name: "ErrorCodes"
+      req: true
       type: "`$ARRAY`"
     }
     {
-      name: "item"
-      req: false
+      name: "Items"
+      req: true
       type: "`$ARRAY`"
     }
     {
-      name: "result_code"
-      req: false
+      name: "ResultCode"
+      req: true
       type: "`$INTEGER`"
     }
   ]
@@ -39,24 +39,36 @@ main: kit: entity: account_lookup: {
       points: [
         {
           args: {
+            header: [
+              {
+                kind: "header"
+                name: "x_correlation_id"
+                orig: "x_correlation_id"
+                reqd: false
+                type: "`$STRING`"
+              }
+            ]
             query: [
               {
                 kind: "query"
                 name: "account_number"
                 orig: "account_number"
-                reqd: true
-                type: "`$STRING`"
+                reqd: false
+                type: "`$INTEGER`"
               }
             ]
           }
           method: "GET"
-          orig: "/GetAccountLookup"
+          orig: "/api/V1/GetAccountLookup"
           parts: [
+            "api"
+            "V1"
             "GetAccountLookup"
           ]
           select: {
             exist: [
               "account_number"
+              "x_correlation_id"
             ]
           }
           transform: {

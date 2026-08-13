@@ -2,28 +2,28 @@
   "existing": {
     "country": {
       "COUNTRY00": {
-        "error_code": [],
-        "item": [],
-        "result_code": "s20"
+        "ErrorCodes": [],
+        "Items": [],
+        "ResultCode": "s20"
       },
       "COUNTRY01": {
-        "error_code": [],
-        "item": [],
-        "result_code": "s3e"
+        "ErrorCodes": [],
+        "Items": [],
+        "ResultCode": "s3e"
       },
       "COUNTRY02": {
-        "error_code": [],
-        "item": [],
-        "result_code": "s5c"
+        "ErrorCodes": [],
+        "Items": [],
+        "ResultCode": "s5c"
       }
     }
   },
   "new": {
     "country": {
       "country_ref01": {
-        "error_code": [],
-        "item": [],
-        "result_code": "s7a"
+        "ErrorCodes": [],
+        "Items": [],
+        "ResultCode": "s7a"
       }
     }
   }

@@ -20,7 +20,7 @@ class PromotionDescriptionDirectTest < Minitest::Test
 
 
     result = client.direct({
-      "path" => "GetPromotionDescriptions",
+      "path" => "api/V1/GetPromotionDescriptions",
       "method" => "GET",
       "params" => {},
     })

@@ -16,11 +16,11 @@
 import pytest
 
 from projectname_sdk import DingconnectSDK
-from core.error import DingconnectError
-from core.result import DingconnectResult
-from core.response import DingconnectResponse
-from core.spec import DingconnectSpec
-from feature.base_feature import DingconnectBaseFeature
+from projectname_sdk.core.error import DingconnectError
+from projectname_sdk.core.result import DingconnectResult
+from projectname_sdk.core.response import DingconnectResponse
+from projectname_sdk.core.spec import DingconnectSpec
+from projectname_sdk.feature.base_feature import DingconnectBaseFeature
 
 
 def _client():

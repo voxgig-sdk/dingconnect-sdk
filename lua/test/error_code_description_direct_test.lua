@@ -21,7 +21,7 @@ describe("ErrorCodeDescriptionDirect", function()
 
 
     local result, err = client:direct({
-      path = "GetErrorCodeDescriptions",
+      path = "api/V1/GetErrorCodeDescriptions",
       method = "GET",
       params = {},
     })

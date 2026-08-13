@@ -1,102 +1,109 @@
 # Guide
 
 guide: {
-  metrics: count: entity: 16
-  metrics: count: path: 16
-  metrics: count: method: 16
+  metrics: count: entity: 17
+  metrics: count: path: 17
+  metrics: count: method: 17
 
   entity: account_lookup: {
-    path: "/GetAccountLookup": {
+    path: "/api/V1/GetAccountLookup": {
       op: list: method: *GET
     }
   }
 
   entity: balance: {
-    path: "/GetBalance": {
+    path: "/api/V1/GetBalance": {
       op: list: method: *GET
+      op: list: transform: res: *("`body.ErrorCodes`")|top
     }
   }
 
-  entity: cancel_result: {
-    path: "/CancelTransfers": {
+  entity: cancel_transfer: {
+    path: "/api/V1/CancelTransfers": {
       op: create: method: *POST
     }
   }
 
   entity: country: {
-    path: "/GetCountries": {
+    path: "/api/V1/GetCountries": {
       op: list: method: *GET
     }
   }
 
   entity: currency: {
-    path: "/GetCurrencies": {
+    path: "/api/V1/GetCurrencies": {
       op: list: method: *GET
     }
   }
 
   entity: error_code_description: {
-    path: "/GetErrorCodeDescriptions": {
+    path: "/api/V1/GetErrorCodeDescriptions": {
       op: list: method: *GET
     }
   }
 
-  entity: estimate: {
-    path: "/EstimatePrices": {
+  entity: estimate_price: {
+    path: "/api/V1/EstimatePrices": {
+      op: create: method: *POST
+    }
+  }
+
+  entity: list_transfer_record: {
+    path: "/api/V1/ListTransferRecords": {
+      op: create: method: *POST
+    }
+  }
+
+  entity: lookup_bill: {
+    path: "/api/V1/LookupBills": {
       op: create: method: *POST
     }
   }
 
   entity: product: {
-    path: "/GetProducts": {
+    path: "/api/V1/GetProducts": {
       op: list: method: *GET
     }
   }
 
   entity: product_description: {
-    path: "/GetProductDescriptions": {
+    path: "/api/V1/GetProductDescriptions": {
       op: list: method: *GET
     }
   }
 
   entity: promotion: {
-    path: "/GetPromotions": {
+    path: "/api/V1/GetPromotions": {
       op: list: method: *GET
     }
   }
 
   entity: promotion_description: {
-    path: "/GetPromotionDescriptions": {
+    path: "/api/V1/GetPromotionDescriptions": {
       op: list: method: *GET
     }
   }
 
   entity: provider: {
-    path: "/GetProviders": {
+    path: "/api/V1/GetProviders": {
       op: list: method: *GET
     }
   }
 
   entity: provider_status: {
-    path: "/GetProviderStatus": {
+    path: "/api/V1/GetProviderStatus": {
       op: list: method: *GET
     }
   }
 
   entity: region: {
-    path: "/GetRegions": {
+    path: "/api/V1/GetRegions": {
       op: list: method: *GET
     }
   }
 
   entity: send_transfer: {
-    path: "/SendTransfer": {
-      op: create: method: *POST
-    }
-  }
-
-  entity: transfer_record: {
-    path: "/ListTransferRecords": {
+    path: "/api/V1/SendTransfer": {
       op: create: method: *POST
     }
   }

@@ -6,9 +6,9 @@ import time
 
 import pytest
 
-from utility.voxgig_struct import voxgig_struct as vs
+from dingconnect_sdk.utility.voxgig_struct import voxgig_struct as vs
 from dingconnect_sdk import DingconnectSDK
-from core import helpers
+from dingconnect_sdk.core import helpers
 
 _TEST_DIR = os.path.dirname(os.path.abspath(__file__))
 from test import runner
@@ -44,7 +44,7 @@ class TestSendTransferEntity:
         send_transfer_ref01_data = helpers.to_map(vs.getprop(
             vs.getpath(setup["data"], "new.send_transfer"), "send_transfer_ref01"))
 
-        send_transfer_ref01_data = helpers.to_map(send_transfer_ref01_ent.create(send_transfer_ref01_data, None))
+        send_transfer_ref01_data = helpers.to_map(runner.entity_data(send_transfer_ref01_ent.create(send_transfer_ref01_data, None)))
         assert send_transfer_ref01_data is not None
 
 

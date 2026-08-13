@@ -2,28 +2,28 @@
   "existing": {
     "promotion": {
       "PROMOTION00": {
-        "error_code": [],
-        "item": [],
-        "result_code": "s20"
+        "ErrorCodes": [],
+        "Items": [],
+        "ResultCode": "s20"
       },
       "PROMOTION01": {
-        "error_code": [],
-        "item": [],
-        "result_code": "s3e"
+        "ErrorCodes": [],
+        "Items": [],
+        "ResultCode": "s3e"
       },
       "PROMOTION02": {
-        "error_code": [],
-        "item": [],
-        "result_code": "s5c"
+        "ErrorCodes": [],
+        "Items": [],
+        "ResultCode": "s5c"
       }
     }
   },
   "new": {
     "promotion": {
       "promotion_ref01": {
-        "error_code": [],
-        "item": [],
-        "result_code": "s7a"
+        "ErrorCodes": [],
+        "Items": [],
+        "ResultCode": "s7a"
       }
     }
   }

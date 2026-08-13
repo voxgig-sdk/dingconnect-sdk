@@ -21,7 +21,7 @@ describe("RegionDirect", function()
 
 
     local result, err = client:direct({
-      path = "GetRegions",
+      path = "api/V1/GetRegions",
       method = "GET",
       params = {},
     })

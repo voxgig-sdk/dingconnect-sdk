@@ -21,7 +21,7 @@ describe("AccountLookupDirect", function()
 
 
     local result, err = client:direct({
-      path = "GetAccountLookup",
+      path = "api/V1/GetAccountLookup",
       method = "GET",
       params = {},
     })

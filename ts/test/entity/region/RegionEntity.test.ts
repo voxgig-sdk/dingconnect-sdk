@@ -63,7 +63,7 @@ describe('RegionEntity', async () => {
     const region_ref01_ent = client.Region()
     const region_ref01_match: any = {}
 
-    const region_ref01_list = await region_ref01_ent.list(region_ref01_match)
+    const region_ref01_list = (await region_ref01_ent.list(region_ref01_match)).map((e: any) => e.data())
 
 
   })

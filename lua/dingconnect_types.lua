@@ -7,198 +7,178 @@
 -- edit by hand.
 
 ---@class AccountLookup
----@field account_number_normalized? string
----@field country_iso? string
----@field error_code? table
----@field item? table
----@field result_code? number
+---@field AccountNumberNormalized? string
+---@field CountryIso? string
+---@field ErrorCodes table
+---@field Items table
+---@field ResultCode number
 
 ---@class AccountLookupListMatch
----@field account_number_normalized? string
----@field country_iso? string
----@field error_code? table
----@field item? table
----@field result_code? number
+---@field AccountNumberNormalized? string
+---@field CountryIso? string
+---@field ErrorCodes? table
+---@field Items? table
+---@field ResultCode? number
 
 ---@class Balance
----@field code? string
----@field context? string
+---@field Code string
+---@field Context? string
 
 ---@class BalanceListMatch
----@field code? string
----@field context? string
+---@field Code? string
+---@field Context? string
 
----@class CancelResult
----@field error_code? table
----@field item? table
----@field result_code? number
+---@class CancelTransfer
+---@field ErrorCodes table
+---@field Items table
+---@field ResultCode number
 
----@class CancelResultCreateData
----@field error_code? table
----@field item? table
----@field result_code? number
+---@class CancelTransferCreateData
+---@field ErrorCodes table
+---@field Items table
+---@field ResultCode number
 
 ---@class Country
----@field error_code? table
----@field item? table
----@field result_code? number
+---@field ErrorCodes table
+---@field Items table
+---@field ResultCode number
 
 ---@class CountryListMatch
----@field error_code? table
----@field item? table
----@field result_code? number
+---@field ErrorCodes? table
+---@field Items? table
+---@field ResultCode? number
 
 ---@class Currency
----@field error_code? table
----@field item? table
----@field result_code? number
+---@field ErrorCodes table
+---@field Items table
+---@field ResultCode number
 
 ---@class CurrencyListMatch
----@field error_code? table
----@field item? table
----@field result_code? number
+---@field ErrorCodes? table
+---@field Items? table
+---@field ResultCode? number
 
 ---@class ErrorCodeDescription
----@field error_code? table
----@field item? table
----@field result_code? number
+---@field ErrorCodes table
+---@field Items table
+---@field ResultCode number
 
 ---@class ErrorCodeDescriptionListMatch
----@field error_code? table
----@field item? table
----@field result_code? number
+---@field ErrorCodes? table
+---@field Items? table
+---@field ResultCode? number
 
----@class Estimate
----@field error_code? table
----@field item? table
----@field result_code? number
+---@class EstimatePrice
+---@field ErrorCodes table
+---@field Items table
+---@field ResultCode number
 
----@class EstimateCreateData
----@field error_code? table
----@field item? table
----@field result_code? number
+---@class EstimatePriceCreateData
+---@field ErrorCodes table
+---@field Items table
+---@field ResultCode number
+
+---@class ListTransferRecord
+---@field ErrorCodes table
+---@field Items table
+---@field ResultCode number
+---@field ThereAreMoreItems boolean
+
+---@class ListTransferRecordCreateData
+---@field ErrorCodes table
+---@field Items table
+---@field ResultCode number
+---@field ThereAreMoreItems boolean
+
+---@class LookupBill
+---@field ErrorCodes table
+---@field Items table
+---@field ResultCode number
+
+---@class LookupBillCreateData
+---@field ErrorCodes table
+---@field Items table
+---@field ResultCode number
 
 ---@class Product
----@field error_code? table
----@field item? table
----@field result_code? number
+---@field ErrorCodes table
+---@field Items table
+---@field ResultCode number
 
 ---@class ProductListMatch
----@field error_code? table
----@field item? table
----@field result_code? number
+---@field ErrorCodes? table
+---@field Items? table
+---@field ResultCode? number
 
 ---@class ProductDescription
----@field error_code? table
----@field item? table
----@field result_code? number
+---@field ErrorCodes table
+---@field Items table
+---@field ResultCode number
 
 ---@class ProductDescriptionListMatch
----@field error_code? table
----@field item? table
----@field result_code? number
+---@field ErrorCodes? table
+---@field Items? table
+---@field ResultCode? number
 
 ---@class Promotion
----@field error_code? table
----@field item? table
----@field result_code? number
+---@field ErrorCodes table
+---@field Items table
+---@field ResultCode number
 
 ---@class PromotionListMatch
----@field error_code? table
----@field item? table
----@field result_code? number
+---@field ErrorCodes? table
+---@field Items? table
+---@field ResultCode? number
 
 ---@class PromotionDescription
----@field error_code? table
----@field item? table
----@field result_code? number
+---@field ErrorCodes table
+---@field Items table
+---@field ResultCode number
 
 ---@class PromotionDescriptionListMatch
----@field error_code? table
----@field item? table
----@field result_code? number
+---@field ErrorCodes? table
+---@field Items? table
+---@field ResultCode? number
 
 ---@class Provider
----@field error_code? table
----@field item? table
----@field result_code? number
+---@field ErrorCodes table
+---@field Items table
+---@field ResultCode number
 
 ---@class ProviderListMatch
----@field error_code? table
----@field item? table
----@field result_code? number
+---@field ErrorCodes? table
+---@field Items? table
+---@field ResultCode? number
 
 ---@class ProviderStatus
----@field error_code? table
----@field item? table
----@field result_code? number
+---@field ErrorCodes table
+---@field Items table
+---@field ResultCode number
 
 ---@class ProviderStatusListMatch
----@field error_code? table
----@field item? table
----@field result_code? number
+---@field ErrorCodes? table
+---@field Items? table
+---@field ResultCode? number
 
 ---@class Region
----@field error_code? table
----@field item? table
----@field result_code? number
+---@field ErrorCodes table
+---@field Items table
+---@field ResultCode number
 
 ---@class RegionListMatch
----@field error_code? table
----@field item? table
----@field result_code? number
+---@field ErrorCodes? table
+---@field Items? table
+---@field ResultCode? number
 
 ---@class SendTransfer
----@field account_number string
----@field distributor_ref string
----@field error_code? table
----@field result_code? number
----@field send_currency_iso? string
----@field send_value number
----@field setting? table
----@field sku_code string
----@field transfer_record? table
----@field validate_only? boolean
+---@field ErrorCodes table
+---@field ResultCode number
+---@field TransferRecord table
 
 ---@class SendTransferCreateData
----@field account_number string
----@field distributor_ref string
----@field error_code? table
----@field result_code? number
----@field send_currency_iso? string
----@field send_value number
----@field setting? table
----@field sku_code string
----@field transfer_record? table
----@field validate_only? boolean
-
----@class TransferRecord
----@field account_number? string
----@field distributor_ref? table
----@field ended_at_utc? string
----@field error_code? table
----@field item? table
----@field result_code? number
----@field skip number
----@field sku_code? table
----@field started_at_utc? string
----@field take number
----@field there_are_more_item? boolean
----@field transfer_ref? table
-
----@class TransferRecordCreateData
----@field account_number? string
----@field distributor_ref? table
----@field ended_at_utc? string
----@field error_code? table
----@field item? table
----@field result_code? number
----@field skip number
----@field sku_code? table
----@field started_at_utc? string
----@field take number
----@field there_are_more_item? boolean
----@field transfer_ref? table
+---@field ErrorCodes table
+---@field ResultCode number
+---@field TransferRecord table
 
 local M = {}
 

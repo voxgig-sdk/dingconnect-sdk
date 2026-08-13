@@ -37,7 +37,7 @@ class BalanceEntity extends DingconnectEntityBase<Balance> {
 
 
 
-  async list(this: any, reqmatch?: BalanceListMatch, ctrl?: Control): Promise<Balance[]> {
+  async list(this: any, reqmatch?: BalanceListMatch, ctrl?: Control): Promise<BalanceEntity[]> {
 
     const utility = this._utility
 

@@ -37,7 +37,9 @@ const client = new DingconnectSDK({
 
 ### 2. List accountlookup records
 
-`list()` resolves to an array of AccountLookup objects — iterate it directly:
+`list()` resolves to an array of AccountLookup ENTITIES — every operation
+resolves to entities, not raw records. Iterate them directly, and call
+`.data()` on one for the record it holds:
 
 ```ts
 const accountlookups = await client.AccountLookup().list()
@@ -122,7 +124,8 @@ Create a mock client for unit testing — no server required:
 const client = DingconnectSDK.test()
 
 const currency = await client.Currency().list()
-// currency is a bare entity populated with mock response data
+// currency is the entity, populated with mock response data
+// — call currency.data() for the record itself
 console.log(currency)
 ```
 
@@ -222,11 +225,13 @@ new DingconnectSDK(options?: {
 | `direct(fetchargs?)` | `Promise<DirectResult>` | Build and send an HTTP request. |
 | `AccountLookup(data?)` | `AccountLookupEntity` | Create an AccountLookup entity instance. |
 | `Balance(data?)` | `BalanceEntity` | Create a Balance entity instance. |
-| `CancelResult(data?)` | `CancelResultEntity` | Create a CancelResult entity instance. |
+| `CancelTransfer(data?)` | `CancelTransferEntity` | Create a CancelTransfer entity instance. |
 | `Country(data?)` | `CountryEntity` | Create a Country entity instance. |
 | `Currency(data?)` | `CurrencyEntity` | Create a Currency entity instance. |
 | `ErrorCodeDescription(data?)` | `ErrorCodeDescriptionEntity` | Create an ErrorCodeDescription entity instance. |
-| `Estimate(data?)` | `EstimateEntity` | Create an Estimate entity instance. |
+| `EstimatePrice(data?)` | `EstimatePriceEntity` | Create an EstimatePrice entity instance. |
+| `ListTransferRecord(data?)` | `ListTransferRecordEntity` | Create a ListTransferRecord entity instance. |
+| `LookupBill(data?)` | `LookupBillEntity` | Create a LookupBill entity instance. |
 | `Product(data?)` | `ProductEntity` | Create a Product entity instance. |
 | `ProductDescription(data?)` | `ProductDescriptionEntity` | Create a ProductDescription entity instance. |
 | `Promotion(data?)` | `PromotionEntity` | Create a Promotion entity instance. |
@@ -235,7 +240,6 @@ new DingconnectSDK(options?: {
 | `ProviderStatus(data?)` | `ProviderStatusEntity` | Create a ProviderStatus entity instance. |
 | `Region(data?)` | `RegionEntity` | Create a Region entity instance. |
 | `SendTransfer(data?)` | `SendTransferEntity` | Create a SendTransfer entity instance. |
-| `TransferRecord(data?)` | `TransferRecordEntity` | Create a TransferRecord entity instance. |
 | `tester(testopts?, sdkopts?)` | `DingconnectSDK` | Create a test-mode client instance. |
 
 #### Static methods
@@ -307,210 +311,207 @@ The `prepare()` method returns:
 
 | Field | Description |
 | --- | --- |
-| `account_number_normalized` |  |
-| `country_iso` |  |
-| `error_code` |  |
-| `item` |  |
-| `result_code` |  |
+| `AccountNumberNormalized` |  |
+| `CountryIso` |  |
+| `ErrorCodes` |  |
+| `Items` |  |
+| `ResultCode` |  |
 
 Operations: list.
 
-API path: `/GetAccountLookup`
+API path: `/api/V1/GetAccountLookup`
 
 #### Balance
 
 | Field | Description |
 | --- | --- |
-| `code` |  |
-| `context` |  |
+| `Code` |  |
+| `Context` |  |
 
 Operations: list.
 
-API path: `/GetBalance`
+API path: `/api/V1/GetBalance`
 
-#### CancelResult
+#### CancelTransfer
 
 | Field | Description |
 | --- | --- |
-| `error_code` |  |
-| `item` |  |
-| `result_code` |  |
+| `ErrorCodes` |  |
+| `Items` |  |
+| `ResultCode` |  |
 
 Operations: create.
 
-API path: `/CancelTransfers`
+API path: `/api/V1/CancelTransfers`
 
 #### Country
 
 | Field | Description |
 | --- | --- |
-| `error_code` |  |
-| `item` |  |
-| `result_code` |  |
+| `ErrorCodes` |  |
+| `Items` |  |
+| `ResultCode` |  |
 
 Operations: list.
 
-API path: `/GetCountries`
+API path: `/api/V1/GetCountries`
 
 #### Currency
 
 | Field | Description |
 | --- | --- |
-| `error_code` |  |
-| `item` |  |
-| `result_code` |  |
+| `ErrorCodes` |  |
+| `Items` |  |
+| `ResultCode` |  |
 
 Operations: list.
 
-API path: `/GetCurrencies`
+API path: `/api/V1/GetCurrencies`
 
 #### ErrorCodeDescription
 
 | Field | Description |
 | --- | --- |
-| `error_code` |  |
-| `item` |  |
-| `result_code` |  |
+| `ErrorCodes` |  |
+| `Items` |  |
+| `ResultCode` |  |
 
 Operations: list.
 
-API path: `/GetErrorCodeDescriptions`
+API path: `/api/V1/GetErrorCodeDescriptions`
 
-#### Estimate
+#### EstimatePrice
 
 | Field | Description |
 | --- | --- |
-| `error_code` |  |
-| `item` |  |
-| `result_code` |  |
+| `ErrorCodes` |  |
+| `Items` |  |
+| `ResultCode` |  |
 
 Operations: create.
 
-API path: `/EstimatePrices`
+API path: `/api/V1/EstimatePrices`
+
+#### ListTransferRecord
+
+| Field | Description |
+| --- | --- |
+| `ErrorCodes` |  |
+| `Items` |  |
+| `ResultCode` |  |
+| `ThereAreMoreItems` |  |
+
+Operations: create.
+
+API path: `/api/V1/ListTransferRecords`
+
+#### LookupBill
+
+| Field | Description |
+| --- | --- |
+| `ErrorCodes` |  |
+| `Items` |  |
+| `ResultCode` |  |
+
+Operations: create.
+
+API path: `/api/V1/LookupBills`
 
 #### Product
 
 | Field | Description |
 | --- | --- |
-| `error_code` |  |
-| `item` |  |
-| `result_code` |  |
+| `ErrorCodes` |  |
+| `Items` |  |
+| `ResultCode` |  |
 
 Operations: list.
 
-API path: `/GetProducts`
+API path: `/api/V1/GetProducts`
 
 #### ProductDescription
 
 | Field | Description |
 | --- | --- |
-| `error_code` |  |
-| `item` |  |
-| `result_code` |  |
+| `ErrorCodes` |  |
+| `Items` |  |
+| `ResultCode` |  |
 
 Operations: list.
 
-API path: `/GetProductDescriptions`
+API path: `/api/V1/GetProductDescriptions`
 
 #### Promotion
 
 | Field | Description |
 | --- | --- |
-| `error_code` |  |
-| `item` |  |
-| `result_code` |  |
+| `ErrorCodes` |  |
+| `Items` |  |
+| `ResultCode` |  |
 
 Operations: list.
 
-API path: `/GetPromotions`
+API path: `/api/V1/GetPromotions`
 
 #### PromotionDescription
 
 | Field | Description |
 | --- | --- |
-| `error_code` |  |
-| `item` |  |
-| `result_code` |  |
+| `ErrorCodes` |  |
+| `Items` |  |
+| `ResultCode` |  |
 
 Operations: list.
 
-API path: `/GetPromotionDescriptions`
+API path: `/api/V1/GetPromotionDescriptions`
 
 #### Provider
 
 | Field | Description |
 | --- | --- |
-| `error_code` |  |
-| `item` |  |
-| `result_code` |  |
+| `ErrorCodes` |  |
+| `Items` |  |
+| `ResultCode` |  |
 
 Operations: list.
 
-API path: `/GetProviders`
+API path: `/api/V1/GetProviders`
 
 #### ProviderStatus
 
 | Field | Description |
 | --- | --- |
-| `error_code` |  |
-| `item` |  |
-| `result_code` |  |
+| `ErrorCodes` |  |
+| `Items` |  |
+| `ResultCode` |  |
 
 Operations: list.
 
-API path: `/GetProviderStatus`
+API path: `/api/V1/GetProviderStatus`
 
 #### Region
 
 | Field | Description |
 | --- | --- |
-| `error_code` |  |
-| `item` |  |
-| `result_code` |  |
+| `ErrorCodes` |  |
+| `Items` |  |
+| `ResultCode` |  |
 
 Operations: list.
 
-API path: `/GetRegions`
+API path: `/api/V1/GetRegions`
 
 #### SendTransfer
 
 | Field | Description |
 | --- | --- |
-| `account_number` |  |
-| `distributor_ref` |  |
-| `error_code` |  |
-| `result_code` |  |
-| `send_currency_iso` |  |
-| `send_value` |  |
-| `setting` |  |
-| `sku_code` |  |
-| `transfer_record` |  |
-| `validate_only` |  |
+| `ErrorCodes` |  |
+| `ResultCode` |  |
+| `TransferRecord` |  |
 
 Operations: create.
 
-API path: `/SendTransfer`
-
-#### TransferRecord
-
-| Field | Description |
-| --- | --- |
-| `account_number` |  |
-| `distributor_ref` |  |
-| `ended_at_utc` |  |
-| `error_code` |  |
-| `item` |  |
-| `result_code` |  |
-| `skip` |  |
-| `sku_code` |  |
-| `started_at_utc` |  |
-| `take` |  |
-| `there_are_more_item` |  |
-| `transfer_ref` |  |
-
-Operations: create.
-
-API path: `/ListTransferRecords`
+API path: `/api/V1/SendTransfer`
 
 
 
@@ -531,11 +532,11 @@ Create an instance: `const account_lookup = client.AccountLookup()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `account_number_normalized` | `string` |  |
-| `country_iso` | `string` |  |
-| `error_code` | `any[]` |  |
-| `item` | `any[]` |  |
-| `result_code` | `number` |  |
+| `AccountNumberNormalized` | `string` |  |
+| `CountryIso` | `string` |  |
+| `ErrorCodes` | `any[]` |  |
+| `Items` | `any[]` |  |
+| `ResultCode` | `number` |  |
 
 #### Example: List
 
@@ -558,8 +559,8 @@ Create an instance: `const balance = client.Balance()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `code` | `string` |  |
-| `context` | `string` |  |
+| `Code` | `string` |  |
+| `Context` | `string` |  |
 
 #### Example: List
 
@@ -568,9 +569,9 @@ const balances = await client.Balance().list()
 ```
 
 
-### CancelResult
+### CancelTransfer
 
-Create an instance: `const cancel_result = client.CancelResult()`
+Create an instance: `const cancel_transfer = client.CancelTransfer()`
 
 #### Operations
 
@@ -582,14 +583,17 @@ Create an instance: `const cancel_result = client.CancelResult()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `error_code` | `any[]` |  |
-| `item` | `any[]` |  |
-| `result_code` | `number` |  |
+| `ErrorCodes` | `any[]` |  |
+| `Items` | `any[]` |  |
+| `ResultCode` | `number` |  |
 
 #### Example: Create
 
 ```ts
-const cancel_result = await client.CancelResult().create({
+const cancel_transfer = await client.CancelTransfer().create({
+  ErrorCodes: [],
+  Items: [],
+  ResultCode: 1,
 })
 ```
 
@@ -608,9 +612,9 @@ Create an instance: `const country = client.Country()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `error_code` | `any[]` |  |
-| `item` | `any[]` |  |
-| `result_code` | `number` |  |
+| `ErrorCodes` | `any[]` |  |
+| `Items` | `any[]` |  |
+| `ResultCode` | `number` |  |
 
 #### Example: List
 
@@ -633,9 +637,9 @@ Create an instance: `const currency = client.Currency()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `error_code` | `any[]` |  |
-| `item` | `any[]` |  |
-| `result_code` | `number` |  |
+| `ErrorCodes` | `any[]` |  |
+| `Items` | `any[]` |  |
+| `ResultCode` | `number` |  |
 
 #### Example: List
 
@@ -658,9 +662,9 @@ Create an instance: `const error_code_description = client.ErrorCodeDescription(
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `error_code` | `any[]` |  |
-| `item` | `any[]` |  |
-| `result_code` | `number` |  |
+| `ErrorCodes` | `any[]` |  |
+| `Items` | `any[]` |  |
+| `ResultCode` | `number` |  |
 
 #### Example: List
 
@@ -669,9 +673,9 @@ const error_code_descriptions = await client.ErrorCodeDescription().list()
 ```
 
 
-### Estimate
+### EstimatePrice
 
-Create an instance: `const estimate = client.Estimate()`
+Create an instance: `const estimate_price = client.EstimatePrice()`
 
 #### Operations
 
@@ -683,14 +687,77 @@ Create an instance: `const estimate = client.Estimate()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `error_code` | `any[]` |  |
-| `item` | `any[]` |  |
-| `result_code` | `number` |  |
+| `ErrorCodes` | `any[]` |  |
+| `Items` | `any[]` |  |
+| `ResultCode` | `number` |  |
 
 #### Example: Create
 
 ```ts
-const estimate = await client.Estimate().create({
+const estimate_price = await client.EstimatePrice().create({
+  ErrorCodes: [],
+  Items: [],
+  ResultCode: 1,
+})
+```
+
+
+### ListTransferRecord
+
+Create an instance: `const list_transfer_record = client.ListTransferRecord()`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `create(data)` | Create a new entity with the given data. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `ErrorCodes` | `any[]` |  |
+| `Items` | `any[]` |  |
+| `ResultCode` | `number` |  |
+| `ThereAreMoreItems` | `boolean` |  |
+
+#### Example: Create
+
+```ts
+const list_transfer_record = await client.ListTransferRecord().create({
+  ErrorCodes: [],
+  Items: [],
+  ResultCode: 1,
+  ThereAreMoreItems: true,
+})
+```
+
+
+### LookupBill
+
+Create an instance: `const lookup_bill = client.LookupBill()`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `create(data)` | Create a new entity with the given data. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `ErrorCodes` | `any[]` |  |
+| `Items` | `any[]` |  |
+| `ResultCode` | `number` |  |
+
+#### Example: Create
+
+```ts
+const lookup_bill = await client.LookupBill().create({
+  ErrorCodes: [],
+  Items: [],
+  ResultCode: 1,
 })
 ```
 
@@ -709,9 +776,9 @@ Create an instance: `const product = client.Product()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `error_code` | `any[]` |  |
-| `item` | `any[]` |  |
-| `result_code` | `number` |  |
+| `ErrorCodes` | `any[]` |  |
+| `Items` | `any[]` |  |
+| `ResultCode` | `number` |  |
 
 #### Example: List
 
@@ -734,9 +801,9 @@ Create an instance: `const product_description = client.ProductDescription()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `error_code` | `any[]` |  |
-| `item` | `any[]` |  |
-| `result_code` | `number` |  |
+| `ErrorCodes` | `any[]` |  |
+| `Items` | `any[]` |  |
+| `ResultCode` | `number` |  |
 
 #### Example: List
 
@@ -759,9 +826,9 @@ Create an instance: `const promotion = client.Promotion()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `error_code` | `any[]` |  |
-| `item` | `any[]` |  |
-| `result_code` | `number` |  |
+| `ErrorCodes` | `any[]` |  |
+| `Items` | `any[]` |  |
+| `ResultCode` | `number` |  |
 
 #### Example: List
 
@@ -784,9 +851,9 @@ Create an instance: `const promotion_description = client.PromotionDescription()
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `error_code` | `any[]` |  |
-| `item` | `any[]` |  |
-| `result_code` | `number` |  |
+| `ErrorCodes` | `any[]` |  |
+| `Items` | `any[]` |  |
+| `ResultCode` | `number` |  |
 
 #### Example: List
 
@@ -809,9 +876,9 @@ Create an instance: `const provider = client.Provider()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `error_code` | `any[]` |  |
-| `item` | `any[]` |  |
-| `result_code` | `number` |  |
+| `ErrorCodes` | `any[]` |  |
+| `Items` | `any[]` |  |
+| `ResultCode` | `number` |  |
 
 #### Example: List
 
@@ -834,9 +901,9 @@ Create an instance: `const provider_status = client.ProviderStatus()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `error_code` | `any[]` |  |
-| `item` | `any[]` |  |
-| `result_code` | `number` |  |
+| `ErrorCodes` | `any[]` |  |
+| `Items` | `any[]` |  |
+| `ResultCode` | `number` |  |
 
 #### Example: List
 
@@ -859,9 +926,9 @@ Create an instance: `const region = client.Region()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `error_code` | `any[]` |  |
-| `item` | `any[]` |  |
-| `result_code` | `number` |  |
+| `ErrorCodes` | `any[]` |  |
+| `Items` | `any[]` |  |
+| `ResultCode` | `number` |  |
 
 #### Example: List
 
@@ -884,62 +951,17 @@ Create an instance: `const send_transfer = client.SendTransfer()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `account_number` | `string` |  |
-| `distributor_ref` | `string` |  |
-| `error_code` | `any[]` |  |
-| `result_code` | `number` |  |
-| `send_currency_iso` | `string` |  |
-| `send_value` | `number` |  |
-| `setting` | `any[]` |  |
-| `sku_code` | `string` |  |
-| `transfer_record` | `Record<string, any>` |  |
-| `validate_only` | `boolean` |  |
+| `ErrorCodes` | `any[]` |  |
+| `ResultCode` | `number` |  |
+| `TransferRecord` | `Record<string, any>` |  |
 
 #### Example: Create
 
 ```ts
 const send_transfer = await client.SendTransfer().create({
-  account_number: 'example_account_number',
-  distributor_ref: 'example_distributor_ref',
-  send_value: 1,
-  sku_code: 'example_sku_code',
-})
-```
-
-
-### TransferRecord
-
-Create an instance: `const transfer_record = client.TransferRecord()`
-
-#### Operations
-
-| Method | Description |
-| --- | --- |
-| `create(data)` | Create a new entity with the given data. |
-
-#### Fields
-
-| Field | Type | Description |
-| --- | --- | --- |
-| `account_number` | `string` |  |
-| `distributor_ref` | `any[]` |  |
-| `ended_at_utc` | `string` |  |
-| `error_code` | `any[]` |  |
-| `item` | `any[]` |  |
-| `result_code` | `number` |  |
-| `skip` | `number` |  |
-| `sku_code` | `any[]` |  |
-| `started_at_utc` | `string` |  |
-| `take` | `number` |  |
-| `there_are_more_item` | `boolean` |  |
-| `transfer_ref` | `any[]` |  |
-
-#### Example: Create
-
-```ts
-const transfer_record = await client.TransferRecord().create({
-  skip: 1,
-  take: 1,
+  ErrorCodes: [],
+  ResultCode: 1,
+  TransferRecord: {},
 })
 ```
 

@@ -1,0 +1,33 @@
+{
+  "existing": {
+    "estimate_price": {
+      "ESTIMATE_PRICE00": {
+        "ErrorCodes": [],
+        "Items": [],
+        "ResultCode": "s20",
+        "id": "ESTIMATE_PRICE00"
+      },
+      "ESTIMATE_PRICE01": {
+        "ErrorCodes": [],
+        "Items": [],
+        "ResultCode": "s3e",
+        "id": "ESTIMATE_PRICE01"
+      },
+      "ESTIMATE_PRICE02": {
+        "ErrorCodes": [],
+        "Items": [],
+        "ResultCode": "s5c",
+        "id": "ESTIMATE_PRICE02"
+      }
+    }
+  },
+  "new": {
+    "estimate_price": {
+      "estimate_price_ref01": {
+        "ErrorCodes": [],
+        "Items": [],
+        "ResultCode": "s7a"
+      }
+    }
+  }
+}

@@ -62,7 +62,7 @@ describe('SendTransferEntity', async () => {
     const send_transfer_ref01_ent = client.SendTransfer()
     let send_transfer_ref01_data = setup.data.new.send_transfer['send_transfer_ref01']
 
-    send_transfer_ref01_data = await send_transfer_ref01_ent.create(send_transfer_ref01_data)
+    send_transfer_ref01_data = (await send_transfer_ref01_ent.create(send_transfer_ref01_data)).data()
     assert(null != send_transfer_ref01_data)
 
 

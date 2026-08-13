@@ -44,7 +44,7 @@ describe('BalanceDirect', async () => {
     const query: any = {}
 
     const result: any = await client.direct({
-      path: 'GetBalance',
+      path: 'api/V1/GetBalance',
       method: 'GET',
       params,
       query,

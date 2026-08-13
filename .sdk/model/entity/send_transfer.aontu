@@ -6,54 +6,19 @@ main: kit: entity: send_transfer: {
 
   fields: [
     {
-      name: "account_number"
+      name: "ErrorCodes"
       req: true
-      type: "`$STRING`"
-    }
-    {
-      name: "distributor_ref"
-      req: true
-      type: "`$STRING`"
-    }
-    {
-      name: "error_code"
-      req: false
       type: "`$ARRAY`"
     }
     {
-      name: "result_code"
-      req: false
+      name: "ResultCode"
+      req: true
       type: "`$INTEGER`"
     }
     {
-      name: "send_currency_iso"
-      req: false
-      type: "`$STRING`"
-    }
-    {
-      name: "send_value"
+      name: "TransferRecord"
       req: true
-      type: "`$NUMBER`"
-    }
-    {
-      name: "setting"
-      req: false
-      type: "`$ARRAY`"
-    }
-    {
-      name: "sku_code"
-      req: true
-      type: "`$STRING`"
-    }
-    {
-      name: "transfer_record"
-      req: false
       type: "`$OBJECT`"
-    }
-    {
-      name: "validate_only"
-      req: false
-      type: "`$BOOLEAN`"
     }
   ]
 
@@ -63,11 +28,39 @@ main: kit: entity: send_transfer: {
       name: "create"
       points: [
         {
+          args: {
+            header: [
+              {
+                kind: "header"
+                name: "x_correlation_id"
+                orig: "x_correlation_id"
+                reqd: false
+                type: "`$STRING`"
+              }
+            ]
+            query: [
+              {
+                kind: "query"
+                name: "request"
+                orig: "request"
+                reqd: true
+                type: "`$OBJECT`"
+              }
+            ]
+          }
           method: "POST"
-          orig: "/SendTransfer"
+          orig: "/api/V1/SendTransfer"
           parts: [
+            "api"
+            "V1"
             "SendTransfer"
           ]
+          select: {
+            exist: [
+              "request"
+              "x_correlation_id"
+            ]
+          }
           transform: {
             req: "`reqdata`"
             res: "`body`"

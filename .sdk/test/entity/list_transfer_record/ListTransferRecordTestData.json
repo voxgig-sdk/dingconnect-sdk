@@ -1,0 +1,37 @@
+{
+  "existing": {
+    "list_transfer_record": {
+      "LIST_TRANSFER_RECORD00": {
+        "ErrorCodes": [],
+        "Items": [],
+        "ResultCode": "s2a",
+        "ThereAreMoreItems": false,
+        "id": "LIST_TRANSFER_RECORD00"
+      },
+      "LIST_TRANSFER_RECORD01": {
+        "ErrorCodes": [],
+        "Items": [],
+        "ResultCode": "s52",
+        "ThereAreMoreItems": false,
+        "id": "LIST_TRANSFER_RECORD01"
+      },
+      "LIST_TRANSFER_RECORD02": {
+        "ErrorCodes": [],
+        "Items": [],
+        "ResultCode": "s7a",
+        "ThereAreMoreItems": false,
+        "id": "LIST_TRANSFER_RECORD02"
+      }
+    }
+  },
+  "new": {
+    "list_transfer_record": {
+      "list_transfer_record_ref01": {
+        "ErrorCodes": [],
+        "Items": [],
+        "ResultCode": "sa2",
+        "ThereAreMoreItems": false
+      }
+    }
+  }
+}

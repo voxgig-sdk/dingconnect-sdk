@@ -44,7 +44,7 @@ describe('AccountLookupDirect', async () => {
     const query: any = {}
 
     const result: any = await client.direct({
-      path: 'GetAccountLookup',
+      path: 'api/V1/GetAccountLookup',
       method: 'GET',
       params,
       query,

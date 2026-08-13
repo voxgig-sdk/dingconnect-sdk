@@ -3,9 +3,9 @@
 import json
 import pytest
 
-from utility.voxgig_struct import voxgig_struct as vs
+from dingconnect_sdk.utility.voxgig_struct import voxgig_struct as vs
 from dingconnect_sdk import DingconnectSDK
-from core import helpers
+from dingconnect_sdk.core import helpers
 from test import runner
 
 
@@ -25,7 +25,7 @@ class TestProviderStatusDirect:
 
 
         result = client.direct({
-            "path": "GetProviderStatus",
+            "path": "api/V1/GetProviderStatus",
             "method": "GET",
             "params": {},
         })

@@ -7,7 +7,7 @@
 # SDK Details.
 name: 'dingconnect'
 origin: 'voxgig-sdk'
-def: 'dingconnect-openapi.json'
+def: 'dingconnect-v1-swagger-2.0.json'
 
 
 # API Information

@@ -6,18 +6,18 @@ main: kit: entity: provider: {
 
   fields: [
     {
-      name: "error_code"
-      req: false
+      name: "ErrorCodes"
+      req: true
       type: "`$ARRAY`"
     }
     {
-      name: "item"
-      req: false
+      name: "Items"
+      req: true
       type: "`$ARRAY`"
     }
     {
-      name: "result_code"
-      req: false
+      name: "ResultCode"
+      req: true
       type: "`$INTEGER`"
     }
   ]
@@ -29,40 +29,51 @@ main: kit: entity: provider: {
       points: [
         {
           args: {
+            header: [
+              {
+                kind: "header"
+                name: "x_correlation_id"
+                orig: "x_correlation_id"
+                reqd: false
+                type: "`$STRING`"
+              }
+            ]
             query: [
               {
                 kind: "query"
                 name: "account_number"
                 orig: "account_number"
                 reqd: false
-                type: "`$STRING`"
+                type: "`$INTEGER`"
               }
               {
                 kind: "query"
                 name: "country_iso"
                 orig: "country_iso"
                 reqd: false
-                type: "`$ARRAY`"
+                type: "`$ANY`"
               }
               {
                 kind: "query"
                 name: "provider_code"
                 orig: "provider_code"
                 reqd: false
-                type: "`$ARRAY`"
+                type: "`$ANY`"
               }
               {
                 kind: "query"
                 name: "region_code"
                 orig: "region_code"
                 reqd: false
-                type: "`$ARRAY`"
+                type: "`$ANY`"
               }
             ]
           }
           method: "GET"
-          orig: "/GetProviders"
+          orig: "/api/V1/GetProviders"
           parts: [
+            "api"
+            "V1"
             "GetProviders"
           ]
           select: {
@@ -71,6 +82,7 @@ main: kit: entity: provider: {
               "country_iso"
               "provider_code"
               "region_code"
+              "x_correlation_id"
             ]
           }
           transform: {

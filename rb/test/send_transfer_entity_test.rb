@@ -37,7 +37,7 @@ class SendTransferEntityTest < Minitest::Test
       Vs.getpath(setup[:data], "new.send_transfer"), "send_transfer_ref01"))
 
     send_transfer_ref01_data_result = send_transfer_ref01_ent.create(send_transfer_ref01_data, nil)
-    send_transfer_ref01_data = Helpers.to_map(send_transfer_ref01_data_result)
+    send_transfer_ref01_data = Helpers.to_map(send_transfer_ref01_data_result.respond_to?(:data_get) ? send_transfer_ref01_data_result.data_get : send_transfer_ref01_data_result)
     assert !send_transfer_ref01_data.nil?
 
   end

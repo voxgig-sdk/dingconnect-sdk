@@ -56,9 +56,9 @@ Create a new `AccountLookup` entity instance. Pass `nil` for no initial data.
 
 Create a new `Balance` entity instance. Pass `nil` for no initial data.
 
-#### `CancelResult(data map[string]any) DingconnectEntity`
+#### `CancelTransfer(data map[string]any) DingconnectEntity`
 
-Create a new `CancelResult` entity instance. Pass `nil` for no initial data.
+Create a new `CancelTransfer` entity instance. Pass `nil` for no initial data.
 
 #### `Country(data map[string]any) DingconnectEntity`
 
@@ -72,9 +72,17 @@ Create a new `Currency` entity instance. Pass `nil` for no initial data.
 
 Create a new `ErrorCodeDescription` entity instance. Pass `nil` for no initial data.
 
-#### `Estimate(data map[string]any) DingconnectEntity`
+#### `EstimatePrice(data map[string]any) DingconnectEntity`
 
-Create a new `Estimate` entity instance. Pass `nil` for no initial data.
+Create a new `EstimatePrice` entity instance. Pass `nil` for no initial data.
+
+#### `ListTransferRecord(data map[string]any) DingconnectEntity`
+
+Create a new `ListTransferRecord` entity instance. Pass `nil` for no initial data.
+
+#### `LookupBill(data map[string]any) DingconnectEntity`
+
+Create a new `LookupBill` entity instance. Pass `nil` for no initial data.
 
 #### `Product(data map[string]any) DingconnectEntity`
 
@@ -107,10 +115,6 @@ Create a new `Region` entity instance. Pass `nil` for no initial data.
 #### `SendTransfer(data map[string]any) DingconnectEntity`
 
 Create a new `SendTransfer` entity instance. Pass `nil` for no initial data.
-
-#### `TransferRecord(data map[string]any) DingconnectEntity`
-
-Create a new `TransferRecord` entity instance. Pass `nil` for no initial data.
 
 #### `OptionsMap() map[string]any`
 
@@ -159,11 +163,11 @@ fmt.Println(accountLookup.GetName()) // "account_lookup"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `account_number_normalized` | `string` | No |  |
-| `country_iso` | `string` | No |  |
-| `error_code` | `[]any` | No |  |
-| `item` | `[]any` | No |  |
-| `result_code` | `int` | No |  |
+| `AccountNumberNormalized` | `string` | No |  |
+| `CountryIso` | `string` | No |  |
+| `ErrorCodes` | `[]any` | Yes |  |
+| `Items` | `[]any` | Yes |  |
+| `ResultCode` | `int` | Yes |  |
 
 ### Operations
 
@@ -214,8 +218,8 @@ fmt.Println(balance.GetName()) // "balance"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `code` | `string` | No |  |
-| `context` | `string` | No |  |
+| `Code` | `string` | Yes |  |
+| `Context` | `string` | No |  |
 
 ### Operations
 
@@ -255,20 +259,20 @@ Return the entity name.
 
 ---
 
-## CancelResultEntity
+## CancelTransferEntity
 
 ```go
-cancelResult := client.CancelResult(nil)
-fmt.Println(cancelResult.GetName()) // "cancel_result"
+cancelTransfer := client.CancelTransfer(nil)
+fmt.Println(cancelTransfer.GetName()) // "cancel_transfer"
 ```
 
 ### Fields
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `error_code` | `[]any` | No |  |
-| `item` | `[]any` | No |  |
-| `result_code` | `int` | No |  |
+| `ErrorCodes` | `[]any` | Yes |  |
+| `Items` | `[]any` | Yes |  |
+| `ResultCode` | `int` | Yes |  |
 
 ### Operations
 
@@ -277,7 +281,10 @@ fmt.Println(cancelResult.GetName()) // "cancel_result"
 Create a new entity with the given data.
 
 ```go
-result, err := client.CancelResult(nil).Create(map[string]any{
+result, err := client.CancelTransfer(nil).Create(map[string]any{
+    "ErrorCodes": []any{},
+    "Items": []any{},
+    "ResultCode": 1,
 }, nil)
 if err != nil {
     panic(err)
@@ -299,7 +306,7 @@ Get or set the entity match criteria. Works the same as `Data()`.
 
 #### `Make() Entity`
 
-Create a new `CancelResultEntity` instance with the same client and
+Create a new `CancelTransferEntity` instance with the same client and
 options.
 
 #### `GetName() string`
@@ -320,9 +327,9 @@ fmt.Println(country.GetName()) // "country"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `error_code` | `[]any` | No |  |
-| `item` | `[]any` | No |  |
-| `result_code` | `int` | No |  |
+| `ErrorCodes` | `[]any` | Yes |  |
+| `Items` | `[]any` | Yes |  |
+| `ResultCode` | `int` | Yes |  |
 
 ### Operations
 
@@ -373,9 +380,9 @@ fmt.Println(currency.GetName()) // "currency"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `error_code` | `[]any` | No |  |
-| `item` | `[]any` | No |  |
-| `result_code` | `int` | No |  |
+| `ErrorCodes` | `[]any` | Yes |  |
+| `Items` | `[]any` | Yes |  |
+| `ResultCode` | `int` | Yes |  |
 
 ### Operations
 
@@ -426,9 +433,9 @@ fmt.Println(errorCodeDescription.GetName()) // "error_code_description"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `error_code` | `[]any` | No |  |
-| `item` | `[]any` | No |  |
-| `result_code` | `int` | No |  |
+| `ErrorCodes` | `[]any` | Yes |  |
+| `Items` | `[]any` | Yes |  |
+| `ResultCode` | `int` | Yes |  |
 
 ### Operations
 
@@ -468,20 +475,20 @@ Return the entity name.
 
 ---
 
-## EstimateEntity
+## EstimatePriceEntity
 
 ```go
-estimate := client.Estimate(nil)
-fmt.Println(estimate.GetName()) // "estimate"
+estimatePrice := client.EstimatePrice(nil)
+fmt.Println(estimatePrice.GetName()) // "estimate_price"
 ```
 
 ### Fields
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `error_code` | `[]any` | No |  |
-| `item` | `[]any` | No |  |
-| `result_code` | `int` | No |  |
+| `ErrorCodes` | `[]any` | Yes |  |
+| `Items` | `[]any` | Yes |  |
+| `ResultCode` | `int` | Yes |  |
 
 ### Operations
 
@@ -490,7 +497,10 @@ fmt.Println(estimate.GetName()) // "estimate"
 Create a new entity with the given data.
 
 ```go
-result, err := client.Estimate(nil).Create(map[string]any{
+result, err := client.EstimatePrice(nil).Create(map[string]any{
+    "ErrorCodes": []any{},
+    "Items": []any{},
+    "ResultCode": 1,
 }, nil)
 if err != nil {
     panic(err)
@@ -512,7 +522,123 @@ Get or set the entity match criteria. Works the same as `Data()`.
 
 #### `Make() Entity`
 
-Create a new `EstimateEntity` instance with the same client and
+Create a new `EstimatePriceEntity` instance with the same client and
+options.
+
+#### `GetName() string`
+
+Return the entity name.
+
+
+---
+
+## ListTransferRecordEntity
+
+```go
+listTransferRecord := client.ListTransferRecord(nil)
+fmt.Println(listTransferRecord.GetName()) // "list_transfer_record"
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `ErrorCodes` | `[]any` | Yes |  |
+| `Items` | `[]any` | Yes |  |
+| `ResultCode` | `int` | Yes |  |
+| `ThereAreMoreItems` | `bool` | Yes |  |
+
+### Operations
+
+#### `Create(reqdata, ctrl map[string]any) (any, error)`
+
+Create a new entity with the given data.
+
+```go
+result, err := client.ListTransferRecord(nil).Create(map[string]any{
+    "ErrorCodes": []any{},
+    "Items": []any{},
+    "ResultCode": 1,
+    "ThereAreMoreItems": true,
+}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result)
+```
+
+### Common Methods
+
+#### `Data(args ...any) any`
+
+Get or set the entity data. When called with data, sets the entity's
+internal data and returns the current data. When called without
+arguments, returns a copy of the current data.
+
+#### `Match(args ...any) any`
+
+Get or set the entity match criteria. Works the same as `Data()`.
+
+#### `Make() Entity`
+
+Create a new `ListTransferRecordEntity` instance with the same client and
+options.
+
+#### `GetName() string`
+
+Return the entity name.
+
+
+---
+
+## LookupBillEntity
+
+```go
+lookupBill := client.LookupBill(nil)
+fmt.Println(lookupBill.GetName()) // "lookup_bill"
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `ErrorCodes` | `[]any` | Yes |  |
+| `Items` | `[]any` | Yes |  |
+| `ResultCode` | `int` | Yes |  |
+
+### Operations
+
+#### `Create(reqdata, ctrl map[string]any) (any, error)`
+
+Create a new entity with the given data.
+
+```go
+result, err := client.LookupBill(nil).Create(map[string]any{
+    "ErrorCodes": []any{},
+    "Items": []any{},
+    "ResultCode": 1,
+}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result)
+```
+
+### Common Methods
+
+#### `Data(args ...any) any`
+
+Get or set the entity data. When called with data, sets the entity's
+internal data and returns the current data. When called without
+arguments, returns a copy of the current data.
+
+#### `Match(args ...any) any`
+
+Get or set the entity match criteria. Works the same as `Data()`.
+
+#### `Make() Entity`
+
+Create a new `LookupBillEntity` instance with the same client and
 options.
 
 #### `GetName() string`
@@ -533,9 +659,9 @@ fmt.Println(product.GetName()) // "product"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `error_code` | `[]any` | No |  |
-| `item` | `[]any` | No |  |
-| `result_code` | `int` | No |  |
+| `ErrorCodes` | `[]any` | Yes |  |
+| `Items` | `[]any` | Yes |  |
+| `ResultCode` | `int` | Yes |  |
 
 ### Operations
 
@@ -586,9 +712,9 @@ fmt.Println(productDescription.GetName()) // "product_description"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `error_code` | `[]any` | No |  |
-| `item` | `[]any` | No |  |
-| `result_code` | `int` | No |  |
+| `ErrorCodes` | `[]any` | Yes |  |
+| `Items` | `[]any` | Yes |  |
+| `ResultCode` | `int` | Yes |  |
 
 ### Operations
 
@@ -639,9 +765,9 @@ fmt.Println(promotion.GetName()) // "promotion"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `error_code` | `[]any` | No |  |
-| `item` | `[]any` | No |  |
-| `result_code` | `int` | No |  |
+| `ErrorCodes` | `[]any` | Yes |  |
+| `Items` | `[]any` | Yes |  |
+| `ResultCode` | `int` | Yes |  |
 
 ### Operations
 
@@ -692,9 +818,9 @@ fmt.Println(promotionDescription.GetName()) // "promotion_description"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `error_code` | `[]any` | No |  |
-| `item` | `[]any` | No |  |
-| `result_code` | `int` | No |  |
+| `ErrorCodes` | `[]any` | Yes |  |
+| `Items` | `[]any` | Yes |  |
+| `ResultCode` | `int` | Yes |  |
 
 ### Operations
 
@@ -745,9 +871,9 @@ fmt.Println(provider.GetName()) // "provider"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `error_code` | `[]any` | No |  |
-| `item` | `[]any` | No |  |
-| `result_code` | `int` | No |  |
+| `ErrorCodes` | `[]any` | Yes |  |
+| `Items` | `[]any` | Yes |  |
+| `ResultCode` | `int` | Yes |  |
 
 ### Operations
 
@@ -798,9 +924,9 @@ fmt.Println(providerStatus.GetName()) // "provider_status"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `error_code` | `[]any` | No |  |
-| `item` | `[]any` | No |  |
-| `result_code` | `int` | No |  |
+| `ErrorCodes` | `[]any` | Yes |  |
+| `Items` | `[]any` | Yes |  |
+| `ResultCode` | `int` | Yes |  |
 
 ### Operations
 
@@ -851,9 +977,9 @@ fmt.Println(region.GetName()) // "region"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `error_code` | `[]any` | No |  |
-| `item` | `[]any` | No |  |
-| `result_code` | `int` | No |  |
+| `ErrorCodes` | `[]any` | Yes |  |
+| `Items` | `[]any` | Yes |  |
+| `ResultCode` | `int` | Yes |  |
 
 ### Operations
 
@@ -904,16 +1030,9 @@ fmt.Println(sendTransfer.GetName()) // "send_transfer"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `account_number` | `string` | Yes |  |
-| `distributor_ref` | `string` | Yes |  |
-| `error_code` | `[]any` | No |  |
-| `result_code` | `int` | No |  |
-| `send_currency_iso` | `string` | No |  |
-| `send_value` | `float64` | Yes |  |
-| `setting` | `[]any` | No |  |
-| `sku_code` | `string` | Yes |  |
-| `transfer_record` | `map[string]any` | No |  |
-| `validate_only` | `bool` | No |  |
+| `ErrorCodes` | `[]any` | Yes |  |
+| `ResultCode` | `int` | Yes |  |
+| `TransferRecord` | `map[string]any` | Yes |  |
 
 ### Operations
 
@@ -923,10 +1042,9 @@ Create a new entity with the given data.
 
 ```go
 result, err := client.SendTransfer(nil).Create(map[string]any{
-    "account_number": "example_account_number",
-    "distributor_ref": "example_distributor_ref",
-    "send_value": 1,
-    "sku_code": "example_sku_code",
+    "ErrorCodes": []any{},
+    "ResultCode": 1,
+    "TransferRecord": map[string]any{},
 }, nil)
 if err != nil {
     panic(err)
@@ -949,71 +1067,6 @@ Get or set the entity match criteria. Works the same as `Data()`.
 #### `Make() Entity`
 
 Create a new `SendTransferEntity` instance with the same client and
-options.
-
-#### `GetName() string`
-
-Return the entity name.
-
-
----
-
-## TransferRecordEntity
-
-```go
-transferRecord := client.TransferRecord(nil)
-fmt.Println(transferRecord.GetName()) // "transfer_record"
-```
-
-### Fields
-
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `account_number` | `string` | No |  |
-| `distributor_ref` | `[]any` | No |  |
-| `ended_at_utc` | `string` | No |  |
-| `error_code` | `[]any` | No |  |
-| `item` | `[]any` | No |  |
-| `result_code` | `int` | No |  |
-| `skip` | `int` | Yes |  |
-| `sku_code` | `[]any` | No |  |
-| `started_at_utc` | `string` | No |  |
-| `take` | `int` | Yes |  |
-| `there_are_more_item` | `bool` | No |  |
-| `transfer_ref` | `[]any` | No |  |
-
-### Operations
-
-#### `Create(reqdata, ctrl map[string]any) (any, error)`
-
-Create a new entity with the given data.
-
-```go
-result, err := client.TransferRecord(nil).Create(map[string]any{
-    "skip": 1,
-    "take": 1,
-}, nil)
-if err != nil {
-    panic(err)
-}
-fmt.Println(result)
-```
-
-### Common Methods
-
-#### `Data(args ...any) any`
-
-Get or set the entity data. When called with data, sets the entity's
-internal data and returns the current data. When called without
-arguments, returns a copy of the current data.
-
-#### `Match(args ...any) any`
-
-Get or set the entity match criteria. Works the same as `Data()`.
-
-#### `Make() Entity`
-
-Create a new `TransferRecordEntity` instance with the same client and
 options.
 
 #### `GetName() string`

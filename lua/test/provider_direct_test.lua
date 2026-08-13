@@ -21,7 +21,7 @@ describe("ProviderDirect", function()
 
 
     local result, err = client:direct({
-      path = "GetProviders",
+      path = "api/V1/GetProviders",
       method = "GET",
       params = {},
     })

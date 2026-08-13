@@ -1,0 +1,18 @@
+# BasicEstimatePriceFlow
+
+main: kit: flow: BasicEstimatePriceFlow:
+{
+  entity: "estimate_price",
+  kind: "basic",
+  name: "BasicEstimatePriceFlow",
+  step: [
+    {
+      input: {
+        ref: "estimate_price_ref01"
+      }
+
+      op: "create"
+    }
+  ],
+  "key$": "BasicEstimatePriceFlow"
+}

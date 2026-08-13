@@ -21,7 +21,7 @@ describe("BalanceDirect", function()
 
 
     local result, err = client:direct({
-      path = "GetBalance",
+      path = "api/V1/GetBalance",
       method = "GET",
       params = {},
     })

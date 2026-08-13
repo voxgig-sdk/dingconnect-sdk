@@ -24,6 +24,7 @@ require_relative 'prepare_method'
 require_relative 'prepare_params'
 require_relative 'prepare_path'
 require_relative 'prepare_query'
+require_relative 'graphql'
 require_relative 'result_basic'
 require_relative 'result_body'
 require_relative 'result_headers'
@@ -55,6 +56,8 @@ DingconnectUtility.registrar = ->(u) {
   u.prepare_params = DingconnectUtilities::PrepareParams
   u.prepare_path = DingconnectUtilities::PreparePath
   u.prepare_query = DingconnectUtilities::PrepareQuery
+  u.graphql_body = DingconnectUtilities::GraphqlBody
+  u.graphql_errors = DingconnectUtilities::GraphqlErrors
   u.result_basic = DingconnectUtilities::ResultBasic
   u.result_body = DingconnectUtilities::ResultBody
   u.result_headers = DingconnectUtilities::ResultHeaders

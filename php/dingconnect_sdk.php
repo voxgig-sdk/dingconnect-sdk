@@ -166,7 +166,41 @@ class DingconnectSDK
         return $fetchdef;
     }
 
+    // Raw endpoint access is operator-controllable, like every entity op.
+    // Blocking it means denying BOTH the 'direct' and 'graphql' tokens,
+    // since either one reaches the same endpoint.
     public function direct(array $fetchargs = []): mixed
+    {
+        if (!$this->op_allowed("direct")) {
+            return $this->op_denied("direct");
+        }
+
+        return $this->raw_request($fetchargs);
+    }
+
+    // Is this raw-access op permitted by the SDK's allow.op option?
+    private function op_allowed(string $op): bool
+    {
+        $allow_op = Struct::getpath($this->options, "allow.op");
+        return is_string($allow_op) && str_contains($allow_op, $op);
+    }
+
+    private function op_denied(string $op): array
+    {
+        $allow_op = Struct::getpath($this->options, "allow.op");
+        return [
+            "ok" => false,
+            "err" => new DingconnectError($op . "_allow",
+                "DingconnectSDK: " . $op . ": operation not allowed by" .
+                " SDK option allow.op value: \"" . (string)$allow_op . "\""),
+        ];
+    }
+
+    // Ungated request path shared by direct and graphql, each of which
+    // checks its own allow.op token first. Private, rather than a flag on
+    // fetchargs: a caller-supplied marker would let anyone opt straight back
+    // out of the gate by passing it.
+    private function raw_request(array $fetchargs = []): mixed
     {
         $utility = $this->_utility;
 
@@ -237,6 +271,58 @@ class DingconnectSDK
         ];
     }
 
+    // Raw GraphQL access: the pressure valve that makes the generated
+    // surface's deliberate omissions (per-call selection sets, typed filter
+    // builders, batching, subscriptions) livable — the whole schema stays
+    // reachable.
+    //
+    // Thin wrapper over the same prepare/fetch path direct uses, with the
+    // one thing raw direct cannot do for GraphQL: a GraphQL failure rides
+    // HTTP 200 as a top-level `errors` array, so status alone would report
+    // a failed query as ok.
+    //
+    // NOTE: like direct, this bypasses the feature pipeline — no retry,
+    // ratelimit or paging features apply.
+    public function graphql(string $query, ?array $variables = null, ?array $ctrl = null): mixed
+    {
+        if (!$this->op_allowed("graphql")) {
+            return $this->op_denied("graphql");
+        }
+
+        $res = $this->raw_request([
+            "method" => "POST",
+            "headers" => ["content-type" => "application/json"],
+            "body" => ["query" => $query, "variables" => $variables ?? []],
+            "ctrl" => $ctrl ?? [],
+        ]);
+
+        if (!is_array($res)) {
+            return $res;
+        }
+
+        // Errors are read BEFORE any status check: a GraphQL parse or
+        // validation failure comes back as HTTP 400 carrying the standard
+        // { errors: [...] } body, and the raw path represents a non-2xx as
+        // ok:false with no err — so returning early on status would discard
+        // the server's own diagnostics, which are the only useful part of
+        // that response.
+        $errors = Struct::getpath($res, "data.errors");
+
+        if (is_array($errors) && 0 < count($errors)) {
+            $first = is_array($errors[0]) ? $errors[0] : [];
+            $msg = $first["message"] ?? "";
+            if (!is_string($msg) || "" === $msg) {
+                $msg = "graphql error";
+            }
+            $res["ok"] = false;
+            $res["err"] = new DingconnectError("graphql_error",
+                "DingconnectSDK: graphql: " . $msg);
+            $res["graphql"] = $errors;
+        }
+
+        return $res;
+    }
+
 
     private $_account_lookup = null;
 
@@ -274,21 +360,21 @@ class DingconnectSDK
     }
 
 
-    private $_cancel_result = null;
+    private $_cancel_transfer = null;
 
-    // Canonical facade: $client->CancelResult()->list() / ->load(["id" => ...]).
-    // PHP method names are case-insensitive, so lowercase $client->cancel_result()
+    // Canonical facade: $client->CancelTransfer()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->cancel_transfer()
     // resolves here too.
-    public function CancelResult($data = null)
+    public function CancelTransfer($data = null)
     {
-        require_once __DIR__ . '/entity/cancel_result_entity.php';
+        require_once __DIR__ . '/entity/cancel_transfer_entity.php';
         if ($data === null) {
-            if ($this->_cancel_result === null) {
-                $this->_cancel_result = new CancelResultEntity($this, null);
+            if ($this->_cancel_transfer === null) {
+                $this->_cancel_transfer = new CancelTransferEntity($this, null);
             }
-            return $this->_cancel_result;
+            return $this->_cancel_transfer;
         }
-        return new CancelResultEntity($this, $data);
+        return new CancelTransferEntity($this, $data);
     }
 
 
@@ -346,21 +432,57 @@ class DingconnectSDK
     }
 
 
-    private $_estimate = null;
+    private $_estimate_price = null;
 
-    // Canonical facade: $client->Estimate()->list() / ->load(["id" => ...]).
-    // PHP method names are case-insensitive, so lowercase $client->estimate()
+    // Canonical facade: $client->EstimatePrice()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->estimate_price()
     // resolves here too.
-    public function Estimate($data = null)
+    public function EstimatePrice($data = null)
     {
-        require_once __DIR__ . '/entity/estimate_entity.php';
+        require_once __DIR__ . '/entity/estimate_price_entity.php';
         if ($data === null) {
-            if ($this->_estimate === null) {
-                $this->_estimate = new EstimateEntity($this, null);
+            if ($this->_estimate_price === null) {
+                $this->_estimate_price = new EstimatePriceEntity($this, null);
             }
-            return $this->_estimate;
+            return $this->_estimate_price;
         }
-        return new EstimateEntity($this, $data);
+        return new EstimatePriceEntity($this, $data);
+    }
+
+
+    private $_list_transfer_record = null;
+
+    // Canonical facade: $client->ListTransferRecord()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->list_transfer_record()
+    // resolves here too.
+    public function ListTransferRecord($data = null)
+    {
+        require_once __DIR__ . '/entity/list_transfer_record_entity.php';
+        if ($data === null) {
+            if ($this->_list_transfer_record === null) {
+                $this->_list_transfer_record = new ListTransferRecordEntity($this, null);
+            }
+            return $this->_list_transfer_record;
+        }
+        return new ListTransferRecordEntity($this, $data);
+    }
+
+
+    private $_lookup_bill = null;
+
+    // Canonical facade: $client->LookupBill()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->lookup_bill()
+    // resolves here too.
+    public function LookupBill($data = null)
+    {
+        require_once __DIR__ . '/entity/lookup_bill_entity.php';
+        if ($data === null) {
+            if ($this->_lookup_bill === null) {
+                $this->_lookup_bill = new LookupBillEntity($this, null);
+            }
+            return $this->_lookup_bill;
+        }
+        return new LookupBillEntity($this, $data);
     }
 
 
@@ -505,24 +627,6 @@ class DingconnectSDK
             return $this->_send_transfer;
         }
         return new SendTransferEntity($this, $data);
-    }
-
-
-    private $_transfer_record = null;
-
-    // Canonical facade: $client->TransferRecord()->list() / ->load(["id" => ...]).
-    // PHP method names are case-insensitive, so lowercase $client->transfer_record()
-    // resolves here too.
-    public function TransferRecord($data = null)
-    {
-        require_once __DIR__ . '/entity/transfer_record_entity.php';
-        if ($data === null) {
-            if ($this->_transfer_record === null) {
-                $this->_transfer_record = new TransferRecordEntity($this, null);
-            }
-            return $this->_transfer_record;
-        }
-        return new TransferRecordEntity($this, $data);
     }
 
 

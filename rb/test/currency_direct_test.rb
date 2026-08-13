@@ -20,7 +20,7 @@ class CurrencyDirectTest < Minitest::Test
 
 
     result = client.direct({
-      "path" => "GetCurrencies",
+      "path" => "api/V1/GetCurrencies",
       "method" => "GET",
       "params" => {},
     })
