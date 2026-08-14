@@ -1,5 +1,8 @@
 -- Dingconnect SDK configuration
 
+-- Build a fresh, fully materialised config table. Every call rebuilds the
+-- whole structure, so prefer require("config_shared") unless you need a
+-- private copy you intend to mutate.
 local function make_config()
   return {
     main = {
@@ -44,39 +47,27 @@ local function make_config()
       ["account_lookup"] = {
         ["fields"] = {
           {
-            ["active"] = true,
             ["name"] = "AccountNumberNormalized",
-            ["req"] = false,
             ["type"] = "`$STRING`",
-            ["index$"] = 0,
           },
           {
-            ["active"] = true,
             ["name"] = "CountryIso",
-            ["req"] = false,
             ["type"] = "`$STRING`",
-            ["index$"] = 1,
           },
           {
-            ["active"] = true,
             ["name"] = "ErrorCodes",
             ["req"] = true,
             ["type"] = "`$ARRAY`",
-            ["index$"] = 2,
           },
           {
-            ["active"] = true,
             ["name"] = "Items",
             ["req"] = true,
             ["type"] = "`$ARRAY`",
-            ["index$"] = 3,
           },
           {
-            ["active"] = true,
             ["name"] = "ResultCode",
             ["req"] = true,
             ["type"] = "`$INTEGER`",
-            ["index$"] = 4,
           },
         },
         ["name"] = "account_lookup",
@@ -86,25 +77,20 @@ local function make_config()
             ["name"] = "list",
             ["points"] = {
               {
-                ["active"] = true,
                 ["args"] = {
                   ["header"] = {
                     {
-                      ["active"] = true,
                       ["kind"] = "header",
                       ["name"] = "x_correlation_id",
                       ["orig"] = "x_correlation_id",
-                      ["reqd"] = false,
                       ["type"] = "`$STRING`",
                     },
                   },
                   ["query"] = {
                     {
-                      ["active"] = true,
                       ["kind"] = "query",
                       ["name"] = "account_number",
                       ["orig"] = "account_number",
-                      ["reqd"] = false,
                       ["type"] = "`$INTEGER`",
                     },
                   },
@@ -127,10 +113,8 @@ local function make_config()
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
                 },
-                ["index$"] = 0,
               },
             },
-            ["key$"] = "list",
           },
         },
         ["relations"] = {
@@ -140,18 +124,13 @@ local function make_config()
       ["balance"] = {
         ["fields"] = {
           {
-            ["active"] = true,
             ["name"] = "Code",
             ["req"] = true,
             ["type"] = "`$STRING`",
-            ["index$"] = 0,
           },
           {
-            ["active"] = true,
             ["name"] = "Context",
-            ["req"] = false,
             ["type"] = "`$STRING`",
-            ["index$"] = 1,
           },
         },
         ["name"] = "balance",
@@ -161,15 +140,12 @@ local function make_config()
             ["name"] = "list",
             ["points"] = {
               {
-                ["active"] = true,
                 ["args"] = {
                   ["header"] = {
                     {
-                      ["active"] = true,
                       ["kind"] = "header",
                       ["name"] = "x_correlation_id",
                       ["orig"] = "x_correlation_id",
-                      ["reqd"] = false,
                       ["type"] = "`$STRING`",
                     },
                   },
@@ -191,10 +167,8 @@ local function make_config()
                   ["req"] = "`reqdata`",
                   ["res"] = "`body.ErrorCodes`",
                 },
-                ["index$"] = 0,
               },
             },
-            ["key$"] = "list",
           },
         },
         ["relations"] = {
@@ -204,25 +178,19 @@ local function make_config()
       ["cancel_transfer"] = {
         ["fields"] = {
           {
-            ["active"] = true,
             ["name"] = "ErrorCodes",
             ["req"] = true,
             ["type"] = "`$ARRAY`",
-            ["index$"] = 0,
           },
           {
-            ["active"] = true,
             ["name"] = "Items",
             ["req"] = true,
             ["type"] = "`$ARRAY`",
-            ["index$"] = 1,
           },
           {
-            ["active"] = true,
             ["name"] = "ResultCode",
             ["req"] = true,
             ["type"] = "`$INTEGER`",
-            ["index$"] = 2,
           },
         },
         ["name"] = "cancel_transfer",
@@ -232,21 +200,17 @@ local function make_config()
             ["name"] = "create",
             ["points"] = {
               {
-                ["active"] = true,
                 ["args"] = {
                   ["header"] = {
                     {
-                      ["active"] = true,
                       ["kind"] = "header",
                       ["name"] = "x_correlation_id",
                       ["orig"] = "x_correlation_id",
-                      ["reqd"] = false,
                       ["type"] = "`$STRING`",
                     },
                   },
                   ["query"] = {
                     {
-                      ["active"] = true,
                       ["kind"] = "query",
                       ["name"] = "cancellation_request",
                       ["orig"] = "cancellation_request",
@@ -273,10 +237,8 @@ local function make_config()
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
                 },
-                ["index$"] = 0,
               },
             },
-            ["key$"] = "create",
           },
         },
         ["relations"] = {
@@ -286,25 +248,19 @@ local function make_config()
       ["country"] = {
         ["fields"] = {
           {
-            ["active"] = true,
             ["name"] = "ErrorCodes",
             ["req"] = true,
             ["type"] = "`$ARRAY`",
-            ["index$"] = 0,
           },
           {
-            ["active"] = true,
             ["name"] = "Items",
             ["req"] = true,
             ["type"] = "`$ARRAY`",
-            ["index$"] = 1,
           },
           {
-            ["active"] = true,
             ["name"] = "ResultCode",
             ["req"] = true,
             ["type"] = "`$INTEGER`",
-            ["index$"] = 2,
           },
         },
         ["name"] = "country",
@@ -314,15 +270,12 @@ local function make_config()
             ["name"] = "list",
             ["points"] = {
               {
-                ["active"] = true,
                 ["args"] = {
                   ["header"] = {
                     {
-                      ["active"] = true,
                       ["kind"] = "header",
                       ["name"] = "x_correlation_id",
                       ["orig"] = "x_correlation_id",
-                      ["reqd"] = false,
                       ["type"] = "`$STRING`",
                     },
                   },
@@ -344,10 +297,8 @@ local function make_config()
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
                 },
-                ["index$"] = 0,
               },
             },
-            ["key$"] = "list",
           },
         },
         ["relations"] = {
@@ -357,25 +308,19 @@ local function make_config()
       ["currency"] = {
         ["fields"] = {
           {
-            ["active"] = true,
             ["name"] = "ErrorCodes",
             ["req"] = true,
             ["type"] = "`$ARRAY`",
-            ["index$"] = 0,
           },
           {
-            ["active"] = true,
             ["name"] = "Items",
             ["req"] = true,
             ["type"] = "`$ARRAY`",
-            ["index$"] = 1,
           },
           {
-            ["active"] = true,
             ["name"] = "ResultCode",
             ["req"] = true,
             ["type"] = "`$INTEGER`",
-            ["index$"] = 2,
           },
         },
         ["name"] = "currency",
@@ -385,15 +330,12 @@ local function make_config()
             ["name"] = "list",
             ["points"] = {
               {
-                ["active"] = true,
                 ["args"] = {
                   ["header"] = {
                     {
-                      ["active"] = true,
                       ["kind"] = "header",
                       ["name"] = "x_correlation_id",
                       ["orig"] = "x_correlation_id",
-                      ["reqd"] = false,
                       ["type"] = "`$STRING`",
                     },
                   },
@@ -415,10 +357,8 @@ local function make_config()
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
                 },
-                ["index$"] = 0,
               },
             },
-            ["key$"] = "list",
           },
         },
         ["relations"] = {
@@ -428,25 +368,19 @@ local function make_config()
       ["error_code_description"] = {
         ["fields"] = {
           {
-            ["active"] = true,
             ["name"] = "ErrorCodes",
             ["req"] = true,
             ["type"] = "`$ARRAY`",
-            ["index$"] = 0,
           },
           {
-            ["active"] = true,
             ["name"] = "Items",
             ["req"] = true,
             ["type"] = "`$ARRAY`",
-            ["index$"] = 1,
           },
           {
-            ["active"] = true,
             ["name"] = "ResultCode",
             ["req"] = true,
             ["type"] = "`$INTEGER`",
-            ["index$"] = 2,
           },
         },
         ["name"] = "error_code_description",
@@ -456,15 +390,12 @@ local function make_config()
             ["name"] = "list",
             ["points"] = {
               {
-                ["active"] = true,
                 ["args"] = {
                   ["header"] = {
                     {
-                      ["active"] = true,
                       ["kind"] = "header",
                       ["name"] = "x_correlation_id",
                       ["orig"] = "x_correlation_id",
-                      ["reqd"] = false,
                       ["type"] = "`$STRING`",
                     },
                   },
@@ -486,10 +417,8 @@ local function make_config()
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
                 },
-                ["index$"] = 0,
               },
             },
-            ["key$"] = "list",
           },
         },
         ["relations"] = {
@@ -499,25 +428,19 @@ local function make_config()
       ["estimate_price"] = {
         ["fields"] = {
           {
-            ["active"] = true,
             ["name"] = "ErrorCodes",
             ["req"] = true,
             ["type"] = "`$ARRAY`",
-            ["index$"] = 0,
           },
           {
-            ["active"] = true,
             ["name"] = "Items",
             ["req"] = true,
             ["type"] = "`$ARRAY`",
-            ["index$"] = 1,
           },
           {
-            ["active"] = true,
             ["name"] = "ResultCode",
             ["req"] = true,
             ["type"] = "`$INTEGER`",
-            ["index$"] = 2,
           },
         },
         ["name"] = "estimate_price",
@@ -527,21 +450,17 @@ local function make_config()
             ["name"] = "create",
             ["points"] = {
               {
-                ["active"] = true,
                 ["args"] = {
                   ["header"] = {
                     {
-                      ["active"] = true,
                       ["kind"] = "header",
                       ["name"] = "x_correlation_id",
                       ["orig"] = "x_correlation_id",
-                      ["reqd"] = false,
                       ["type"] = "`$STRING`",
                     },
                   },
                   ["query"] = {
                     {
-                      ["active"] = true,
                       ["kind"] = "query",
                       ["name"] = "requested_estimation",
                       ["orig"] = "requested_estimation",
@@ -568,10 +487,8 @@ local function make_config()
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
                 },
-                ["index$"] = 0,
               },
             },
-            ["key$"] = "create",
           },
         },
         ["relations"] = {
@@ -581,32 +498,24 @@ local function make_config()
       ["list_transfer_record"] = {
         ["fields"] = {
           {
-            ["active"] = true,
             ["name"] = "ErrorCodes",
             ["req"] = true,
             ["type"] = "`$ARRAY`",
-            ["index$"] = 0,
           },
           {
-            ["active"] = true,
             ["name"] = "Items",
             ["req"] = true,
             ["type"] = "`$ARRAY`",
-            ["index$"] = 1,
           },
           {
-            ["active"] = true,
             ["name"] = "ResultCode",
             ["req"] = true,
             ["type"] = "`$INTEGER`",
-            ["index$"] = 2,
           },
           {
-            ["active"] = true,
             ["name"] = "ThereAreMoreItems",
             ["req"] = true,
             ["type"] = "`$BOOLEAN`",
-            ["index$"] = 3,
           },
         },
         ["name"] = "list_transfer_record",
@@ -616,21 +525,17 @@ local function make_config()
             ["name"] = "create",
             ["points"] = {
               {
-                ["active"] = true,
                 ["args"] = {
                   ["header"] = {
                     {
-                      ["active"] = true,
                       ["kind"] = "header",
                       ["name"] = "x_correlation_id",
                       ["orig"] = "x_correlation_id",
-                      ["reqd"] = false,
                       ["type"] = "`$STRING`",
                     },
                   },
                   ["query"] = {
                     {
-                      ["active"] = true,
                       ["kind"] = "query",
                       ["name"] = "request",
                       ["orig"] = "request",
@@ -657,10 +562,8 @@ local function make_config()
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
                 },
-                ["index$"] = 0,
               },
             },
-            ["key$"] = "create",
           },
         },
         ["relations"] = {
@@ -670,25 +573,19 @@ local function make_config()
       ["lookup_bill"] = {
         ["fields"] = {
           {
-            ["active"] = true,
             ["name"] = "ErrorCodes",
             ["req"] = true,
             ["type"] = "`$ARRAY`",
-            ["index$"] = 0,
           },
           {
-            ["active"] = true,
             ["name"] = "Items",
             ["req"] = true,
             ["type"] = "`$ARRAY`",
-            ["index$"] = 1,
           },
           {
-            ["active"] = true,
             ["name"] = "ResultCode",
             ["req"] = true,
             ["type"] = "`$INTEGER`",
-            ["index$"] = 2,
           },
         },
         ["name"] = "lookup_bill",
@@ -698,21 +595,17 @@ local function make_config()
             ["name"] = "create",
             ["points"] = {
               {
-                ["active"] = true,
                 ["args"] = {
                   ["header"] = {
                     {
-                      ["active"] = true,
                       ["kind"] = "header",
                       ["name"] = "x_correlation_id",
                       ["orig"] = "x_correlation_id",
-                      ["reqd"] = false,
                       ["type"] = "`$STRING`",
                     },
                   },
                   ["query"] = {
                     {
-                      ["active"] = true,
                       ["kind"] = "query",
                       ["name"] = "request",
                       ["orig"] = "request",
@@ -739,10 +632,8 @@ local function make_config()
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
                 },
-                ["index$"] = 0,
               },
             },
-            ["key$"] = "create",
           },
         },
         ["relations"] = {
@@ -752,25 +643,19 @@ local function make_config()
       ["product"] = {
         ["fields"] = {
           {
-            ["active"] = true,
             ["name"] = "ErrorCodes",
             ["req"] = true,
             ["type"] = "`$ARRAY`",
-            ["index$"] = 0,
           },
           {
-            ["active"] = true,
             ["name"] = "Items",
             ["req"] = true,
             ["type"] = "`$ARRAY`",
-            ["index$"] = 1,
           },
           {
-            ["active"] = true,
             ["name"] = "ResultCode",
             ["req"] = true,
             ["type"] = "`$INTEGER`",
-            ["index$"] = 2,
           },
         },
         ["name"] = "product",
@@ -780,65 +665,50 @@ local function make_config()
             ["name"] = "list",
             ["points"] = {
               {
-                ["active"] = true,
                 ["args"] = {
                   ["header"] = {
                     {
-                      ["active"] = true,
                       ["kind"] = "header",
                       ["name"] = "x_correlation_id",
                       ["orig"] = "x_correlation_id",
-                      ["reqd"] = false,
                       ["type"] = "`$STRING`",
                     },
                   },
                   ["query"] = {
                     {
-                      ["active"] = true,
                       ["kind"] = "query",
                       ["name"] = "account_number",
                       ["orig"] = "account_number",
-                      ["reqd"] = false,
                       ["type"] = "`$INTEGER`",
                     },
                     {
-                      ["active"] = true,
                       ["kind"] = "query",
                       ["name"] = "benefit",
                       ["orig"] = "benefit",
-                      ["reqd"] = false,
                       ["type"] = "`$ANY`",
                     },
                     {
-                      ["active"] = true,
                       ["kind"] = "query",
                       ["name"] = "country_iso",
                       ["orig"] = "country_iso",
-                      ["reqd"] = false,
                       ["type"] = "`$ANY`",
                     },
                     {
-                      ["active"] = true,
                       ["kind"] = "query",
                       ["name"] = "provider_code",
                       ["orig"] = "provider_code",
-                      ["reqd"] = false,
                       ["type"] = "`$ANY`",
                     },
                     {
-                      ["active"] = true,
                       ["kind"] = "query",
                       ["name"] = "region_code",
                       ["orig"] = "region_code",
-                      ["reqd"] = false,
                       ["type"] = "`$ANY`",
                     },
                     {
-                      ["active"] = true,
                       ["kind"] = "query",
                       ["name"] = "sku_code",
                       ["orig"] = "sku_code",
-                      ["reqd"] = false,
                       ["type"] = "`$ANY`",
                     },
                   },
@@ -866,10 +736,8 @@ local function make_config()
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
                 },
-                ["index$"] = 0,
               },
             },
-            ["key$"] = "list",
           },
         },
         ["relations"] = {
@@ -879,25 +747,19 @@ local function make_config()
       ["product_description"] = {
         ["fields"] = {
           {
-            ["active"] = true,
             ["name"] = "ErrorCodes",
             ["req"] = true,
             ["type"] = "`$ARRAY`",
-            ["index$"] = 0,
           },
           {
-            ["active"] = true,
             ["name"] = "Items",
             ["req"] = true,
             ["type"] = "`$ARRAY`",
-            ["index$"] = 1,
           },
           {
-            ["active"] = true,
             ["name"] = "ResultCode",
             ["req"] = true,
             ["type"] = "`$INTEGER`",
-            ["index$"] = 2,
           },
         },
         ["name"] = "product_description",
@@ -907,33 +769,26 @@ local function make_config()
             ["name"] = "list",
             ["points"] = {
               {
-                ["active"] = true,
                 ["args"] = {
                   ["header"] = {
                     {
-                      ["active"] = true,
                       ["kind"] = "header",
                       ["name"] = "x_correlation_id",
                       ["orig"] = "x_correlation_id",
-                      ["reqd"] = false,
                       ["type"] = "`$STRING`",
                     },
                   },
                   ["query"] = {
                     {
-                      ["active"] = true,
                       ["kind"] = "query",
                       ["name"] = "language_code",
                       ["orig"] = "language_code",
-                      ["reqd"] = false,
                       ["type"] = "`$ANY`",
                     },
                     {
-                      ["active"] = true,
                       ["kind"] = "query",
                       ["name"] = "sku_code",
                       ["orig"] = "sku_code",
-                      ["reqd"] = false,
                       ["type"] = "`$ANY`",
                     },
                   },
@@ -957,10 +812,8 @@ local function make_config()
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
                 },
-                ["index$"] = 0,
               },
             },
-            ["key$"] = "list",
           },
         },
         ["relations"] = {
@@ -970,25 +823,19 @@ local function make_config()
       ["promotion"] = {
         ["fields"] = {
           {
-            ["active"] = true,
             ["name"] = "ErrorCodes",
             ["req"] = true,
             ["type"] = "`$ARRAY`",
-            ["index$"] = 0,
           },
           {
-            ["active"] = true,
             ["name"] = "Items",
             ["req"] = true,
             ["type"] = "`$ARRAY`",
-            ["index$"] = 1,
           },
           {
-            ["active"] = true,
             ["name"] = "ResultCode",
             ["req"] = true,
             ["type"] = "`$INTEGER`",
-            ["index$"] = 2,
           },
         },
         ["name"] = "promotion",
@@ -998,41 +845,32 @@ local function make_config()
             ["name"] = "list",
             ["points"] = {
               {
-                ["active"] = true,
                 ["args"] = {
                   ["header"] = {
                     {
-                      ["active"] = true,
                       ["kind"] = "header",
                       ["name"] = "x_correlation_id",
                       ["orig"] = "x_correlation_id",
-                      ["reqd"] = false,
                       ["type"] = "`$STRING`",
                     },
                   },
                   ["query"] = {
                     {
-                      ["active"] = true,
                       ["kind"] = "query",
                       ["name"] = "account_number",
                       ["orig"] = "account_number",
-                      ["reqd"] = false,
                       ["type"] = "`$INTEGER`",
                     },
                     {
-                      ["active"] = true,
                       ["kind"] = "query",
                       ["name"] = "country_iso",
                       ["orig"] = "country_iso",
-                      ["reqd"] = false,
                       ["type"] = "`$ANY`",
                     },
                     {
-                      ["active"] = true,
                       ["kind"] = "query",
                       ["name"] = "provider_code",
                       ["orig"] = "provider_code",
-                      ["reqd"] = false,
                       ["type"] = "`$ANY`",
                     },
                   },
@@ -1057,10 +895,8 @@ local function make_config()
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
                 },
-                ["index$"] = 0,
               },
             },
-            ["key$"] = "list",
           },
         },
         ["relations"] = {
@@ -1070,25 +906,19 @@ local function make_config()
       ["promotion_description"] = {
         ["fields"] = {
           {
-            ["active"] = true,
             ["name"] = "ErrorCodes",
             ["req"] = true,
             ["type"] = "`$ARRAY`",
-            ["index$"] = 0,
           },
           {
-            ["active"] = true,
             ["name"] = "Items",
             ["req"] = true,
             ["type"] = "`$ARRAY`",
-            ["index$"] = 1,
           },
           {
-            ["active"] = true,
             ["name"] = "ResultCode",
             ["req"] = true,
             ["type"] = "`$INTEGER`",
-            ["index$"] = 2,
           },
         },
         ["name"] = "promotion_description",
@@ -1098,25 +928,20 @@ local function make_config()
             ["name"] = "list",
             ["points"] = {
               {
-                ["active"] = true,
                 ["args"] = {
                   ["header"] = {
                     {
-                      ["active"] = true,
                       ["kind"] = "header",
                       ["name"] = "x_correlation_id",
                       ["orig"] = "x_correlation_id",
-                      ["reqd"] = false,
                       ["type"] = "`$STRING`",
                     },
                   },
                   ["query"] = {
                     {
-                      ["active"] = true,
                       ["kind"] = "query",
                       ["name"] = "language_code",
                       ["orig"] = "language_code",
-                      ["reqd"] = false,
                       ["type"] = "`$ANY`",
                     },
                   },
@@ -1139,10 +964,8 @@ local function make_config()
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
                 },
-                ["index$"] = 0,
               },
             },
-            ["key$"] = "list",
           },
         },
         ["relations"] = {
@@ -1152,25 +975,19 @@ local function make_config()
       ["provider"] = {
         ["fields"] = {
           {
-            ["active"] = true,
             ["name"] = "ErrorCodes",
             ["req"] = true,
             ["type"] = "`$ARRAY`",
-            ["index$"] = 0,
           },
           {
-            ["active"] = true,
             ["name"] = "Items",
             ["req"] = true,
             ["type"] = "`$ARRAY`",
-            ["index$"] = 1,
           },
           {
-            ["active"] = true,
             ["name"] = "ResultCode",
             ["req"] = true,
             ["type"] = "`$INTEGER`",
-            ["index$"] = 2,
           },
         },
         ["name"] = "provider",
@@ -1180,49 +997,38 @@ local function make_config()
             ["name"] = "list",
             ["points"] = {
               {
-                ["active"] = true,
                 ["args"] = {
                   ["header"] = {
                     {
-                      ["active"] = true,
                       ["kind"] = "header",
                       ["name"] = "x_correlation_id",
                       ["orig"] = "x_correlation_id",
-                      ["reqd"] = false,
                       ["type"] = "`$STRING`",
                     },
                   },
                   ["query"] = {
                     {
-                      ["active"] = true,
                       ["kind"] = "query",
                       ["name"] = "account_number",
                       ["orig"] = "account_number",
-                      ["reqd"] = false,
                       ["type"] = "`$INTEGER`",
                     },
                     {
-                      ["active"] = true,
                       ["kind"] = "query",
                       ["name"] = "country_iso",
                       ["orig"] = "country_iso",
-                      ["reqd"] = false,
                       ["type"] = "`$ANY`",
                     },
                     {
-                      ["active"] = true,
                       ["kind"] = "query",
                       ["name"] = "provider_code",
                       ["orig"] = "provider_code",
-                      ["reqd"] = false,
                       ["type"] = "`$ANY`",
                     },
                     {
-                      ["active"] = true,
                       ["kind"] = "query",
                       ["name"] = "region_code",
                       ["orig"] = "region_code",
-                      ["reqd"] = false,
                       ["type"] = "`$ANY`",
                     },
                   },
@@ -1248,10 +1054,8 @@ local function make_config()
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
                 },
-                ["index$"] = 0,
               },
             },
-            ["key$"] = "list",
           },
         },
         ["relations"] = {
@@ -1261,25 +1065,19 @@ local function make_config()
       ["provider_status"] = {
         ["fields"] = {
           {
-            ["active"] = true,
             ["name"] = "ErrorCodes",
             ["req"] = true,
             ["type"] = "`$ARRAY`",
-            ["index$"] = 0,
           },
           {
-            ["active"] = true,
             ["name"] = "Items",
             ["req"] = true,
             ["type"] = "`$ARRAY`",
-            ["index$"] = 1,
           },
           {
-            ["active"] = true,
             ["name"] = "ResultCode",
             ["req"] = true,
             ["type"] = "`$INTEGER`",
-            ["index$"] = 2,
           },
         },
         ["name"] = "provider_status",
@@ -1289,25 +1087,20 @@ local function make_config()
             ["name"] = "list",
             ["points"] = {
               {
-                ["active"] = true,
                 ["args"] = {
                   ["header"] = {
                     {
-                      ["active"] = true,
                       ["kind"] = "header",
                       ["name"] = "x_correlation_id",
                       ["orig"] = "x_correlation_id",
-                      ["reqd"] = false,
                       ["type"] = "`$STRING`",
                     },
                   },
                   ["query"] = {
                     {
-                      ["active"] = true,
                       ["kind"] = "query",
                       ["name"] = "provider_code",
                       ["orig"] = "provider_code",
-                      ["reqd"] = false,
                       ["type"] = "`$ANY`",
                     },
                   },
@@ -1330,10 +1123,8 @@ local function make_config()
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
                 },
-                ["index$"] = 0,
               },
             },
-            ["key$"] = "list",
           },
         },
         ["relations"] = {
@@ -1343,25 +1134,19 @@ local function make_config()
       ["region"] = {
         ["fields"] = {
           {
-            ["active"] = true,
             ["name"] = "ErrorCodes",
             ["req"] = true,
             ["type"] = "`$ARRAY`",
-            ["index$"] = 0,
           },
           {
-            ["active"] = true,
             ["name"] = "Items",
             ["req"] = true,
             ["type"] = "`$ARRAY`",
-            ["index$"] = 1,
           },
           {
-            ["active"] = true,
             ["name"] = "ResultCode",
             ["req"] = true,
             ["type"] = "`$INTEGER`",
-            ["index$"] = 2,
           },
         },
         ["name"] = "region",
@@ -1371,25 +1156,20 @@ local function make_config()
             ["name"] = "list",
             ["points"] = {
               {
-                ["active"] = true,
                 ["args"] = {
                   ["header"] = {
                     {
-                      ["active"] = true,
                       ["kind"] = "header",
                       ["name"] = "x_correlation_id",
                       ["orig"] = "x_correlation_id",
-                      ["reqd"] = false,
                       ["type"] = "`$STRING`",
                     },
                   },
                   ["query"] = {
                     {
-                      ["active"] = true,
                       ["kind"] = "query",
                       ["name"] = "country_iso",
                       ["orig"] = "country_iso",
-                      ["reqd"] = false,
                       ["type"] = "`$ANY`",
                     },
                   },
@@ -1412,10 +1192,8 @@ local function make_config()
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
                 },
-                ["index$"] = 0,
               },
             },
-            ["key$"] = "list",
           },
         },
         ["relations"] = {
@@ -1425,25 +1203,19 @@ local function make_config()
       ["send_transfer"] = {
         ["fields"] = {
           {
-            ["active"] = true,
             ["name"] = "ErrorCodes",
             ["req"] = true,
             ["type"] = "`$ARRAY`",
-            ["index$"] = 0,
           },
           {
-            ["active"] = true,
             ["name"] = "ResultCode",
             ["req"] = true,
             ["type"] = "`$INTEGER`",
-            ["index$"] = 1,
           },
           {
-            ["active"] = true,
             ["name"] = "TransferRecord",
             ["req"] = true,
             ["type"] = "`$OBJECT`",
-            ["index$"] = 2,
           },
         },
         ["name"] = "send_transfer",
@@ -1453,21 +1225,17 @@ local function make_config()
             ["name"] = "create",
             ["points"] = {
               {
-                ["active"] = true,
                 ["args"] = {
                   ["header"] = {
                     {
-                      ["active"] = true,
                       ["kind"] = "header",
                       ["name"] = "x_correlation_id",
                       ["orig"] = "x_correlation_id",
-                      ["reqd"] = false,
                       ["type"] = "`$STRING`",
                     },
                   },
                   ["query"] = {
                     {
-                      ["active"] = true,
                       ["kind"] = "query",
                       ["name"] = "request",
                       ["orig"] = "request",
@@ -1494,10 +1262,8 @@ local function make_config()
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
                 },
-                ["index$"] = 0,
               },
             },
-            ["key$"] = "create",
           },
         },
         ["relations"] = {

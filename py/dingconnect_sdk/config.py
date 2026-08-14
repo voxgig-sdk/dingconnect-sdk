@@ -1,7 +1,30 @@
 # Dingconnect SDK configuration
 
 
+_shared_config = None
+
+
+def shared_config():
+    """Return the process-wide config, built once on first use.
+
+    The SDK reads the config on every request and never writes to it, so one
+    instance is shared by every client rather than rebuilt per client.
+
+    The returned dict is shared: treat it as read-only. Callers that need to
+    mutate should use make_config, which always returns a fresh copy.
+    """
+    global _shared_config
+    if _shared_config is None:
+        _shared_config = make_config()
+    return _shared_config
+
+
 def make_config():
+    """Build a fresh, fully materialised config dict.
+
+    Every call rebuilds the whole structure, so prefer shared_config unless
+    you need a private copy you intend to mutate.
+    """
     return {
         "main": {
             "name": "Dingconnect",
@@ -45,39 +68,27 @@ def make_config():
       "account_lookup": {
         "fields": [
           {
-            "active": True,
             "name": "AccountNumberNormalized",
-            "req": False,
             "type": "`$STRING`",
-            "index$": 0,
           },
           {
-            "active": True,
             "name": "CountryIso",
-            "req": False,
             "type": "`$STRING`",
-            "index$": 1,
           },
           {
-            "active": True,
             "name": "ErrorCodes",
             "req": True,
             "type": "`$ARRAY`",
-            "index$": 2,
           },
           {
-            "active": True,
             "name": "Items",
             "req": True,
             "type": "`$ARRAY`",
-            "index$": 3,
           },
           {
-            "active": True,
             "name": "ResultCode",
             "req": True,
             "type": "`$INTEGER`",
-            "index$": 4,
           },
         ],
         "name": "account_lookup",
@@ -87,25 +98,20 @@ def make_config():
             "name": "list",
             "points": [
               {
-                "active": True,
                 "args": {
                   "header": [
                     {
-                      "active": True,
                       "kind": "header",
                       "name": "x_correlation_id",
                       "orig": "x_correlation_id",
-                      "reqd": False,
                       "type": "`$STRING`",
                     },
                   ],
                   "query": [
                     {
-                      "active": True,
                       "kind": "query",
                       "name": "account_number",
                       "orig": "account_number",
-                      "reqd": False,
                       "type": "`$INTEGER`",
                     },
                   ],
@@ -128,10 +134,8 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
-                "index$": 0,
               },
             ],
-            "key$": "list",
           },
         },
         "relations": {
@@ -141,18 +145,13 @@ def make_config():
       "balance": {
         "fields": [
           {
-            "active": True,
             "name": "Code",
             "req": True,
             "type": "`$STRING`",
-            "index$": 0,
           },
           {
-            "active": True,
             "name": "Context",
-            "req": False,
             "type": "`$STRING`",
-            "index$": 1,
           },
         ],
         "name": "balance",
@@ -162,15 +161,12 @@ def make_config():
             "name": "list",
             "points": [
               {
-                "active": True,
                 "args": {
                   "header": [
                     {
-                      "active": True,
                       "kind": "header",
                       "name": "x_correlation_id",
                       "orig": "x_correlation_id",
-                      "reqd": False,
                       "type": "`$STRING`",
                     },
                   ],
@@ -192,10 +188,8 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body.ErrorCodes`",
                 },
-                "index$": 0,
               },
             ],
-            "key$": "list",
           },
         },
         "relations": {
@@ -205,25 +199,19 @@ def make_config():
       "cancel_transfer": {
         "fields": [
           {
-            "active": True,
             "name": "ErrorCodes",
             "req": True,
             "type": "`$ARRAY`",
-            "index$": 0,
           },
           {
-            "active": True,
             "name": "Items",
             "req": True,
             "type": "`$ARRAY`",
-            "index$": 1,
           },
           {
-            "active": True,
             "name": "ResultCode",
             "req": True,
             "type": "`$INTEGER`",
-            "index$": 2,
           },
         ],
         "name": "cancel_transfer",
@@ -233,21 +221,17 @@ def make_config():
             "name": "create",
             "points": [
               {
-                "active": True,
                 "args": {
                   "header": [
                     {
-                      "active": True,
                       "kind": "header",
                       "name": "x_correlation_id",
                       "orig": "x_correlation_id",
-                      "reqd": False,
                       "type": "`$STRING`",
                     },
                   ],
                   "query": [
                     {
-                      "active": True,
                       "kind": "query",
                       "name": "cancellation_request",
                       "orig": "cancellation_request",
@@ -274,10 +258,8 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
-                "index$": 0,
               },
             ],
-            "key$": "create",
           },
         },
         "relations": {
@@ -287,25 +269,19 @@ def make_config():
       "country": {
         "fields": [
           {
-            "active": True,
             "name": "ErrorCodes",
             "req": True,
             "type": "`$ARRAY`",
-            "index$": 0,
           },
           {
-            "active": True,
             "name": "Items",
             "req": True,
             "type": "`$ARRAY`",
-            "index$": 1,
           },
           {
-            "active": True,
             "name": "ResultCode",
             "req": True,
             "type": "`$INTEGER`",
-            "index$": 2,
           },
         ],
         "name": "country",
@@ -315,15 +291,12 @@ def make_config():
             "name": "list",
             "points": [
               {
-                "active": True,
                 "args": {
                   "header": [
                     {
-                      "active": True,
                       "kind": "header",
                       "name": "x_correlation_id",
                       "orig": "x_correlation_id",
-                      "reqd": False,
                       "type": "`$STRING`",
                     },
                   ],
@@ -345,10 +318,8 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
-                "index$": 0,
               },
             ],
-            "key$": "list",
           },
         },
         "relations": {
@@ -358,25 +329,19 @@ def make_config():
       "currency": {
         "fields": [
           {
-            "active": True,
             "name": "ErrorCodes",
             "req": True,
             "type": "`$ARRAY`",
-            "index$": 0,
           },
           {
-            "active": True,
             "name": "Items",
             "req": True,
             "type": "`$ARRAY`",
-            "index$": 1,
           },
           {
-            "active": True,
             "name": "ResultCode",
             "req": True,
             "type": "`$INTEGER`",
-            "index$": 2,
           },
         ],
         "name": "currency",
@@ -386,15 +351,12 @@ def make_config():
             "name": "list",
             "points": [
               {
-                "active": True,
                 "args": {
                   "header": [
                     {
-                      "active": True,
                       "kind": "header",
                       "name": "x_correlation_id",
                       "orig": "x_correlation_id",
-                      "reqd": False,
                       "type": "`$STRING`",
                     },
                   ],
@@ -416,10 +378,8 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
-                "index$": 0,
               },
             ],
-            "key$": "list",
           },
         },
         "relations": {
@@ -429,25 +389,19 @@ def make_config():
       "error_code_description": {
         "fields": [
           {
-            "active": True,
             "name": "ErrorCodes",
             "req": True,
             "type": "`$ARRAY`",
-            "index$": 0,
           },
           {
-            "active": True,
             "name": "Items",
             "req": True,
             "type": "`$ARRAY`",
-            "index$": 1,
           },
           {
-            "active": True,
             "name": "ResultCode",
             "req": True,
             "type": "`$INTEGER`",
-            "index$": 2,
           },
         ],
         "name": "error_code_description",
@@ -457,15 +411,12 @@ def make_config():
             "name": "list",
             "points": [
               {
-                "active": True,
                 "args": {
                   "header": [
                     {
-                      "active": True,
                       "kind": "header",
                       "name": "x_correlation_id",
                       "orig": "x_correlation_id",
-                      "reqd": False,
                       "type": "`$STRING`",
                     },
                   ],
@@ -487,10 +438,8 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
-                "index$": 0,
               },
             ],
-            "key$": "list",
           },
         },
         "relations": {
@@ -500,25 +449,19 @@ def make_config():
       "estimate_price": {
         "fields": [
           {
-            "active": True,
             "name": "ErrorCodes",
             "req": True,
             "type": "`$ARRAY`",
-            "index$": 0,
           },
           {
-            "active": True,
             "name": "Items",
             "req": True,
             "type": "`$ARRAY`",
-            "index$": 1,
           },
           {
-            "active": True,
             "name": "ResultCode",
             "req": True,
             "type": "`$INTEGER`",
-            "index$": 2,
           },
         ],
         "name": "estimate_price",
@@ -528,21 +471,17 @@ def make_config():
             "name": "create",
             "points": [
               {
-                "active": True,
                 "args": {
                   "header": [
                     {
-                      "active": True,
                       "kind": "header",
                       "name": "x_correlation_id",
                       "orig": "x_correlation_id",
-                      "reqd": False,
                       "type": "`$STRING`",
                     },
                   ],
                   "query": [
                     {
-                      "active": True,
                       "kind": "query",
                       "name": "requested_estimation",
                       "orig": "requested_estimation",
@@ -569,10 +508,8 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
-                "index$": 0,
               },
             ],
-            "key$": "create",
           },
         },
         "relations": {
@@ -582,32 +519,24 @@ def make_config():
       "list_transfer_record": {
         "fields": [
           {
-            "active": True,
             "name": "ErrorCodes",
             "req": True,
             "type": "`$ARRAY`",
-            "index$": 0,
           },
           {
-            "active": True,
             "name": "Items",
             "req": True,
             "type": "`$ARRAY`",
-            "index$": 1,
           },
           {
-            "active": True,
             "name": "ResultCode",
             "req": True,
             "type": "`$INTEGER`",
-            "index$": 2,
           },
           {
-            "active": True,
             "name": "ThereAreMoreItems",
             "req": True,
             "type": "`$BOOLEAN`",
-            "index$": 3,
           },
         ],
         "name": "list_transfer_record",
@@ -617,21 +546,17 @@ def make_config():
             "name": "create",
             "points": [
               {
-                "active": True,
                 "args": {
                   "header": [
                     {
-                      "active": True,
                       "kind": "header",
                       "name": "x_correlation_id",
                       "orig": "x_correlation_id",
-                      "reqd": False,
                       "type": "`$STRING`",
                     },
                   ],
                   "query": [
                     {
-                      "active": True,
                       "kind": "query",
                       "name": "request",
                       "orig": "request",
@@ -658,10 +583,8 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
-                "index$": 0,
               },
             ],
-            "key$": "create",
           },
         },
         "relations": {
@@ -671,25 +594,19 @@ def make_config():
       "lookup_bill": {
         "fields": [
           {
-            "active": True,
             "name": "ErrorCodes",
             "req": True,
             "type": "`$ARRAY`",
-            "index$": 0,
           },
           {
-            "active": True,
             "name": "Items",
             "req": True,
             "type": "`$ARRAY`",
-            "index$": 1,
           },
           {
-            "active": True,
             "name": "ResultCode",
             "req": True,
             "type": "`$INTEGER`",
-            "index$": 2,
           },
         ],
         "name": "lookup_bill",
@@ -699,21 +616,17 @@ def make_config():
             "name": "create",
             "points": [
               {
-                "active": True,
                 "args": {
                   "header": [
                     {
-                      "active": True,
                       "kind": "header",
                       "name": "x_correlation_id",
                       "orig": "x_correlation_id",
-                      "reqd": False,
                       "type": "`$STRING`",
                     },
                   ],
                   "query": [
                     {
-                      "active": True,
                       "kind": "query",
                       "name": "request",
                       "orig": "request",
@@ -740,10 +653,8 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
-                "index$": 0,
               },
             ],
-            "key$": "create",
           },
         },
         "relations": {
@@ -753,25 +664,19 @@ def make_config():
       "product": {
         "fields": [
           {
-            "active": True,
             "name": "ErrorCodes",
             "req": True,
             "type": "`$ARRAY`",
-            "index$": 0,
           },
           {
-            "active": True,
             "name": "Items",
             "req": True,
             "type": "`$ARRAY`",
-            "index$": 1,
           },
           {
-            "active": True,
             "name": "ResultCode",
             "req": True,
             "type": "`$INTEGER`",
-            "index$": 2,
           },
         ],
         "name": "product",
@@ -781,65 +686,50 @@ def make_config():
             "name": "list",
             "points": [
               {
-                "active": True,
                 "args": {
                   "header": [
                     {
-                      "active": True,
                       "kind": "header",
                       "name": "x_correlation_id",
                       "orig": "x_correlation_id",
-                      "reqd": False,
                       "type": "`$STRING`",
                     },
                   ],
                   "query": [
                     {
-                      "active": True,
                       "kind": "query",
                       "name": "account_number",
                       "orig": "account_number",
-                      "reqd": False,
                       "type": "`$INTEGER`",
                     },
                     {
-                      "active": True,
                       "kind": "query",
                       "name": "benefit",
                       "orig": "benefit",
-                      "reqd": False,
                       "type": "`$ANY`",
                     },
                     {
-                      "active": True,
                       "kind": "query",
                       "name": "country_iso",
                       "orig": "country_iso",
-                      "reqd": False,
                       "type": "`$ANY`",
                     },
                     {
-                      "active": True,
                       "kind": "query",
                       "name": "provider_code",
                       "orig": "provider_code",
-                      "reqd": False,
                       "type": "`$ANY`",
                     },
                     {
-                      "active": True,
                       "kind": "query",
                       "name": "region_code",
                       "orig": "region_code",
-                      "reqd": False,
                       "type": "`$ANY`",
                     },
                     {
-                      "active": True,
                       "kind": "query",
                       "name": "sku_code",
                       "orig": "sku_code",
-                      "reqd": False,
                       "type": "`$ANY`",
                     },
                   ],
@@ -867,10 +757,8 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
-                "index$": 0,
               },
             ],
-            "key$": "list",
           },
         },
         "relations": {
@@ -880,25 +768,19 @@ def make_config():
       "product_description": {
         "fields": [
           {
-            "active": True,
             "name": "ErrorCodes",
             "req": True,
             "type": "`$ARRAY`",
-            "index$": 0,
           },
           {
-            "active": True,
             "name": "Items",
             "req": True,
             "type": "`$ARRAY`",
-            "index$": 1,
           },
           {
-            "active": True,
             "name": "ResultCode",
             "req": True,
             "type": "`$INTEGER`",
-            "index$": 2,
           },
         ],
         "name": "product_description",
@@ -908,33 +790,26 @@ def make_config():
             "name": "list",
             "points": [
               {
-                "active": True,
                 "args": {
                   "header": [
                     {
-                      "active": True,
                       "kind": "header",
                       "name": "x_correlation_id",
                       "orig": "x_correlation_id",
-                      "reqd": False,
                       "type": "`$STRING`",
                     },
                   ],
                   "query": [
                     {
-                      "active": True,
                       "kind": "query",
                       "name": "language_code",
                       "orig": "language_code",
-                      "reqd": False,
                       "type": "`$ANY`",
                     },
                     {
-                      "active": True,
                       "kind": "query",
                       "name": "sku_code",
                       "orig": "sku_code",
-                      "reqd": False,
                       "type": "`$ANY`",
                     },
                   ],
@@ -958,10 +833,8 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
-                "index$": 0,
               },
             ],
-            "key$": "list",
           },
         },
         "relations": {
@@ -971,25 +844,19 @@ def make_config():
       "promotion": {
         "fields": [
           {
-            "active": True,
             "name": "ErrorCodes",
             "req": True,
             "type": "`$ARRAY`",
-            "index$": 0,
           },
           {
-            "active": True,
             "name": "Items",
             "req": True,
             "type": "`$ARRAY`",
-            "index$": 1,
           },
           {
-            "active": True,
             "name": "ResultCode",
             "req": True,
             "type": "`$INTEGER`",
-            "index$": 2,
           },
         ],
         "name": "promotion",
@@ -999,41 +866,32 @@ def make_config():
             "name": "list",
             "points": [
               {
-                "active": True,
                 "args": {
                   "header": [
                     {
-                      "active": True,
                       "kind": "header",
                       "name": "x_correlation_id",
                       "orig": "x_correlation_id",
-                      "reqd": False,
                       "type": "`$STRING`",
                     },
                   ],
                   "query": [
                     {
-                      "active": True,
                       "kind": "query",
                       "name": "account_number",
                       "orig": "account_number",
-                      "reqd": False,
                       "type": "`$INTEGER`",
                     },
                     {
-                      "active": True,
                       "kind": "query",
                       "name": "country_iso",
                       "orig": "country_iso",
-                      "reqd": False,
                       "type": "`$ANY`",
                     },
                     {
-                      "active": True,
                       "kind": "query",
                       "name": "provider_code",
                       "orig": "provider_code",
-                      "reqd": False,
                       "type": "`$ANY`",
                     },
                   ],
@@ -1058,10 +916,8 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
-                "index$": 0,
               },
             ],
-            "key$": "list",
           },
         },
         "relations": {
@@ -1071,25 +927,19 @@ def make_config():
       "promotion_description": {
         "fields": [
           {
-            "active": True,
             "name": "ErrorCodes",
             "req": True,
             "type": "`$ARRAY`",
-            "index$": 0,
           },
           {
-            "active": True,
             "name": "Items",
             "req": True,
             "type": "`$ARRAY`",
-            "index$": 1,
           },
           {
-            "active": True,
             "name": "ResultCode",
             "req": True,
             "type": "`$INTEGER`",
-            "index$": 2,
           },
         ],
         "name": "promotion_description",
@@ -1099,25 +949,20 @@ def make_config():
             "name": "list",
             "points": [
               {
-                "active": True,
                 "args": {
                   "header": [
                     {
-                      "active": True,
                       "kind": "header",
                       "name": "x_correlation_id",
                       "orig": "x_correlation_id",
-                      "reqd": False,
                       "type": "`$STRING`",
                     },
                   ],
                   "query": [
                     {
-                      "active": True,
                       "kind": "query",
                       "name": "language_code",
                       "orig": "language_code",
-                      "reqd": False,
                       "type": "`$ANY`",
                     },
                   ],
@@ -1140,10 +985,8 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
-                "index$": 0,
               },
             ],
-            "key$": "list",
           },
         },
         "relations": {
@@ -1153,25 +996,19 @@ def make_config():
       "provider": {
         "fields": [
           {
-            "active": True,
             "name": "ErrorCodes",
             "req": True,
             "type": "`$ARRAY`",
-            "index$": 0,
           },
           {
-            "active": True,
             "name": "Items",
             "req": True,
             "type": "`$ARRAY`",
-            "index$": 1,
           },
           {
-            "active": True,
             "name": "ResultCode",
             "req": True,
             "type": "`$INTEGER`",
-            "index$": 2,
           },
         ],
         "name": "provider",
@@ -1181,49 +1018,38 @@ def make_config():
             "name": "list",
             "points": [
               {
-                "active": True,
                 "args": {
                   "header": [
                     {
-                      "active": True,
                       "kind": "header",
                       "name": "x_correlation_id",
                       "orig": "x_correlation_id",
-                      "reqd": False,
                       "type": "`$STRING`",
                     },
                   ],
                   "query": [
                     {
-                      "active": True,
                       "kind": "query",
                       "name": "account_number",
                       "orig": "account_number",
-                      "reqd": False,
                       "type": "`$INTEGER`",
                     },
                     {
-                      "active": True,
                       "kind": "query",
                       "name": "country_iso",
                       "orig": "country_iso",
-                      "reqd": False,
                       "type": "`$ANY`",
                     },
                     {
-                      "active": True,
                       "kind": "query",
                       "name": "provider_code",
                       "orig": "provider_code",
-                      "reqd": False,
                       "type": "`$ANY`",
                     },
                     {
-                      "active": True,
                       "kind": "query",
                       "name": "region_code",
                       "orig": "region_code",
-                      "reqd": False,
                       "type": "`$ANY`",
                     },
                   ],
@@ -1249,10 +1075,8 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
-                "index$": 0,
               },
             ],
-            "key$": "list",
           },
         },
         "relations": {
@@ -1262,25 +1086,19 @@ def make_config():
       "provider_status": {
         "fields": [
           {
-            "active": True,
             "name": "ErrorCodes",
             "req": True,
             "type": "`$ARRAY`",
-            "index$": 0,
           },
           {
-            "active": True,
             "name": "Items",
             "req": True,
             "type": "`$ARRAY`",
-            "index$": 1,
           },
           {
-            "active": True,
             "name": "ResultCode",
             "req": True,
             "type": "`$INTEGER`",
-            "index$": 2,
           },
         ],
         "name": "provider_status",
@@ -1290,25 +1108,20 @@ def make_config():
             "name": "list",
             "points": [
               {
-                "active": True,
                 "args": {
                   "header": [
                     {
-                      "active": True,
                       "kind": "header",
                       "name": "x_correlation_id",
                       "orig": "x_correlation_id",
-                      "reqd": False,
                       "type": "`$STRING`",
                     },
                   ],
                   "query": [
                     {
-                      "active": True,
                       "kind": "query",
                       "name": "provider_code",
                       "orig": "provider_code",
-                      "reqd": False,
                       "type": "`$ANY`",
                     },
                   ],
@@ -1331,10 +1144,8 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
-                "index$": 0,
               },
             ],
-            "key$": "list",
           },
         },
         "relations": {
@@ -1344,25 +1155,19 @@ def make_config():
       "region": {
         "fields": [
           {
-            "active": True,
             "name": "ErrorCodes",
             "req": True,
             "type": "`$ARRAY`",
-            "index$": 0,
           },
           {
-            "active": True,
             "name": "Items",
             "req": True,
             "type": "`$ARRAY`",
-            "index$": 1,
           },
           {
-            "active": True,
             "name": "ResultCode",
             "req": True,
             "type": "`$INTEGER`",
-            "index$": 2,
           },
         ],
         "name": "region",
@@ -1372,25 +1177,20 @@ def make_config():
             "name": "list",
             "points": [
               {
-                "active": True,
                 "args": {
                   "header": [
                     {
-                      "active": True,
                       "kind": "header",
                       "name": "x_correlation_id",
                       "orig": "x_correlation_id",
-                      "reqd": False,
                       "type": "`$STRING`",
                     },
                   ],
                   "query": [
                     {
-                      "active": True,
                       "kind": "query",
                       "name": "country_iso",
                       "orig": "country_iso",
-                      "reqd": False,
                       "type": "`$ANY`",
                     },
                   ],
@@ -1413,10 +1213,8 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
-                "index$": 0,
               },
             ],
-            "key$": "list",
           },
         },
         "relations": {
@@ -1426,25 +1224,19 @@ def make_config():
       "send_transfer": {
         "fields": [
           {
-            "active": True,
             "name": "ErrorCodes",
             "req": True,
             "type": "`$ARRAY`",
-            "index$": 0,
           },
           {
-            "active": True,
             "name": "ResultCode",
             "req": True,
             "type": "`$INTEGER`",
-            "index$": 1,
           },
           {
-            "active": True,
             "name": "TransferRecord",
             "req": True,
             "type": "`$OBJECT`",
-            "index$": 2,
           },
         ],
         "name": "send_transfer",
@@ -1454,21 +1246,17 @@ def make_config():
             "name": "create",
             "points": [
               {
-                "active": True,
                 "args": {
                   "header": [
                     {
-                      "active": True,
                       "kind": "header",
                       "name": "x_correlation_id",
                       "orig": "x_correlation_id",
-                      "reqd": False,
                       "type": "`$STRING`",
                     },
                   ],
                   "query": [
                     {
-                      "active": True,
                       "kind": "query",
                       "name": "request",
                       "orig": "request",
@@ -1495,10 +1283,8 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
-                "index$": 0,
               },
             ],
-            "key$": "create",
           },
         },
         "relations": {

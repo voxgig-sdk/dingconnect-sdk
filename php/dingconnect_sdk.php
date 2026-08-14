@@ -40,7 +40,7 @@ class DingconnectSDK
         $utility = new DingconnectUtility();
         $this->_utility = $utility;
 
-        $config = DingconnectConfig::make_config();
+        $config = DingconnectConfig::shared_config();
 
         $this->_rootctx = ($utility->make_context)([
             "client" => $this,

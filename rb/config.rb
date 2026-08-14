@@ -1,6 +1,20 @@
 # Dingconnect SDK configuration
 
 module DingconnectConfig
+  # Return the process-wide config, built once on first use. The SDK reads
+  # the config on every request and never writes to it, so one instance is
+  # shared by every client rather than rebuilt per client.
+  #
+  # The returned hash is shared: treat it as read-only. Callers that need to
+  # mutate should use make_config, which always returns a fresh copy.
+  def self.shared_config
+    @shared_config ||= make_config
+  end
+
+
+  # Build a fresh, fully materialised config hash. Every call rebuilds the
+  # whole structure, so prefer shared_config unless you need a private copy
+  # you intend to mutate.
   def self.make_config
     {
       "main" => {
@@ -45,39 +59,27 @@ module DingconnectConfig
         "account_lookup" => {
           "fields" => [
             {
-              "active" => true,
               "name" => "AccountNumberNormalized",
-              "req" => false,
               "type" => "`$STRING`",
-              "index$" => 0,
             },
             {
-              "active" => true,
               "name" => "CountryIso",
-              "req" => false,
               "type" => "`$STRING`",
-              "index$" => 1,
             },
             {
-              "active" => true,
               "name" => "ErrorCodes",
               "req" => true,
               "type" => "`$ARRAY`",
-              "index$" => 2,
             },
             {
-              "active" => true,
               "name" => "Items",
               "req" => true,
               "type" => "`$ARRAY`",
-              "index$" => 3,
             },
             {
-              "active" => true,
               "name" => "ResultCode",
               "req" => true,
               "type" => "`$INTEGER`",
-              "index$" => 4,
             },
           ],
           "name" => "account_lookup",
@@ -87,25 +89,20 @@ module DingconnectConfig
               "name" => "list",
               "points" => [
                 {
-                  "active" => true,
                   "args" => {
                     "header" => [
                       {
-                        "active" => true,
                         "kind" => "header",
                         "name" => "x_correlation_id",
                         "orig" => "x_correlation_id",
-                        "reqd" => false,
                         "type" => "`$STRING`",
                       },
                     ],
                     "query" => [
                       {
-                        "active" => true,
                         "kind" => "query",
                         "name" => "account_number",
                         "orig" => "account_number",
-                        "reqd" => false,
                         "type" => "`$INTEGER`",
                       },
                     ],
@@ -128,10 +125,8 @@ module DingconnectConfig
                     "req" => "`reqdata`",
                     "res" => "`body`",
                   },
-                  "index$" => 0,
                 },
               ],
-              "key$" => "list",
             },
           },
           "relations" => {
@@ -141,18 +136,13 @@ module DingconnectConfig
         "balance" => {
           "fields" => [
             {
-              "active" => true,
               "name" => "Code",
               "req" => true,
               "type" => "`$STRING`",
-              "index$" => 0,
             },
             {
-              "active" => true,
               "name" => "Context",
-              "req" => false,
               "type" => "`$STRING`",
-              "index$" => 1,
             },
           ],
           "name" => "balance",
@@ -162,15 +152,12 @@ module DingconnectConfig
               "name" => "list",
               "points" => [
                 {
-                  "active" => true,
                   "args" => {
                     "header" => [
                       {
-                        "active" => true,
                         "kind" => "header",
                         "name" => "x_correlation_id",
                         "orig" => "x_correlation_id",
-                        "reqd" => false,
                         "type" => "`$STRING`",
                       },
                     ],
@@ -192,10 +179,8 @@ module DingconnectConfig
                     "req" => "`reqdata`",
                     "res" => "`body.ErrorCodes`",
                   },
-                  "index$" => 0,
                 },
               ],
-              "key$" => "list",
             },
           },
           "relations" => {
@@ -205,25 +190,19 @@ module DingconnectConfig
         "cancel_transfer" => {
           "fields" => [
             {
-              "active" => true,
               "name" => "ErrorCodes",
               "req" => true,
               "type" => "`$ARRAY`",
-              "index$" => 0,
             },
             {
-              "active" => true,
               "name" => "Items",
               "req" => true,
               "type" => "`$ARRAY`",
-              "index$" => 1,
             },
             {
-              "active" => true,
               "name" => "ResultCode",
               "req" => true,
               "type" => "`$INTEGER`",
-              "index$" => 2,
             },
           ],
           "name" => "cancel_transfer",
@@ -233,21 +212,17 @@ module DingconnectConfig
               "name" => "create",
               "points" => [
                 {
-                  "active" => true,
                   "args" => {
                     "header" => [
                       {
-                        "active" => true,
                         "kind" => "header",
                         "name" => "x_correlation_id",
                         "orig" => "x_correlation_id",
-                        "reqd" => false,
                         "type" => "`$STRING`",
                       },
                     ],
                     "query" => [
                       {
-                        "active" => true,
                         "kind" => "query",
                         "name" => "cancellation_request",
                         "orig" => "cancellation_request",
@@ -274,10 +249,8 @@ module DingconnectConfig
                     "req" => "`reqdata`",
                     "res" => "`body`",
                   },
-                  "index$" => 0,
                 },
               ],
-              "key$" => "create",
             },
           },
           "relations" => {
@@ -287,25 +260,19 @@ module DingconnectConfig
         "country" => {
           "fields" => [
             {
-              "active" => true,
               "name" => "ErrorCodes",
               "req" => true,
               "type" => "`$ARRAY`",
-              "index$" => 0,
             },
             {
-              "active" => true,
               "name" => "Items",
               "req" => true,
               "type" => "`$ARRAY`",
-              "index$" => 1,
             },
             {
-              "active" => true,
               "name" => "ResultCode",
               "req" => true,
               "type" => "`$INTEGER`",
-              "index$" => 2,
             },
           ],
           "name" => "country",
@@ -315,15 +282,12 @@ module DingconnectConfig
               "name" => "list",
               "points" => [
                 {
-                  "active" => true,
                   "args" => {
                     "header" => [
                       {
-                        "active" => true,
                         "kind" => "header",
                         "name" => "x_correlation_id",
                         "orig" => "x_correlation_id",
-                        "reqd" => false,
                         "type" => "`$STRING`",
                       },
                     ],
@@ -345,10 +309,8 @@ module DingconnectConfig
                     "req" => "`reqdata`",
                     "res" => "`body`",
                   },
-                  "index$" => 0,
                 },
               ],
-              "key$" => "list",
             },
           },
           "relations" => {
@@ -358,25 +320,19 @@ module DingconnectConfig
         "currency" => {
           "fields" => [
             {
-              "active" => true,
               "name" => "ErrorCodes",
               "req" => true,
               "type" => "`$ARRAY`",
-              "index$" => 0,
             },
             {
-              "active" => true,
               "name" => "Items",
               "req" => true,
               "type" => "`$ARRAY`",
-              "index$" => 1,
             },
             {
-              "active" => true,
               "name" => "ResultCode",
               "req" => true,
               "type" => "`$INTEGER`",
-              "index$" => 2,
             },
           ],
           "name" => "currency",
@@ -386,15 +342,12 @@ module DingconnectConfig
               "name" => "list",
               "points" => [
                 {
-                  "active" => true,
                   "args" => {
                     "header" => [
                       {
-                        "active" => true,
                         "kind" => "header",
                         "name" => "x_correlation_id",
                         "orig" => "x_correlation_id",
-                        "reqd" => false,
                         "type" => "`$STRING`",
                       },
                     ],
@@ -416,10 +369,8 @@ module DingconnectConfig
                     "req" => "`reqdata`",
                     "res" => "`body`",
                   },
-                  "index$" => 0,
                 },
               ],
-              "key$" => "list",
             },
           },
           "relations" => {
@@ -429,25 +380,19 @@ module DingconnectConfig
         "error_code_description" => {
           "fields" => [
             {
-              "active" => true,
               "name" => "ErrorCodes",
               "req" => true,
               "type" => "`$ARRAY`",
-              "index$" => 0,
             },
             {
-              "active" => true,
               "name" => "Items",
               "req" => true,
               "type" => "`$ARRAY`",
-              "index$" => 1,
             },
             {
-              "active" => true,
               "name" => "ResultCode",
               "req" => true,
               "type" => "`$INTEGER`",
-              "index$" => 2,
             },
           ],
           "name" => "error_code_description",
@@ -457,15 +402,12 @@ module DingconnectConfig
               "name" => "list",
               "points" => [
                 {
-                  "active" => true,
                   "args" => {
                     "header" => [
                       {
-                        "active" => true,
                         "kind" => "header",
                         "name" => "x_correlation_id",
                         "orig" => "x_correlation_id",
-                        "reqd" => false,
                         "type" => "`$STRING`",
                       },
                     ],
@@ -487,10 +429,8 @@ module DingconnectConfig
                     "req" => "`reqdata`",
                     "res" => "`body`",
                   },
-                  "index$" => 0,
                 },
               ],
-              "key$" => "list",
             },
           },
           "relations" => {
@@ -500,25 +440,19 @@ module DingconnectConfig
         "estimate_price" => {
           "fields" => [
             {
-              "active" => true,
               "name" => "ErrorCodes",
               "req" => true,
               "type" => "`$ARRAY`",
-              "index$" => 0,
             },
             {
-              "active" => true,
               "name" => "Items",
               "req" => true,
               "type" => "`$ARRAY`",
-              "index$" => 1,
             },
             {
-              "active" => true,
               "name" => "ResultCode",
               "req" => true,
               "type" => "`$INTEGER`",
-              "index$" => 2,
             },
           ],
           "name" => "estimate_price",
@@ -528,21 +462,17 @@ module DingconnectConfig
               "name" => "create",
               "points" => [
                 {
-                  "active" => true,
                   "args" => {
                     "header" => [
                       {
-                        "active" => true,
                         "kind" => "header",
                         "name" => "x_correlation_id",
                         "orig" => "x_correlation_id",
-                        "reqd" => false,
                         "type" => "`$STRING`",
                       },
                     ],
                     "query" => [
                       {
-                        "active" => true,
                         "kind" => "query",
                         "name" => "requested_estimation",
                         "orig" => "requested_estimation",
@@ -569,10 +499,8 @@ module DingconnectConfig
                     "req" => "`reqdata`",
                     "res" => "`body`",
                   },
-                  "index$" => 0,
                 },
               ],
-              "key$" => "create",
             },
           },
           "relations" => {
@@ -582,32 +510,24 @@ module DingconnectConfig
         "list_transfer_record" => {
           "fields" => [
             {
-              "active" => true,
               "name" => "ErrorCodes",
               "req" => true,
               "type" => "`$ARRAY`",
-              "index$" => 0,
             },
             {
-              "active" => true,
               "name" => "Items",
               "req" => true,
               "type" => "`$ARRAY`",
-              "index$" => 1,
             },
             {
-              "active" => true,
               "name" => "ResultCode",
               "req" => true,
               "type" => "`$INTEGER`",
-              "index$" => 2,
             },
             {
-              "active" => true,
               "name" => "ThereAreMoreItems",
               "req" => true,
               "type" => "`$BOOLEAN`",
-              "index$" => 3,
             },
           ],
           "name" => "list_transfer_record",
@@ -617,21 +537,17 @@ module DingconnectConfig
               "name" => "create",
               "points" => [
                 {
-                  "active" => true,
                   "args" => {
                     "header" => [
                       {
-                        "active" => true,
                         "kind" => "header",
                         "name" => "x_correlation_id",
                         "orig" => "x_correlation_id",
-                        "reqd" => false,
                         "type" => "`$STRING`",
                       },
                     ],
                     "query" => [
                       {
-                        "active" => true,
                         "kind" => "query",
                         "name" => "request",
                         "orig" => "request",
@@ -658,10 +574,8 @@ module DingconnectConfig
                     "req" => "`reqdata`",
                     "res" => "`body`",
                   },
-                  "index$" => 0,
                 },
               ],
-              "key$" => "create",
             },
           },
           "relations" => {
@@ -671,25 +585,19 @@ module DingconnectConfig
         "lookup_bill" => {
           "fields" => [
             {
-              "active" => true,
               "name" => "ErrorCodes",
               "req" => true,
               "type" => "`$ARRAY`",
-              "index$" => 0,
             },
             {
-              "active" => true,
               "name" => "Items",
               "req" => true,
               "type" => "`$ARRAY`",
-              "index$" => 1,
             },
             {
-              "active" => true,
               "name" => "ResultCode",
               "req" => true,
               "type" => "`$INTEGER`",
-              "index$" => 2,
             },
           ],
           "name" => "lookup_bill",
@@ -699,21 +607,17 @@ module DingconnectConfig
               "name" => "create",
               "points" => [
                 {
-                  "active" => true,
                   "args" => {
                     "header" => [
                       {
-                        "active" => true,
                         "kind" => "header",
                         "name" => "x_correlation_id",
                         "orig" => "x_correlation_id",
-                        "reqd" => false,
                         "type" => "`$STRING`",
                       },
                     ],
                     "query" => [
                       {
-                        "active" => true,
                         "kind" => "query",
                         "name" => "request",
                         "orig" => "request",
@@ -740,10 +644,8 @@ module DingconnectConfig
                     "req" => "`reqdata`",
                     "res" => "`body`",
                   },
-                  "index$" => 0,
                 },
               ],
-              "key$" => "create",
             },
           },
           "relations" => {
@@ -753,25 +655,19 @@ module DingconnectConfig
         "product" => {
           "fields" => [
             {
-              "active" => true,
               "name" => "ErrorCodes",
               "req" => true,
               "type" => "`$ARRAY`",
-              "index$" => 0,
             },
             {
-              "active" => true,
               "name" => "Items",
               "req" => true,
               "type" => "`$ARRAY`",
-              "index$" => 1,
             },
             {
-              "active" => true,
               "name" => "ResultCode",
               "req" => true,
               "type" => "`$INTEGER`",
-              "index$" => 2,
             },
           ],
           "name" => "product",
@@ -781,65 +677,50 @@ module DingconnectConfig
               "name" => "list",
               "points" => [
                 {
-                  "active" => true,
                   "args" => {
                     "header" => [
                       {
-                        "active" => true,
                         "kind" => "header",
                         "name" => "x_correlation_id",
                         "orig" => "x_correlation_id",
-                        "reqd" => false,
                         "type" => "`$STRING`",
                       },
                     ],
                     "query" => [
                       {
-                        "active" => true,
                         "kind" => "query",
                         "name" => "account_number",
                         "orig" => "account_number",
-                        "reqd" => false,
                         "type" => "`$INTEGER`",
                       },
                       {
-                        "active" => true,
                         "kind" => "query",
                         "name" => "benefit",
                         "orig" => "benefit",
-                        "reqd" => false,
                         "type" => "`$ANY`",
                       },
                       {
-                        "active" => true,
                         "kind" => "query",
                         "name" => "country_iso",
                         "orig" => "country_iso",
-                        "reqd" => false,
                         "type" => "`$ANY`",
                       },
                       {
-                        "active" => true,
                         "kind" => "query",
                         "name" => "provider_code",
                         "orig" => "provider_code",
-                        "reqd" => false,
                         "type" => "`$ANY`",
                       },
                       {
-                        "active" => true,
                         "kind" => "query",
                         "name" => "region_code",
                         "orig" => "region_code",
-                        "reqd" => false,
                         "type" => "`$ANY`",
                       },
                       {
-                        "active" => true,
                         "kind" => "query",
                         "name" => "sku_code",
                         "orig" => "sku_code",
-                        "reqd" => false,
                         "type" => "`$ANY`",
                       },
                     ],
@@ -867,10 +748,8 @@ module DingconnectConfig
                     "req" => "`reqdata`",
                     "res" => "`body`",
                   },
-                  "index$" => 0,
                 },
               ],
-              "key$" => "list",
             },
           },
           "relations" => {
@@ -880,25 +759,19 @@ module DingconnectConfig
         "product_description" => {
           "fields" => [
             {
-              "active" => true,
               "name" => "ErrorCodes",
               "req" => true,
               "type" => "`$ARRAY`",
-              "index$" => 0,
             },
             {
-              "active" => true,
               "name" => "Items",
               "req" => true,
               "type" => "`$ARRAY`",
-              "index$" => 1,
             },
             {
-              "active" => true,
               "name" => "ResultCode",
               "req" => true,
               "type" => "`$INTEGER`",
-              "index$" => 2,
             },
           ],
           "name" => "product_description",
@@ -908,33 +781,26 @@ module DingconnectConfig
               "name" => "list",
               "points" => [
                 {
-                  "active" => true,
                   "args" => {
                     "header" => [
                       {
-                        "active" => true,
                         "kind" => "header",
                         "name" => "x_correlation_id",
                         "orig" => "x_correlation_id",
-                        "reqd" => false,
                         "type" => "`$STRING`",
                       },
                     ],
                     "query" => [
                       {
-                        "active" => true,
                         "kind" => "query",
                         "name" => "language_code",
                         "orig" => "language_code",
-                        "reqd" => false,
                         "type" => "`$ANY`",
                       },
                       {
-                        "active" => true,
                         "kind" => "query",
                         "name" => "sku_code",
                         "orig" => "sku_code",
-                        "reqd" => false,
                         "type" => "`$ANY`",
                       },
                     ],
@@ -958,10 +824,8 @@ module DingconnectConfig
                     "req" => "`reqdata`",
                     "res" => "`body`",
                   },
-                  "index$" => 0,
                 },
               ],
-              "key$" => "list",
             },
           },
           "relations" => {
@@ -971,25 +835,19 @@ module DingconnectConfig
         "promotion" => {
           "fields" => [
             {
-              "active" => true,
               "name" => "ErrorCodes",
               "req" => true,
               "type" => "`$ARRAY`",
-              "index$" => 0,
             },
             {
-              "active" => true,
               "name" => "Items",
               "req" => true,
               "type" => "`$ARRAY`",
-              "index$" => 1,
             },
             {
-              "active" => true,
               "name" => "ResultCode",
               "req" => true,
               "type" => "`$INTEGER`",
-              "index$" => 2,
             },
           ],
           "name" => "promotion",
@@ -999,41 +857,32 @@ module DingconnectConfig
               "name" => "list",
               "points" => [
                 {
-                  "active" => true,
                   "args" => {
                     "header" => [
                       {
-                        "active" => true,
                         "kind" => "header",
                         "name" => "x_correlation_id",
                         "orig" => "x_correlation_id",
-                        "reqd" => false,
                         "type" => "`$STRING`",
                       },
                     ],
                     "query" => [
                       {
-                        "active" => true,
                         "kind" => "query",
                         "name" => "account_number",
                         "orig" => "account_number",
-                        "reqd" => false,
                         "type" => "`$INTEGER`",
                       },
                       {
-                        "active" => true,
                         "kind" => "query",
                         "name" => "country_iso",
                         "orig" => "country_iso",
-                        "reqd" => false,
                         "type" => "`$ANY`",
                       },
                       {
-                        "active" => true,
                         "kind" => "query",
                         "name" => "provider_code",
                         "orig" => "provider_code",
-                        "reqd" => false,
                         "type" => "`$ANY`",
                       },
                     ],
@@ -1058,10 +907,8 @@ module DingconnectConfig
                     "req" => "`reqdata`",
                     "res" => "`body`",
                   },
-                  "index$" => 0,
                 },
               ],
-              "key$" => "list",
             },
           },
           "relations" => {
@@ -1071,25 +918,19 @@ module DingconnectConfig
         "promotion_description" => {
           "fields" => [
             {
-              "active" => true,
               "name" => "ErrorCodes",
               "req" => true,
               "type" => "`$ARRAY`",
-              "index$" => 0,
             },
             {
-              "active" => true,
               "name" => "Items",
               "req" => true,
               "type" => "`$ARRAY`",
-              "index$" => 1,
             },
             {
-              "active" => true,
               "name" => "ResultCode",
               "req" => true,
               "type" => "`$INTEGER`",
-              "index$" => 2,
             },
           ],
           "name" => "promotion_description",
@@ -1099,25 +940,20 @@ module DingconnectConfig
               "name" => "list",
               "points" => [
                 {
-                  "active" => true,
                   "args" => {
                     "header" => [
                       {
-                        "active" => true,
                         "kind" => "header",
                         "name" => "x_correlation_id",
                         "orig" => "x_correlation_id",
-                        "reqd" => false,
                         "type" => "`$STRING`",
                       },
                     ],
                     "query" => [
                       {
-                        "active" => true,
                         "kind" => "query",
                         "name" => "language_code",
                         "orig" => "language_code",
-                        "reqd" => false,
                         "type" => "`$ANY`",
                       },
                     ],
@@ -1140,10 +976,8 @@ module DingconnectConfig
                     "req" => "`reqdata`",
                     "res" => "`body`",
                   },
-                  "index$" => 0,
                 },
               ],
-              "key$" => "list",
             },
           },
           "relations" => {
@@ -1153,25 +987,19 @@ module DingconnectConfig
         "provider" => {
           "fields" => [
             {
-              "active" => true,
               "name" => "ErrorCodes",
               "req" => true,
               "type" => "`$ARRAY`",
-              "index$" => 0,
             },
             {
-              "active" => true,
               "name" => "Items",
               "req" => true,
               "type" => "`$ARRAY`",
-              "index$" => 1,
             },
             {
-              "active" => true,
               "name" => "ResultCode",
               "req" => true,
               "type" => "`$INTEGER`",
-              "index$" => 2,
             },
           ],
           "name" => "provider",
@@ -1181,49 +1009,38 @@ module DingconnectConfig
               "name" => "list",
               "points" => [
                 {
-                  "active" => true,
                   "args" => {
                     "header" => [
                       {
-                        "active" => true,
                         "kind" => "header",
                         "name" => "x_correlation_id",
                         "orig" => "x_correlation_id",
-                        "reqd" => false,
                         "type" => "`$STRING`",
                       },
                     ],
                     "query" => [
                       {
-                        "active" => true,
                         "kind" => "query",
                         "name" => "account_number",
                         "orig" => "account_number",
-                        "reqd" => false,
                         "type" => "`$INTEGER`",
                       },
                       {
-                        "active" => true,
                         "kind" => "query",
                         "name" => "country_iso",
                         "orig" => "country_iso",
-                        "reqd" => false,
                         "type" => "`$ANY`",
                       },
                       {
-                        "active" => true,
                         "kind" => "query",
                         "name" => "provider_code",
                         "orig" => "provider_code",
-                        "reqd" => false,
                         "type" => "`$ANY`",
                       },
                       {
-                        "active" => true,
                         "kind" => "query",
                         "name" => "region_code",
                         "orig" => "region_code",
-                        "reqd" => false,
                         "type" => "`$ANY`",
                       },
                     ],
@@ -1249,10 +1066,8 @@ module DingconnectConfig
                     "req" => "`reqdata`",
                     "res" => "`body`",
                   },
-                  "index$" => 0,
                 },
               ],
-              "key$" => "list",
             },
           },
           "relations" => {
@@ -1262,25 +1077,19 @@ module DingconnectConfig
         "provider_status" => {
           "fields" => [
             {
-              "active" => true,
               "name" => "ErrorCodes",
               "req" => true,
               "type" => "`$ARRAY`",
-              "index$" => 0,
             },
             {
-              "active" => true,
               "name" => "Items",
               "req" => true,
               "type" => "`$ARRAY`",
-              "index$" => 1,
             },
             {
-              "active" => true,
               "name" => "ResultCode",
               "req" => true,
               "type" => "`$INTEGER`",
-              "index$" => 2,
             },
           ],
           "name" => "provider_status",
@@ -1290,25 +1099,20 @@ module DingconnectConfig
               "name" => "list",
               "points" => [
                 {
-                  "active" => true,
                   "args" => {
                     "header" => [
                       {
-                        "active" => true,
                         "kind" => "header",
                         "name" => "x_correlation_id",
                         "orig" => "x_correlation_id",
-                        "reqd" => false,
                         "type" => "`$STRING`",
                       },
                     ],
                     "query" => [
                       {
-                        "active" => true,
                         "kind" => "query",
                         "name" => "provider_code",
                         "orig" => "provider_code",
-                        "reqd" => false,
                         "type" => "`$ANY`",
                       },
                     ],
@@ -1331,10 +1135,8 @@ module DingconnectConfig
                     "req" => "`reqdata`",
                     "res" => "`body`",
                   },
-                  "index$" => 0,
                 },
               ],
-              "key$" => "list",
             },
           },
           "relations" => {
@@ -1344,25 +1146,19 @@ module DingconnectConfig
         "region" => {
           "fields" => [
             {
-              "active" => true,
               "name" => "ErrorCodes",
               "req" => true,
               "type" => "`$ARRAY`",
-              "index$" => 0,
             },
             {
-              "active" => true,
               "name" => "Items",
               "req" => true,
               "type" => "`$ARRAY`",
-              "index$" => 1,
             },
             {
-              "active" => true,
               "name" => "ResultCode",
               "req" => true,
               "type" => "`$INTEGER`",
-              "index$" => 2,
             },
           ],
           "name" => "region",
@@ -1372,25 +1168,20 @@ module DingconnectConfig
               "name" => "list",
               "points" => [
                 {
-                  "active" => true,
                   "args" => {
                     "header" => [
                       {
-                        "active" => true,
                         "kind" => "header",
                         "name" => "x_correlation_id",
                         "orig" => "x_correlation_id",
-                        "reqd" => false,
                         "type" => "`$STRING`",
                       },
                     ],
                     "query" => [
                       {
-                        "active" => true,
                         "kind" => "query",
                         "name" => "country_iso",
                         "orig" => "country_iso",
-                        "reqd" => false,
                         "type" => "`$ANY`",
                       },
                     ],
@@ -1413,10 +1204,8 @@ module DingconnectConfig
                     "req" => "`reqdata`",
                     "res" => "`body`",
                   },
-                  "index$" => 0,
                 },
               ],
-              "key$" => "list",
             },
           },
           "relations" => {
@@ -1426,25 +1215,19 @@ module DingconnectConfig
         "send_transfer" => {
           "fields" => [
             {
-              "active" => true,
               "name" => "ErrorCodes",
               "req" => true,
               "type" => "`$ARRAY`",
-              "index$" => 0,
             },
             {
-              "active" => true,
               "name" => "ResultCode",
               "req" => true,
               "type" => "`$INTEGER`",
-              "index$" => 1,
             },
             {
-              "active" => true,
               "name" => "TransferRecord",
               "req" => true,
               "type" => "`$OBJECT`",
-              "index$" => 2,
             },
           ],
           "name" => "send_transfer",
@@ -1454,21 +1237,17 @@ module DingconnectConfig
               "name" => "create",
               "points" => [
                 {
-                  "active" => true,
                   "args" => {
                     "header" => [
                       {
-                        "active" => true,
                         "kind" => "header",
                         "name" => "x_correlation_id",
                         "orig" => "x_correlation_id",
-                        "reqd" => false,
                         "type" => "`$STRING`",
                       },
                     ],
                     "query" => [
                       {
-                        "active" => true,
                         "kind" => "query",
                         "name" => "request",
                         "orig" => "request",
@@ -1495,10 +1274,8 @@ module DingconnectConfig
                     "req" => "`reqdata`",
                     "res" => "`body`",
                   },
-                  "index$" => 0,
                 },
               ],
-              "key$" => "create",
             },
           },
           "relations" => {

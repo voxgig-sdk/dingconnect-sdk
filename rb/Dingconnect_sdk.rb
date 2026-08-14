@@ -28,7 +28,7 @@ class DingconnectSDK
     utility = DingconnectUtility.new
     @_utility = utility
 
-    config = DingconnectConfig.make_config
+    config = DingconnectConfig.shared_config
 
     @_rootctx = utility.make_context.call({
       "client" => self,

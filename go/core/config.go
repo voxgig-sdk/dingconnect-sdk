@@ -1,5 +1,12 @@
 package core
 
+import (
+	"sync"
+)
+
+// MakeConfig builds a fresh, fully materialised config map. Every call
+// rebuilds the whole structure, so prefer SharedConfig unless you need a
+// private copy you intend to mutate.
 func MakeConfig() map[string]any {
 	return map[string]any{
 		"main": map[string]any{
@@ -44,39 +51,27 @@ func MakeConfig() map[string]any {
 			"account_lookup": map[string]any{
 				"fields": []any{
 					map[string]any{
-						"active": true,
 						"name": "AccountNumberNormalized",
-						"req": false,
 						"type": "`$STRING`",
-						"index$": 0,
 					},
 					map[string]any{
-						"active": true,
 						"name": "CountryIso",
-						"req": false,
 						"type": "`$STRING`",
-						"index$": 1,
 					},
 					map[string]any{
-						"active": true,
 						"name": "ErrorCodes",
 						"req": true,
 						"type": "`$ARRAY`",
-						"index$": 2,
 					},
 					map[string]any{
-						"active": true,
 						"name": "Items",
 						"req": true,
 						"type": "`$ARRAY`",
-						"index$": 3,
 					},
 					map[string]any{
-						"active": true,
 						"name": "ResultCode",
 						"req": true,
 						"type": "`$INTEGER`",
-						"index$": 4,
 					},
 				},
 				"name": "account_lookup",
@@ -86,25 +81,20 @@ func MakeConfig() map[string]any {
 						"name": "list",
 						"points": []any{
 							map[string]any{
-								"active": true,
 								"args": map[string]any{
 									"header": []any{
 										map[string]any{
-											"active": true,
 											"kind": "header",
 											"name": "x_correlation_id",
 											"orig": "x_correlation_id",
-											"reqd": false,
 											"type": "`$STRING`",
 										},
 									},
 									"query": []any{
 										map[string]any{
-											"active": true,
 											"kind": "query",
 											"name": "account_number",
 											"orig": "account_number",
-											"reqd": false,
 											"type": "`$INTEGER`",
 										},
 									},
@@ -127,7 +117,6 @@ func MakeConfig() map[string]any {
 									"req": "`reqdata`",
 									"res": "`body`",
 								},
-								"index$": 0,
 							},
 						},
 					},
@@ -139,18 +128,13 @@ func MakeConfig() map[string]any {
 			"balance": map[string]any{
 				"fields": []any{
 					map[string]any{
-						"active": true,
 						"name": "Code",
 						"req": true,
 						"type": "`$STRING`",
-						"index$": 0,
 					},
 					map[string]any{
-						"active": true,
 						"name": "Context",
-						"req": false,
 						"type": "`$STRING`",
-						"index$": 1,
 					},
 				},
 				"name": "balance",
@@ -160,15 +144,12 @@ func MakeConfig() map[string]any {
 						"name": "list",
 						"points": []any{
 							map[string]any{
-								"active": true,
 								"args": map[string]any{
 									"header": []any{
 										map[string]any{
-											"active": true,
 											"kind": "header",
 											"name": "x_correlation_id",
 											"orig": "x_correlation_id",
-											"reqd": false,
 											"type": "`$STRING`",
 										},
 									},
@@ -190,7 +171,6 @@ func MakeConfig() map[string]any {
 									"req": "`reqdata`",
 									"res": "`body.ErrorCodes`",
 								},
-								"index$": 0,
 							},
 						},
 					},
@@ -202,25 +182,19 @@ func MakeConfig() map[string]any {
 			"cancel_transfer": map[string]any{
 				"fields": []any{
 					map[string]any{
-						"active": true,
 						"name": "ErrorCodes",
 						"req": true,
 						"type": "`$ARRAY`",
-						"index$": 0,
 					},
 					map[string]any{
-						"active": true,
 						"name": "Items",
 						"req": true,
 						"type": "`$ARRAY`",
-						"index$": 1,
 					},
 					map[string]any{
-						"active": true,
 						"name": "ResultCode",
 						"req": true,
 						"type": "`$INTEGER`",
-						"index$": 2,
 					},
 				},
 				"name": "cancel_transfer",
@@ -230,21 +204,17 @@ func MakeConfig() map[string]any {
 						"name": "create",
 						"points": []any{
 							map[string]any{
-								"active": true,
 								"args": map[string]any{
 									"header": []any{
 										map[string]any{
-											"active": true,
 											"kind": "header",
 											"name": "x_correlation_id",
 											"orig": "x_correlation_id",
-											"reqd": false,
 											"type": "`$STRING`",
 										},
 									},
 									"query": []any{
 										map[string]any{
-											"active": true,
 											"kind": "query",
 											"name": "cancellation_request",
 											"orig": "cancellation_request",
@@ -271,7 +241,6 @@ func MakeConfig() map[string]any {
 									"req": "`reqdata`",
 									"res": "`body`",
 								},
-								"index$": 0,
 							},
 						},
 					},
@@ -283,25 +252,19 @@ func MakeConfig() map[string]any {
 			"country": map[string]any{
 				"fields": []any{
 					map[string]any{
-						"active": true,
 						"name": "ErrorCodes",
 						"req": true,
 						"type": "`$ARRAY`",
-						"index$": 0,
 					},
 					map[string]any{
-						"active": true,
 						"name": "Items",
 						"req": true,
 						"type": "`$ARRAY`",
-						"index$": 1,
 					},
 					map[string]any{
-						"active": true,
 						"name": "ResultCode",
 						"req": true,
 						"type": "`$INTEGER`",
-						"index$": 2,
 					},
 				},
 				"name": "country",
@@ -311,15 +274,12 @@ func MakeConfig() map[string]any {
 						"name": "list",
 						"points": []any{
 							map[string]any{
-								"active": true,
 								"args": map[string]any{
 									"header": []any{
 										map[string]any{
-											"active": true,
 											"kind": "header",
 											"name": "x_correlation_id",
 											"orig": "x_correlation_id",
-											"reqd": false,
 											"type": "`$STRING`",
 										},
 									},
@@ -341,7 +301,6 @@ func MakeConfig() map[string]any {
 									"req": "`reqdata`",
 									"res": "`body`",
 								},
-								"index$": 0,
 							},
 						},
 					},
@@ -353,25 +312,19 @@ func MakeConfig() map[string]any {
 			"currency": map[string]any{
 				"fields": []any{
 					map[string]any{
-						"active": true,
 						"name": "ErrorCodes",
 						"req": true,
 						"type": "`$ARRAY`",
-						"index$": 0,
 					},
 					map[string]any{
-						"active": true,
 						"name": "Items",
 						"req": true,
 						"type": "`$ARRAY`",
-						"index$": 1,
 					},
 					map[string]any{
-						"active": true,
 						"name": "ResultCode",
 						"req": true,
 						"type": "`$INTEGER`",
-						"index$": 2,
 					},
 				},
 				"name": "currency",
@@ -381,15 +334,12 @@ func MakeConfig() map[string]any {
 						"name": "list",
 						"points": []any{
 							map[string]any{
-								"active": true,
 								"args": map[string]any{
 									"header": []any{
 										map[string]any{
-											"active": true,
 											"kind": "header",
 											"name": "x_correlation_id",
 											"orig": "x_correlation_id",
-											"reqd": false,
 											"type": "`$STRING`",
 										},
 									},
@@ -411,7 +361,6 @@ func MakeConfig() map[string]any {
 									"req": "`reqdata`",
 									"res": "`body`",
 								},
-								"index$": 0,
 							},
 						},
 					},
@@ -423,25 +372,19 @@ func MakeConfig() map[string]any {
 			"error_code_description": map[string]any{
 				"fields": []any{
 					map[string]any{
-						"active": true,
 						"name": "ErrorCodes",
 						"req": true,
 						"type": "`$ARRAY`",
-						"index$": 0,
 					},
 					map[string]any{
-						"active": true,
 						"name": "Items",
 						"req": true,
 						"type": "`$ARRAY`",
-						"index$": 1,
 					},
 					map[string]any{
-						"active": true,
 						"name": "ResultCode",
 						"req": true,
 						"type": "`$INTEGER`",
-						"index$": 2,
 					},
 				},
 				"name": "error_code_description",
@@ -451,15 +394,12 @@ func MakeConfig() map[string]any {
 						"name": "list",
 						"points": []any{
 							map[string]any{
-								"active": true,
 								"args": map[string]any{
 									"header": []any{
 										map[string]any{
-											"active": true,
 											"kind": "header",
 											"name": "x_correlation_id",
 											"orig": "x_correlation_id",
-											"reqd": false,
 											"type": "`$STRING`",
 										},
 									},
@@ -481,7 +421,6 @@ func MakeConfig() map[string]any {
 									"req": "`reqdata`",
 									"res": "`body`",
 								},
-								"index$": 0,
 							},
 						},
 					},
@@ -493,25 +432,19 @@ func MakeConfig() map[string]any {
 			"estimate_price": map[string]any{
 				"fields": []any{
 					map[string]any{
-						"active": true,
 						"name": "ErrorCodes",
 						"req": true,
 						"type": "`$ARRAY`",
-						"index$": 0,
 					},
 					map[string]any{
-						"active": true,
 						"name": "Items",
 						"req": true,
 						"type": "`$ARRAY`",
-						"index$": 1,
 					},
 					map[string]any{
-						"active": true,
 						"name": "ResultCode",
 						"req": true,
 						"type": "`$INTEGER`",
-						"index$": 2,
 					},
 				},
 				"name": "estimate_price",
@@ -521,21 +454,17 @@ func MakeConfig() map[string]any {
 						"name": "create",
 						"points": []any{
 							map[string]any{
-								"active": true,
 								"args": map[string]any{
 									"header": []any{
 										map[string]any{
-											"active": true,
 											"kind": "header",
 											"name": "x_correlation_id",
 											"orig": "x_correlation_id",
-											"reqd": false,
 											"type": "`$STRING`",
 										},
 									},
 									"query": []any{
 										map[string]any{
-											"active": true,
 											"kind": "query",
 											"name": "requested_estimation",
 											"orig": "requested_estimation",
@@ -562,7 +491,6 @@ func MakeConfig() map[string]any {
 									"req": "`reqdata`",
 									"res": "`body`",
 								},
-								"index$": 0,
 							},
 						},
 					},
@@ -574,32 +502,24 @@ func MakeConfig() map[string]any {
 			"list_transfer_record": map[string]any{
 				"fields": []any{
 					map[string]any{
-						"active": true,
 						"name": "ErrorCodes",
 						"req": true,
 						"type": "`$ARRAY`",
-						"index$": 0,
 					},
 					map[string]any{
-						"active": true,
 						"name": "Items",
 						"req": true,
 						"type": "`$ARRAY`",
-						"index$": 1,
 					},
 					map[string]any{
-						"active": true,
 						"name": "ResultCode",
 						"req": true,
 						"type": "`$INTEGER`",
-						"index$": 2,
 					},
 					map[string]any{
-						"active": true,
 						"name": "ThereAreMoreItems",
 						"req": true,
 						"type": "`$BOOLEAN`",
-						"index$": 3,
 					},
 				},
 				"name": "list_transfer_record",
@@ -609,21 +529,17 @@ func MakeConfig() map[string]any {
 						"name": "create",
 						"points": []any{
 							map[string]any{
-								"active": true,
 								"args": map[string]any{
 									"header": []any{
 										map[string]any{
-											"active": true,
 											"kind": "header",
 											"name": "x_correlation_id",
 											"orig": "x_correlation_id",
-											"reqd": false,
 											"type": "`$STRING`",
 										},
 									},
 									"query": []any{
 										map[string]any{
-											"active": true,
 											"kind": "query",
 											"name": "request",
 											"orig": "request",
@@ -650,7 +566,6 @@ func MakeConfig() map[string]any {
 									"req": "`reqdata`",
 									"res": "`body`",
 								},
-								"index$": 0,
 							},
 						},
 					},
@@ -662,25 +577,19 @@ func MakeConfig() map[string]any {
 			"lookup_bill": map[string]any{
 				"fields": []any{
 					map[string]any{
-						"active": true,
 						"name": "ErrorCodes",
 						"req": true,
 						"type": "`$ARRAY`",
-						"index$": 0,
 					},
 					map[string]any{
-						"active": true,
 						"name": "Items",
 						"req": true,
 						"type": "`$ARRAY`",
-						"index$": 1,
 					},
 					map[string]any{
-						"active": true,
 						"name": "ResultCode",
 						"req": true,
 						"type": "`$INTEGER`",
-						"index$": 2,
 					},
 				},
 				"name": "lookup_bill",
@@ -690,21 +599,17 @@ func MakeConfig() map[string]any {
 						"name": "create",
 						"points": []any{
 							map[string]any{
-								"active": true,
 								"args": map[string]any{
 									"header": []any{
 										map[string]any{
-											"active": true,
 											"kind": "header",
 											"name": "x_correlation_id",
 											"orig": "x_correlation_id",
-											"reqd": false,
 											"type": "`$STRING`",
 										},
 									},
 									"query": []any{
 										map[string]any{
-											"active": true,
 											"kind": "query",
 											"name": "request",
 											"orig": "request",
@@ -731,7 +636,6 @@ func MakeConfig() map[string]any {
 									"req": "`reqdata`",
 									"res": "`body`",
 								},
-								"index$": 0,
 							},
 						},
 					},
@@ -743,25 +647,19 @@ func MakeConfig() map[string]any {
 			"product": map[string]any{
 				"fields": []any{
 					map[string]any{
-						"active": true,
 						"name": "ErrorCodes",
 						"req": true,
 						"type": "`$ARRAY`",
-						"index$": 0,
 					},
 					map[string]any{
-						"active": true,
 						"name": "Items",
 						"req": true,
 						"type": "`$ARRAY`",
-						"index$": 1,
 					},
 					map[string]any{
-						"active": true,
 						"name": "ResultCode",
 						"req": true,
 						"type": "`$INTEGER`",
-						"index$": 2,
 					},
 				},
 				"name": "product",
@@ -771,65 +669,50 @@ func MakeConfig() map[string]any {
 						"name": "list",
 						"points": []any{
 							map[string]any{
-								"active": true,
 								"args": map[string]any{
 									"header": []any{
 										map[string]any{
-											"active": true,
 											"kind": "header",
 											"name": "x_correlation_id",
 											"orig": "x_correlation_id",
-											"reqd": false,
 											"type": "`$STRING`",
 										},
 									},
 									"query": []any{
 										map[string]any{
-											"active": true,
 											"kind": "query",
 											"name": "account_number",
 											"orig": "account_number",
-											"reqd": false,
 											"type": "`$INTEGER`",
 										},
 										map[string]any{
-											"active": true,
 											"kind": "query",
 											"name": "benefit",
 											"orig": "benefit",
-											"reqd": false,
 											"type": "`$ANY`",
 										},
 										map[string]any{
-											"active": true,
 											"kind": "query",
 											"name": "country_iso",
 											"orig": "country_iso",
-											"reqd": false,
 											"type": "`$ANY`",
 										},
 										map[string]any{
-											"active": true,
 											"kind": "query",
 											"name": "provider_code",
 											"orig": "provider_code",
-											"reqd": false,
 											"type": "`$ANY`",
 										},
 										map[string]any{
-											"active": true,
 											"kind": "query",
 											"name": "region_code",
 											"orig": "region_code",
-											"reqd": false,
 											"type": "`$ANY`",
 										},
 										map[string]any{
-											"active": true,
 											"kind": "query",
 											"name": "sku_code",
 											"orig": "sku_code",
-											"reqd": false,
 											"type": "`$ANY`",
 										},
 									},
@@ -857,7 +740,6 @@ func MakeConfig() map[string]any {
 									"req": "`reqdata`",
 									"res": "`body`",
 								},
-								"index$": 0,
 							},
 						},
 					},
@@ -869,25 +751,19 @@ func MakeConfig() map[string]any {
 			"product_description": map[string]any{
 				"fields": []any{
 					map[string]any{
-						"active": true,
 						"name": "ErrorCodes",
 						"req": true,
 						"type": "`$ARRAY`",
-						"index$": 0,
 					},
 					map[string]any{
-						"active": true,
 						"name": "Items",
 						"req": true,
 						"type": "`$ARRAY`",
-						"index$": 1,
 					},
 					map[string]any{
-						"active": true,
 						"name": "ResultCode",
 						"req": true,
 						"type": "`$INTEGER`",
-						"index$": 2,
 					},
 				},
 				"name": "product_description",
@@ -897,33 +773,26 @@ func MakeConfig() map[string]any {
 						"name": "list",
 						"points": []any{
 							map[string]any{
-								"active": true,
 								"args": map[string]any{
 									"header": []any{
 										map[string]any{
-											"active": true,
 											"kind": "header",
 											"name": "x_correlation_id",
 											"orig": "x_correlation_id",
-											"reqd": false,
 											"type": "`$STRING`",
 										},
 									},
 									"query": []any{
 										map[string]any{
-											"active": true,
 											"kind": "query",
 											"name": "language_code",
 											"orig": "language_code",
-											"reqd": false,
 											"type": "`$ANY`",
 										},
 										map[string]any{
-											"active": true,
 											"kind": "query",
 											"name": "sku_code",
 											"orig": "sku_code",
-											"reqd": false,
 											"type": "`$ANY`",
 										},
 									},
@@ -947,7 +816,6 @@ func MakeConfig() map[string]any {
 									"req": "`reqdata`",
 									"res": "`body`",
 								},
-								"index$": 0,
 							},
 						},
 					},
@@ -959,25 +827,19 @@ func MakeConfig() map[string]any {
 			"promotion": map[string]any{
 				"fields": []any{
 					map[string]any{
-						"active": true,
 						"name": "ErrorCodes",
 						"req": true,
 						"type": "`$ARRAY`",
-						"index$": 0,
 					},
 					map[string]any{
-						"active": true,
 						"name": "Items",
 						"req": true,
 						"type": "`$ARRAY`",
-						"index$": 1,
 					},
 					map[string]any{
-						"active": true,
 						"name": "ResultCode",
 						"req": true,
 						"type": "`$INTEGER`",
-						"index$": 2,
 					},
 				},
 				"name": "promotion",
@@ -987,41 +849,32 @@ func MakeConfig() map[string]any {
 						"name": "list",
 						"points": []any{
 							map[string]any{
-								"active": true,
 								"args": map[string]any{
 									"header": []any{
 										map[string]any{
-											"active": true,
 											"kind": "header",
 											"name": "x_correlation_id",
 											"orig": "x_correlation_id",
-											"reqd": false,
 											"type": "`$STRING`",
 										},
 									},
 									"query": []any{
 										map[string]any{
-											"active": true,
 											"kind": "query",
 											"name": "account_number",
 											"orig": "account_number",
-											"reqd": false,
 											"type": "`$INTEGER`",
 										},
 										map[string]any{
-											"active": true,
 											"kind": "query",
 											"name": "country_iso",
 											"orig": "country_iso",
-											"reqd": false,
 											"type": "`$ANY`",
 										},
 										map[string]any{
-											"active": true,
 											"kind": "query",
 											"name": "provider_code",
 											"orig": "provider_code",
-											"reqd": false,
 											"type": "`$ANY`",
 										},
 									},
@@ -1046,7 +899,6 @@ func MakeConfig() map[string]any {
 									"req": "`reqdata`",
 									"res": "`body`",
 								},
-								"index$": 0,
 							},
 						},
 					},
@@ -1058,25 +910,19 @@ func MakeConfig() map[string]any {
 			"promotion_description": map[string]any{
 				"fields": []any{
 					map[string]any{
-						"active": true,
 						"name": "ErrorCodes",
 						"req": true,
 						"type": "`$ARRAY`",
-						"index$": 0,
 					},
 					map[string]any{
-						"active": true,
 						"name": "Items",
 						"req": true,
 						"type": "`$ARRAY`",
-						"index$": 1,
 					},
 					map[string]any{
-						"active": true,
 						"name": "ResultCode",
 						"req": true,
 						"type": "`$INTEGER`",
-						"index$": 2,
 					},
 				},
 				"name": "promotion_description",
@@ -1086,25 +932,20 @@ func MakeConfig() map[string]any {
 						"name": "list",
 						"points": []any{
 							map[string]any{
-								"active": true,
 								"args": map[string]any{
 									"header": []any{
 										map[string]any{
-											"active": true,
 											"kind": "header",
 											"name": "x_correlation_id",
 											"orig": "x_correlation_id",
-											"reqd": false,
 											"type": "`$STRING`",
 										},
 									},
 									"query": []any{
 										map[string]any{
-											"active": true,
 											"kind": "query",
 											"name": "language_code",
 											"orig": "language_code",
-											"reqd": false,
 											"type": "`$ANY`",
 										},
 									},
@@ -1127,7 +968,6 @@ func MakeConfig() map[string]any {
 									"req": "`reqdata`",
 									"res": "`body`",
 								},
-								"index$": 0,
 							},
 						},
 					},
@@ -1139,25 +979,19 @@ func MakeConfig() map[string]any {
 			"provider": map[string]any{
 				"fields": []any{
 					map[string]any{
-						"active": true,
 						"name": "ErrorCodes",
 						"req": true,
 						"type": "`$ARRAY`",
-						"index$": 0,
 					},
 					map[string]any{
-						"active": true,
 						"name": "Items",
 						"req": true,
 						"type": "`$ARRAY`",
-						"index$": 1,
 					},
 					map[string]any{
-						"active": true,
 						"name": "ResultCode",
 						"req": true,
 						"type": "`$INTEGER`",
-						"index$": 2,
 					},
 				},
 				"name": "provider",
@@ -1167,49 +1001,38 @@ func MakeConfig() map[string]any {
 						"name": "list",
 						"points": []any{
 							map[string]any{
-								"active": true,
 								"args": map[string]any{
 									"header": []any{
 										map[string]any{
-											"active": true,
 											"kind": "header",
 											"name": "x_correlation_id",
 											"orig": "x_correlation_id",
-											"reqd": false,
 											"type": "`$STRING`",
 										},
 									},
 									"query": []any{
 										map[string]any{
-											"active": true,
 											"kind": "query",
 											"name": "account_number",
 											"orig": "account_number",
-											"reqd": false,
 											"type": "`$INTEGER`",
 										},
 										map[string]any{
-											"active": true,
 											"kind": "query",
 											"name": "country_iso",
 											"orig": "country_iso",
-											"reqd": false,
 											"type": "`$ANY`",
 										},
 										map[string]any{
-											"active": true,
 											"kind": "query",
 											"name": "provider_code",
 											"orig": "provider_code",
-											"reqd": false,
 											"type": "`$ANY`",
 										},
 										map[string]any{
-											"active": true,
 											"kind": "query",
 											"name": "region_code",
 											"orig": "region_code",
-											"reqd": false,
 											"type": "`$ANY`",
 										},
 									},
@@ -1235,7 +1058,6 @@ func MakeConfig() map[string]any {
 									"req": "`reqdata`",
 									"res": "`body`",
 								},
-								"index$": 0,
 							},
 						},
 					},
@@ -1247,25 +1069,19 @@ func MakeConfig() map[string]any {
 			"provider_status": map[string]any{
 				"fields": []any{
 					map[string]any{
-						"active": true,
 						"name": "ErrorCodes",
 						"req": true,
 						"type": "`$ARRAY`",
-						"index$": 0,
 					},
 					map[string]any{
-						"active": true,
 						"name": "Items",
 						"req": true,
 						"type": "`$ARRAY`",
-						"index$": 1,
 					},
 					map[string]any{
-						"active": true,
 						"name": "ResultCode",
 						"req": true,
 						"type": "`$INTEGER`",
-						"index$": 2,
 					},
 				},
 				"name": "provider_status",
@@ -1275,25 +1091,20 @@ func MakeConfig() map[string]any {
 						"name": "list",
 						"points": []any{
 							map[string]any{
-								"active": true,
 								"args": map[string]any{
 									"header": []any{
 										map[string]any{
-											"active": true,
 											"kind": "header",
 											"name": "x_correlation_id",
 											"orig": "x_correlation_id",
-											"reqd": false,
 											"type": "`$STRING`",
 										},
 									},
 									"query": []any{
 										map[string]any{
-											"active": true,
 											"kind": "query",
 											"name": "provider_code",
 											"orig": "provider_code",
-											"reqd": false,
 											"type": "`$ANY`",
 										},
 									},
@@ -1316,7 +1127,6 @@ func MakeConfig() map[string]any {
 									"req": "`reqdata`",
 									"res": "`body`",
 								},
-								"index$": 0,
 							},
 						},
 					},
@@ -1328,25 +1138,19 @@ func MakeConfig() map[string]any {
 			"region": map[string]any{
 				"fields": []any{
 					map[string]any{
-						"active": true,
 						"name": "ErrorCodes",
 						"req": true,
 						"type": "`$ARRAY`",
-						"index$": 0,
 					},
 					map[string]any{
-						"active": true,
 						"name": "Items",
 						"req": true,
 						"type": "`$ARRAY`",
-						"index$": 1,
 					},
 					map[string]any{
-						"active": true,
 						"name": "ResultCode",
 						"req": true,
 						"type": "`$INTEGER`",
-						"index$": 2,
 					},
 				},
 				"name": "region",
@@ -1356,25 +1160,20 @@ func MakeConfig() map[string]any {
 						"name": "list",
 						"points": []any{
 							map[string]any{
-								"active": true,
 								"args": map[string]any{
 									"header": []any{
 										map[string]any{
-											"active": true,
 											"kind": "header",
 											"name": "x_correlation_id",
 											"orig": "x_correlation_id",
-											"reqd": false,
 											"type": "`$STRING`",
 										},
 									},
 									"query": []any{
 										map[string]any{
-											"active": true,
 											"kind": "query",
 											"name": "country_iso",
 											"orig": "country_iso",
-											"reqd": false,
 											"type": "`$ANY`",
 										},
 									},
@@ -1397,7 +1196,6 @@ func MakeConfig() map[string]any {
 									"req": "`reqdata`",
 									"res": "`body`",
 								},
-								"index$": 0,
 							},
 						},
 					},
@@ -1409,25 +1207,19 @@ func MakeConfig() map[string]any {
 			"send_transfer": map[string]any{
 				"fields": []any{
 					map[string]any{
-						"active": true,
 						"name": "ErrorCodes",
 						"req": true,
 						"type": "`$ARRAY`",
-						"index$": 0,
 					},
 					map[string]any{
-						"active": true,
 						"name": "ResultCode",
 						"req": true,
 						"type": "`$INTEGER`",
-						"index$": 1,
 					},
 					map[string]any{
-						"active": true,
 						"name": "TransferRecord",
 						"req": true,
 						"type": "`$OBJECT`",
-						"index$": 2,
 					},
 				},
 				"name": "send_transfer",
@@ -1437,21 +1229,17 @@ func MakeConfig() map[string]any {
 						"name": "create",
 						"points": []any{
 							map[string]any{
-								"active": true,
 								"args": map[string]any{
 									"header": []any{
 										map[string]any{
-											"active": true,
 											"kind": "header",
 											"name": "x_correlation_id",
 											"orig": "x_correlation_id",
-											"reqd": false,
 											"type": "`$STRING`",
 										},
 									},
 									"query": []any{
 										map[string]any{
-											"active": true,
 											"kind": "query",
 											"name": "request",
 											"orig": "request",
@@ -1478,7 +1266,6 @@ func MakeConfig() map[string]any {
 									"req": "`reqdata`",
 									"res": "`body`",
 								},
-								"index$": 0,
 							},
 						},
 					},
@@ -1489,6 +1276,24 @@ func MakeConfig() map[string]any {
 			},
 		},
 	}
+}
+
+var (
+	sharedConfigOnce sync.Once
+	sharedConfigVal  map[string]any
+)
+
+// SharedConfig returns the process-wide config, built once on first use.
+// The SDK reads the config on every request and never writes to it, so one
+// instance is shared by every client rather than rebuilt per client.
+//
+// The returned map is shared: treat it as read-only. Callers that need to
+// mutate should use MakeConfig, which always returns a fresh copy.
+func SharedConfig() map[string]any {
+	sharedConfigOnce.Do(func() {
+		sharedConfigVal = MakeConfig()
+	})
+	return sharedConfigVal
 }
 
 func makeFeature(name string) Feature {
