@@ -5,6 +5,6 @@ import type { ProviderStatus, ProviderStatusListMatch } from '../DingconnectType
 declare class ProviderStatusEntity extends DingconnectEntityBase<ProviderStatus> {
     constructor(client: DingconnectSDK, entopts: any);
     make(this: ProviderStatusEntity): ProviderStatusEntity;
-    list(this: any, reqmatch?: ProviderStatusListMatch, ctrl?: Control): Promise<ProviderStatus[]>;
+    list(this: any, reqmatch?: ProviderStatusListMatch, ctrl?: Control): Promise<ProviderStatusEntity[]>;
 }
 export { ProviderStatusEntity };

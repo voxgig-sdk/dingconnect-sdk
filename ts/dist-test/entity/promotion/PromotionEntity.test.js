@@ -75,7 +75,7 @@ const utility_1 = require("../../utility");
         // LIST
         const promotion_ref01_ent = client.Promotion();
         const promotion_ref01_match = {};
-        const promotion_ref01_list = await promotion_ref01_ent.list(promotion_ref01_match);
+        const promotion_ref01_list = (await promotion_ref01_ent.list(promotion_ref01_match)).map((e) => e.data());
     });
 });
 function basicSetup(extra) {

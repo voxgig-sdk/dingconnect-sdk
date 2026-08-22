@@ -5,6 +5,6 @@ import type { SendTransfer, SendTransferCreateData } from '../DingconnectTypes';
 declare class SendTransferEntity extends DingconnectEntityBase<SendTransfer> {
     constructor(client: DingconnectSDK, entopts: any);
     make(this: SendTransferEntity): SendTransferEntity;
-    create(this: any, reqdata?: SendTransferCreateData, ctrl?: Control): Promise<SendTransfer>;
+    create(this: any, reqdata?: SendTransferCreateData, ctrl?: Control): Promise<SendTransferEntity>;
 }
 export { SendTransferEntity };

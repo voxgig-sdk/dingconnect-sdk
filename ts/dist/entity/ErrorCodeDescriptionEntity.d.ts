@@ -5,6 +5,6 @@ import type { ErrorCodeDescription, ErrorCodeDescriptionListMatch } from '../Din
 declare class ErrorCodeDescriptionEntity extends DingconnectEntityBase<ErrorCodeDescription> {
     constructor(client: DingconnectSDK, entopts: any);
     make(this: ErrorCodeDescriptionEntity): ErrorCodeDescriptionEntity;
-    list(this: any, reqmatch?: ErrorCodeDescriptionListMatch, ctrl?: Control): Promise<ErrorCodeDescription[]>;
+    list(this: any, reqmatch?: ErrorCodeDescriptionListMatch, ctrl?: Control): Promise<ErrorCodeDescriptionEntity[]>;
 }
 export { ErrorCodeDescriptionEntity };

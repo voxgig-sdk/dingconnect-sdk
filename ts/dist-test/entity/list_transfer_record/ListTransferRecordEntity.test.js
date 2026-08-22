@@ -74,7 +74,7 @@ const utility_1 = require("../../utility");
         // CREATE
         const list_transfer_record_ref01_ent = client.ListTransferRecord();
         let list_transfer_record_ref01_data = setup.data.new.list_transfer_record['list_transfer_record_ref01'];
-        list_transfer_record_ref01_data = await list_transfer_record_ref01_ent.create(list_transfer_record_ref01_data);
+        list_transfer_record_ref01_data = (await list_transfer_record_ref01_ent.create(list_transfer_record_ref01_data)).data();
         (0, node_assert_1.default)(null != list_transfer_record_ref01_data);
     });
 });

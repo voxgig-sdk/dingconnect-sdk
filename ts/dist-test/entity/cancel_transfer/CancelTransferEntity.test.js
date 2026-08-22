@@ -74,7 +74,7 @@ const utility_1 = require("../../utility");
         // CREATE
         const cancel_transfer_ref01_ent = client.CancelTransfer();
         let cancel_transfer_ref01_data = setup.data.new.cancel_transfer['cancel_transfer_ref01'];
-        cancel_transfer_ref01_data = await cancel_transfer_ref01_ent.create(cancel_transfer_ref01_data);
+        cancel_transfer_ref01_data = (await cancel_transfer_ref01_ent.create(cancel_transfer_ref01_data)).data();
         (0, node_assert_1.default)(null != cancel_transfer_ref01_data);
     });
 });

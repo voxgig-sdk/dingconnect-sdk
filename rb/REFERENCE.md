@@ -158,10 +158,10 @@ account_lookup = client.AccountLookup
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `AccountNumberNormalized` | `String` | No |  |
-| `CountryIso` | `String` | No |  |
+| `AccountNumberNormalized` | `String` | No | We attempt to normalize phone numbers following the public telecommunication numbering plan <a href="https://en.wikipedia.org/wiki/E.164" target="_blank">E.164</a>, if we succeed the normalized number will be returned in this field formatt… |
+| `CountryIso` | `String` | No | The country of the account number |
 | `ErrorCodes` | `Array` | Yes |  |
-| `Items` | `Array` | Yes |  |
+| `Items` | `Array` | Yes | This will contain provider information associated to the account number. |
 | `ResultCode` | `Integer` | Yes |  |
 
 ### Operations
@@ -214,8 +214,8 @@ balance = client.Balance
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `Code` | `String` | Yes |  |
-| `Context` | `String` | No |  |
+| `Code` | `String` | Yes | The code that can be used to lookup the explanatory message associated with the error |
+| `Context` | `String` | No | API specific context as to the reason for the specific code |
 
 ### Operations
 
@@ -326,7 +326,7 @@ country = client.Country
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `ErrorCodes` | `Array` | Yes |  |
-| `Items` | `Array` | Yes |  |
+| `Items` | `Array` | Yes | The list of countries that our system is aware of. |
 | `ResultCode` | `Integer` | Yes |  |
 
 ### Operations
@@ -434,7 +434,7 @@ error_code_description = client.ErrorCodeDescription
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `ErrorCodes` | `Array` | Yes |  |
-| `Items` | `Array` | Yes |  |
+| `Items` | `Array` | Yes | A list of ErrorCodes and their localized descriptions |
 | `ResultCode` | `Integer` | Yes |  |
 
 ### Operations
@@ -546,9 +546,9 @@ list_transfer_record = client.ListTransferRecord
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `ErrorCodes` | `Array` | Yes |  |
-| `Items` | `Array` | Yes |  |
+| `Items` | `Array` | Yes | The list of items satisfying the transfer query. |
 | `ResultCode` | `Integer` | Yes |  |
-| `ThereAreMoreItems` | `Boolean` | Yes |  |
+| `ThereAreMoreItems` | `Boolean` | Yes | Indicates if the caller should execute the query again. |
 
 ### Operations
 
@@ -664,7 +664,7 @@ product = client.Product
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `ErrorCodes` | `Array` | Yes |  |
-| `Items` | `Array` | Yes |  |
+| `Items` | `Array` | Yes | A list of products that fulfil the submitted criteria. |
 | `ResultCode` | `Integer` | Yes |  |
 
 ### Operations
@@ -718,7 +718,7 @@ product_description = client.ProductDescription
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `ErrorCodes` | `Array` | Yes |  |
-| `Items` | `Array` | Yes |  |
+| `Items` | `Array` | Yes | A localized list of product descriptions. |
 | `ResultCode` | `Integer` | Yes |  |
 
 ### Operations
@@ -772,7 +772,7 @@ promotion = client.Promotion
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `ErrorCodes` | `Array` | Yes |  |
-| `Items` | `Array` | Yes |  |
+| `Items` | `Array` | Yes | List of available promotions |
 | `ResultCode` | `Integer` | Yes |  |
 
 ### Operations
@@ -826,7 +826,7 @@ promotion_description = client.PromotionDescription
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `ErrorCodes` | `Array` | Yes |  |
-| `Items` | `Array` | Yes |  |
+| `Items` | `Array` | Yes | A localized list of promotions. |
 | `ResultCode` | `Integer` | Yes |  |
 
 ### Operations
@@ -880,7 +880,7 @@ provider = client.Provider
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `ErrorCodes` | `Array` | Yes |  |
-| `Items` | `Array` | Yes |  |
+| `Items` | `Array` | Yes | A list of providers that the distributor has Products for. |
 | `ResultCode` | `Integer` | Yes |  |
 
 ### Operations
@@ -988,7 +988,7 @@ region = client.Region
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `ErrorCodes` | `Array` | Yes |  |
-| `Items` | `Array` | Yes |  |
+| `Items` | `Array` | Yes | The list of regions that the system uses. |
 | `ResultCode` | `Integer` | Yes |  |
 
 ### Operations

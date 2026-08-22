@@ -5,6 +5,6 @@ import type { CancelTransfer, CancelTransferCreateData } from '../DingconnectTyp
 declare class CancelTransferEntity extends DingconnectEntityBase<CancelTransfer> {
     constructor(client: DingconnectSDK, entopts: any);
     make(this: CancelTransferEntity): CancelTransferEntity;
-    create(this: any, reqdata?: CancelTransferCreateData, ctrl?: Control): Promise<CancelTransfer>;
+    create(this: any, reqdata?: CancelTransferCreateData, ctrl?: Control): Promise<CancelTransferEntity>;
 }
 export { CancelTransferEntity };

@@ -5,6 +5,6 @@ import type { Country, CountryListMatch } from '../DingconnectTypes';
 declare class CountryEntity extends DingconnectEntityBase<Country> {
     constructor(client: DingconnectSDK, entopts: any);
     make(this: CountryEntity): CountryEntity;
-    list(this: any, reqmatch?: CountryListMatch, ctrl?: Control): Promise<Country[]>;
+    list(this: any, reqmatch?: CountryListMatch, ctrl?: Control): Promise<CountryEntity[]>;
 }
 export { CountryEntity };

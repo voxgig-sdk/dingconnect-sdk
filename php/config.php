@@ -33,6 +33,9 @@ class DingconnectConfig
         return [
             "main" => [
                 "name" => "Dingconnect",
+                "slug" => "dingconnect",
+                "version" => "0.0.1",
+                "target" => "php",
             ],
             "feature" => [
                 "test" => [
@@ -74,10 +77,12 @@ class DingconnectConfig
           'fields' => [
             [
               'name' => 'AccountNumberNormalized',
+              'short' => 'We attempt to normalize phone numbers following the public telecommunication numbering plan <a href="https://en.wikipedia.org/wiki/E.164" target="_blank">E.164</a>, if we succeed the normalized number will be returned in this field formatt…',
               'type' => '`$STRING`',
             ],
             [
               'name' => 'CountryIso',
+              'short' => 'The country of the account number',
               'type' => '`$STRING`',
             ],
             [
@@ -88,6 +93,7 @@ class DingconnectConfig
             [
               'name' => 'Items',
               'req' => true,
+              'short' => 'This will contain provider information associated to the account number.',
               'type' => '`$ARRAY`',
             ],
             [
@@ -152,10 +158,12 @@ class DingconnectConfig
             [
               'name' => 'Code',
               'req' => true,
+              'short' => 'The code that can be used to lookup the explanatory message associated with the error',
               'type' => '`$STRING`',
             ],
             [
               'name' => 'Context',
+              'short' => 'API specific context as to the reason for the specific code',
               'type' => '`$STRING`',
             ],
           ],
@@ -281,6 +289,7 @@ class DingconnectConfig
             [
               'name' => 'Items',
               'req' => true,
+              'short' => 'The list of countries that our system is aware of.',
               'type' => '`$ARRAY`',
             ],
             [
@@ -401,6 +410,7 @@ class DingconnectConfig
             [
               'name' => 'Items',
               'req' => true,
+              'short' => 'A list of ErrorCodes and their localized descriptions',
               'type' => '`$ARRAY`',
             ],
             [
@@ -531,6 +541,7 @@ class DingconnectConfig
             [
               'name' => 'Items',
               'req' => true,
+              'short' => 'The list of items satisfying the transfer query.',
               'type' => '`$ARRAY`',
             ],
             [
@@ -541,6 +552,7 @@ class DingconnectConfig
             [
               'name' => 'ThereAreMoreItems',
               'req' => true,
+              'short' => 'Indicates if the caller should execute the query again.',
               'type' => '`$BOOLEAN`',
             ],
           ],
@@ -676,6 +688,7 @@ class DingconnectConfig
             [
               'name' => 'Items',
               'req' => true,
+              'short' => 'A list of products that fulfil the submitted criteria.',
               'type' => '`$ARRAY`',
             ],
             [
@@ -780,6 +793,7 @@ class DingconnectConfig
             [
               'name' => 'Items',
               'req' => true,
+              'short' => 'A localized list of product descriptions.',
               'type' => '`$ARRAY`',
             ],
             [
@@ -856,6 +870,7 @@ class DingconnectConfig
             [
               'name' => 'Items',
               'req' => true,
+              'short' => 'List of available promotions',
               'type' => '`$ARRAY`',
             ],
             [
@@ -939,6 +954,7 @@ class DingconnectConfig
             [
               'name' => 'Items',
               'req' => true,
+              'short' => 'A localized list of promotions.',
               'type' => '`$ARRAY`',
             ],
             [
@@ -1008,6 +1024,7 @@ class DingconnectConfig
             [
               'name' => 'Items',
               'req' => true,
+              'short' => 'A list of providers that the distributor has Products for.',
               'type' => '`$ARRAY`',
             ],
             [
@@ -1167,6 +1184,7 @@ class DingconnectConfig
             [
               'name' => 'Items',
               'req' => true,
+              'short' => 'The list of regions that the system uses.',
               'type' => '`$ARRAY`',
             ],
             [

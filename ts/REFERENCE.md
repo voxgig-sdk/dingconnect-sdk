@@ -309,10 +309,10 @@ const account_lookup = client.AccountLookup()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `AccountNumberNormalized` | `string` | No |  |
-| `CountryIso` | `string` | No |  |
+| `AccountNumberNormalized` | `string` | No | We attempt to normalize phone numbers following the public telecommunication numbering plan <a href="https://en.wikipedia.org/wiki/E.164" target="_blank">E.164</a>, if we succeed the normalized number will be returned in this field formatt… |
+| `CountryIso` | `string` | No | The country of the account number |
 | `ErrorCodes` | `any[]` | Yes |  |
-| `Items` | `any[]` | Yes |  |
+| `Items` | `any[]` | Yes | This will contain provider information associated to the account number. |
 | `ResultCode` | `number` | Yes |  |
 
 ### Operations
@@ -363,8 +363,8 @@ const balance = client.Balance()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `Code` | `string` | Yes |  |
-| `Context` | `string` | No |  |
+| `Code` | `string` | Yes | The code that can be used to lookup the explanatory message associated with the error |
+| `Context` | `string` | No | API specific context as to the reason for the specific code |
 
 ### Operations
 
@@ -471,7 +471,7 @@ const country = client.Country()
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `ErrorCodes` | `any[]` | Yes |  |
-| `Items` | `any[]` | Yes |  |
+| `Items` | `any[]` | Yes | The list of countries that our system is aware of. |
 | `ResultCode` | `number` | Yes |  |
 
 ### Operations
@@ -575,7 +575,7 @@ const error_code_description = client.ErrorCodeDescription()
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `ErrorCodes` | `any[]` | Yes |  |
-| `Items` | `any[]` | Yes |  |
+| `Items` | `any[]` | Yes | A list of ErrorCodes and their localized descriptions |
 | `ResultCode` | `number` | Yes |  |
 
 ### Operations
@@ -683,9 +683,9 @@ const list_transfer_record = client.ListTransferRecord()
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `ErrorCodes` | `any[]` | Yes |  |
-| `Items` | `any[]` | Yes |  |
+| `Items` | `any[]` | Yes | The list of items satisfying the transfer query. |
 | `ResultCode` | `number` | Yes |  |
-| `ThereAreMoreItems` | `boolean` | Yes |  |
+| `ThereAreMoreItems` | `boolean` | Yes | Indicates if the caller should execute the query again. |
 
 ### Operations
 
@@ -797,7 +797,7 @@ const product = client.Product()
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `ErrorCodes` | `any[]` | Yes |  |
-| `Items` | `any[]` | Yes |  |
+| `Items` | `any[]` | Yes | A list of products that fulfil the submitted criteria. |
 | `ResultCode` | `number` | Yes |  |
 
 ### Operations
@@ -849,7 +849,7 @@ const product_description = client.ProductDescription()
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `ErrorCodes` | `any[]` | Yes |  |
-| `Items` | `any[]` | Yes |  |
+| `Items` | `any[]` | Yes | A localized list of product descriptions. |
 | `ResultCode` | `number` | Yes |  |
 
 ### Operations
@@ -901,7 +901,7 @@ const promotion = client.Promotion()
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `ErrorCodes` | `any[]` | Yes |  |
-| `Items` | `any[]` | Yes |  |
+| `Items` | `any[]` | Yes | List of available promotions |
 | `ResultCode` | `number` | Yes |  |
 
 ### Operations
@@ -953,7 +953,7 @@ const promotion_description = client.PromotionDescription()
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `ErrorCodes` | `any[]` | Yes |  |
-| `Items` | `any[]` | Yes |  |
+| `Items` | `any[]` | Yes | A localized list of promotions. |
 | `ResultCode` | `number` | Yes |  |
 
 ### Operations
@@ -1005,7 +1005,7 @@ const provider = client.Provider()
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `ErrorCodes` | `any[]` | Yes |  |
-| `Items` | `any[]` | Yes |  |
+| `Items` | `any[]` | Yes | A list of providers that the distributor has Products for. |
 | `ResultCode` | `number` | Yes |  |
 
 ### Operations
@@ -1109,7 +1109,7 @@ const region = client.Region()
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `ErrorCodes` | `any[]` | Yes |  |
-| `Items` | `any[]` | Yes |  |
+| `Items` | `any[]` | Yes | The list of regions that the system uses. |
 | `ResultCode` | `number` | Yes |  |
 
 ### Operations

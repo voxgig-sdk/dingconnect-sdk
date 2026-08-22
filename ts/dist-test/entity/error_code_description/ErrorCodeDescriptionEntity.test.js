@@ -75,7 +75,7 @@ const utility_1 = require("../../utility");
         // LIST
         const error_code_description_ref01_ent = client.ErrorCodeDescription();
         const error_code_description_ref01_match = {};
-        const error_code_description_ref01_list = await error_code_description_ref01_ent.list(error_code_description_ref01_match);
+        const error_code_description_ref01_list = (await error_code_description_ref01_ent.list(error_code_description_ref01_match)).map((e) => e.data());
     });
 });
 function basicSetup(extra) {

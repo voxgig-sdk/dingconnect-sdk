@@ -5,6 +5,6 @@ import type { PromotionDescription, PromotionDescriptionListMatch } from '../Din
 declare class PromotionDescriptionEntity extends DingconnectEntityBase<PromotionDescription> {
     constructor(client: DingconnectSDK, entopts: any);
     make(this: PromotionDescriptionEntity): PromotionDescriptionEntity;
-    list(this: any, reqmatch?: PromotionDescriptionListMatch, ctrl?: Control): Promise<PromotionDescription[]>;
+    list(this: any, reqmatch?: PromotionDescriptionListMatch, ctrl?: Control): Promise<PromotionDescriptionEntity[]>;
 }
 export { PromotionDescriptionEntity };

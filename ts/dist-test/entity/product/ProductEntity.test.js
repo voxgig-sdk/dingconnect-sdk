@@ -75,7 +75,7 @@ const utility_1 = require("../../utility");
         // LIST
         const product_ref01_ent = client.Product();
         const product_ref01_match = {};
-        const product_ref01_list = await product_ref01_ent.list(product_ref01_match);
+        const product_ref01_list = (await product_ref01_ent.list(product_ref01_match)).map((e) => e.data());
     });
 });
 function basicSetup(extra) {

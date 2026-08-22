@@ -12,8 +12,17 @@ class Config {
         // TODO: errors etc
         return fi;
     }
+    // False for a feature added at runtime via options.extend (station's
+    // adopt path) - the constructor uses this to skip makeFeature for names
+    // no generated class backs.
+    hasFeature(fn) {
+        return null != FEATURE_CLASS[fn];
+    }
     main = {
         name: 'Dingconnect',
+        slug: "dingconnect",
+        version: "0.0.1",
+        target: "ts",
     };
     feature = {
         test: {
@@ -23,7 +32,7 @@ class Config {
         },
     };
     options = {
-        base: 'https://api.dingconnect.com',
+        base: "https://api.dingconnect.com",
         auth: {
             prefix: '',
         },
@@ -54,39 +63,30 @@ class Config {
         "account_lookup": {
             "fields": [
                 {
-                    "active": true,
                     "name": "AccountNumberNormalized",
-                    "req": false,
-                    "type": "`$STRING`",
-                    "index$": 0
+                    "short": "We attempt to normalize phone numbers following the public telecommunication numbering plan <a href=\"https://en.wikipedia.org/wiki/E.164\" target=\"_blank\">E.164</a>, if we succeed the normalized number will be returned in this field formatt…",
+                    "type": "`$STRING`"
                 },
                 {
-                    "active": true,
                     "name": "CountryIso",
-                    "req": false,
-                    "type": "`$STRING`",
-                    "index$": 1
+                    "short": "The country of the account number",
+                    "type": "`$STRING`"
                 },
                 {
-                    "active": true,
                     "name": "ErrorCodes",
                     "req": true,
-                    "type": "`$ARRAY`",
-                    "index$": 2
+                    "type": "`$ARRAY`"
                 },
                 {
-                    "active": true,
                     "name": "Items",
                     "req": true,
-                    "type": "`$ARRAY`",
-                    "index$": 3
+                    "short": "This will contain provider information associated to the account number.",
+                    "type": "`$ARRAY`"
                 },
                 {
-                    "active": true,
                     "name": "ResultCode",
                     "req": true,
-                    "type": "`$INTEGER`",
-                    "index$": 4
+                    "type": "`$INTEGER`"
                 }
             ],
             "name": "account_lookup",
@@ -96,25 +96,20 @@ class Config {
                     "name": "list",
                     "points": [
                         {
-                            "active": true,
                             "args": {
                                 "header": [
                                     {
-                                        "active": true,
                                         "kind": "header",
                                         "name": "x_correlation_id",
                                         "orig": "x_correlation_id",
-                                        "reqd": false,
                                         "type": "`$STRING`"
                                     }
                                 ],
                                 "query": [
                                     {
-                                        "active": true,
                                         "kind": "query",
                                         "name": "account_number",
                                         "orig": "account_number",
-                                        "reqd": false,
                                         "type": "`$INTEGER`"
                                     }
                                 ]
@@ -136,11 +131,9 @@ class Config {
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body`"
-                            },
-                            "index$": 0
+                            }
                         }
-                    ],
-                    "key$": "list"
+                    ]
                 }
             },
             "relations": {
@@ -150,18 +143,15 @@ class Config {
         "balance": {
             "fields": [
                 {
-                    "active": true,
                     "name": "Code",
                     "req": true,
-                    "type": "`$STRING`",
-                    "index$": 0
+                    "short": "The code that can be used to lookup the explanatory message associated with the error",
+                    "type": "`$STRING`"
                 },
                 {
-                    "active": true,
                     "name": "Context",
-                    "req": false,
-                    "type": "`$STRING`",
-                    "index$": 1
+                    "short": "API specific context as to the reason for the specific code",
+                    "type": "`$STRING`"
                 }
             ],
             "name": "balance",
@@ -171,15 +161,12 @@ class Config {
                     "name": "list",
                     "points": [
                         {
-                            "active": true,
                             "args": {
                                 "header": [
                                     {
-                                        "active": true,
                                         "kind": "header",
                                         "name": "x_correlation_id",
                                         "orig": "x_correlation_id",
-                                        "reqd": false,
                                         "type": "`$STRING`"
                                     }
                                 ]
@@ -200,11 +187,9 @@ class Config {
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body.ErrorCodes`"
-                            },
-                            "index$": 0
+                            }
                         }
-                    ],
-                    "key$": "list"
+                    ]
                 }
             },
             "relations": {
@@ -214,25 +199,19 @@ class Config {
         "cancel_transfer": {
             "fields": [
                 {
-                    "active": true,
                     "name": "ErrorCodes",
                     "req": true,
-                    "type": "`$ARRAY`",
-                    "index$": 0
+                    "type": "`$ARRAY`"
                 },
                 {
-                    "active": true,
                     "name": "Items",
                     "req": true,
-                    "type": "`$ARRAY`",
-                    "index$": 1
+                    "type": "`$ARRAY`"
                 },
                 {
-                    "active": true,
                     "name": "ResultCode",
                     "req": true,
-                    "type": "`$INTEGER`",
-                    "index$": 2
+                    "type": "`$INTEGER`"
                 }
             ],
             "name": "cancel_transfer",
@@ -242,21 +221,17 @@ class Config {
                     "name": "create",
                     "points": [
                         {
-                            "active": true,
                             "args": {
                                 "header": [
                                     {
-                                        "active": true,
                                         "kind": "header",
                                         "name": "x_correlation_id",
                                         "orig": "x_correlation_id",
-                                        "reqd": false,
                                         "type": "`$STRING`"
                                     }
                                 ],
                                 "query": [
                                     {
-                                        "active": true,
                                         "kind": "query",
                                         "name": "cancellation_request",
                                         "orig": "cancellation_request",
@@ -282,11 +257,9 @@ class Config {
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body`"
-                            },
-                            "index$": 0
+                            }
                         }
-                    ],
-                    "key$": "create"
+                    ]
                 }
             },
             "relations": {
@@ -296,25 +269,20 @@ class Config {
         "country": {
             "fields": [
                 {
-                    "active": true,
                     "name": "ErrorCodes",
                     "req": true,
-                    "type": "`$ARRAY`",
-                    "index$": 0
+                    "type": "`$ARRAY`"
                 },
                 {
-                    "active": true,
                     "name": "Items",
                     "req": true,
-                    "type": "`$ARRAY`",
-                    "index$": 1
+                    "short": "The list of countries that our system is aware of.",
+                    "type": "`$ARRAY`"
                 },
                 {
-                    "active": true,
                     "name": "ResultCode",
                     "req": true,
-                    "type": "`$INTEGER`",
-                    "index$": 2
+                    "type": "`$INTEGER`"
                 }
             ],
             "name": "country",
@@ -324,15 +292,12 @@ class Config {
                     "name": "list",
                     "points": [
                         {
-                            "active": true,
                             "args": {
                                 "header": [
                                     {
-                                        "active": true,
                                         "kind": "header",
                                         "name": "x_correlation_id",
                                         "orig": "x_correlation_id",
-                                        "reqd": false,
                                         "type": "`$STRING`"
                                     }
                                 ]
@@ -353,11 +318,9 @@ class Config {
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body`"
-                            },
-                            "index$": 0
+                            }
                         }
-                    ],
-                    "key$": "list"
+                    ]
                 }
             },
             "relations": {
@@ -367,25 +330,19 @@ class Config {
         "currency": {
             "fields": [
                 {
-                    "active": true,
                     "name": "ErrorCodes",
                     "req": true,
-                    "type": "`$ARRAY`",
-                    "index$": 0
+                    "type": "`$ARRAY`"
                 },
                 {
-                    "active": true,
                     "name": "Items",
                     "req": true,
-                    "type": "`$ARRAY`",
-                    "index$": 1
+                    "type": "`$ARRAY`"
                 },
                 {
-                    "active": true,
                     "name": "ResultCode",
                     "req": true,
-                    "type": "`$INTEGER`",
-                    "index$": 2
+                    "type": "`$INTEGER`"
                 }
             ],
             "name": "currency",
@@ -395,15 +352,12 @@ class Config {
                     "name": "list",
                     "points": [
                         {
-                            "active": true,
                             "args": {
                                 "header": [
                                     {
-                                        "active": true,
                                         "kind": "header",
                                         "name": "x_correlation_id",
                                         "orig": "x_correlation_id",
-                                        "reqd": false,
                                         "type": "`$STRING`"
                                     }
                                 ]
@@ -424,11 +378,9 @@ class Config {
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body`"
-                            },
-                            "index$": 0
+                            }
                         }
-                    ],
-                    "key$": "list"
+                    ]
                 }
             },
             "relations": {
@@ -438,25 +390,20 @@ class Config {
         "error_code_description": {
             "fields": [
                 {
-                    "active": true,
                     "name": "ErrorCodes",
                     "req": true,
-                    "type": "`$ARRAY`",
-                    "index$": 0
+                    "type": "`$ARRAY`"
                 },
                 {
-                    "active": true,
                     "name": "Items",
                     "req": true,
-                    "type": "`$ARRAY`",
-                    "index$": 1
+                    "short": "A list of ErrorCodes and their localized descriptions",
+                    "type": "`$ARRAY`"
                 },
                 {
-                    "active": true,
                     "name": "ResultCode",
                     "req": true,
-                    "type": "`$INTEGER`",
-                    "index$": 2
+                    "type": "`$INTEGER`"
                 }
             ],
             "name": "error_code_description",
@@ -466,15 +413,12 @@ class Config {
                     "name": "list",
                     "points": [
                         {
-                            "active": true,
                             "args": {
                                 "header": [
                                     {
-                                        "active": true,
                                         "kind": "header",
                                         "name": "x_correlation_id",
                                         "orig": "x_correlation_id",
-                                        "reqd": false,
                                         "type": "`$STRING`"
                                     }
                                 ]
@@ -495,11 +439,9 @@ class Config {
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body`"
-                            },
-                            "index$": 0
+                            }
                         }
-                    ],
-                    "key$": "list"
+                    ]
                 }
             },
             "relations": {
@@ -509,25 +451,19 @@ class Config {
         "estimate_price": {
             "fields": [
                 {
-                    "active": true,
                     "name": "ErrorCodes",
                     "req": true,
-                    "type": "`$ARRAY`",
-                    "index$": 0
+                    "type": "`$ARRAY`"
                 },
                 {
-                    "active": true,
                     "name": "Items",
                     "req": true,
-                    "type": "`$ARRAY`",
-                    "index$": 1
+                    "type": "`$ARRAY`"
                 },
                 {
-                    "active": true,
                     "name": "ResultCode",
                     "req": true,
-                    "type": "`$INTEGER`",
-                    "index$": 2
+                    "type": "`$INTEGER`"
                 }
             ],
             "name": "estimate_price",
@@ -537,21 +473,17 @@ class Config {
                     "name": "create",
                     "points": [
                         {
-                            "active": true,
                             "args": {
                                 "header": [
                                     {
-                                        "active": true,
                                         "kind": "header",
                                         "name": "x_correlation_id",
                                         "orig": "x_correlation_id",
-                                        "reqd": false,
                                         "type": "`$STRING`"
                                     }
                                 ],
                                 "query": [
                                     {
-                                        "active": true,
                                         "kind": "query",
                                         "name": "requested_estimation",
                                         "orig": "requested_estimation",
@@ -577,11 +509,9 @@ class Config {
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body`"
-                            },
-                            "index$": 0
+                            }
                         }
-                    ],
-                    "key$": "create"
+                    ]
                 }
             },
             "relations": {
@@ -591,32 +521,26 @@ class Config {
         "list_transfer_record": {
             "fields": [
                 {
-                    "active": true,
                     "name": "ErrorCodes",
                     "req": true,
-                    "type": "`$ARRAY`",
-                    "index$": 0
+                    "type": "`$ARRAY`"
                 },
                 {
-                    "active": true,
                     "name": "Items",
                     "req": true,
-                    "type": "`$ARRAY`",
-                    "index$": 1
+                    "short": "The list of items satisfying the transfer query.",
+                    "type": "`$ARRAY`"
                 },
                 {
-                    "active": true,
                     "name": "ResultCode",
                     "req": true,
-                    "type": "`$INTEGER`",
-                    "index$": 2
+                    "type": "`$INTEGER`"
                 },
                 {
-                    "active": true,
                     "name": "ThereAreMoreItems",
                     "req": true,
-                    "type": "`$BOOLEAN`",
-                    "index$": 3
+                    "short": "Indicates if the caller should execute the query again.",
+                    "type": "`$BOOLEAN`"
                 }
             ],
             "name": "list_transfer_record",
@@ -626,21 +550,17 @@ class Config {
                     "name": "create",
                     "points": [
                         {
-                            "active": true,
                             "args": {
                                 "header": [
                                     {
-                                        "active": true,
                                         "kind": "header",
                                         "name": "x_correlation_id",
                                         "orig": "x_correlation_id",
-                                        "reqd": false,
                                         "type": "`$STRING`"
                                     }
                                 ],
                                 "query": [
                                     {
-                                        "active": true,
                                         "kind": "query",
                                         "name": "request",
                                         "orig": "request",
@@ -666,11 +586,9 @@ class Config {
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body`"
-                            },
-                            "index$": 0
+                            }
                         }
-                    ],
-                    "key$": "create"
+                    ]
                 }
             },
             "relations": {
@@ -680,25 +598,19 @@ class Config {
         "lookup_bill": {
             "fields": [
                 {
-                    "active": true,
                     "name": "ErrorCodes",
                     "req": true,
-                    "type": "`$ARRAY`",
-                    "index$": 0
+                    "type": "`$ARRAY`"
                 },
                 {
-                    "active": true,
                     "name": "Items",
                     "req": true,
-                    "type": "`$ARRAY`",
-                    "index$": 1
+                    "type": "`$ARRAY`"
                 },
                 {
-                    "active": true,
                     "name": "ResultCode",
                     "req": true,
-                    "type": "`$INTEGER`",
-                    "index$": 2
+                    "type": "`$INTEGER`"
                 }
             ],
             "name": "lookup_bill",
@@ -708,21 +620,17 @@ class Config {
                     "name": "create",
                     "points": [
                         {
-                            "active": true,
                             "args": {
                                 "header": [
                                     {
-                                        "active": true,
                                         "kind": "header",
                                         "name": "x_correlation_id",
                                         "orig": "x_correlation_id",
-                                        "reqd": false,
                                         "type": "`$STRING`"
                                     }
                                 ],
                                 "query": [
                                     {
-                                        "active": true,
                                         "kind": "query",
                                         "name": "request",
                                         "orig": "request",
@@ -748,11 +656,9 @@ class Config {
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body`"
-                            },
-                            "index$": 0
+                            }
                         }
-                    ],
-                    "key$": "create"
+                    ]
                 }
             },
             "relations": {
@@ -762,25 +668,20 @@ class Config {
         "product": {
             "fields": [
                 {
-                    "active": true,
                     "name": "ErrorCodes",
                     "req": true,
-                    "type": "`$ARRAY`",
-                    "index$": 0
+                    "type": "`$ARRAY`"
                 },
                 {
-                    "active": true,
                     "name": "Items",
                     "req": true,
-                    "type": "`$ARRAY`",
-                    "index$": 1
+                    "short": "A list of products that fulfil the submitted criteria.",
+                    "type": "`$ARRAY`"
                 },
                 {
-                    "active": true,
                     "name": "ResultCode",
                     "req": true,
-                    "type": "`$INTEGER`",
-                    "index$": 2
+                    "type": "`$INTEGER`"
                 }
             ],
             "name": "product",
@@ -790,65 +691,50 @@ class Config {
                     "name": "list",
                     "points": [
                         {
-                            "active": true,
                             "args": {
                                 "header": [
                                     {
-                                        "active": true,
                                         "kind": "header",
                                         "name": "x_correlation_id",
                                         "orig": "x_correlation_id",
-                                        "reqd": false,
                                         "type": "`$STRING`"
                                     }
                                 ],
                                 "query": [
                                     {
-                                        "active": true,
                                         "kind": "query",
                                         "name": "account_number",
                                         "orig": "account_number",
-                                        "reqd": false,
                                         "type": "`$INTEGER`"
                                     },
                                     {
-                                        "active": true,
                                         "kind": "query",
                                         "name": "benefit",
                                         "orig": "benefit",
-                                        "reqd": false,
                                         "type": "`$ANY`"
                                     },
                                     {
-                                        "active": true,
                                         "kind": "query",
                                         "name": "country_iso",
                                         "orig": "country_iso",
-                                        "reqd": false,
                                         "type": "`$ANY`"
                                     },
                                     {
-                                        "active": true,
                                         "kind": "query",
                                         "name": "provider_code",
                                         "orig": "provider_code",
-                                        "reqd": false,
                                         "type": "`$ANY`"
                                     },
                                     {
-                                        "active": true,
                                         "kind": "query",
                                         "name": "region_code",
                                         "orig": "region_code",
-                                        "reqd": false,
                                         "type": "`$ANY`"
                                     },
                                     {
-                                        "active": true,
                                         "kind": "query",
                                         "name": "sku_code",
                                         "orig": "sku_code",
-                                        "reqd": false,
                                         "type": "`$ANY`"
                                     }
                                 ]
@@ -875,11 +761,9 @@ class Config {
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body`"
-                            },
-                            "index$": 0
+                            }
                         }
-                    ],
-                    "key$": "list"
+                    ]
                 }
             },
             "relations": {
@@ -889,25 +773,20 @@ class Config {
         "product_description": {
             "fields": [
                 {
-                    "active": true,
                     "name": "ErrorCodes",
                     "req": true,
-                    "type": "`$ARRAY`",
-                    "index$": 0
+                    "type": "`$ARRAY`"
                 },
                 {
-                    "active": true,
                     "name": "Items",
                     "req": true,
-                    "type": "`$ARRAY`",
-                    "index$": 1
+                    "short": "A localized list of product descriptions.",
+                    "type": "`$ARRAY`"
                 },
                 {
-                    "active": true,
                     "name": "ResultCode",
                     "req": true,
-                    "type": "`$INTEGER`",
-                    "index$": 2
+                    "type": "`$INTEGER`"
                 }
             ],
             "name": "product_description",
@@ -917,33 +796,26 @@ class Config {
                     "name": "list",
                     "points": [
                         {
-                            "active": true,
                             "args": {
                                 "header": [
                                     {
-                                        "active": true,
                                         "kind": "header",
                                         "name": "x_correlation_id",
                                         "orig": "x_correlation_id",
-                                        "reqd": false,
                                         "type": "`$STRING`"
                                     }
                                 ],
                                 "query": [
                                     {
-                                        "active": true,
                                         "kind": "query",
                                         "name": "language_code",
                                         "orig": "language_code",
-                                        "reqd": false,
                                         "type": "`$ANY`"
                                     },
                                     {
-                                        "active": true,
                                         "kind": "query",
                                         "name": "sku_code",
                                         "orig": "sku_code",
-                                        "reqd": false,
                                         "type": "`$ANY`"
                                     }
                                 ]
@@ -966,11 +838,9 @@ class Config {
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body`"
-                            },
-                            "index$": 0
+                            }
                         }
-                    ],
-                    "key$": "list"
+                    ]
                 }
             },
             "relations": {
@@ -980,25 +850,20 @@ class Config {
         "promotion": {
             "fields": [
                 {
-                    "active": true,
                     "name": "ErrorCodes",
                     "req": true,
-                    "type": "`$ARRAY`",
-                    "index$": 0
+                    "type": "`$ARRAY`"
                 },
                 {
-                    "active": true,
                     "name": "Items",
                     "req": true,
-                    "type": "`$ARRAY`",
-                    "index$": 1
+                    "short": "List of available promotions",
+                    "type": "`$ARRAY`"
                 },
                 {
-                    "active": true,
                     "name": "ResultCode",
                     "req": true,
-                    "type": "`$INTEGER`",
-                    "index$": 2
+                    "type": "`$INTEGER`"
                 }
             ],
             "name": "promotion",
@@ -1008,41 +873,32 @@ class Config {
                     "name": "list",
                     "points": [
                         {
-                            "active": true,
                             "args": {
                                 "header": [
                                     {
-                                        "active": true,
                                         "kind": "header",
                                         "name": "x_correlation_id",
                                         "orig": "x_correlation_id",
-                                        "reqd": false,
                                         "type": "`$STRING`"
                                     }
                                 ],
                                 "query": [
                                     {
-                                        "active": true,
                                         "kind": "query",
                                         "name": "account_number",
                                         "orig": "account_number",
-                                        "reqd": false,
                                         "type": "`$INTEGER`"
                                     },
                                     {
-                                        "active": true,
                                         "kind": "query",
                                         "name": "country_iso",
                                         "orig": "country_iso",
-                                        "reqd": false,
                                         "type": "`$ANY`"
                                     },
                                     {
-                                        "active": true,
                                         "kind": "query",
                                         "name": "provider_code",
                                         "orig": "provider_code",
-                                        "reqd": false,
                                         "type": "`$ANY`"
                                     }
                                 ]
@@ -1066,11 +922,9 @@ class Config {
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body`"
-                            },
-                            "index$": 0
+                            }
                         }
-                    ],
-                    "key$": "list"
+                    ]
                 }
             },
             "relations": {
@@ -1080,25 +934,20 @@ class Config {
         "promotion_description": {
             "fields": [
                 {
-                    "active": true,
                     "name": "ErrorCodes",
                     "req": true,
-                    "type": "`$ARRAY`",
-                    "index$": 0
+                    "type": "`$ARRAY`"
                 },
                 {
-                    "active": true,
                     "name": "Items",
                     "req": true,
-                    "type": "`$ARRAY`",
-                    "index$": 1
+                    "short": "A localized list of promotions.",
+                    "type": "`$ARRAY`"
                 },
                 {
-                    "active": true,
                     "name": "ResultCode",
                     "req": true,
-                    "type": "`$INTEGER`",
-                    "index$": 2
+                    "type": "`$INTEGER`"
                 }
             ],
             "name": "promotion_description",
@@ -1108,25 +957,20 @@ class Config {
                     "name": "list",
                     "points": [
                         {
-                            "active": true,
                             "args": {
                                 "header": [
                                     {
-                                        "active": true,
                                         "kind": "header",
                                         "name": "x_correlation_id",
                                         "orig": "x_correlation_id",
-                                        "reqd": false,
                                         "type": "`$STRING`"
                                     }
                                 ],
                                 "query": [
                                     {
-                                        "active": true,
                                         "kind": "query",
                                         "name": "language_code",
                                         "orig": "language_code",
-                                        "reqd": false,
                                         "type": "`$ANY`"
                                     }
                                 ]
@@ -1148,11 +992,9 @@ class Config {
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body`"
-                            },
-                            "index$": 0
+                            }
                         }
-                    ],
-                    "key$": "list"
+                    ]
                 }
             },
             "relations": {
@@ -1162,25 +1004,20 @@ class Config {
         "provider": {
             "fields": [
                 {
-                    "active": true,
                     "name": "ErrorCodes",
                     "req": true,
-                    "type": "`$ARRAY`",
-                    "index$": 0
+                    "type": "`$ARRAY`"
                 },
                 {
-                    "active": true,
                     "name": "Items",
                     "req": true,
-                    "type": "`$ARRAY`",
-                    "index$": 1
+                    "short": "A list of providers that the distributor has Products for.",
+                    "type": "`$ARRAY`"
                 },
                 {
-                    "active": true,
                     "name": "ResultCode",
                     "req": true,
-                    "type": "`$INTEGER`",
-                    "index$": 2
+                    "type": "`$INTEGER`"
                 }
             ],
             "name": "provider",
@@ -1190,49 +1027,38 @@ class Config {
                     "name": "list",
                     "points": [
                         {
-                            "active": true,
                             "args": {
                                 "header": [
                                     {
-                                        "active": true,
                                         "kind": "header",
                                         "name": "x_correlation_id",
                                         "orig": "x_correlation_id",
-                                        "reqd": false,
                                         "type": "`$STRING`"
                                     }
                                 ],
                                 "query": [
                                     {
-                                        "active": true,
                                         "kind": "query",
                                         "name": "account_number",
                                         "orig": "account_number",
-                                        "reqd": false,
                                         "type": "`$INTEGER`"
                                     },
                                     {
-                                        "active": true,
                                         "kind": "query",
                                         "name": "country_iso",
                                         "orig": "country_iso",
-                                        "reqd": false,
                                         "type": "`$ANY`"
                                     },
                                     {
-                                        "active": true,
                                         "kind": "query",
                                         "name": "provider_code",
                                         "orig": "provider_code",
-                                        "reqd": false,
                                         "type": "`$ANY`"
                                     },
                                     {
-                                        "active": true,
                                         "kind": "query",
                                         "name": "region_code",
                                         "orig": "region_code",
-                                        "reqd": false,
                                         "type": "`$ANY`"
                                     }
                                 ]
@@ -1257,11 +1083,9 @@ class Config {
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body`"
-                            },
-                            "index$": 0
+                            }
                         }
-                    ],
-                    "key$": "list"
+                    ]
                 }
             },
             "relations": {
@@ -1271,25 +1095,19 @@ class Config {
         "provider_status": {
             "fields": [
                 {
-                    "active": true,
                     "name": "ErrorCodes",
                     "req": true,
-                    "type": "`$ARRAY`",
-                    "index$": 0
+                    "type": "`$ARRAY`"
                 },
                 {
-                    "active": true,
                     "name": "Items",
                     "req": true,
-                    "type": "`$ARRAY`",
-                    "index$": 1
+                    "type": "`$ARRAY`"
                 },
                 {
-                    "active": true,
                     "name": "ResultCode",
                     "req": true,
-                    "type": "`$INTEGER`",
-                    "index$": 2
+                    "type": "`$INTEGER`"
                 }
             ],
             "name": "provider_status",
@@ -1299,25 +1117,20 @@ class Config {
                     "name": "list",
                     "points": [
                         {
-                            "active": true,
                             "args": {
                                 "header": [
                                     {
-                                        "active": true,
                                         "kind": "header",
                                         "name": "x_correlation_id",
                                         "orig": "x_correlation_id",
-                                        "reqd": false,
                                         "type": "`$STRING`"
                                     }
                                 ],
                                 "query": [
                                     {
-                                        "active": true,
                                         "kind": "query",
                                         "name": "provider_code",
                                         "orig": "provider_code",
-                                        "reqd": false,
                                         "type": "`$ANY`"
                                     }
                                 ]
@@ -1339,11 +1152,9 @@ class Config {
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body`"
-                            },
-                            "index$": 0
+                            }
                         }
-                    ],
-                    "key$": "list"
+                    ]
                 }
             },
             "relations": {
@@ -1353,25 +1164,20 @@ class Config {
         "region": {
             "fields": [
                 {
-                    "active": true,
                     "name": "ErrorCodes",
                     "req": true,
-                    "type": "`$ARRAY`",
-                    "index$": 0
+                    "type": "`$ARRAY`"
                 },
                 {
-                    "active": true,
                     "name": "Items",
                     "req": true,
-                    "type": "`$ARRAY`",
-                    "index$": 1
+                    "short": "The list of regions that the system uses.",
+                    "type": "`$ARRAY`"
                 },
                 {
-                    "active": true,
                     "name": "ResultCode",
                     "req": true,
-                    "type": "`$INTEGER`",
-                    "index$": 2
+                    "type": "`$INTEGER`"
                 }
             ],
             "name": "region",
@@ -1381,25 +1187,20 @@ class Config {
                     "name": "list",
                     "points": [
                         {
-                            "active": true,
                             "args": {
                                 "header": [
                                     {
-                                        "active": true,
                                         "kind": "header",
                                         "name": "x_correlation_id",
                                         "orig": "x_correlation_id",
-                                        "reqd": false,
                                         "type": "`$STRING`"
                                     }
                                 ],
                                 "query": [
                                     {
-                                        "active": true,
                                         "kind": "query",
                                         "name": "country_iso",
                                         "orig": "country_iso",
-                                        "reqd": false,
                                         "type": "`$ANY`"
                                     }
                                 ]
@@ -1421,11 +1222,9 @@ class Config {
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body`"
-                            },
-                            "index$": 0
+                            }
                         }
-                    ],
-                    "key$": "list"
+                    ]
                 }
             },
             "relations": {
@@ -1435,25 +1234,19 @@ class Config {
         "send_transfer": {
             "fields": [
                 {
-                    "active": true,
                     "name": "ErrorCodes",
                     "req": true,
-                    "type": "`$ARRAY`",
-                    "index$": 0
+                    "type": "`$ARRAY`"
                 },
                 {
-                    "active": true,
                     "name": "ResultCode",
                     "req": true,
-                    "type": "`$INTEGER`",
-                    "index$": 1
+                    "type": "`$INTEGER`"
                 },
                 {
-                    "active": true,
                     "name": "TransferRecord",
                     "req": true,
-                    "type": "`$OBJECT`",
-                    "index$": 2
+                    "type": "`$OBJECT`"
                 }
             ],
             "name": "send_transfer",
@@ -1463,21 +1256,17 @@ class Config {
                     "name": "create",
                     "points": [
                         {
-                            "active": true,
                             "args": {
                                 "header": [
                                     {
-                                        "active": true,
                                         "kind": "header",
                                         "name": "x_correlation_id",
                                         "orig": "x_correlation_id",
-                                        "reqd": false,
                                         "type": "`$STRING`"
                                     }
                                 ],
                                 "query": [
                                     {
-                                        "active": true,
                                         "kind": "query",
                                         "name": "request",
                                         "orig": "request",
@@ -1503,11 +1292,9 @@ class Config {
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body`"
-                            },
-                            "index$": 0
+                            }
                         }
-                    ],
-                    "key$": "create"
+                    ]
                 }
             },
             "relations": {

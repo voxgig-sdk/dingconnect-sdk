@@ -20,9 +20,11 @@
         ],
         "headers": {
           "content-type": "application/json"
-        }
+        },
+        "repr": "auto"
       },
       "contributor": {},
+      "docs": {},
       "entity": {
         "account_lookup": {
           "active": true,
@@ -34,12 +36,14 @@
               "active": true,
               "name": "AccountNumberNormalized",
               "req": false,
+              "short": "We attempt to normalize phone numbers following the public telecommunication numbering plan <a href=\"https://en.wikipedia.org/wiki/E.164\" target=\"_blank\">E.164</a>, if we succeed the normalized number will be returned in this field formatt…",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "CountryIso",
               "req": false,
+              "short": "The country of the account number",
               "type": "`$STRING`"
             },
             {
@@ -52,6 +56,7 @@
               "active": true,
               "name": "Items",
               "req": true,
+              "short": "This will contain provider information associated to the account number.",
               "type": "`$ARRAY`"
             },
             {
@@ -127,12 +132,14 @@
               "active": true,
               "name": "Code",
               "req": true,
+              "short": "The code that can be used to lookup the explanatory message associated with the error",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "Context",
               "req": false,
+              "short": "API specific context as to the reason for the specific code",
               "type": "`$STRING`"
             }
           ],
@@ -278,6 +285,7 @@
               "active": true,
               "name": "Items",
               "req": true,
+              "short": "The list of countries that our system is aware of.",
               "type": "`$ARRAY`"
             },
             {
@@ -418,6 +426,7 @@
               "active": true,
               "name": "Items",
               "req": true,
+              "short": "A list of ErrorCodes and their localized descriptions",
               "type": "`$ARRAY`"
             },
             {
@@ -569,6 +578,7 @@
               "active": true,
               "name": "Items",
               "req": true,
+              "short": "The list of items satisfying the transfer query.",
               "type": "`$ARRAY`"
             },
             {
@@ -581,6 +591,7 @@
               "active": true,
               "name": "ThereAreMoreItems",
               "req": true,
+              "short": "Indicates if the caller should execute the query again.",
               "type": "`$BOOLEAN`"
             }
           ],
@@ -737,6 +748,7 @@
               "active": true,
               "name": "Items",
               "req": true,
+              "short": "A list of products that fulfil the submitted criteria.",
               "type": "`$ARRAY`"
             },
             {
@@ -863,6 +875,7 @@
               "active": true,
               "name": "Items",
               "req": true,
+              "short": "A localized list of product descriptions.",
               "type": "`$ARRAY`"
             },
             {
@@ -953,6 +966,7 @@
               "active": true,
               "name": "Items",
               "req": true,
+              "short": "List of available promotions",
               "type": "`$ARRAY`"
             },
             {
@@ -1052,6 +1066,7 @@
               "active": true,
               "name": "Items",
               "req": true,
+              "short": "A localized list of promotions.",
               "type": "`$ARRAY`"
             },
             {
@@ -1133,6 +1148,7 @@
               "active": true,
               "name": "Items",
               "req": true,
+              "short": "A list of providers that the distributor has Products for.",
               "type": "`$ARRAY`"
             },
             {
@@ -1322,6 +1338,7 @@
               "active": true,
               "name": "Items",
               "req": true,
+              "short": "The list of regions that the system uses.",
               "type": "`$ARRAY`"
             },
             {
@@ -1472,6 +1489,7 @@
       "feature": {
         "test": {
           "active": true,
+          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
           "config": {
             "options": {
               "active": false
@@ -1532,6 +1550,8 @@
             }
           },
           "name": "test",
+          "origname": "",
+          "package": "@voxgig/sdkgen",
           "target": {
             "go": {
               "deps": {}
@@ -2012,6 +2032,7 @@
             "name": "",
             "url": ""
           },
+          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
           "comment": {
             "line": "//"
           },
@@ -2030,12 +2051,14 @@
             "path": ""
           },
           "name": "go",
+          "origname": "",
           "output": {
             "adopt": false,
             "path": "",
             "repo": "",
             "sdkrel": ""
           },
+          "package": "@voxgig/sdkgen",
           "publish": {
             "registry": {
               "active": false,
@@ -2069,6 +2092,7 @@
             "name": "",
             "url": ""
           },
+          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
           "comment": {
             "line": "//"
           },
@@ -2085,12 +2109,14 @@
             "path": ""
           },
           "name": "go-cli",
+          "origname": "",
           "output": {
             "adopt": false,
             "path": "",
             "repo": "",
             "sdkrel": ""
           },
+          "package": "@voxgig/sdkgen",
           "phase": {
             "agentguide": {
               "active": false
@@ -2140,6 +2166,7 @@
             "name": "",
             "url": ""
           },
+          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
           "comment": {
             "line": "//"
           },
@@ -2156,12 +2183,14 @@
             "path": ""
           },
           "name": "go-mcp",
+          "origname": "",
           "output": {
             "adopt": false,
             "path": "",
             "repo": "",
             "sdkrel": ""
           },
+          "package": "@voxgig/sdkgen",
           "phase": {
             "agentguide": {
               "active": false
@@ -2211,6 +2240,7 @@
             "name": "",
             "url": ""
           },
+          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
           "comment": {
             "line": "--"
           },
@@ -2233,12 +2263,14 @@
             "path": ""
           },
           "name": "lua",
+          "origname": "",
           "output": {
             "adopt": false,
             "path": "",
             "repo": "",
             "sdkrel": ""
           },
+          "package": "@voxgig/sdkgen",
           "publish": {
             "registry": {
               "active": false,
@@ -2272,6 +2304,7 @@
             "name": "",
             "url": ""
           },
+          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
           "comment": {
             "line": "//"
           },
@@ -2288,12 +2321,14 @@
             "path": ""
           },
           "name": "php",
+          "origname": "",
           "output": {
             "adopt": false,
             "path": "",
             "repo": "",
             "sdkrel": ""
           },
+          "package": "@voxgig/sdkgen",
           "publish": {
             "registry": {
               "active": false,
@@ -2327,6 +2362,7 @@
             "name": "",
             "url": ""
           },
+          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
           "comment": {
             "line": "#"
           },
@@ -2349,12 +2385,14 @@
             "path": ""
           },
           "name": "py",
+          "origname": "",
           "output": {
             "adopt": false,
             "path": "",
             "repo": "",
             "sdkrel": ""
           },
+          "package": "@voxgig/sdkgen",
           "publish": {
             "registry": {
               "active": false,
@@ -2388,6 +2426,7 @@
             "name": "",
             "url": ""
           },
+          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
           "comment": {
             "line": "#"
           },
@@ -2415,12 +2454,14 @@
             "path": ""
           },
           "name": "rb",
+          "origname": "",
           "output": {
             "adopt": false,
             "path": "",
             "repo": "",
             "sdkrel": ""
           },
+          "package": "@voxgig/sdkgen",
           "publish": {
             "registry": {
               "active": false,
@@ -2487,12 +2528,14 @@
             "path": ""
           },
           "name": "ts",
+          "origname": "",
           "output": {
             "adopt": false,
             "path": "",
             "repo": "",
             "sdkrel": ""
           },
+          "package": "@voxgig/sdkgen",
           "publish": {
             "registry": {
               "active": false,

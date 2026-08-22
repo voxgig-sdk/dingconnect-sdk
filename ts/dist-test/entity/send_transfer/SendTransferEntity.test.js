@@ -74,7 +74,7 @@ const utility_1 = require("../../utility");
         // CREATE
         const send_transfer_ref01_ent = client.SendTransfer();
         let send_transfer_ref01_data = setup.data.new.send_transfer['send_transfer_ref01'];
-        send_transfer_ref01_data = await send_transfer_ref01_ent.create(send_transfer_ref01_data);
+        send_transfer_ref01_data = (await send_transfer_ref01_ent.create(send_transfer_ref01_data)).data();
         (0, node_assert_1.default)(null != send_transfer_ref01_data);
     });
 });

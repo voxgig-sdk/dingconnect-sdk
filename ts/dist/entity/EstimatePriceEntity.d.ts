@@ -5,6 +5,6 @@ import type { EstimatePrice, EstimatePriceCreateData } from '../DingconnectTypes
 declare class EstimatePriceEntity extends DingconnectEntityBase<EstimatePrice> {
     constructor(client: DingconnectSDK, entopts: any);
     make(this: EstimatePriceEntity): EstimatePriceEntity;
-    create(this: any, reqdata?: EstimatePriceCreateData, ctrl?: Control): Promise<EstimatePrice>;
+    create(this: any, reqdata?: EstimatePriceCreateData, ctrl?: Control): Promise<EstimatePriceEntity>;
 }
 export { EstimatePriceEntity };

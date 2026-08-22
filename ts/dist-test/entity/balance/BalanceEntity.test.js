@@ -75,7 +75,7 @@ const utility_1 = require("../../utility");
         // LIST
         const balance_ref01_ent = client.Balance();
         const balance_ref01_match = {};
-        const balance_ref01_list = await balance_ref01_ent.list(balance_ref01_match);
+        const balance_ref01_list = (await balance_ref01_ent.list(balance_ref01_match)).map((e) => e.data());
     });
 });
 function basicSetup(extra) {

@@ -12,7 +12,10 @@ declare class DingconnectEntityBase<D = any> {
     _data: Partial<D>;
     _match: Partial<D>;
     _entctx: Context;
+    _deleted: boolean;
     constructor(client: DingconnectSDK, entopts: any);
+    markDeleted(this: any): void;
+    deleted(this: any): boolean;
     entopts(): any;
     client(): DingconnectSDK;
     data(this: any, data?: Partial<D>): D;

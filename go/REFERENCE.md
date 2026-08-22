@@ -163,10 +163,10 @@ fmt.Println(accountLookup.GetName()) // "account_lookup"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `AccountNumberNormalized` | `string` | No |  |
-| `CountryIso` | `string` | No |  |
+| `AccountNumberNormalized` | `string` | No | We attempt to normalize phone numbers following the public telecommunication numbering plan <a href="https://en.wikipedia.org/wiki/E.164" target="_blank">E.164</a>, if we succeed the normalized number will be returned in this field formatt… |
+| `CountryIso` | `string` | No | The country of the account number |
 | `ErrorCodes` | `[]any` | Yes |  |
-| `Items` | `[]any` | Yes |  |
+| `Items` | `[]any` | Yes | This will contain provider information associated to the account number. |
 | `ResultCode` | `int` | Yes |  |
 
 ### Operations
@@ -218,8 +218,8 @@ fmt.Println(balance.GetName()) // "balance"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `Code` | `string` | Yes |  |
-| `Context` | `string` | No |  |
+| `Code` | `string` | Yes | The code that can be used to lookup the explanatory message associated with the error |
+| `Context` | `string` | No | API specific context as to the reason for the specific code |
 
 ### Operations
 
@@ -328,7 +328,7 @@ fmt.Println(country.GetName()) // "country"
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `ErrorCodes` | `[]any` | Yes |  |
-| `Items` | `[]any` | Yes |  |
+| `Items` | `[]any` | Yes | The list of countries that our system is aware of. |
 | `ResultCode` | `int` | Yes |  |
 
 ### Operations
@@ -434,7 +434,7 @@ fmt.Println(errorCodeDescription.GetName()) // "error_code_description"
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `ErrorCodes` | `[]any` | Yes |  |
-| `Items` | `[]any` | Yes |  |
+| `Items` | `[]any` | Yes | A list of ErrorCodes and their localized descriptions |
 | `ResultCode` | `int` | Yes |  |
 
 ### Operations
@@ -544,9 +544,9 @@ fmt.Println(listTransferRecord.GetName()) // "list_transfer_record"
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `ErrorCodes` | `[]any` | Yes |  |
-| `Items` | `[]any` | Yes |  |
+| `Items` | `[]any` | Yes | The list of items satisfying the transfer query. |
 | `ResultCode` | `int` | Yes |  |
-| `ThereAreMoreItems` | `bool` | Yes |  |
+| `ThereAreMoreItems` | `bool` | Yes | Indicates if the caller should execute the query again. |
 
 ### Operations
 
@@ -660,7 +660,7 @@ fmt.Println(product.GetName()) // "product"
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `ErrorCodes` | `[]any` | Yes |  |
-| `Items` | `[]any` | Yes |  |
+| `Items` | `[]any` | Yes | A list of products that fulfil the submitted criteria. |
 | `ResultCode` | `int` | Yes |  |
 
 ### Operations
@@ -713,7 +713,7 @@ fmt.Println(productDescription.GetName()) // "product_description"
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `ErrorCodes` | `[]any` | Yes |  |
-| `Items` | `[]any` | Yes |  |
+| `Items` | `[]any` | Yes | A localized list of product descriptions. |
 | `ResultCode` | `int` | Yes |  |
 
 ### Operations
@@ -766,7 +766,7 @@ fmt.Println(promotion.GetName()) // "promotion"
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `ErrorCodes` | `[]any` | Yes |  |
-| `Items` | `[]any` | Yes |  |
+| `Items` | `[]any` | Yes | List of available promotions |
 | `ResultCode` | `int` | Yes |  |
 
 ### Operations
@@ -819,7 +819,7 @@ fmt.Println(promotionDescription.GetName()) // "promotion_description"
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `ErrorCodes` | `[]any` | Yes |  |
-| `Items` | `[]any` | Yes |  |
+| `Items` | `[]any` | Yes | A localized list of promotions. |
 | `ResultCode` | `int` | Yes |  |
 
 ### Operations
@@ -872,7 +872,7 @@ fmt.Println(provider.GetName()) // "provider"
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `ErrorCodes` | `[]any` | Yes |  |
-| `Items` | `[]any` | Yes |  |
+| `Items` | `[]any` | Yes | A list of providers that the distributor has Products for. |
 | `ResultCode` | `int` | Yes |  |
 
 ### Operations
@@ -978,7 +978,7 @@ fmt.Println(region.GetName()) // "region"
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `ErrorCodes` | `[]any` | Yes |  |
-| `Items` | `[]any` | Yes |  |
+| `Items` | `[]any` | Yes | The list of regions that the system uses. |
 | `ResultCode` | `int` | Yes |  |
 
 ### Operations

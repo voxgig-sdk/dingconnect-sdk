@@ -74,7 +74,7 @@ const utility_1 = require("../../utility");
         // CREATE
         const estimate_price_ref01_ent = client.EstimatePrice();
         let estimate_price_ref01_data = setup.data.new.estimate_price['estimate_price_ref01'];
-        estimate_price_ref01_data = await estimate_price_ref01_ent.create(estimate_price_ref01_data);
+        estimate_price_ref01_data = (await estimate_price_ref01_ent.create(estimate_price_ref01_data)).data();
         (0, node_assert_1.default)(null != estimate_price_ref01_data);
     });
 });

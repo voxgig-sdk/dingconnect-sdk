@@ -28,6 +28,9 @@ def make_config():
     return {
         "main": {
             "name": "Dingconnect",
+            "slug": "dingconnect",
+            "version": "0.0.1",
+            "target": "py",
         },
         "feature": {
             "test": {
@@ -69,10 +72,12 @@ def make_config():
         "fields": [
           {
             "name": "AccountNumberNormalized",
+            "short": "We attempt to normalize phone numbers following the public telecommunication numbering plan <a href=\"https://en.wikipedia.org/wiki/E.164\" target=\"_blank\">E.164</a>, if we succeed the normalized number will be returned in this field formatt…",
             "type": "`$STRING`",
           },
           {
             "name": "CountryIso",
+            "short": "The country of the account number",
             "type": "`$STRING`",
           },
           {
@@ -83,6 +88,7 @@ def make_config():
           {
             "name": "Items",
             "req": True,
+            "short": "This will contain provider information associated to the account number.",
             "type": "`$ARRAY`",
           },
           {
@@ -147,10 +153,12 @@ def make_config():
           {
             "name": "Code",
             "req": True,
+            "short": "The code that can be used to lookup the explanatory message associated with the error",
             "type": "`$STRING`",
           },
           {
             "name": "Context",
+            "short": "API specific context as to the reason for the specific code",
             "type": "`$STRING`",
           },
         ],
@@ -276,6 +284,7 @@ def make_config():
           {
             "name": "Items",
             "req": True,
+            "short": "The list of countries that our system is aware of.",
             "type": "`$ARRAY`",
           },
           {
@@ -396,6 +405,7 @@ def make_config():
           {
             "name": "Items",
             "req": True,
+            "short": "A list of ErrorCodes and their localized descriptions",
             "type": "`$ARRAY`",
           },
           {
@@ -526,6 +536,7 @@ def make_config():
           {
             "name": "Items",
             "req": True,
+            "short": "The list of items satisfying the transfer query.",
             "type": "`$ARRAY`",
           },
           {
@@ -536,6 +547,7 @@ def make_config():
           {
             "name": "ThereAreMoreItems",
             "req": True,
+            "short": "Indicates if the caller should execute the query again.",
             "type": "`$BOOLEAN`",
           },
         ],
@@ -671,6 +683,7 @@ def make_config():
           {
             "name": "Items",
             "req": True,
+            "short": "A list of products that fulfil the submitted criteria.",
             "type": "`$ARRAY`",
           },
           {
@@ -775,6 +788,7 @@ def make_config():
           {
             "name": "Items",
             "req": True,
+            "short": "A localized list of product descriptions.",
             "type": "`$ARRAY`",
           },
           {
@@ -851,6 +865,7 @@ def make_config():
           {
             "name": "Items",
             "req": True,
+            "short": "List of available promotions",
             "type": "`$ARRAY`",
           },
           {
@@ -934,6 +949,7 @@ def make_config():
           {
             "name": "Items",
             "req": True,
+            "short": "A localized list of promotions.",
             "type": "`$ARRAY`",
           },
           {
@@ -1003,6 +1019,7 @@ def make_config():
           {
             "name": "Items",
             "req": True,
+            "short": "A list of providers that the distributor has Products for.",
             "type": "`$ARRAY`",
           },
           {
@@ -1162,6 +1179,7 @@ def make_config():
           {
             "name": "Items",
             "req": True,
+            "short": "The list of regions that the system uses.",
             "type": "`$ARRAY`",
           },
           {

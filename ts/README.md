@@ -9,7 +9,7 @@ The API is exposed as capitalised, semantic **Entities** — e.g.
 instead of raw URL paths and query parameters. This keeps the surface
 predictable and low-friction for both humans and AI agents.
 
-> Other languages, the CLI, and MCP server live alongside this one — see
+> Also generated from this model: `go`, `go-cli`, `go-mcp`, `lua`, `php`, `py`, `rb` — see
 > the [top-level README](../README.md).
 
 
@@ -311,10 +311,10 @@ The `prepare()` method returns:
 
 | Field | Description |
 | --- | --- |
-| `AccountNumberNormalized` |  |
-| `CountryIso` |  |
+| `AccountNumberNormalized` | We attempt to normalize phone numbers following the public telecommunication numbering plan <a href="https://en.wikipedia.org/wiki/E.164" target="_blank">E.164</a>, if we succeed the normalized number will be returned in this field formatt… |
+| `CountryIso` | The country of the account number |
 | `ErrorCodes` |  |
-| `Items` |  |
+| `Items` | This will contain provider information associated to the account number. |
 | `ResultCode` |  |
 
 Operations: list.
@@ -325,8 +325,8 @@ API path: `/api/V1/GetAccountLookup`
 
 | Field | Description |
 | --- | --- |
-| `Code` |  |
-| `Context` |  |
+| `Code` | The code that can be used to lookup the explanatory message associated with the error |
+| `Context` | API specific context as to the reason for the specific code |
 
 Operations: list.
 
@@ -349,7 +349,7 @@ API path: `/api/V1/CancelTransfers`
 | Field | Description |
 | --- | --- |
 | `ErrorCodes` |  |
-| `Items` |  |
+| `Items` | The list of countries that our system is aware of. |
 | `ResultCode` |  |
 
 Operations: list.
@@ -373,7 +373,7 @@ API path: `/api/V1/GetCurrencies`
 | Field | Description |
 | --- | --- |
 | `ErrorCodes` |  |
-| `Items` |  |
+| `Items` | A list of ErrorCodes and their localized descriptions |
 | `ResultCode` |  |
 
 Operations: list.
@@ -397,9 +397,9 @@ API path: `/api/V1/EstimatePrices`
 | Field | Description |
 | --- | --- |
 | `ErrorCodes` |  |
-| `Items` |  |
+| `Items` | The list of items satisfying the transfer query. |
 | `ResultCode` |  |
-| `ThereAreMoreItems` |  |
+| `ThereAreMoreItems` | Indicates if the caller should execute the query again. |
 
 Operations: create.
 
@@ -422,7 +422,7 @@ API path: `/api/V1/LookupBills`
 | Field | Description |
 | --- | --- |
 | `ErrorCodes` |  |
-| `Items` |  |
+| `Items` | A list of products that fulfil the submitted criteria. |
 | `ResultCode` |  |
 
 Operations: list.
@@ -434,7 +434,7 @@ API path: `/api/V1/GetProducts`
 | Field | Description |
 | --- | --- |
 | `ErrorCodes` |  |
-| `Items` |  |
+| `Items` | A localized list of product descriptions. |
 | `ResultCode` |  |
 
 Operations: list.
@@ -446,7 +446,7 @@ API path: `/api/V1/GetProductDescriptions`
 | Field | Description |
 | --- | --- |
 | `ErrorCodes` |  |
-| `Items` |  |
+| `Items` | List of available promotions |
 | `ResultCode` |  |
 
 Operations: list.
@@ -458,7 +458,7 @@ API path: `/api/V1/GetPromotions`
 | Field | Description |
 | --- | --- |
 | `ErrorCodes` |  |
-| `Items` |  |
+| `Items` | A localized list of promotions. |
 | `ResultCode` |  |
 
 Operations: list.
@@ -470,7 +470,7 @@ API path: `/api/V1/GetPromotionDescriptions`
 | Field | Description |
 | --- | --- |
 | `ErrorCodes` |  |
-| `Items` |  |
+| `Items` | A list of providers that the distributor has Products for. |
 | `ResultCode` |  |
 
 Operations: list.
@@ -494,7 +494,7 @@ API path: `/api/V1/GetProviderStatus`
 | Field | Description |
 | --- | --- |
 | `ErrorCodes` |  |
-| `Items` |  |
+| `Items` | The list of regions that the system uses. |
 | `ResultCode` |  |
 
 Operations: list.
@@ -532,10 +532,10 @@ Create an instance: `const account_lookup = client.AccountLookup()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `AccountNumberNormalized` | `string` |  |
-| `CountryIso` | `string` |  |
+| `AccountNumberNormalized` | `string` | We attempt to normalize phone numbers following the public telecommunication numbering plan <a href="https://en.wikipedia.org/wiki/E.164" target="_blank">E.164</a>, if we succeed the normalized number will be returned in this field formatt… |
+| `CountryIso` | `string` | The country of the account number |
 | `ErrorCodes` | `any[]` |  |
-| `Items` | `any[]` |  |
+| `Items` | `any[]` | This will contain provider information associated to the account number. |
 | `ResultCode` | `number` |  |
 
 #### Example: List
@@ -559,8 +559,8 @@ Create an instance: `const balance = client.Balance()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `Code` | `string` |  |
-| `Context` | `string` |  |
+| `Code` | `string` | The code that can be used to lookup the explanatory message associated with the error |
+| `Context` | `string` | API specific context as to the reason for the specific code |
 
 #### Example: List
 
@@ -613,7 +613,7 @@ Create an instance: `const country = client.Country()`
 | Field | Type | Description |
 | --- | --- | --- |
 | `ErrorCodes` | `any[]` |  |
-| `Items` | `any[]` |  |
+| `Items` | `any[]` | The list of countries that our system is aware of. |
 | `ResultCode` | `number` |  |
 
 #### Example: List
@@ -663,7 +663,7 @@ Create an instance: `const error_code_description = client.ErrorCodeDescription(
 | Field | Type | Description |
 | --- | --- | --- |
 | `ErrorCodes` | `any[]` |  |
-| `Items` | `any[]` |  |
+| `Items` | `any[]` | A list of ErrorCodes and their localized descriptions |
 | `ResultCode` | `number` |  |
 
 #### Example: List
@@ -717,9 +717,9 @@ Create an instance: `const list_transfer_record = client.ListTransferRecord()`
 | Field | Type | Description |
 | --- | --- | --- |
 | `ErrorCodes` | `any[]` |  |
-| `Items` | `any[]` |  |
+| `Items` | `any[]` | The list of items satisfying the transfer query. |
 | `ResultCode` | `number` |  |
-| `ThereAreMoreItems` | `boolean` |  |
+| `ThereAreMoreItems` | `boolean` | Indicates if the caller should execute the query again. |
 
 #### Example: Create
 
@@ -777,7 +777,7 @@ Create an instance: `const product = client.Product()`
 | Field | Type | Description |
 | --- | --- | --- |
 | `ErrorCodes` | `any[]` |  |
-| `Items` | `any[]` |  |
+| `Items` | `any[]` | A list of products that fulfil the submitted criteria. |
 | `ResultCode` | `number` |  |
 
 #### Example: List
@@ -802,7 +802,7 @@ Create an instance: `const product_description = client.ProductDescription()`
 | Field | Type | Description |
 | --- | --- | --- |
 | `ErrorCodes` | `any[]` |  |
-| `Items` | `any[]` |  |
+| `Items` | `any[]` | A localized list of product descriptions. |
 | `ResultCode` | `number` |  |
 
 #### Example: List
@@ -827,7 +827,7 @@ Create an instance: `const promotion = client.Promotion()`
 | Field | Type | Description |
 | --- | --- | --- |
 | `ErrorCodes` | `any[]` |  |
-| `Items` | `any[]` |  |
+| `Items` | `any[]` | List of available promotions |
 | `ResultCode` | `number` |  |
 
 #### Example: List
@@ -852,7 +852,7 @@ Create an instance: `const promotion_description = client.PromotionDescription()
 | Field | Type | Description |
 | --- | --- | --- |
 | `ErrorCodes` | `any[]` |  |
-| `Items` | `any[]` |  |
+| `Items` | `any[]` | A localized list of promotions. |
 | `ResultCode` | `number` |  |
 
 #### Example: List
@@ -877,7 +877,7 @@ Create an instance: `const provider = client.Provider()`
 | Field | Type | Description |
 | --- | --- | --- |
 | `ErrorCodes` | `any[]` |  |
-| `Items` | `any[]` |  |
+| `Items` | `any[]` | A list of providers that the distributor has Products for. |
 | `ResultCode` | `number` |  |
 
 #### Example: List
@@ -927,7 +927,7 @@ Create an instance: `const region = client.Region()`
 | Field | Type | Description |
 | --- | --- | --- |
 | `ErrorCodes` | `any[]` |  |
-| `Items` | `any[]` |  |
+| `Items` | `any[]` | The list of regions that the system uses. |
 | `ResultCode` | `number` |  |
 
 #### Example: List

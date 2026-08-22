@@ -75,7 +75,7 @@ const utility_1 = require("../../utility");
         // LIST
         const country_ref01_ent = client.Country();
         const country_ref01_match = {};
-        const country_ref01_list = await country_ref01_ent.list(country_ref01_match);
+        const country_ref01_list = (await country_ref01_ent.list(country_ref01_match)).map((e) => e.data());
     });
 });
 function basicSetup(extra) {

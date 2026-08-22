@@ -157,10 +157,10 @@ $account_lookup = $client->AccountLookup();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `AccountNumberNormalized` | `string` | No |  |
-| `CountryIso` | `string` | No |  |
+| `AccountNumberNormalized` | `string` | No | We attempt to normalize phone numbers following the public telecommunication numbering plan <a href="https://en.wikipedia.org/wiki/E.164" target="_blank">E.164</a>, if we succeed the normalized number will be returned in this field formatt… |
+| `CountryIso` | `string` | No | The country of the account number |
 | `ErrorCodes` | `array` | Yes |  |
-| `Items` | `array` | Yes |  |
+| `Items` | `array` | Yes | This will contain provider information associated to the account number. |
 | `ResultCode` | `int` | Yes |  |
 
 ### Operations
@@ -213,8 +213,8 @@ $balance = $client->Balance();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `Code` | `string` | Yes |  |
-| `Context` | `string` | No |  |
+| `Code` | `string` | Yes | The code that can be used to lookup the explanatory message associated with the error |
+| `Context` | `string` | No | API specific context as to the reason for the specific code |
 
 ### Operations
 
@@ -325,7 +325,7 @@ $country = $client->Country();
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `ErrorCodes` | `array` | Yes |  |
-| `Items` | `array` | Yes |  |
+| `Items` | `array` | Yes | The list of countries that our system is aware of. |
 | `ResultCode` | `int` | Yes |  |
 
 ### Operations
@@ -433,7 +433,7 @@ $error_code_description = $client->ErrorCodeDescription();
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `ErrorCodes` | `array` | Yes |  |
-| `Items` | `array` | Yes |  |
+| `Items` | `array` | Yes | A list of ErrorCodes and their localized descriptions |
 | `ResultCode` | `int` | Yes |  |
 
 ### Operations
@@ -545,9 +545,9 @@ $list_transfer_record = $client->ListTransferRecord();
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `ErrorCodes` | `array` | Yes |  |
-| `Items` | `array` | Yes |  |
+| `Items` | `array` | Yes | The list of items satisfying the transfer query. |
 | `ResultCode` | `int` | Yes |  |
-| `ThereAreMoreItems` | `bool` | Yes |  |
+| `ThereAreMoreItems` | `bool` | Yes | Indicates if the caller should execute the query again. |
 
 ### Operations
 
@@ -663,7 +663,7 @@ $product = $client->Product();
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `ErrorCodes` | `array` | Yes |  |
-| `Items` | `array` | Yes |  |
+| `Items` | `array` | Yes | A list of products that fulfil the submitted criteria. |
 | `ResultCode` | `int` | Yes |  |
 
 ### Operations
@@ -717,7 +717,7 @@ $product_description = $client->ProductDescription();
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `ErrorCodes` | `array` | Yes |  |
-| `Items` | `array` | Yes |  |
+| `Items` | `array` | Yes | A localized list of product descriptions. |
 | `ResultCode` | `int` | Yes |  |
 
 ### Operations
@@ -771,7 +771,7 @@ $promotion = $client->Promotion();
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `ErrorCodes` | `array` | Yes |  |
-| `Items` | `array` | Yes |  |
+| `Items` | `array` | Yes | List of available promotions |
 | `ResultCode` | `int` | Yes |  |
 
 ### Operations
@@ -825,7 +825,7 @@ $promotion_description = $client->PromotionDescription();
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `ErrorCodes` | `array` | Yes |  |
-| `Items` | `array` | Yes |  |
+| `Items` | `array` | Yes | A localized list of promotions. |
 | `ResultCode` | `int` | Yes |  |
 
 ### Operations
@@ -879,7 +879,7 @@ $provider = $client->Provider();
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `ErrorCodes` | `array` | Yes |  |
-| `Items` | `array` | Yes |  |
+| `Items` | `array` | Yes | A list of providers that the distributor has Products for. |
 | `ResultCode` | `int` | Yes |  |
 
 ### Operations
@@ -987,7 +987,7 @@ $region = $client->Region();
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `ErrorCodes` | `array` | Yes |  |
-| `Items` | `array` | Yes |  |
+| `Items` | `array` | Yes | The list of regions that the system uses. |
 | `ResultCode` | `int` | Yes |  |
 
 ### Operations

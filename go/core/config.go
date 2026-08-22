@@ -11,6 +11,9 @@ func MakeConfig() map[string]any {
 	return map[string]any{
 		"main": map[string]any{
 			"name": "Dingconnect",
+			"slug": "dingconnect",
+			"version": "0.0.1",
+			"target": "go",
 		},
 		"feature": map[string]any{
 			"test": map[string]any{
@@ -52,10 +55,12 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"name": "AccountNumberNormalized",
+						"short": "We attempt to normalize phone numbers following the public telecommunication numbering plan <a href=\"https://en.wikipedia.org/wiki/E.164\" target=\"_blank\">E.164</a>, if we succeed the normalized number will be returned in this field formatt…",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "CountryIso",
+						"short": "The country of the account number",
 						"type": "`$STRING`",
 					},
 					map[string]any{
@@ -66,6 +71,7 @@ func MakeConfig() map[string]any {
 					map[string]any{
 						"name": "Items",
 						"req": true,
+						"short": "This will contain provider information associated to the account number.",
 						"type": "`$ARRAY`",
 					},
 					map[string]any{
@@ -130,10 +136,12 @@ func MakeConfig() map[string]any {
 					map[string]any{
 						"name": "Code",
 						"req": true,
+						"short": "The code that can be used to lookup the explanatory message associated with the error",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "Context",
+						"short": "API specific context as to the reason for the specific code",
 						"type": "`$STRING`",
 					},
 				},
@@ -259,6 +267,7 @@ func MakeConfig() map[string]any {
 					map[string]any{
 						"name": "Items",
 						"req": true,
+						"short": "The list of countries that our system is aware of.",
 						"type": "`$ARRAY`",
 					},
 					map[string]any{
@@ -379,6 +388,7 @@ func MakeConfig() map[string]any {
 					map[string]any{
 						"name": "Items",
 						"req": true,
+						"short": "A list of ErrorCodes and their localized descriptions",
 						"type": "`$ARRAY`",
 					},
 					map[string]any{
@@ -509,6 +519,7 @@ func MakeConfig() map[string]any {
 					map[string]any{
 						"name": "Items",
 						"req": true,
+						"short": "The list of items satisfying the transfer query.",
 						"type": "`$ARRAY`",
 					},
 					map[string]any{
@@ -519,6 +530,7 @@ func MakeConfig() map[string]any {
 					map[string]any{
 						"name": "ThereAreMoreItems",
 						"req": true,
+						"short": "Indicates if the caller should execute the query again.",
 						"type": "`$BOOLEAN`",
 					},
 				},
@@ -654,6 +666,7 @@ func MakeConfig() map[string]any {
 					map[string]any{
 						"name": "Items",
 						"req": true,
+						"short": "A list of products that fulfil the submitted criteria.",
 						"type": "`$ARRAY`",
 					},
 					map[string]any{
@@ -758,6 +771,7 @@ func MakeConfig() map[string]any {
 					map[string]any{
 						"name": "Items",
 						"req": true,
+						"short": "A localized list of product descriptions.",
 						"type": "`$ARRAY`",
 					},
 					map[string]any{
@@ -834,6 +848,7 @@ func MakeConfig() map[string]any {
 					map[string]any{
 						"name": "Items",
 						"req": true,
+						"short": "List of available promotions",
 						"type": "`$ARRAY`",
 					},
 					map[string]any{
@@ -917,6 +932,7 @@ func MakeConfig() map[string]any {
 					map[string]any{
 						"name": "Items",
 						"req": true,
+						"short": "A localized list of promotions.",
 						"type": "`$ARRAY`",
 					},
 					map[string]any{
@@ -986,6 +1002,7 @@ func MakeConfig() map[string]any {
 					map[string]any{
 						"name": "Items",
 						"req": true,
+						"short": "A list of providers that the distributor has Products for.",
 						"type": "`$ARRAY`",
 					},
 					map[string]any{
@@ -1145,6 +1162,7 @@ func MakeConfig() map[string]any {
 					map[string]any{
 						"name": "Items",
 						"req": true,
+						"short": "The list of regions that the system uses.",
 						"type": "`$ARRAY`",
 					},
 					map[string]any{

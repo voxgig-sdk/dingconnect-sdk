@@ -5,6 +5,6 @@ import type { ListTransferRecord, ListTransferRecordCreateData } from '../Dingco
 declare class ListTransferRecordEntity extends DingconnectEntityBase<ListTransferRecord> {
     constructor(client: DingconnectSDK, entopts: any);
     make(this: ListTransferRecordEntity): ListTransferRecordEntity;
-    create(this: any, reqdata?: ListTransferRecordCreateData, ctrl?: Control): Promise<ListTransferRecord>;
+    create(this: any, reqdata?: ListTransferRecordCreateData, ctrl?: Control): Promise<ListTransferRecordEntity>;
 }
 export { ListTransferRecordEntity };

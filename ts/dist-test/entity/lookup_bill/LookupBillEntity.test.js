@@ -74,7 +74,7 @@ const utility_1 = require("../../utility");
         // CREATE
         const lookup_bill_ref01_ent = client.LookupBill();
         let lookup_bill_ref01_data = setup.data.new.lookup_bill['lookup_bill_ref01'];
-        lookup_bill_ref01_data = await lookup_bill_ref01_ent.create(lookup_bill_ref01_data);
+        lookup_bill_ref01_data = (await lookup_bill_ref01_ent.create(lookup_bill_ref01_data)).data();
         (0, node_assert_1.default)(null != lookup_bill_ref01_data);
     });
 });

@@ -75,7 +75,7 @@ const utility_1 = require("../../utility");
         // LIST
         const currency_ref01_ent = client.Currency();
         const currency_ref01_match = {};
-        const currency_ref01_list = await currency_ref01_ent.list(currency_ref01_match);
+        const currency_ref01_list = (await currency_ref01_ent.list(currency_ref01_match)).map((e) => e.data());
     });
 });
 function basicSetup(extra) {

@@ -75,7 +75,7 @@ const utility_1 = require("../../utility");
         // LIST
         const provider_status_ref01_ent = client.ProviderStatus();
         const provider_status_ref01_match = {};
-        const provider_status_ref01_list = await provider_status_ref01_ent.list(provider_status_ref01_match);
+        const provider_status_ref01_list = (await provider_status_ref01_ent.list(provider_status_ref01_match)).map((e) => e.data());
     });
 });
 function basicSetup(extra) {

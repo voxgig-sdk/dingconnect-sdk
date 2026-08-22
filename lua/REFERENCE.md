@@ -155,10 +155,10 @@ local account_lookup = client:AccountLookup(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `AccountNumberNormalized` | `string` | No |  |
-| `CountryIso` | `string` | No |  |
+| `AccountNumberNormalized` | `string` | No | We attempt to normalize phone numbers following the public telecommunication numbering plan <a href="https://en.wikipedia.org/wiki/E.164" target="_blank">E.164</a>, if we succeed the normalized number will be returned in this field formatt… |
+| `CountryIso` | `string` | No | The country of the account number |
 | `ErrorCodes` | `table` | Yes |  |
-| `Items` | `table` | Yes |  |
+| `Items` | `table` | Yes | This will contain provider information associated to the account number. |
 | `ResultCode` | `number` | Yes |  |
 
 ### Operations
@@ -211,8 +211,8 @@ local balance = client:Balance(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `Code` | `string` | Yes |  |
-| `Context` | `string` | No |  |
+| `Code` | `string` | Yes | The code that can be used to lookup the explanatory message associated with the error |
+| `Context` | `string` | No | API specific context as to the reason for the specific code |
 
 ### Operations
 
@@ -323,7 +323,7 @@ local country = client:Country(nil)
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `ErrorCodes` | `table` | Yes |  |
-| `Items` | `table` | Yes |  |
+| `Items` | `table` | Yes | The list of countries that our system is aware of. |
 | `ResultCode` | `number` | Yes |  |
 
 ### Operations
@@ -431,7 +431,7 @@ local error_code_description = client:ErrorCodeDescription(nil)
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `ErrorCodes` | `table` | Yes |  |
-| `Items` | `table` | Yes |  |
+| `Items` | `table` | Yes | A list of ErrorCodes and their localized descriptions |
 | `ResultCode` | `number` | Yes |  |
 
 ### Operations
@@ -543,9 +543,9 @@ local list_transfer_record = client:ListTransferRecord(nil)
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `ErrorCodes` | `table` | Yes |  |
-| `Items` | `table` | Yes |  |
+| `Items` | `table` | Yes | The list of items satisfying the transfer query. |
 | `ResultCode` | `number` | Yes |  |
-| `ThereAreMoreItems` | `boolean` | Yes |  |
+| `ThereAreMoreItems` | `boolean` | Yes | Indicates if the caller should execute the query again. |
 
 ### Operations
 
@@ -661,7 +661,7 @@ local product = client:Product(nil)
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `ErrorCodes` | `table` | Yes |  |
-| `Items` | `table` | Yes |  |
+| `Items` | `table` | Yes | A list of products that fulfil the submitted criteria. |
 | `ResultCode` | `number` | Yes |  |
 
 ### Operations
@@ -715,7 +715,7 @@ local product_description = client:ProductDescription(nil)
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `ErrorCodes` | `table` | Yes |  |
-| `Items` | `table` | Yes |  |
+| `Items` | `table` | Yes | A localized list of product descriptions. |
 | `ResultCode` | `number` | Yes |  |
 
 ### Operations
@@ -769,7 +769,7 @@ local promotion = client:Promotion(nil)
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `ErrorCodes` | `table` | Yes |  |
-| `Items` | `table` | Yes |  |
+| `Items` | `table` | Yes | List of available promotions |
 | `ResultCode` | `number` | Yes |  |
 
 ### Operations
@@ -823,7 +823,7 @@ local promotion_description = client:PromotionDescription(nil)
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `ErrorCodes` | `table` | Yes |  |
-| `Items` | `table` | Yes |  |
+| `Items` | `table` | Yes | A localized list of promotions. |
 | `ResultCode` | `number` | Yes |  |
 
 ### Operations
@@ -877,7 +877,7 @@ local provider = client:Provider(nil)
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `ErrorCodes` | `table` | Yes |  |
-| `Items` | `table` | Yes |  |
+| `Items` | `table` | Yes | A list of providers that the distributor has Products for. |
 | `ResultCode` | `number` | Yes |  |
 
 ### Operations
@@ -985,7 +985,7 @@ local region = client:Region(nil)
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `ErrorCodes` | `table` | Yes |  |
-| `Items` | `table` | Yes |  |
+| `Items` | `table` | Yes | The list of regions that the system uses. |
 | `ResultCode` | `number` | Yes |  |
 
 ### Operations
