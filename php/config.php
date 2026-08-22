@@ -34,7 +34,7 @@ class DingconnectConfig
             "main" => [
                 "name" => "Dingconnect",
                 "slug" => "dingconnect",
-                "version" => "0.0.1",
+                "version" => "0.1.1",
                 "target" => "php",
             ],
             "feature" => [
