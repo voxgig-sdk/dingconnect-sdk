@@ -1,6 +1,15 @@
 {
+  "NAME": "DINGCONNECT",
+  "Name": "Dingconnect",
   "def": "dingconnect-v1-swagger-2.0.json",
   "main": {
+    "api": {
+      "entity": {},
+      "guide": {}
+    },
+    "custom": {
+      "plurals": {}
+    },
     "def": {
       "desc": ""
     },
@@ -2573,5 +2582,8 @@
     }
   },
   "name": "dingconnect",
+  "name-": "dingconnect",
+  "name_": "dingconnect",
+  "name__orig": "dingconnect",
   "origin": "voxgig-sdk"
 }
