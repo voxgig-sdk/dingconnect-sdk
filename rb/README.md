@@ -540,6 +540,7 @@ Create an instance: `cancel_transfer = client.CancelTransfer`
 
 ```ruby
 cancel_transfer = client.CancelTransfer.create({
+  "cancellation_request" => [], # Array
   "ErrorCodes" => [], # Array
   "Items" => [], # Array
   "ResultCode" => 1, # Integer
@@ -647,6 +648,7 @@ Create an instance: `estimate_price = client.EstimatePrice`
 
 ```ruby
 estimate_price = client.EstimatePrice.create({
+  "requested_estimation" => [], # Array
   "ErrorCodes" => [], # Array
   "Items" => [], # Array
   "ResultCode" => 1, # Integer
@@ -677,6 +679,7 @@ Create an instance: `list_transfer_record = client.ListTransferRecord`
 
 ```ruby
 list_transfer_record = client.ListTransferRecord.create({
+  "request" => {}, # Hash
   "ErrorCodes" => [], # Array
   "Items" => [], # Array
   "ResultCode" => 1, # Integer
@@ -707,6 +710,7 @@ Create an instance: `lookup_bill = client.LookupBill`
 
 ```ruby
 lookup_bill = client.LookupBill.create({
+  "request" => {}, # Hash
   "ErrorCodes" => [], # Array
   "Items" => [], # Array
   "ResultCode" => 1, # Integer
@@ -918,11 +922,35 @@ Create an instance: `send_transfer = client.SendTransfer`
 
 ```ruby
 send_transfer = client.SendTransfer.create({
+  "request" => {}, # Hash
   "ErrorCodes" => [], # Array
   "ResultCode" => 1, # Integer
   "TransferRecord" => {}, # Hash
 })
 ```
+
+## Features
+
+This SDK ships 1 optional features. Each is **inactive until you
+switch it on**, so an SDK you have not configured behaves exactly as if none of
+them existed — no retries, no cache, no logging, no measurable overhead.
+
+Activate a feature by name in the client options, alongside the options shown
+above:
+
+| Feature | What it does |
+|---|---|
+| [`test`](#test) | In-memory mock transport for testing without a live server |
+
+### test
+
+In-memory mock transport for testing without a live server.
+
+| Option | Default |
+|---|---|
+| `active` | `false` |
+
+Set `feature.test.active` to enable it, then override any of the options above.
 
 
 ## Advanced

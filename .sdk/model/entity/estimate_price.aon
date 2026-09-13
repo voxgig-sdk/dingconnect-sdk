@@ -16,6 +16,7 @@ main: kit: entity: estimate_price: {
       type: "`$ARRAY`"
     }
     {
+      format: "int32"
       name: "ResultCode"
       req: true
       type: "`$INTEGER`"
@@ -50,10 +51,16 @@ main: kit: entity: estimate_price: {
           }
           method: "POST"
           orig: "/api/V1/EstimatePrices"
-          parts: [
-            "api"
-            "V1"
-            "EstimatePrices"
+          segments: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "V1"
+            }
+            {
+              lit: "EstimatePrices"
+            }
           ]
           select: {
             exist: [

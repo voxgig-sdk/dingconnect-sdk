@@ -591,6 +591,7 @@ Create an instance: `const cancel_transfer = client.CancelTransfer()`
 
 ```ts
 const cancel_transfer = await client.CancelTransfer().create({
+  cancellation_request: [],
   ErrorCodes: [],
   Items: [],
   ResultCode: 1,
@@ -695,6 +696,7 @@ Create an instance: `const estimate_price = client.EstimatePrice()`
 
 ```ts
 const estimate_price = await client.EstimatePrice().create({
+  requested_estimation: [],
   ErrorCodes: [],
   Items: [],
   ResultCode: 1,
@@ -725,6 +727,7 @@ Create an instance: `const list_transfer_record = client.ListTransferRecord()`
 
 ```ts
 const list_transfer_record = await client.ListTransferRecord().create({
+  request: {},
   ErrorCodes: [],
   Items: [],
   ResultCode: 1,
@@ -755,6 +758,7 @@ Create an instance: `const lookup_bill = client.LookupBill()`
 
 ```ts
 const lookup_bill = await client.LookupBill().create({
+  request: {},
   ErrorCodes: [],
   Items: [],
   ResultCode: 1,
@@ -959,11 +963,35 @@ Create an instance: `const send_transfer = client.SendTransfer()`
 
 ```ts
 const send_transfer = await client.SendTransfer().create({
+  request: {},
   ErrorCodes: [],
   ResultCode: 1,
   TransferRecord: {},
 })
 ```
+
+## Features
+
+This SDK ships 1 optional features. Each is **inactive until you
+switch it on**, so an SDK you have not configured behaves exactly as if none of
+them existed — no retries, no cache, no logging, no measurable overhead.
+
+Activate a feature by name in the client options, alongside the options shown
+above:
+
+| Feature | What it does |
+|---|---|
+| [`test`](#test) | In-memory mock transport for testing without a live server |
+
+### test
+
+In-memory mock transport for testing without a live server.
+
+| Option | Default |
+|---|---|
+| `active` | `false` |
+
+Set `feature.test.active` to enable it, then override any of the options above.
 
 
 ## Advanced

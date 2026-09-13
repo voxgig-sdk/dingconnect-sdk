@@ -98,6 +98,7 @@ class DingconnectConfig
               'type' => '`$ARRAY`',
             ],
             [
+              'format' => 'int32',
               'name' => 'ResultCode',
               'req' => true,
               'type' => '`$INTEGER`',
@@ -131,10 +132,16 @@ class DingconnectConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/api/V1/GetAccountLookup',
-                  'parts' => [
-                    'api',
-                    'V1',
-                    'GetAccountLookup',
+                  'segments' => [
+                    [
+                      'lit' => 'api',
+                    ],
+                    [
+                      'lit' => 'V1',
+                    ],
+                    [
+                      'lit' => 'GetAccountLookup',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -145,6 +152,11 @@ class DingconnectConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'api',
+                    'V1',
+                    'GetAccountLookup',
                   ],
                 ],
               ],
@@ -188,10 +200,16 @@ class DingconnectConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/api/V1/GetBalance',
-                  'parts' => [
-                    'api',
-                    'V1',
-                    'GetBalance',
+                  'segments' => [
+                    [
+                      'lit' => 'api',
+                    ],
+                    [
+                      'lit' => 'V1',
+                    ],
+                    [
+                      'lit' => 'GetBalance',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -201,6 +219,11 @@ class DingconnectConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body.ErrorCodes`',
+                  ],
+                  'parts' => [
+                    'api',
+                    'V1',
+                    'GetBalance',
                   ],
                 ],
               ],
@@ -223,6 +246,7 @@ class DingconnectConfig
               'type' => '`$ARRAY`',
             ],
             [
+              'format' => 'int32',
               'name' => 'ResultCode',
               'req' => true,
               'type' => '`$INTEGER`',
@@ -257,10 +281,16 @@ class DingconnectConfig
                   'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/api/V1/CancelTransfers',
-                  'parts' => [
-                    'api',
-                    'V1',
-                    'CancelTransfers',
+                  'segments' => [
+                    [
+                      'lit' => 'api',
+                    ],
+                    [
+                      'lit' => 'V1',
+                    ],
+                    [
+                      'lit' => 'CancelTransfers',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -271,6 +301,11 @@ class DingconnectConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'api',
+                    'V1',
+                    'CancelTransfers',
                   ],
                 ],
               ],
@@ -294,6 +329,7 @@ class DingconnectConfig
               'type' => '`$ARRAY`',
             ],
             [
+              'format' => 'int32',
               'name' => 'ResultCode',
               'req' => true,
               'type' => '`$INTEGER`',
@@ -319,10 +355,16 @@ class DingconnectConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/api/V1/GetCountries',
-                  'parts' => [
-                    'api',
-                    'V1',
-                    'GetCountries',
+                  'segments' => [
+                    [
+                      'lit' => 'api',
+                    ],
+                    [
+                      'lit' => 'V1',
+                    ],
+                    [
+                      'lit' => 'GetCountries',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -332,6 +374,11 @@ class DingconnectConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'api',
+                    'V1',
+                    'GetCountries',
                   ],
                 ],
               ],
@@ -354,6 +401,7 @@ class DingconnectConfig
               'type' => '`$ARRAY`',
             ],
             [
+              'format' => 'int32',
               'name' => 'ResultCode',
               'req' => true,
               'type' => '`$INTEGER`',
@@ -379,10 +427,16 @@ class DingconnectConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/api/V1/GetCurrencies',
-                  'parts' => [
-                    'api',
-                    'V1',
-                    'GetCurrencies',
+                  'segments' => [
+                    [
+                      'lit' => 'api',
+                    ],
+                    [
+                      'lit' => 'V1',
+                    ],
+                    [
+                      'lit' => 'GetCurrencies',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -392,6 +446,11 @@ class DingconnectConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'api',
+                    'V1',
+                    'GetCurrencies',
                   ],
                 ],
               ],
@@ -415,6 +474,7 @@ class DingconnectConfig
               'type' => '`$ARRAY`',
             ],
             [
+              'format' => 'int32',
               'name' => 'ResultCode',
               'req' => true,
               'type' => '`$INTEGER`',
@@ -440,10 +500,16 @@ class DingconnectConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/api/V1/GetErrorCodeDescriptions',
-                  'parts' => [
-                    'api',
-                    'V1',
-                    'GetErrorCodeDescriptions',
+                  'segments' => [
+                    [
+                      'lit' => 'api',
+                    ],
+                    [
+                      'lit' => 'V1',
+                    ],
+                    [
+                      'lit' => 'GetErrorCodeDescriptions',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -453,6 +519,11 @@ class DingconnectConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'api',
+                    'V1',
+                    'GetErrorCodeDescriptions',
                   ],
                 ],
               ],
@@ -475,6 +546,7 @@ class DingconnectConfig
               'type' => '`$ARRAY`',
             ],
             [
+              'format' => 'int32',
               'name' => 'ResultCode',
               'req' => true,
               'type' => '`$INTEGER`',
@@ -509,10 +581,16 @@ class DingconnectConfig
                   'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/api/V1/EstimatePrices',
-                  'parts' => [
-                    'api',
-                    'V1',
-                    'EstimatePrices',
+                  'segments' => [
+                    [
+                      'lit' => 'api',
+                    ],
+                    [
+                      'lit' => 'V1',
+                    ],
+                    [
+                      'lit' => 'EstimatePrices',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -523,6 +601,11 @@ class DingconnectConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'api',
+                    'V1',
+                    'EstimatePrices',
                   ],
                 ],
               ],
@@ -546,6 +629,7 @@ class DingconnectConfig
               'type' => '`$ARRAY`',
             ],
             [
+              'format' => 'int32',
               'name' => 'ResultCode',
               'req' => true,
               'type' => '`$INTEGER`',
@@ -586,10 +670,16 @@ class DingconnectConfig
                   'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/api/V1/ListTransferRecords',
-                  'parts' => [
-                    'api',
-                    'V1',
-                    'ListTransferRecords',
+                  'segments' => [
+                    [
+                      'lit' => 'api',
+                    ],
+                    [
+                      'lit' => 'V1',
+                    ],
+                    [
+                      'lit' => 'ListTransferRecords',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -600,6 +690,11 @@ class DingconnectConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'api',
+                    'V1',
+                    'ListTransferRecords',
                   ],
                 ],
               ],
@@ -622,6 +717,7 @@ class DingconnectConfig
               'type' => '`$ARRAY`',
             ],
             [
+              'format' => 'int32',
               'name' => 'ResultCode',
               'req' => true,
               'type' => '`$INTEGER`',
@@ -656,10 +752,16 @@ class DingconnectConfig
                   'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/api/V1/LookupBills',
-                  'parts' => [
-                    'api',
-                    'V1',
-                    'LookupBills',
+                  'segments' => [
+                    [
+                      'lit' => 'api',
+                    ],
+                    [
+                      'lit' => 'V1',
+                    ],
+                    [
+                      'lit' => 'LookupBills',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -670,6 +772,11 @@ class DingconnectConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'api',
+                    'V1',
+                    'LookupBills',
                   ],
                 ],
               ],
@@ -693,6 +800,7 @@ class DingconnectConfig
               'type' => '`$ARRAY`',
             ],
             [
+              'format' => 'int32',
               'name' => 'ResultCode',
               'req' => true,
               'type' => '`$INTEGER`',
@@ -756,10 +864,16 @@ class DingconnectConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/api/V1/GetProducts',
-                  'parts' => [
-                    'api',
-                    'V1',
-                    'GetProducts',
+                  'segments' => [
+                    [
+                      'lit' => 'api',
+                    ],
+                    [
+                      'lit' => 'V1',
+                    ],
+                    [
+                      'lit' => 'GetProducts',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -775,6 +889,11 @@ class DingconnectConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'api',
+                    'V1',
+                    'GetProducts',
                   ],
                 ],
               ],
@@ -798,6 +917,7 @@ class DingconnectConfig
               'type' => '`$ARRAY`',
             ],
             [
+              'format' => 'int32',
               'name' => 'ResultCode',
               'req' => true,
               'type' => '`$INTEGER`',
@@ -837,10 +957,16 @@ class DingconnectConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/api/V1/GetProductDescriptions',
-                  'parts' => [
-                    'api',
-                    'V1',
-                    'GetProductDescriptions',
+                  'segments' => [
+                    [
+                      'lit' => 'api',
+                    ],
+                    [
+                      'lit' => 'V1',
+                    ],
+                    [
+                      'lit' => 'GetProductDescriptions',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -852,6 +978,11 @@ class DingconnectConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'api',
+                    'V1',
+                    'GetProductDescriptions',
                   ],
                 ],
               ],
@@ -875,6 +1006,7 @@ class DingconnectConfig
               'type' => '`$ARRAY`',
             ],
             [
+              'format' => 'int32',
               'name' => 'ResultCode',
               'req' => true,
               'type' => '`$INTEGER`',
@@ -920,10 +1052,16 @@ class DingconnectConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/api/V1/GetPromotions',
-                  'parts' => [
-                    'api',
-                    'V1',
-                    'GetPromotions',
+                  'segments' => [
+                    [
+                      'lit' => 'api',
+                    ],
+                    [
+                      'lit' => 'V1',
+                    ],
+                    [
+                      'lit' => 'GetPromotions',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -936,6 +1074,11 @@ class DingconnectConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'api',
+                    'V1',
+                    'GetPromotions',
                   ],
                 ],
               ],
@@ -959,6 +1102,7 @@ class DingconnectConfig
               'type' => '`$ARRAY`',
             ],
             [
+              'format' => 'int32',
               'name' => 'ResultCode',
               'req' => true,
               'type' => '`$INTEGER`',
@@ -992,10 +1136,16 @@ class DingconnectConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/api/V1/GetPromotionDescriptions',
-                  'parts' => [
-                    'api',
-                    'V1',
-                    'GetPromotionDescriptions',
+                  'segments' => [
+                    [
+                      'lit' => 'api',
+                    ],
+                    [
+                      'lit' => 'V1',
+                    ],
+                    [
+                      'lit' => 'GetPromotionDescriptions',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -1006,6 +1156,11 @@ class DingconnectConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'api',
+                    'V1',
+                    'GetPromotionDescriptions',
                   ],
                 ],
               ],
@@ -1029,6 +1184,7 @@ class DingconnectConfig
               'type' => '`$ARRAY`',
             ],
             [
+              'format' => 'int32',
               'name' => 'ResultCode',
               'req' => true,
               'type' => '`$INTEGER`',
@@ -1080,10 +1236,16 @@ class DingconnectConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/api/V1/GetProviders',
-                  'parts' => [
-                    'api',
-                    'V1',
-                    'GetProviders',
+                  'segments' => [
+                    [
+                      'lit' => 'api',
+                    ],
+                    [
+                      'lit' => 'V1',
+                    ],
+                    [
+                      'lit' => 'GetProviders',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -1097,6 +1259,11 @@ class DingconnectConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'api',
+                    'V1',
+                    'GetProviders',
                   ],
                 ],
               ],
@@ -1119,6 +1286,7 @@ class DingconnectConfig
               'type' => '`$ARRAY`',
             ],
             [
+              'format' => 'int32',
               'name' => 'ResultCode',
               'req' => true,
               'type' => '`$INTEGER`',
@@ -1152,10 +1320,16 @@ class DingconnectConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/api/V1/GetProviderStatus',
-                  'parts' => [
-                    'api',
-                    'V1',
-                    'GetProviderStatus',
+                  'segments' => [
+                    [
+                      'lit' => 'api',
+                    ],
+                    [
+                      'lit' => 'V1',
+                    ],
+                    [
+                      'lit' => 'GetProviderStatus',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -1166,6 +1340,11 @@ class DingconnectConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'api',
+                    'V1',
+                    'GetProviderStatus',
                   ],
                 ],
               ],
@@ -1189,6 +1368,7 @@ class DingconnectConfig
               'type' => '`$ARRAY`',
             ],
             [
+              'format' => 'int32',
               'name' => 'ResultCode',
               'req' => true,
               'type' => '`$INTEGER`',
@@ -1222,10 +1402,16 @@ class DingconnectConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/api/V1/GetRegions',
-                  'parts' => [
-                    'api',
-                    'V1',
-                    'GetRegions',
+                  'segments' => [
+                    [
+                      'lit' => 'api',
+                    ],
+                    [
+                      'lit' => 'V1',
+                    ],
+                    [
+                      'lit' => 'GetRegions',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -1236,6 +1422,11 @@ class DingconnectConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'api',
+                    'V1',
+                    'GetRegions',
                   ],
                 ],
               ],
@@ -1253,6 +1444,7 @@ class DingconnectConfig
               'type' => '`$ARRAY`',
             ],
             [
+              'format' => 'int32',
               'name' => 'ResultCode',
               'req' => true,
               'type' => '`$INTEGER`',
@@ -1292,10 +1484,16 @@ class DingconnectConfig
                   'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/api/V1/SendTransfer',
-                  'parts' => [
-                    'api',
-                    'V1',
-                    'SendTransfer',
+                  'segments' => [
+                    [
+                      'lit' => 'api',
+                    ],
+                    [
+                      'lit' => 'V1',
+                    ],
+                    [
+                      'lit' => 'SendTransfer',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -1306,6 +1504,11 @@ class DingconnectConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'api',
+                    'V1',
+                    'SendTransfer',
                   ],
                 ],
               ],

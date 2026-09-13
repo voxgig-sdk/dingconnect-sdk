@@ -52,7 +52,7 @@ func TestListTransferRecordEntity(t *testing.T) {
 		// CREATE
 		listTransferRecordRef01Ent := client.ListTransferRecord(nil)
 		listTransferRecordRef01Data := core.ToMapAny(vs.GetProp(
-			vs.GetPath([]any{"new", "list_transfer_record"}, setup.data), "list_transfer_record_ref01"))
+			vs.GetPath(setup.data, []any{"new", "list_transfer_record"}), "list_transfer_record_ref01"))
 
 		listTransferRecordRef01DataResult, err := listTransferRecordRef01Ent.Create(listTransferRecordRef01Data, nil)
 		if err != nil {
@@ -90,7 +90,7 @@ func list_transfer_recordBasicSetup(extra map[string]any) *entityTestSetup {
 	client := sdk.TestSDK(options, extra)
 
 	// Generate idmap via transform, matching TS pattern.
-	idmap := vs.Transform(
+	idmap, _ := vs.Transform(
 		[]any{"list_transfer_record01", "list_transfer_record02", "list_transfer_record03"},
 		map[string]any{
 			"`$PACK`": []any{"", map[string]any{
@@ -110,7 +110,7 @@ func list_transfer_recordBasicSetup(extra map[string]any) *entityTestSetup {
 		"DINGCONNECT_TEST_LIST_TRANSFER_RECORD_ENTID": idmap,
 		"DINGCONNECT_TEST_LIVE":      "FALSE",
 		"DINGCONNECT_TEST_EXPLAIN":   "FALSE",
-		"DINGCONNECT_APIKEY":         "NONE",
+		"DINGCONNECT_APIKEY":         "",
 	})
 
 	idmapResolved := core.ToMapAny(env["DINGCONNECT_TEST_LIST_TRANSFER_RECORD_ENTID"])
@@ -119,11 +119,23 @@ func list_transfer_recordBasicSetup(extra map[string]any) *entityTestSetup {
 	}
 
 	if env["DINGCONNECT_TEST_LIVE"] == "TRUE" {
+		// An empty map, not a nil one: Merge returns nil when its last entry
+		// is nil, and BasicSetup is normally called with no extras - so a
+		// bare nil silently discarded the apikey and server values below.
+		extraOpts := extra
+		if extraOpts == nil {
+			extraOpts = map[string]any{}
+		}
+
 		mergedOpts := vs.Merge([]any{
+			// liveClientOptions() FIRST, so the generated fields below win:
+			// sdk-test-control.json's test.client.options adds to the live
+			// client, it does not redirect it.
+			liveClientOptions(),
 			map[string]any{
 				"apikey": env["DINGCONNECT_APIKEY"],
 			},
-			extra,
+			extraOpts,
 		})
 		client = sdk.NewDingconnectSDK(core.ToMapAny(mergedOpts))
 	}

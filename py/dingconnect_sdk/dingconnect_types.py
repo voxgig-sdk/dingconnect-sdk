@@ -28,11 +28,7 @@ class AccountLookup(AccountLookupRequired, total=False):
 
 
 class AccountLookupListMatch(TypedDict, total=False):
-    AccountNumberNormalized: str
-    CountryIso: str
-    ErrorCodes: list
-    Items: list
-    ResultCode: int
+    account_number: int
 
 
 class BalanceRequired(TypedDict):
@@ -55,6 +51,7 @@ class CancelTransfer(TypedDict):
 
 
 class CancelTransferCreateData(TypedDict):
+    cancellation_request: list
     ErrorCodes: list
     Items: list
     ResultCode: int
@@ -103,6 +100,7 @@ class EstimatePrice(TypedDict):
 
 
 class EstimatePriceCreateData(TypedDict):
+    requested_estimation: list
     ErrorCodes: list
     Items: list
     ResultCode: int
@@ -116,6 +114,7 @@ class ListTransferRecord(TypedDict):
 
 
 class ListTransferRecordCreateData(TypedDict):
+    request: dict
     ErrorCodes: list
     Items: list
     ResultCode: int
@@ -129,6 +128,7 @@ class LookupBill(TypedDict):
 
 
 class LookupBillCreateData(TypedDict):
+    request: dict
     ErrorCodes: list
     Items: list
     ResultCode: int
@@ -141,9 +141,12 @@ class Product(TypedDict):
 
 
 class ProductListMatch(TypedDict, total=False):
-    ErrorCodes: list
-    Items: list
-    ResultCode: int
+    account_number: int
+    benefit: Any
+    country_iso: Any
+    provider_code: Any
+    region_code: Any
+    sku_code: Any
 
 
 class ProductDescription(TypedDict):
@@ -153,9 +156,8 @@ class ProductDescription(TypedDict):
 
 
 class ProductDescriptionListMatch(TypedDict, total=False):
-    ErrorCodes: list
-    Items: list
-    ResultCode: int
+    language_code: Any
+    sku_code: Any
 
 
 class Promotion(TypedDict):
@@ -165,9 +167,9 @@ class Promotion(TypedDict):
 
 
 class PromotionListMatch(TypedDict, total=False):
-    ErrorCodes: list
-    Items: list
-    ResultCode: int
+    account_number: int
+    country_iso: Any
+    provider_code: Any
 
 
 class PromotionDescription(TypedDict):
@@ -177,9 +179,7 @@ class PromotionDescription(TypedDict):
 
 
 class PromotionDescriptionListMatch(TypedDict, total=False):
-    ErrorCodes: list
-    Items: list
-    ResultCode: int
+    language_code: Any
 
 
 class Provider(TypedDict):
@@ -189,9 +189,10 @@ class Provider(TypedDict):
 
 
 class ProviderListMatch(TypedDict, total=False):
-    ErrorCodes: list
-    Items: list
-    ResultCode: int
+    account_number: int
+    country_iso: Any
+    provider_code: Any
+    region_code: Any
 
 
 class ProviderStatus(TypedDict):
@@ -201,9 +202,7 @@ class ProviderStatus(TypedDict):
 
 
 class ProviderStatusListMatch(TypedDict, total=False):
-    ErrorCodes: list
-    Items: list
-    ResultCode: int
+    provider_code: Any
 
 
 class Region(TypedDict):
@@ -213,9 +212,7 @@ class Region(TypedDict):
 
 
 class RegionListMatch(TypedDict, total=False):
-    ErrorCodes: list
-    Items: list
-    ResultCode: int
+    country_iso: Any
 
 
 class SendTransfer(TypedDict):
@@ -225,6 +222,7 @@ class SendTransfer(TypedDict):
 
 
 class SendTransferCreateData(TypedDict):
+    request: dict
     ErrorCodes: list
     ResultCode: int
     TransferRecord: dict

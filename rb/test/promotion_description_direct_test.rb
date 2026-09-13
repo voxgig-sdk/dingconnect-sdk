@@ -62,15 +62,17 @@ def promotion_description_direct_setup(mockres)
   env = Runner.env_override({
     "DINGCONNECT_TEST_PROMOTION_DESCRIPTION_ENTID" => {},
     "DINGCONNECT_TEST_LIVE" => "FALSE",
-    "DINGCONNECT_APIKEY" => "NONE",
+    "DINGCONNECT_APIKEY" => "",
   })
 
   live = env["DINGCONNECT_TEST_LIVE"] == "TRUE"
 
   if live
-    merged_opts = {
+    # Merged so the generated fields win: sdk-test-control.json's
+    # test.client.options adds to the live client, it does not redirect it.
+    merged_opts = Runner.live_client_options.merge({
       "apikey" => env["DINGCONNECT_APIKEY"],
-    }
+    })
     client = DingconnectSDK.new(merged_opts)
     return {
       client: client,

@@ -25,11 +25,7 @@ class AccountLookup
 /** Request payload for AccountLookup#list. */
 class AccountLookupListMatch
 {
-    public ?string $AccountNumberNormalized = null;
-    public ?string $CountryIso = null;
-    public ?array $ErrorCodes = null;
-    public ?array $Items = null;
-    public ?int $ResultCode = null;
+    public ?int $account_number = null;
 }
 
 /** Balance entity data model. */
@@ -57,6 +53,7 @@ class CancelTransfer
 /** Request payload for CancelTransfer#create. */
 class CancelTransferCreateData
 {
+    public array $cancellation_request;
     public array $ErrorCodes;
     public array $Items;
     public int $ResultCode;
@@ -121,6 +118,7 @@ class EstimatePrice
 /** Request payload for EstimatePrice#create. */
 class EstimatePriceCreateData
 {
+    public array $requested_estimation;
     public array $ErrorCodes;
     public array $Items;
     public int $ResultCode;
@@ -138,6 +136,7 @@ class ListTransferRecord
 /** Request payload for ListTransferRecord#create. */
 class ListTransferRecordCreateData
 {
+    public array $request;
     public array $ErrorCodes;
     public array $Items;
     public int $ResultCode;
@@ -155,6 +154,7 @@ class LookupBill
 /** Request payload for LookupBill#create. */
 class LookupBillCreateData
 {
+    public array $request;
     public array $ErrorCodes;
     public array $Items;
     public int $ResultCode;
@@ -171,9 +171,12 @@ class Product
 /** Request payload for Product#list. */
 class ProductListMatch
 {
-    public ?array $ErrorCodes = null;
-    public ?array $Items = null;
-    public ?int $ResultCode = null;
+    public ?int $account_number = null;
+    public mixed $benefit = null;
+    public mixed $country_iso = null;
+    public mixed $provider_code = null;
+    public mixed $region_code = null;
+    public mixed $sku_code = null;
 }
 
 /** ProductDescription entity data model. */
@@ -187,9 +190,8 @@ class ProductDescription
 /** Request payload for ProductDescription#list. */
 class ProductDescriptionListMatch
 {
-    public ?array $ErrorCodes = null;
-    public ?array $Items = null;
-    public ?int $ResultCode = null;
+    public mixed $language_code = null;
+    public mixed $sku_code = null;
 }
 
 /** Promotion entity data model. */
@@ -203,9 +205,9 @@ class Promotion
 /** Request payload for Promotion#list. */
 class PromotionListMatch
 {
-    public ?array $ErrorCodes = null;
-    public ?array $Items = null;
-    public ?int $ResultCode = null;
+    public ?int $account_number = null;
+    public mixed $country_iso = null;
+    public mixed $provider_code = null;
 }
 
 /** PromotionDescription entity data model. */
@@ -219,9 +221,7 @@ class PromotionDescription
 /** Request payload for PromotionDescription#list. */
 class PromotionDescriptionListMatch
 {
-    public ?array $ErrorCodes = null;
-    public ?array $Items = null;
-    public ?int $ResultCode = null;
+    public mixed $language_code = null;
 }
 
 /** Provider entity data model. */
@@ -235,9 +235,10 @@ class Provider
 /** Request payload for Provider#list. */
 class ProviderListMatch
 {
-    public ?array $ErrorCodes = null;
-    public ?array $Items = null;
-    public ?int $ResultCode = null;
+    public ?int $account_number = null;
+    public mixed $country_iso = null;
+    public mixed $provider_code = null;
+    public mixed $region_code = null;
 }
 
 /** ProviderStatus entity data model. */
@@ -251,9 +252,7 @@ class ProviderStatus
 /** Request payload for ProviderStatus#list. */
 class ProviderStatusListMatch
 {
-    public ?array $ErrorCodes = null;
-    public ?array $Items = null;
-    public ?int $ResultCode = null;
+    public mixed $provider_code = null;
 }
 
 /** Region entity data model. */
@@ -267,9 +266,7 @@ class Region
 /** Request payload for Region#list. */
 class RegionListMatch
 {
-    public ?array $ErrorCodes = null;
-    public ?array $Items = null;
-    public ?int $ResultCode = null;
+    public mixed $country_iso = null;
 }
 
 /** SendTransfer entity data model. */
@@ -283,6 +280,7 @@ class SendTransfer
 /** Request payload for SendTransfer#create. */
 class SendTransferCreateData
 {
+    public array $request;
     public array $ErrorCodes;
     public int $ResultCode;
     public array $TransferRecord;

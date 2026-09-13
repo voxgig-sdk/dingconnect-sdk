@@ -61,6 +61,7 @@
             },
             {
               "active": true,
+              "format": "int32",
               "name": "ResultCode",
               "req": true,
               "type": "`$INTEGER`"
@@ -99,10 +100,16 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/api/V1/GetAccountLookup",
-                  "parts": [
-                    "api",
-                    "V1",
-                    "GetAccountLookup"
+                  "segments": [
+                    {
+                      "lit": "api"
+                    },
+                    {
+                      "lit": "V1"
+                    },
+                    {
+                      "lit": "GetAccountLookup"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -166,10 +173,16 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/api/V1/GetBalance",
-                  "parts": [
-                    "api",
-                    "V1",
-                    "GetBalance"
+                  "segments": [
+                    {
+                      "lit": "api"
+                    },
+                    {
+                      "lit": "V1"
+                    },
+                    {
+                      "lit": "GetBalance"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -208,6 +221,7 @@
             },
             {
               "active": true,
+              "format": "int32",
               "name": "ResultCode",
               "req": true,
               "type": "`$INTEGER`"
@@ -246,10 +260,16 @@
                   "kind": "http",
                   "method": "POST",
                   "orig": "/api/V1/CancelTransfers",
-                  "parts": [
-                    "api",
-                    "V1",
-                    "CancelTransfers"
+                  "segments": [
+                    {
+                      "lit": "api"
+                    },
+                    {
+                      "lit": "V1"
+                    },
+                    {
+                      "lit": "CancelTransfers"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -290,6 +310,7 @@
             },
             {
               "active": true,
+              "format": "int32",
               "name": "ResultCode",
               "req": true,
               "type": "`$INTEGER`"
@@ -318,10 +339,16 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/api/V1/GetCountries",
-                  "parts": [
-                    "api",
-                    "V1",
-                    "GetCountries"
+                  "segments": [
+                    {
+                      "lit": "api"
+                    },
+                    {
+                      "lit": "V1"
+                    },
+                    {
+                      "lit": "GetCountries"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -360,6 +387,7 @@
             },
             {
               "active": true,
+              "format": "int32",
               "name": "ResultCode",
               "req": true,
               "type": "`$INTEGER`"
@@ -388,10 +416,16 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/api/V1/GetCurrencies",
-                  "parts": [
-                    "api",
-                    "V1",
-                    "GetCurrencies"
+                  "segments": [
+                    {
+                      "lit": "api"
+                    },
+                    {
+                      "lit": "V1"
+                    },
+                    {
+                      "lit": "GetCurrencies"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -431,6 +465,7 @@
             },
             {
               "active": true,
+              "format": "int32",
               "name": "ResultCode",
               "req": true,
               "type": "`$INTEGER`"
@@ -459,10 +494,16 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/api/V1/GetErrorCodeDescriptions",
-                  "parts": [
-                    "api",
-                    "V1",
-                    "GetErrorCodeDescriptions"
+                  "segments": [
+                    {
+                      "lit": "api"
+                    },
+                    {
+                      "lit": "V1"
+                    },
+                    {
+                      "lit": "GetErrorCodeDescriptions"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -501,6 +542,7 @@
             },
             {
               "active": true,
+              "format": "int32",
               "name": "ResultCode",
               "req": true,
               "type": "`$INTEGER`"
@@ -539,10 +581,16 @@
                   "kind": "http",
                   "method": "POST",
                   "orig": "/api/V1/EstimatePrices",
-                  "parts": [
-                    "api",
-                    "V1",
-                    "EstimatePrices"
+                  "segments": [
+                    {
+                      "lit": "api"
+                    },
+                    {
+                      "lit": "V1"
+                    },
+                    {
+                      "lit": "EstimatePrices"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -583,6 +631,7 @@
             },
             {
               "active": true,
+              "format": "int32",
               "name": "ResultCode",
               "req": true,
               "type": "`$INTEGER`"
@@ -628,10 +677,16 @@
                   "kind": "http",
                   "method": "POST",
                   "orig": "/api/V1/ListTransferRecords",
-                  "parts": [
-                    "api",
-                    "V1",
-                    "ListTransferRecords"
+                  "segments": [
+                    {
+                      "lit": "api"
+                    },
+                    {
+                      "lit": "V1"
+                    },
+                    {
+                      "lit": "ListTransferRecords"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -671,6 +726,7 @@
             },
             {
               "active": true,
+              "format": "int32",
               "name": "ResultCode",
               "req": true,
               "type": "`$INTEGER`"
@@ -709,10 +765,16 @@
                   "kind": "http",
                   "method": "POST",
                   "orig": "/api/V1/LookupBills",
-                  "parts": [
-                    "api",
-                    "V1",
-                    "LookupBills"
+                  "segments": [
+                    {
+                      "lit": "api"
+                    },
+                    {
+                      "lit": "V1"
+                    },
+                    {
+                      "lit": "LookupBills"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -753,6 +815,7 @@
             },
             {
               "active": true,
+              "format": "int32",
               "name": "ResultCode",
               "req": true,
               "type": "`$INTEGER`"
@@ -831,10 +894,16 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/api/V1/GetProducts",
-                  "parts": [
-                    "api",
-                    "V1",
-                    "GetProducts"
+                  "segments": [
+                    {
+                      "lit": "api"
+                    },
+                    {
+                      "lit": "V1"
+                    },
+                    {
+                      "lit": "GetProducts"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -880,6 +949,7 @@
             },
             {
               "active": true,
+              "format": "int32",
               "name": "ResultCode",
               "req": true,
               "type": "`$INTEGER`"
@@ -926,10 +996,16 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/api/V1/GetProductDescriptions",
-                  "parts": [
-                    "api",
-                    "V1",
-                    "GetProductDescriptions"
+                  "segments": [
+                    {
+                      "lit": "api"
+                    },
+                    {
+                      "lit": "V1"
+                    },
+                    {
+                      "lit": "GetProductDescriptions"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -971,6 +1047,7 @@
             },
             {
               "active": true,
+              "format": "int32",
               "name": "ResultCode",
               "req": true,
               "type": "`$INTEGER`"
@@ -1025,10 +1102,16 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/api/V1/GetPromotions",
-                  "parts": [
-                    "api",
-                    "V1",
-                    "GetPromotions"
+                  "segments": [
+                    {
+                      "lit": "api"
+                    },
+                    {
+                      "lit": "V1"
+                    },
+                    {
+                      "lit": "GetPromotions"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -1071,6 +1154,7 @@
             },
             {
               "active": true,
+              "format": "int32",
               "name": "ResultCode",
               "req": true,
               "type": "`$INTEGER`"
@@ -1109,10 +1193,16 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/api/V1/GetPromotionDescriptions",
-                  "parts": [
-                    "api",
-                    "V1",
-                    "GetPromotionDescriptions"
+                  "segments": [
+                    {
+                      "lit": "api"
+                    },
+                    {
+                      "lit": "V1"
+                    },
+                    {
+                      "lit": "GetPromotionDescriptions"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -1153,6 +1243,7 @@
             },
             {
               "active": true,
+              "format": "int32",
               "name": "ResultCode",
               "req": true,
               "type": "`$INTEGER`"
@@ -1215,10 +1306,16 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/api/V1/GetProviders",
-                  "parts": [
-                    "api",
-                    "V1",
-                    "GetProviders"
+                  "segments": [
+                    {
+                      "lit": "api"
+                    },
+                    {
+                      "lit": "V1"
+                    },
+                    {
+                      "lit": "GetProviders"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -1261,6 +1358,7 @@
             },
             {
               "active": true,
+              "format": "int32",
               "name": "ResultCode",
               "req": true,
               "type": "`$INTEGER`"
@@ -1299,10 +1397,16 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/api/V1/GetProviderStatus",
-                  "parts": [
-                    "api",
-                    "V1",
-                    "GetProviderStatus"
+                  "segments": [
+                    {
+                      "lit": "api"
+                    },
+                    {
+                      "lit": "V1"
+                    },
+                    {
+                      "lit": "GetProviderStatus"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -1343,6 +1447,7 @@
             },
             {
               "active": true,
+              "format": "int32",
               "name": "ResultCode",
               "req": true,
               "type": "`$INTEGER`"
@@ -1381,10 +1486,16 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/api/V1/GetRegions",
-                  "parts": [
-                    "api",
-                    "V1",
-                    "GetRegions"
+                  "segments": [
+                    {
+                      "lit": "api"
+                    },
+                    {
+                      "lit": "V1"
+                    },
+                    {
+                      "lit": "GetRegions"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -1418,6 +1529,7 @@
             },
             {
               "active": true,
+              "format": "int32",
               "name": "ResultCode",
               "req": true,
               "type": "`$INTEGER`"
@@ -1462,10 +1574,16 @@
                   "kind": "http",
                   "method": "POST",
                   "orig": "/api/V1/SendTransfer",
-                  "parts": [
-                    "api",
-                    "V1",
-                    "SendTransfer"
+                  "segments": [
+                    {
+                      "lit": "api"
+                    },
+                    {
+                      "lit": "V1"
+                    },
+                    {
+                      "lit": "SendTransfer"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -1550,8 +1668,11 @@
             }
           },
           "name": "test",
+          "needs": {},
           "origname": "",
           "package": "@voxgig/sdkgen",
+          "plugin": {},
+          "spec": {},
           "target": {
             "go": {
               "deps": {}
@@ -2061,6 +2182,9 @@
             "sdkrel": ""
           },
           "package": "@voxgig/sdkgen",
+          "provides": {
+            "sekreto": true
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -2086,6 +2210,10 @@
             "version": "0.1.1"
           },
           "srcfeature": false,
+          "superseded": [
+            "test/runner_test.go",
+            "test/struct_runner_test.go"
+          ],
           "title": "Golang"
         },
         "go-cli": {
@@ -2137,6 +2265,7 @@
               "active": false
             }
           },
+          "provides": {},
           "publish": {
             "registry": {
               "active": false,
@@ -2161,6 +2290,7 @@
             },
             "version": "0.1.1"
           },
+          "superseded": [],
           "title": "Go CLI"
         },
         "go-mcp": {
@@ -2212,6 +2342,7 @@
               "active": false
             }
           },
+          "provides": {},
           "publish": {
             "registry": {
               "active": false,
@@ -2236,6 +2367,7 @@
             },
             "version": "0.1.1"
           },
+          "superseded": [],
           "title": "Go MCP server"
         },
         "lua": {
@@ -2276,6 +2408,9 @@
             "sdkrel": ""
           },
           "package": "@voxgig/sdkgen",
+          "provides": {
+            "sekreto": true
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -2301,6 +2436,9 @@
             "version": "0.1.1"
           },
           "srcfeature": false,
+          "superseded": [
+            "test/struct_runner.lua"
+          ],
           "title": "Lua"
         },
         "php": {
@@ -2335,6 +2473,9 @@
             "sdkrel": ""
           },
           "package": "@voxgig/sdkgen",
+          "provides": {
+            "sekreto": true
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -2360,6 +2501,9 @@
             "version": "0.1.1"
           },
           "srcfeature": false,
+          "superseded": [
+            "test/StructRunner.php"
+          ],
           "title": "PHP"
         },
         "py": {
@@ -2400,6 +2544,9 @@
             "sdkrel": ""
           },
           "package": "@voxgig/sdkgen",
+          "provides": {
+            "sekreto": true
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -2425,6 +2572,9 @@
             "version": "0.1.1"
           },
           "srcfeature": false,
+          "superseded": [
+            "test/struct_runner.py"
+          ],
           "title": "Python"
         },
         "rb": {
@@ -2470,6 +2620,9 @@
             "sdkrel": ""
           },
           "package": "@voxgig/sdkgen",
+          "provides": {
+            "sekreto": true
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -2495,6 +2648,9 @@
             "version": "0.1.1"
           },
           "srcfeature": false,
+          "superseded": [
+            "test/struct_runner.rb"
+          ],
           "title": "Ruby"
         },
         "ts": {
@@ -2512,11 +2668,6 @@
               "active": true,
               "kind": "dev",
               "version": "^25.6.0"
-            },
-            "dotenv": {
-              "active": true,
-              "kind": "dev",
-              "version": "^17.4.2"
             },
             "typescript": {
               "active": true,
@@ -2545,6 +2696,9 @@
             "sdkrel": ""
           },
           "package": "@voxgig/sdkgen",
+          "provides": {
+            "sekreto": true
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -2569,6 +2723,14 @@
             },
             "version": "0.1.1"
           },
+          "superseded": [
+            "test/runner.ts",
+            "test/vendor/omni/compat.ts",
+            "src/feature/secrets/sekreto/Providers.ts",
+            "src/feature/secrets/sekreto/Sigv4.ts",
+            "src/feature/secrets/sekreto/provider/Registry.ts",
+            "src/feature/secrets/sekreto/provider/http.ts"
+          ],
           "title": "TypeScript"
         }
       },

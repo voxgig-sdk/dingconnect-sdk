@@ -17,6 +17,7 @@ main: kit: entity: promotion_description: {
       type: "`$ARRAY`"
     }
     {
+      format: "int32"
       name: "ResultCode"
       req: true
       type: "`$INTEGER`"
@@ -51,10 +52,16 @@ main: kit: entity: promotion_description: {
           }
           method: "GET"
           orig: "/api/V1/GetPromotionDescriptions"
-          parts: [
-            "api"
-            "V1"
-            "GetPromotionDescriptions"
+          segments: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "V1"
+            }
+            {
+              lit: "GetPromotionDescriptions"
+            }
           ]
           select: {
             exist: [

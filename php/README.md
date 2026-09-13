@@ -550,6 +550,7 @@ Create an instance: `$cancel_transfer = $client->CancelTransfer();`
 
 ```php
 $cancel_transfer = $client->CancelTransfer()->create([
+    "cancellation_request" => null, // array
     "ErrorCodes" => null, // array
     "Items" => null, // array
     "ResultCode" => null, // int
@@ -657,6 +658,7 @@ Create an instance: `$estimate_price = $client->EstimatePrice();`
 
 ```php
 $estimate_price = $client->EstimatePrice()->create([
+    "requested_estimation" => null, // array
     "ErrorCodes" => null, // array
     "Items" => null, // array
     "ResultCode" => null, // int
@@ -687,6 +689,7 @@ Create an instance: `$list_transfer_record = $client->ListTransferRecord();`
 
 ```php
 $list_transfer_record = $client->ListTransferRecord()->create([
+    "request" => null, // array
     "ErrorCodes" => null, // array
     "Items" => null, // array
     "ResultCode" => null, // int
@@ -717,6 +720,7 @@ Create an instance: `$lookup_bill = $client->LookupBill();`
 
 ```php
 $lookup_bill = $client->LookupBill()->create([
+    "request" => null, // array
     "ErrorCodes" => null, // array
     "Items" => null, // array
     "ResultCode" => null, // int
@@ -928,11 +932,35 @@ Create an instance: `$send_transfer = $client->SendTransfer();`
 
 ```php
 $send_transfer = $client->SendTransfer()->create([
+    "request" => null, // array
     "ErrorCodes" => null, // array
     "ResultCode" => null, // int
     "TransferRecord" => null, // array
 ]);
 ```
+
+## Features
+
+This SDK ships 1 optional features. Each is **inactive until you
+switch it on**, so an SDK you have not configured behaves exactly as if none of
+them existed — no retries, no cache, no logging, no measurable overhead.
+
+Activate a feature by name in the client options, alongside the options shown
+above:
+
+| Feature | What it does |
+|---|---|
+| [`test`](#test) | In-memory mock transport for testing without a live server |
+
+### test
+
+In-memory mock transport for testing without a live server.
+
+| Option | Default |
+|---|---|
+| `active` | `false` |
+
+Set `feature.test.active` to enable it, then override any of the options above.
 
 
 ## Advanced

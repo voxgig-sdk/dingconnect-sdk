@@ -52,7 +52,7 @@ func TestCancelTransferEntity(t *testing.T) {
 		// CREATE
 		cancelTransferRef01Ent := client.CancelTransfer(nil)
 		cancelTransferRef01Data := core.ToMapAny(vs.GetProp(
-			vs.GetPath([]any{"new", "cancel_transfer"}, setup.data), "cancel_transfer_ref01"))
+			vs.GetPath(setup.data, []any{"new", "cancel_transfer"}), "cancel_transfer_ref01"))
 
 		cancelTransferRef01DataResult, err := cancelTransferRef01Ent.Create(cancelTransferRef01Data, nil)
 		if err != nil {
@@ -90,7 +90,7 @@ func cancel_transferBasicSetup(extra map[string]any) *entityTestSetup {
 	client := sdk.TestSDK(options, extra)
 
 	// Generate idmap via transform, matching TS pattern.
-	idmap := vs.Transform(
+	idmap, _ := vs.Transform(
 		[]any{"cancel_transfer01", "cancel_transfer02", "cancel_transfer03"},
 		map[string]any{
 			"`$PACK`": []any{"", map[string]any{
@@ -110,7 +110,7 @@ func cancel_transferBasicSetup(extra map[string]any) *entityTestSetup {
 		"DINGCONNECT_TEST_CANCEL_TRANSFER_ENTID": idmap,
 		"DINGCONNECT_TEST_LIVE":      "FALSE",
 		"DINGCONNECT_TEST_EXPLAIN":   "FALSE",
-		"DINGCONNECT_APIKEY":         "NONE",
+		"DINGCONNECT_APIKEY":         "",
 	})
 
 	idmapResolved := core.ToMapAny(env["DINGCONNECT_TEST_CANCEL_TRANSFER_ENTID"])
@@ -119,11 +119,23 @@ func cancel_transferBasicSetup(extra map[string]any) *entityTestSetup {
 	}
 
 	if env["DINGCONNECT_TEST_LIVE"] == "TRUE" {
+		// An empty map, not a nil one: Merge returns nil when its last entry
+		// is nil, and BasicSetup is normally called with no extras - so a
+		// bare nil silently discarded the apikey and server values below.
+		extraOpts := extra
+		if extraOpts == nil {
+			extraOpts = map[string]any{}
+		}
+
 		mergedOpts := vs.Merge([]any{
+			// liveClientOptions() FIRST, so the generated fields below win:
+			// sdk-test-control.json's test.client.options adds to the live
+			// client, it does not redirect it.
+			liveClientOptions(),
 			map[string]any{
 				"apikey": env["DINGCONNECT_APIKEY"],
 			},
-			extra,
+			extraOpts,
 		})
 		client = sdk.NewDingconnectSDK(core.ToMapAny(mergedOpts))
 	}

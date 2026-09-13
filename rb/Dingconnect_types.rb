@@ -35,26 +35,10 @@ AccountLookup = Struct.new(
 
 # Request payload for AccountLookup#list.
 #
-# @!attribute [rw] AccountNumberNormalized
-#   @return [String, nil]
-#
-# @!attribute [rw] CountryIso
-#   @return [String, nil]
-#
-# @!attribute [rw] ErrorCodes
-#   @return [Array, nil]
-#
-# @!attribute [rw] Items
-#   @return [Array, nil]
-#
-# @!attribute [rw] ResultCode
+# @!attribute [rw] account_number
 #   @return [Integer, nil]
 AccountLookupListMatch = Struct.new(
-  :AccountNumberNormalized,
-  :CountryIso,
-  :ErrorCodes,
-  :Items,
-  :ResultCode,
+  :account_number,
   keyword_init: true
 )
 
@@ -103,6 +87,9 @@ CancelTransfer = Struct.new(
 
 # Request payload for CancelTransfer#create.
 #
+# @!attribute [rw] cancellation_request
+#   @return [Array]
+#
 # @!attribute [rw] ErrorCodes
 #   @return [Array]
 #
@@ -112,6 +99,7 @@ CancelTransfer = Struct.new(
 # @!attribute [rw] ResultCode
 #   @return [Integer]
 CancelTransferCreateData = Struct.new(
+  :cancellation_request,
   :ErrorCodes,
   :Items,
   :ResultCode,
@@ -239,6 +227,9 @@ EstimatePrice = Struct.new(
 
 # Request payload for EstimatePrice#create.
 #
+# @!attribute [rw] requested_estimation
+#   @return [Array]
+#
 # @!attribute [rw] ErrorCodes
 #   @return [Array]
 #
@@ -248,6 +239,7 @@ EstimatePrice = Struct.new(
 # @!attribute [rw] ResultCode
 #   @return [Integer]
 EstimatePriceCreateData = Struct.new(
+  :requested_estimation,
   :ErrorCodes,
   :Items,
   :ResultCode,
@@ -277,6 +269,9 @@ ListTransferRecord = Struct.new(
 
 # Request payload for ListTransferRecord#create.
 #
+# @!attribute [rw] request
+#   @return [Hash]
+#
 # @!attribute [rw] ErrorCodes
 #   @return [Array]
 #
@@ -289,6 +284,7 @@ ListTransferRecord = Struct.new(
 # @!attribute [rw] ThereAreMoreItems
 #   @return [Boolean]
 ListTransferRecordCreateData = Struct.new(
+  :request,
   :ErrorCodes,
   :Items,
   :ResultCode,
@@ -315,6 +311,9 @@ LookupBill = Struct.new(
 
 # Request payload for LookupBill#create.
 #
+# @!attribute [rw] request
+#   @return [Hash]
+#
 # @!attribute [rw] ErrorCodes
 #   @return [Array]
 #
@@ -324,6 +323,7 @@ LookupBill = Struct.new(
 # @!attribute [rw] ResultCode
 #   @return [Integer]
 LookupBillCreateData = Struct.new(
+  :request,
   :ErrorCodes,
   :Items,
   :ResultCode,
@@ -349,18 +349,30 @@ Product = Struct.new(
 
 # Request payload for Product#list.
 #
-# @!attribute [rw] ErrorCodes
-#   @return [Array, nil]
-#
-# @!attribute [rw] Items
-#   @return [Array, nil]
-#
-# @!attribute [rw] ResultCode
+# @!attribute [rw] account_number
 #   @return [Integer, nil]
+#
+# @!attribute [rw] benefit
+#   @return [Object, nil]
+#
+# @!attribute [rw] country_iso
+#   @return [Object, nil]
+#
+# @!attribute [rw] provider_code
+#   @return [Object, nil]
+#
+# @!attribute [rw] region_code
+#   @return [Object, nil]
+#
+# @!attribute [rw] sku_code
+#   @return [Object, nil]
 ProductListMatch = Struct.new(
-  :ErrorCodes,
-  :Items,
-  :ResultCode,
+  :account_number,
+  :benefit,
+  :country_iso,
+  :provider_code,
+  :region_code,
+  :sku_code,
   keyword_init: true
 )
 
@@ -383,18 +395,14 @@ ProductDescription = Struct.new(
 
 # Request payload for ProductDescription#list.
 #
-# @!attribute [rw] ErrorCodes
-#   @return [Array, nil]
+# @!attribute [rw] language_code
+#   @return [Object, nil]
 #
-# @!attribute [rw] Items
-#   @return [Array, nil]
-#
-# @!attribute [rw] ResultCode
-#   @return [Integer, nil]
+# @!attribute [rw] sku_code
+#   @return [Object, nil]
 ProductDescriptionListMatch = Struct.new(
-  :ErrorCodes,
-  :Items,
-  :ResultCode,
+  :language_code,
+  :sku_code,
   keyword_init: true
 )
 
@@ -417,18 +425,18 @@ Promotion = Struct.new(
 
 # Request payload for Promotion#list.
 #
-# @!attribute [rw] ErrorCodes
-#   @return [Array, nil]
-#
-# @!attribute [rw] Items
-#   @return [Array, nil]
-#
-# @!attribute [rw] ResultCode
+# @!attribute [rw] account_number
 #   @return [Integer, nil]
+#
+# @!attribute [rw] country_iso
+#   @return [Object, nil]
+#
+# @!attribute [rw] provider_code
+#   @return [Object, nil]
 PromotionListMatch = Struct.new(
-  :ErrorCodes,
-  :Items,
-  :ResultCode,
+  :account_number,
+  :country_iso,
+  :provider_code,
   keyword_init: true
 )
 
@@ -451,18 +459,10 @@ PromotionDescription = Struct.new(
 
 # Request payload for PromotionDescription#list.
 #
-# @!attribute [rw] ErrorCodes
-#   @return [Array, nil]
-#
-# @!attribute [rw] Items
-#   @return [Array, nil]
-#
-# @!attribute [rw] ResultCode
-#   @return [Integer, nil]
+# @!attribute [rw] language_code
+#   @return [Object, nil]
 PromotionDescriptionListMatch = Struct.new(
-  :ErrorCodes,
-  :Items,
-  :ResultCode,
+  :language_code,
   keyword_init: true
 )
 
@@ -485,18 +485,22 @@ Provider = Struct.new(
 
 # Request payload for Provider#list.
 #
-# @!attribute [rw] ErrorCodes
-#   @return [Array, nil]
-#
-# @!attribute [rw] Items
-#   @return [Array, nil]
-#
-# @!attribute [rw] ResultCode
+# @!attribute [rw] account_number
 #   @return [Integer, nil]
+#
+# @!attribute [rw] country_iso
+#   @return [Object, nil]
+#
+# @!attribute [rw] provider_code
+#   @return [Object, nil]
+#
+# @!attribute [rw] region_code
+#   @return [Object, nil]
 ProviderListMatch = Struct.new(
-  :ErrorCodes,
-  :Items,
-  :ResultCode,
+  :account_number,
+  :country_iso,
+  :provider_code,
+  :region_code,
   keyword_init: true
 )
 
@@ -519,18 +523,10 @@ ProviderStatus = Struct.new(
 
 # Request payload for ProviderStatus#list.
 #
-# @!attribute [rw] ErrorCodes
-#   @return [Array, nil]
-#
-# @!attribute [rw] Items
-#   @return [Array, nil]
-#
-# @!attribute [rw] ResultCode
-#   @return [Integer, nil]
+# @!attribute [rw] provider_code
+#   @return [Object, nil]
 ProviderStatusListMatch = Struct.new(
-  :ErrorCodes,
-  :Items,
-  :ResultCode,
+  :provider_code,
   keyword_init: true
 )
 
@@ -553,18 +549,10 @@ Region = Struct.new(
 
 # Request payload for Region#list.
 #
-# @!attribute [rw] ErrorCodes
-#   @return [Array, nil]
-#
-# @!attribute [rw] Items
-#   @return [Array, nil]
-#
-# @!attribute [rw] ResultCode
-#   @return [Integer, nil]
+# @!attribute [rw] country_iso
+#   @return [Object, nil]
 RegionListMatch = Struct.new(
-  :ErrorCodes,
-  :Items,
-  :ResultCode,
+  :country_iso,
   keyword_init: true
 )
 
@@ -587,6 +575,9 @@ SendTransfer = Struct.new(
 
 # Request payload for SendTransfer#create.
 #
+# @!attribute [rw] request
+#   @return [Hash]
+#
 # @!attribute [rw] ErrorCodes
 #   @return [Array]
 #
@@ -596,6 +587,7 @@ SendTransfer = Struct.new(
 # @!attribute [rw] TransferRecord
 #   @return [Hash]
 SendTransferCreateData = Struct.new(
+  :request,
   :ErrorCodes,
   :ResultCode,
   :TransferRecord,

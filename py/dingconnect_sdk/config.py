@@ -1,6 +1,14 @@
 # Dingconnect SDK configuration
 
 
+# The sekreto plugin DEFINITIONS the model selected per feature, imported
+# above by name from the modules the catalogue's active `plugin.def`
+# entries declare. Handed to each feature (secrets builds its Sekreto
+# with them): a provider kind not listed here is unknown to that SDK.
+FEATURE_PLUGINS = {
+}
+
+
 _shared_config = None
 
 
@@ -93,6 +101,7 @@ def make_config():
             "type": "`$ARRAY`",
           },
           {
+            "format": "int32",
             "name": "ResultCode",
             "req": True,
             "type": "`$INTEGER`",
@@ -126,10 +135,16 @@ def make_config():
                 "kind": "http",
                 "method": "GET",
                 "orig": "/api/V1/GetAccountLookup",
-                "parts": [
-                  "api",
-                  "V1",
-                  "GetAccountLookup",
+                "segments": [
+                  {
+                    "lit": "api",
+                  },
+                  {
+                    "lit": "V1",
+                  },
+                  {
+                    "lit": "GetAccountLookup",
+                  },
                 ],
                 "select": {
                   "exist": [
@@ -141,6 +156,11 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
+                "parts": [
+                  "api",
+                  "V1",
+                  "GetAccountLookup",
+                ],
               },
             ],
           },
@@ -183,10 +203,16 @@ def make_config():
                 "kind": "http",
                 "method": "GET",
                 "orig": "/api/V1/GetBalance",
-                "parts": [
-                  "api",
-                  "V1",
-                  "GetBalance",
+                "segments": [
+                  {
+                    "lit": "api",
+                  },
+                  {
+                    "lit": "V1",
+                  },
+                  {
+                    "lit": "GetBalance",
+                  },
                 ],
                 "select": {
                   "exist": [
@@ -197,6 +223,11 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body.ErrorCodes`",
                 },
+                "parts": [
+                  "api",
+                  "V1",
+                  "GetBalance",
+                ],
               },
             ],
           },
@@ -218,6 +249,7 @@ def make_config():
             "type": "`$ARRAY`",
           },
           {
+            "format": "int32",
             "name": "ResultCode",
             "req": True,
             "type": "`$INTEGER`",
@@ -252,10 +284,16 @@ def make_config():
                 "kind": "http",
                 "method": "POST",
                 "orig": "/api/V1/CancelTransfers",
-                "parts": [
-                  "api",
-                  "V1",
-                  "CancelTransfers",
+                "segments": [
+                  {
+                    "lit": "api",
+                  },
+                  {
+                    "lit": "V1",
+                  },
+                  {
+                    "lit": "CancelTransfers",
+                  },
                 ],
                 "select": {
                   "exist": [
@@ -267,6 +305,11 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
+                "parts": [
+                  "api",
+                  "V1",
+                  "CancelTransfers",
+                ],
               },
             ],
           },
@@ -289,6 +332,7 @@ def make_config():
             "type": "`$ARRAY`",
           },
           {
+            "format": "int32",
             "name": "ResultCode",
             "req": True,
             "type": "`$INTEGER`",
@@ -314,10 +358,16 @@ def make_config():
                 "kind": "http",
                 "method": "GET",
                 "orig": "/api/V1/GetCountries",
-                "parts": [
-                  "api",
-                  "V1",
-                  "GetCountries",
+                "segments": [
+                  {
+                    "lit": "api",
+                  },
+                  {
+                    "lit": "V1",
+                  },
+                  {
+                    "lit": "GetCountries",
+                  },
                 ],
                 "select": {
                   "exist": [
@@ -328,6 +378,11 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
+                "parts": [
+                  "api",
+                  "V1",
+                  "GetCountries",
+                ],
               },
             ],
           },
@@ -349,6 +404,7 @@ def make_config():
             "type": "`$ARRAY`",
           },
           {
+            "format": "int32",
             "name": "ResultCode",
             "req": True,
             "type": "`$INTEGER`",
@@ -374,10 +430,16 @@ def make_config():
                 "kind": "http",
                 "method": "GET",
                 "orig": "/api/V1/GetCurrencies",
-                "parts": [
-                  "api",
-                  "V1",
-                  "GetCurrencies",
+                "segments": [
+                  {
+                    "lit": "api",
+                  },
+                  {
+                    "lit": "V1",
+                  },
+                  {
+                    "lit": "GetCurrencies",
+                  },
                 ],
                 "select": {
                   "exist": [
@@ -388,6 +450,11 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
+                "parts": [
+                  "api",
+                  "V1",
+                  "GetCurrencies",
+                ],
               },
             ],
           },
@@ -410,6 +477,7 @@ def make_config():
             "type": "`$ARRAY`",
           },
           {
+            "format": "int32",
             "name": "ResultCode",
             "req": True,
             "type": "`$INTEGER`",
@@ -435,10 +503,16 @@ def make_config():
                 "kind": "http",
                 "method": "GET",
                 "orig": "/api/V1/GetErrorCodeDescriptions",
-                "parts": [
-                  "api",
-                  "V1",
-                  "GetErrorCodeDescriptions",
+                "segments": [
+                  {
+                    "lit": "api",
+                  },
+                  {
+                    "lit": "V1",
+                  },
+                  {
+                    "lit": "GetErrorCodeDescriptions",
+                  },
                 ],
                 "select": {
                   "exist": [
@@ -449,6 +523,11 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
+                "parts": [
+                  "api",
+                  "V1",
+                  "GetErrorCodeDescriptions",
+                ],
               },
             ],
           },
@@ -470,6 +549,7 @@ def make_config():
             "type": "`$ARRAY`",
           },
           {
+            "format": "int32",
             "name": "ResultCode",
             "req": True,
             "type": "`$INTEGER`",
@@ -504,10 +584,16 @@ def make_config():
                 "kind": "http",
                 "method": "POST",
                 "orig": "/api/V1/EstimatePrices",
-                "parts": [
-                  "api",
-                  "V1",
-                  "EstimatePrices",
+                "segments": [
+                  {
+                    "lit": "api",
+                  },
+                  {
+                    "lit": "V1",
+                  },
+                  {
+                    "lit": "EstimatePrices",
+                  },
                 ],
                 "select": {
                   "exist": [
@@ -519,6 +605,11 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
+                "parts": [
+                  "api",
+                  "V1",
+                  "EstimatePrices",
+                ],
               },
             ],
           },
@@ -541,6 +632,7 @@ def make_config():
             "type": "`$ARRAY`",
           },
           {
+            "format": "int32",
             "name": "ResultCode",
             "req": True,
             "type": "`$INTEGER`",
@@ -581,10 +673,16 @@ def make_config():
                 "kind": "http",
                 "method": "POST",
                 "orig": "/api/V1/ListTransferRecords",
-                "parts": [
-                  "api",
-                  "V1",
-                  "ListTransferRecords",
+                "segments": [
+                  {
+                    "lit": "api",
+                  },
+                  {
+                    "lit": "V1",
+                  },
+                  {
+                    "lit": "ListTransferRecords",
+                  },
                 ],
                 "select": {
                   "exist": [
@@ -596,6 +694,11 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
+                "parts": [
+                  "api",
+                  "V1",
+                  "ListTransferRecords",
+                ],
               },
             ],
           },
@@ -617,6 +720,7 @@ def make_config():
             "type": "`$ARRAY`",
           },
           {
+            "format": "int32",
             "name": "ResultCode",
             "req": True,
             "type": "`$INTEGER`",
@@ -651,10 +755,16 @@ def make_config():
                 "kind": "http",
                 "method": "POST",
                 "orig": "/api/V1/LookupBills",
-                "parts": [
-                  "api",
-                  "V1",
-                  "LookupBills",
+                "segments": [
+                  {
+                    "lit": "api",
+                  },
+                  {
+                    "lit": "V1",
+                  },
+                  {
+                    "lit": "LookupBills",
+                  },
                 ],
                 "select": {
                   "exist": [
@@ -666,6 +776,11 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
+                "parts": [
+                  "api",
+                  "V1",
+                  "LookupBills",
+                ],
               },
             ],
           },
@@ -688,6 +803,7 @@ def make_config():
             "type": "`$ARRAY`",
           },
           {
+            "format": "int32",
             "name": "ResultCode",
             "req": True,
             "type": "`$INTEGER`",
@@ -751,10 +867,16 @@ def make_config():
                 "kind": "http",
                 "method": "GET",
                 "orig": "/api/V1/GetProducts",
-                "parts": [
-                  "api",
-                  "V1",
-                  "GetProducts",
+                "segments": [
+                  {
+                    "lit": "api",
+                  },
+                  {
+                    "lit": "V1",
+                  },
+                  {
+                    "lit": "GetProducts",
+                  },
                 ],
                 "select": {
                   "exist": [
@@ -771,6 +893,11 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
+                "parts": [
+                  "api",
+                  "V1",
+                  "GetProducts",
+                ],
               },
             ],
           },
@@ -793,6 +920,7 @@ def make_config():
             "type": "`$ARRAY`",
           },
           {
+            "format": "int32",
             "name": "ResultCode",
             "req": True,
             "type": "`$INTEGER`",
@@ -832,10 +960,16 @@ def make_config():
                 "kind": "http",
                 "method": "GET",
                 "orig": "/api/V1/GetProductDescriptions",
-                "parts": [
-                  "api",
-                  "V1",
-                  "GetProductDescriptions",
+                "segments": [
+                  {
+                    "lit": "api",
+                  },
+                  {
+                    "lit": "V1",
+                  },
+                  {
+                    "lit": "GetProductDescriptions",
+                  },
                 ],
                 "select": {
                   "exist": [
@@ -848,6 +982,11 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
+                "parts": [
+                  "api",
+                  "V1",
+                  "GetProductDescriptions",
+                ],
               },
             ],
           },
@@ -870,6 +1009,7 @@ def make_config():
             "type": "`$ARRAY`",
           },
           {
+            "format": "int32",
             "name": "ResultCode",
             "req": True,
             "type": "`$INTEGER`",
@@ -915,10 +1055,16 @@ def make_config():
                 "kind": "http",
                 "method": "GET",
                 "orig": "/api/V1/GetPromotions",
-                "parts": [
-                  "api",
-                  "V1",
-                  "GetPromotions",
+                "segments": [
+                  {
+                    "lit": "api",
+                  },
+                  {
+                    "lit": "V1",
+                  },
+                  {
+                    "lit": "GetPromotions",
+                  },
                 ],
                 "select": {
                   "exist": [
@@ -932,6 +1078,11 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
+                "parts": [
+                  "api",
+                  "V1",
+                  "GetPromotions",
+                ],
               },
             ],
           },
@@ -954,6 +1105,7 @@ def make_config():
             "type": "`$ARRAY`",
           },
           {
+            "format": "int32",
             "name": "ResultCode",
             "req": True,
             "type": "`$INTEGER`",
@@ -987,10 +1139,16 @@ def make_config():
                 "kind": "http",
                 "method": "GET",
                 "orig": "/api/V1/GetPromotionDescriptions",
-                "parts": [
-                  "api",
-                  "V1",
-                  "GetPromotionDescriptions",
+                "segments": [
+                  {
+                    "lit": "api",
+                  },
+                  {
+                    "lit": "V1",
+                  },
+                  {
+                    "lit": "GetPromotionDescriptions",
+                  },
                 ],
                 "select": {
                   "exist": [
@@ -1002,6 +1160,11 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
+                "parts": [
+                  "api",
+                  "V1",
+                  "GetPromotionDescriptions",
+                ],
               },
             ],
           },
@@ -1024,6 +1187,7 @@ def make_config():
             "type": "`$ARRAY`",
           },
           {
+            "format": "int32",
             "name": "ResultCode",
             "req": True,
             "type": "`$INTEGER`",
@@ -1075,10 +1239,16 @@ def make_config():
                 "kind": "http",
                 "method": "GET",
                 "orig": "/api/V1/GetProviders",
-                "parts": [
-                  "api",
-                  "V1",
-                  "GetProviders",
+                "segments": [
+                  {
+                    "lit": "api",
+                  },
+                  {
+                    "lit": "V1",
+                  },
+                  {
+                    "lit": "GetProviders",
+                  },
                 ],
                 "select": {
                   "exist": [
@@ -1093,6 +1263,11 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
+                "parts": [
+                  "api",
+                  "V1",
+                  "GetProviders",
+                ],
               },
             ],
           },
@@ -1114,6 +1289,7 @@ def make_config():
             "type": "`$ARRAY`",
           },
           {
+            "format": "int32",
             "name": "ResultCode",
             "req": True,
             "type": "`$INTEGER`",
@@ -1147,10 +1323,16 @@ def make_config():
                 "kind": "http",
                 "method": "GET",
                 "orig": "/api/V1/GetProviderStatus",
-                "parts": [
-                  "api",
-                  "V1",
-                  "GetProviderStatus",
+                "segments": [
+                  {
+                    "lit": "api",
+                  },
+                  {
+                    "lit": "V1",
+                  },
+                  {
+                    "lit": "GetProviderStatus",
+                  },
                 ],
                 "select": {
                   "exist": [
@@ -1162,6 +1344,11 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
+                "parts": [
+                  "api",
+                  "V1",
+                  "GetProviderStatus",
+                ],
               },
             ],
           },
@@ -1184,6 +1371,7 @@ def make_config():
             "type": "`$ARRAY`",
           },
           {
+            "format": "int32",
             "name": "ResultCode",
             "req": True,
             "type": "`$INTEGER`",
@@ -1217,10 +1405,16 @@ def make_config():
                 "kind": "http",
                 "method": "GET",
                 "orig": "/api/V1/GetRegions",
-                "parts": [
-                  "api",
-                  "V1",
-                  "GetRegions",
+                "segments": [
+                  {
+                    "lit": "api",
+                  },
+                  {
+                    "lit": "V1",
+                  },
+                  {
+                    "lit": "GetRegions",
+                  },
                 ],
                 "select": {
                   "exist": [
@@ -1232,6 +1426,11 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
+                "parts": [
+                  "api",
+                  "V1",
+                  "GetRegions",
+                ],
               },
             ],
           },
@@ -1248,6 +1447,7 @@ def make_config():
             "type": "`$ARRAY`",
           },
           {
+            "format": "int32",
             "name": "ResultCode",
             "req": True,
             "type": "`$INTEGER`",
@@ -1287,10 +1487,16 @@ def make_config():
                 "kind": "http",
                 "method": "POST",
                 "orig": "/api/V1/SendTransfer",
-                "parts": [
-                  "api",
-                  "V1",
-                  "SendTransfer",
+                "segments": [
+                  {
+                    "lit": "api",
+                  },
+                  {
+                    "lit": "V1",
+                  },
+                  {
+                    "lit": "SendTransfer",
+                  },
                 ],
                 "select": {
                   "exist": [
@@ -1302,6 +1508,11 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
+                "parts": [
+                  "api",
+                  "V1",
+                  "SendTransfer",
+                ],
               },
             ],
           },

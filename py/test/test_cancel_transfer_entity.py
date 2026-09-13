@@ -85,7 +85,7 @@ def _cancel_transfer_basic_setup(extra):
         "DINGCONNECT_TEST_CANCEL_TRANSFER_ENTID": idmap,
         "DINGCONNECT_TEST_LIVE": "FALSE",
         "DINGCONNECT_TEST_EXPLAIN": "FALSE",
-        "DINGCONNECT_APIKEY": "NONE",
+        "DINGCONNECT_APIKEY": "",
     })
 
     idmap_resolved = helpers.to_map(
@@ -95,6 +95,10 @@ def _cancel_transfer_basic_setup(extra):
 
     if env.get("DINGCONNECT_TEST_LIVE") == "TRUE":
         merged_opts = vs.merge([
+            # FIRST, so the generated fields below win: sdk-test-control.json's
+            # test.client.options adds to the live client, it does not
+            # redirect it.
+            runner.live_client_options(),
             {
                 "apikey": env.get("DINGCONNECT_APIKEY"),
             },

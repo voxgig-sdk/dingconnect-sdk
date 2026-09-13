@@ -17,6 +17,7 @@ main: kit: entity: product: {
       type: "`$ARRAY`"
     }
     {
+      format: "int32"
       name: "ResultCode"
       req: true
       type: "`$INTEGER`"
@@ -86,10 +87,16 @@ main: kit: entity: product: {
           }
           method: "GET"
           orig: "/api/V1/GetProducts"
-          parts: [
-            "api"
-            "V1"
-            "GetProducts"
+          segments: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "V1"
+            }
+            {
+              lit: "GetProducts"
+            }
           ]
           select: {
             exist: [

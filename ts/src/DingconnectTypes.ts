@@ -14,11 +14,7 @@ export interface AccountLookup {
 }
 
 export interface AccountLookupListMatch {
-  AccountNumberNormalized?: string
-  CountryIso?: string
-  ErrorCodes?: any[]
-  Items?: any[]
-  ResultCode?: number
+  account_number?: number
 }
 
 export interface Balance {
@@ -38,6 +34,7 @@ export interface CancelTransfer {
 }
 
 export interface CancelTransferCreateData {
+  cancellation_request: any[]
   ErrorCodes: any[]
   Items: any[]
   ResultCode: number
@@ -86,6 +83,7 @@ export interface EstimatePrice {
 }
 
 export interface EstimatePriceCreateData {
+  requested_estimation: any[]
   ErrorCodes: any[]
   Items: any[]
   ResultCode: number
@@ -99,6 +97,7 @@ export interface ListTransferRecord {
 }
 
 export interface ListTransferRecordCreateData {
+  request: Record<string, any>
   ErrorCodes: any[]
   Items: any[]
   ResultCode: number
@@ -112,6 +111,7 @@ export interface LookupBill {
 }
 
 export interface LookupBillCreateData {
+  request: Record<string, any>
   ErrorCodes: any[]
   Items: any[]
   ResultCode: number
@@ -124,9 +124,12 @@ export interface Product {
 }
 
 export interface ProductListMatch {
-  ErrorCodes?: any[]
-  Items?: any[]
-  ResultCode?: number
+  account_number?: number
+  benefit?: any
+  country_iso?: any
+  provider_code?: any
+  region_code?: any
+  sku_code?: any
 }
 
 export interface ProductDescription {
@@ -136,9 +139,8 @@ export interface ProductDescription {
 }
 
 export interface ProductDescriptionListMatch {
-  ErrorCodes?: any[]
-  Items?: any[]
-  ResultCode?: number
+  language_code?: any
+  sku_code?: any
 }
 
 export interface Promotion {
@@ -148,9 +150,9 @@ export interface Promotion {
 }
 
 export interface PromotionListMatch {
-  ErrorCodes?: any[]
-  Items?: any[]
-  ResultCode?: number
+  account_number?: number
+  country_iso?: any
+  provider_code?: any
 }
 
 export interface PromotionDescription {
@@ -160,9 +162,7 @@ export interface PromotionDescription {
 }
 
 export interface PromotionDescriptionListMatch {
-  ErrorCodes?: any[]
-  Items?: any[]
-  ResultCode?: number
+  language_code?: any
 }
 
 export interface Provider {
@@ -172,9 +172,10 @@ export interface Provider {
 }
 
 export interface ProviderListMatch {
-  ErrorCodes?: any[]
-  Items?: any[]
-  ResultCode?: number
+  account_number?: number
+  country_iso?: any
+  provider_code?: any
+  region_code?: any
 }
 
 export interface ProviderStatus {
@@ -184,9 +185,7 @@ export interface ProviderStatus {
 }
 
 export interface ProviderStatusListMatch {
-  ErrorCodes?: any[]
-  Items?: any[]
-  ResultCode?: number
+  provider_code?: any
 }
 
 export interface Region {
@@ -196,9 +195,7 @@ export interface Region {
 }
 
 export interface RegionListMatch {
-  ErrorCodes?: any[]
-  Items?: any[]
-  ResultCode?: number
+  country_iso?: any
 }
 
 export interface SendTransfer {
@@ -208,6 +205,7 @@ export interface SendTransfer {
 }
 
 export interface SendTransferCreateData {
+  request: Record<string, any>
   ErrorCodes: any[]
   ResultCode: number
   TransferRecord: Record<string, any>

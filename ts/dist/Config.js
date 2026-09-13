@@ -1,10 +1,18 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.config = void 0;
+exports.FEATURE_PLUGINS = exports.config = void 0;
 const TestFeature_1 = require("./feature/test/TestFeature");
 const FEATURE_CLASS = {
     test: TestFeature_1.TestFeature,
 };
+// Per-feature plugin DEFINITIONS (voxgig/plugin `Definition` values), from
+// the model's active plugin groups. A feature that takes a `plugins` option
+// (secrets over sekreto) reads its own entry; a feature with no plugins has
+// none. Named imports above make each definition statically reachable, so
+// an SDK carries exactly the plugin modules its model selects — the same
+// leanness the old side-effect registry imports bought, without a registry.
+const FEATURE_PLUGINS = {};
+exports.FEATURE_PLUGINS = FEATURE_PLUGINS;
 class Config {
     makeFeature(fn) {
         const fc = FEATURE_CLASS[fn];
@@ -85,6 +93,7 @@ class Config {
                     "type": "`$ARRAY`"
                 },
                 {
+                    "format": "int32",
                     "name": "ResultCode",
                     "req": true,
                     "type": "`$INTEGER`"
@@ -118,10 +127,16 @@ class Config {
                             "kind": "http",
                             "method": "GET",
                             "orig": "/api/V1/GetAccountLookup",
-                            "parts": [
-                                "api",
-                                "V1",
-                                "GetAccountLookup"
+                            "segments": [
+                                {
+                                    "lit": "api"
+                                },
+                                {
+                                    "lit": "V1"
+                                },
+                                {
+                                    "lit": "GetAccountLookup"
+                                }
                             ],
                             "select": {
                                 "exist": [
@@ -132,7 +147,12 @@ class Config {
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body`"
-                            }
+                            },
+                            "parts": [
+                                "api",
+                                "V1",
+                                "GetAccountLookup"
+                            ]
                         }
                     ]
                 }
@@ -175,10 +195,16 @@ class Config {
                             "kind": "http",
                             "method": "GET",
                             "orig": "/api/V1/GetBalance",
-                            "parts": [
-                                "api",
-                                "V1",
-                                "GetBalance"
+                            "segments": [
+                                {
+                                    "lit": "api"
+                                },
+                                {
+                                    "lit": "V1"
+                                },
+                                {
+                                    "lit": "GetBalance"
+                                }
                             ],
                             "select": {
                                 "exist": [
@@ -188,7 +214,12 @@ class Config {
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body.ErrorCodes`"
-                            }
+                            },
+                            "parts": [
+                                "api",
+                                "V1",
+                                "GetBalance"
+                            ]
                         }
                     ]
                 }
@@ -210,6 +241,7 @@ class Config {
                     "type": "`$ARRAY`"
                 },
                 {
+                    "format": "int32",
                     "name": "ResultCode",
                     "req": true,
                     "type": "`$INTEGER`"
@@ -244,10 +276,16 @@ class Config {
                             "kind": "http",
                             "method": "POST",
                             "orig": "/api/V1/CancelTransfers",
-                            "parts": [
-                                "api",
-                                "V1",
-                                "CancelTransfers"
+                            "segments": [
+                                {
+                                    "lit": "api"
+                                },
+                                {
+                                    "lit": "V1"
+                                },
+                                {
+                                    "lit": "CancelTransfers"
+                                }
                             ],
                             "select": {
                                 "exist": [
@@ -258,7 +296,12 @@ class Config {
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body`"
-                            }
+                            },
+                            "parts": [
+                                "api",
+                                "V1",
+                                "CancelTransfers"
+                            ]
                         }
                     ]
                 }
@@ -281,6 +324,7 @@ class Config {
                     "type": "`$ARRAY`"
                 },
                 {
+                    "format": "int32",
                     "name": "ResultCode",
                     "req": true,
                     "type": "`$INTEGER`"
@@ -306,10 +350,16 @@ class Config {
                             "kind": "http",
                             "method": "GET",
                             "orig": "/api/V1/GetCountries",
-                            "parts": [
-                                "api",
-                                "V1",
-                                "GetCountries"
+                            "segments": [
+                                {
+                                    "lit": "api"
+                                },
+                                {
+                                    "lit": "V1"
+                                },
+                                {
+                                    "lit": "GetCountries"
+                                }
                             ],
                             "select": {
                                 "exist": [
@@ -319,7 +369,12 @@ class Config {
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body`"
-                            }
+                            },
+                            "parts": [
+                                "api",
+                                "V1",
+                                "GetCountries"
+                            ]
                         }
                     ]
                 }
@@ -341,6 +396,7 @@ class Config {
                     "type": "`$ARRAY`"
                 },
                 {
+                    "format": "int32",
                     "name": "ResultCode",
                     "req": true,
                     "type": "`$INTEGER`"
@@ -366,10 +422,16 @@ class Config {
                             "kind": "http",
                             "method": "GET",
                             "orig": "/api/V1/GetCurrencies",
-                            "parts": [
-                                "api",
-                                "V1",
-                                "GetCurrencies"
+                            "segments": [
+                                {
+                                    "lit": "api"
+                                },
+                                {
+                                    "lit": "V1"
+                                },
+                                {
+                                    "lit": "GetCurrencies"
+                                }
                             ],
                             "select": {
                                 "exist": [
@@ -379,7 +441,12 @@ class Config {
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body`"
-                            }
+                            },
+                            "parts": [
+                                "api",
+                                "V1",
+                                "GetCurrencies"
+                            ]
                         }
                     ]
                 }
@@ -402,6 +469,7 @@ class Config {
                     "type": "`$ARRAY`"
                 },
                 {
+                    "format": "int32",
                     "name": "ResultCode",
                     "req": true,
                     "type": "`$INTEGER`"
@@ -427,10 +495,16 @@ class Config {
                             "kind": "http",
                             "method": "GET",
                             "orig": "/api/V1/GetErrorCodeDescriptions",
-                            "parts": [
-                                "api",
-                                "V1",
-                                "GetErrorCodeDescriptions"
+                            "segments": [
+                                {
+                                    "lit": "api"
+                                },
+                                {
+                                    "lit": "V1"
+                                },
+                                {
+                                    "lit": "GetErrorCodeDescriptions"
+                                }
                             ],
                             "select": {
                                 "exist": [
@@ -440,7 +514,12 @@ class Config {
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body`"
-                            }
+                            },
+                            "parts": [
+                                "api",
+                                "V1",
+                                "GetErrorCodeDescriptions"
+                            ]
                         }
                     ]
                 }
@@ -462,6 +541,7 @@ class Config {
                     "type": "`$ARRAY`"
                 },
                 {
+                    "format": "int32",
                     "name": "ResultCode",
                     "req": true,
                     "type": "`$INTEGER`"
@@ -496,10 +576,16 @@ class Config {
                             "kind": "http",
                             "method": "POST",
                             "orig": "/api/V1/EstimatePrices",
-                            "parts": [
-                                "api",
-                                "V1",
-                                "EstimatePrices"
+                            "segments": [
+                                {
+                                    "lit": "api"
+                                },
+                                {
+                                    "lit": "V1"
+                                },
+                                {
+                                    "lit": "EstimatePrices"
+                                }
                             ],
                             "select": {
                                 "exist": [
@@ -510,7 +596,12 @@ class Config {
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body`"
-                            }
+                            },
+                            "parts": [
+                                "api",
+                                "V1",
+                                "EstimatePrices"
+                            ]
                         }
                     ]
                 }
@@ -533,6 +624,7 @@ class Config {
                     "type": "`$ARRAY`"
                 },
                 {
+                    "format": "int32",
                     "name": "ResultCode",
                     "req": true,
                     "type": "`$INTEGER`"
@@ -573,10 +665,16 @@ class Config {
                             "kind": "http",
                             "method": "POST",
                             "orig": "/api/V1/ListTransferRecords",
-                            "parts": [
-                                "api",
-                                "V1",
-                                "ListTransferRecords"
+                            "segments": [
+                                {
+                                    "lit": "api"
+                                },
+                                {
+                                    "lit": "V1"
+                                },
+                                {
+                                    "lit": "ListTransferRecords"
+                                }
                             ],
                             "select": {
                                 "exist": [
@@ -587,7 +685,12 @@ class Config {
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body`"
-                            }
+                            },
+                            "parts": [
+                                "api",
+                                "V1",
+                                "ListTransferRecords"
+                            ]
                         }
                     ]
                 }
@@ -609,6 +712,7 @@ class Config {
                     "type": "`$ARRAY`"
                 },
                 {
+                    "format": "int32",
                     "name": "ResultCode",
                     "req": true,
                     "type": "`$INTEGER`"
@@ -643,10 +747,16 @@ class Config {
                             "kind": "http",
                             "method": "POST",
                             "orig": "/api/V1/LookupBills",
-                            "parts": [
-                                "api",
-                                "V1",
-                                "LookupBills"
+                            "segments": [
+                                {
+                                    "lit": "api"
+                                },
+                                {
+                                    "lit": "V1"
+                                },
+                                {
+                                    "lit": "LookupBills"
+                                }
                             ],
                             "select": {
                                 "exist": [
@@ -657,7 +767,12 @@ class Config {
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body`"
-                            }
+                            },
+                            "parts": [
+                                "api",
+                                "V1",
+                                "LookupBills"
+                            ]
                         }
                     ]
                 }
@@ -680,6 +795,7 @@ class Config {
                     "type": "`$ARRAY`"
                 },
                 {
+                    "format": "int32",
                     "name": "ResultCode",
                     "req": true,
                     "type": "`$INTEGER`"
@@ -743,10 +859,16 @@ class Config {
                             "kind": "http",
                             "method": "GET",
                             "orig": "/api/V1/GetProducts",
-                            "parts": [
-                                "api",
-                                "V1",
-                                "GetProducts"
+                            "segments": [
+                                {
+                                    "lit": "api"
+                                },
+                                {
+                                    "lit": "V1"
+                                },
+                                {
+                                    "lit": "GetProducts"
+                                }
                             ],
                             "select": {
                                 "exist": [
@@ -762,7 +884,12 @@ class Config {
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body`"
-                            }
+                            },
+                            "parts": [
+                                "api",
+                                "V1",
+                                "GetProducts"
+                            ]
                         }
                     ]
                 }
@@ -785,6 +912,7 @@ class Config {
                     "type": "`$ARRAY`"
                 },
                 {
+                    "format": "int32",
                     "name": "ResultCode",
                     "req": true,
                     "type": "`$INTEGER`"
@@ -824,10 +952,16 @@ class Config {
                             "kind": "http",
                             "method": "GET",
                             "orig": "/api/V1/GetProductDescriptions",
-                            "parts": [
-                                "api",
-                                "V1",
-                                "GetProductDescriptions"
+                            "segments": [
+                                {
+                                    "lit": "api"
+                                },
+                                {
+                                    "lit": "V1"
+                                },
+                                {
+                                    "lit": "GetProductDescriptions"
+                                }
                             ],
                             "select": {
                                 "exist": [
@@ -839,7 +973,12 @@ class Config {
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body`"
-                            }
+                            },
+                            "parts": [
+                                "api",
+                                "V1",
+                                "GetProductDescriptions"
+                            ]
                         }
                     ]
                 }
@@ -862,6 +1001,7 @@ class Config {
                     "type": "`$ARRAY`"
                 },
                 {
+                    "format": "int32",
                     "name": "ResultCode",
                     "req": true,
                     "type": "`$INTEGER`"
@@ -907,10 +1047,16 @@ class Config {
                             "kind": "http",
                             "method": "GET",
                             "orig": "/api/V1/GetPromotions",
-                            "parts": [
-                                "api",
-                                "V1",
-                                "GetPromotions"
+                            "segments": [
+                                {
+                                    "lit": "api"
+                                },
+                                {
+                                    "lit": "V1"
+                                },
+                                {
+                                    "lit": "GetPromotions"
+                                }
                             ],
                             "select": {
                                 "exist": [
@@ -923,7 +1069,12 @@ class Config {
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body`"
-                            }
+                            },
+                            "parts": [
+                                "api",
+                                "V1",
+                                "GetPromotions"
+                            ]
                         }
                     ]
                 }
@@ -946,6 +1097,7 @@ class Config {
                     "type": "`$ARRAY`"
                 },
                 {
+                    "format": "int32",
                     "name": "ResultCode",
                     "req": true,
                     "type": "`$INTEGER`"
@@ -979,10 +1131,16 @@ class Config {
                             "kind": "http",
                             "method": "GET",
                             "orig": "/api/V1/GetPromotionDescriptions",
-                            "parts": [
-                                "api",
-                                "V1",
-                                "GetPromotionDescriptions"
+                            "segments": [
+                                {
+                                    "lit": "api"
+                                },
+                                {
+                                    "lit": "V1"
+                                },
+                                {
+                                    "lit": "GetPromotionDescriptions"
+                                }
                             ],
                             "select": {
                                 "exist": [
@@ -993,7 +1151,12 @@ class Config {
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body`"
-                            }
+                            },
+                            "parts": [
+                                "api",
+                                "V1",
+                                "GetPromotionDescriptions"
+                            ]
                         }
                     ]
                 }
@@ -1016,6 +1179,7 @@ class Config {
                     "type": "`$ARRAY`"
                 },
                 {
+                    "format": "int32",
                     "name": "ResultCode",
                     "req": true,
                     "type": "`$INTEGER`"
@@ -1067,10 +1231,16 @@ class Config {
                             "kind": "http",
                             "method": "GET",
                             "orig": "/api/V1/GetProviders",
-                            "parts": [
-                                "api",
-                                "V1",
-                                "GetProviders"
+                            "segments": [
+                                {
+                                    "lit": "api"
+                                },
+                                {
+                                    "lit": "V1"
+                                },
+                                {
+                                    "lit": "GetProviders"
+                                }
                             ],
                             "select": {
                                 "exist": [
@@ -1084,7 +1254,12 @@ class Config {
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body`"
-                            }
+                            },
+                            "parts": [
+                                "api",
+                                "V1",
+                                "GetProviders"
+                            ]
                         }
                     ]
                 }
@@ -1106,6 +1281,7 @@ class Config {
                     "type": "`$ARRAY`"
                 },
                 {
+                    "format": "int32",
                     "name": "ResultCode",
                     "req": true,
                     "type": "`$INTEGER`"
@@ -1139,10 +1315,16 @@ class Config {
                             "kind": "http",
                             "method": "GET",
                             "orig": "/api/V1/GetProviderStatus",
-                            "parts": [
-                                "api",
-                                "V1",
-                                "GetProviderStatus"
+                            "segments": [
+                                {
+                                    "lit": "api"
+                                },
+                                {
+                                    "lit": "V1"
+                                },
+                                {
+                                    "lit": "GetProviderStatus"
+                                }
                             ],
                             "select": {
                                 "exist": [
@@ -1153,7 +1335,12 @@ class Config {
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body`"
-                            }
+                            },
+                            "parts": [
+                                "api",
+                                "V1",
+                                "GetProviderStatus"
+                            ]
                         }
                     ]
                 }
@@ -1176,6 +1363,7 @@ class Config {
                     "type": "`$ARRAY`"
                 },
                 {
+                    "format": "int32",
                     "name": "ResultCode",
                     "req": true,
                     "type": "`$INTEGER`"
@@ -1209,10 +1397,16 @@ class Config {
                             "kind": "http",
                             "method": "GET",
                             "orig": "/api/V1/GetRegions",
-                            "parts": [
-                                "api",
-                                "V1",
-                                "GetRegions"
+                            "segments": [
+                                {
+                                    "lit": "api"
+                                },
+                                {
+                                    "lit": "V1"
+                                },
+                                {
+                                    "lit": "GetRegions"
+                                }
                             ],
                             "select": {
                                 "exist": [
@@ -1223,7 +1417,12 @@ class Config {
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body`"
-                            }
+                            },
+                            "parts": [
+                                "api",
+                                "V1",
+                                "GetRegions"
+                            ]
                         }
                     ]
                 }
@@ -1240,6 +1439,7 @@ class Config {
                     "type": "`$ARRAY`"
                 },
                 {
+                    "format": "int32",
                     "name": "ResultCode",
                     "req": true,
                     "type": "`$INTEGER`"
@@ -1279,10 +1479,16 @@ class Config {
                             "kind": "http",
                             "method": "POST",
                             "orig": "/api/V1/SendTransfer",
-                            "parts": [
-                                "api",
-                                "V1",
-                                "SendTransfer"
+                            "segments": [
+                                {
+                                    "lit": "api"
+                                },
+                                {
+                                    "lit": "V1"
+                                },
+                                {
+                                    "lit": "SendTransfer"
+                                }
                             ],
                             "select": {
                                 "exist": [
@@ -1293,7 +1499,12 @@ class Config {
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body`"
-                            }
+                            },
+                            "parts": [
+                                "api",
+                                "V1",
+                                "SendTransfer"
+                            ]
                         }
                     ]
                 }

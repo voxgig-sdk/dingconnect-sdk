@@ -60,15 +60,18 @@ def _account_lookup_direct_setup(mockres):
     env = runner.env_override({
         "DINGCONNECT_TEST_ACCOUNT_LOOKUP_ENTID": {},
         "DINGCONNECT_TEST_LIVE": "FALSE",
-        "DINGCONNECT_APIKEY": "NONE",
+        "DINGCONNECT_APIKEY": "",
     })
 
     live = env.get("DINGCONNECT_TEST_LIVE") == "TRUE"
 
     if live:
-        merged_opts = {
+        # sdk-test-control.json's test.client.options seeds the live
+        # client; the generated fields below overwrite anything they name.
+        merged_opts = dict(runner.live_client_options())
+        merged_opts.update({
             "apikey": env.get("DINGCONNECT_APIKEY"),
-        }
+        })
         client = DingconnectSDK(merged_opts)
         return {
             "client": client,

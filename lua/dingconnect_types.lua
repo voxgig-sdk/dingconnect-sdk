@@ -14,11 +14,7 @@
 ---@field ResultCode number
 
 ---@class AccountLookupListMatch
----@field AccountNumberNormalized? string
----@field CountryIso? string
----@field ErrorCodes? table
----@field Items? table
----@field ResultCode? number
+---@field account_number? number
 
 ---@class Balance
 ---@field Code string
@@ -34,6 +30,7 @@
 ---@field ResultCode number
 
 ---@class CancelTransferCreateData
+---@field cancellation_request table
 ---@field ErrorCodes table
 ---@field Items table
 ---@field ResultCode number
@@ -74,6 +71,7 @@
 ---@field ResultCode number
 
 ---@class EstimatePriceCreateData
+---@field requested_estimation table
 ---@field ErrorCodes table
 ---@field Items table
 ---@field ResultCode number
@@ -85,6 +83,7 @@
 ---@field ThereAreMoreItems boolean
 
 ---@class ListTransferRecordCreateData
+---@field request table
 ---@field ErrorCodes table
 ---@field Items table
 ---@field ResultCode number
@@ -96,6 +95,7 @@
 ---@field ResultCode number
 
 ---@class LookupBillCreateData
+---@field request table
 ---@field ErrorCodes table
 ---@field Items table
 ---@field ResultCode number
@@ -106,9 +106,12 @@
 ---@field ResultCode number
 
 ---@class ProductListMatch
----@field ErrorCodes? table
----@field Items? table
----@field ResultCode? number
+---@field account_number? number
+---@field benefit? any
+---@field country_iso? any
+---@field provider_code? any
+---@field region_code? any
+---@field sku_code? any
 
 ---@class ProductDescription
 ---@field ErrorCodes table
@@ -116,9 +119,8 @@
 ---@field ResultCode number
 
 ---@class ProductDescriptionListMatch
----@field ErrorCodes? table
----@field Items? table
----@field ResultCode? number
+---@field language_code? any
+---@field sku_code? any
 
 ---@class Promotion
 ---@field ErrorCodes table
@@ -126,9 +128,9 @@
 ---@field ResultCode number
 
 ---@class PromotionListMatch
----@field ErrorCodes? table
----@field Items? table
----@field ResultCode? number
+---@field account_number? number
+---@field country_iso? any
+---@field provider_code? any
 
 ---@class PromotionDescription
 ---@field ErrorCodes table
@@ -136,9 +138,7 @@
 ---@field ResultCode number
 
 ---@class PromotionDescriptionListMatch
----@field ErrorCodes? table
----@field Items? table
----@field ResultCode? number
+---@field language_code? any
 
 ---@class Provider
 ---@field ErrorCodes table
@@ -146,9 +146,10 @@
 ---@field ResultCode number
 
 ---@class ProviderListMatch
----@field ErrorCodes? table
----@field Items? table
----@field ResultCode? number
+---@field account_number? number
+---@field country_iso? any
+---@field provider_code? any
+---@field region_code? any
 
 ---@class ProviderStatus
 ---@field ErrorCodes table
@@ -156,9 +157,7 @@
 ---@field ResultCode number
 
 ---@class ProviderStatusListMatch
----@field ErrorCodes? table
----@field Items? table
----@field ResultCode? number
+---@field provider_code? any
 
 ---@class Region
 ---@field ErrorCodes table
@@ -166,9 +165,7 @@
 ---@field ResultCode number
 
 ---@class RegionListMatch
----@field ErrorCodes? table
----@field Items? table
----@field ResultCode? number
+---@field country_iso? any
 
 ---@class SendTransfer
 ---@field ErrorCodes table
@@ -176,6 +173,7 @@
 ---@field TransferRecord table
 
 ---@class SendTransferCreateData
+---@field request table
 ---@field ErrorCodes table
 ---@field ResultCode number
 ---@field TransferRecord table

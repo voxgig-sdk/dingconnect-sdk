@@ -23,11 +23,7 @@ type AccountLookup struct {
 
 // AccountLookupListMatch is the typed request payload for AccountLookup.ListTyped.
 type AccountLookupListMatch struct {
-	AccountNumberNormalized *string `json:"AccountNumberNormalized,omitempty"`
-	CountryIso *string `json:"CountryIso,omitempty"`
-	ErrorCodes *[]any `json:"ErrorCodes,omitempty"`
-	Items *[]any `json:"Items,omitempty"`
-	ResultCode *int `json:"ResultCode,omitempty"`
+	AccountNumber *int `json:"account_number,omitempty"`
 }
 
 // Balance is the typed data model for the balance entity.
@@ -51,6 +47,7 @@ type CancelTransfer struct {
 
 // CancelTransferCreateData is the typed request payload for CancelTransfer.CreateTyped.
 type CancelTransferCreateData struct {
+	CancellationRequest []any `json:"cancellation_request"`
 	ErrorCodes []any `json:"ErrorCodes"`
 	Items []any `json:"Items"`
 	ResultCode int `json:"ResultCode"`
@@ -107,6 +104,7 @@ type EstimatePrice struct {
 
 // EstimatePriceCreateData is the typed request payload for EstimatePrice.CreateTyped.
 type EstimatePriceCreateData struct {
+	RequestedEstimation []any `json:"requested_estimation"`
 	ErrorCodes []any `json:"ErrorCodes"`
 	Items []any `json:"Items"`
 	ResultCode int `json:"ResultCode"`
@@ -122,6 +120,7 @@ type ListTransferRecord struct {
 
 // ListTransferRecordCreateData is the typed request payload for ListTransferRecord.CreateTyped.
 type ListTransferRecordCreateData struct {
+	Request map[string]any `json:"request"`
 	ErrorCodes []any `json:"ErrorCodes"`
 	Items []any `json:"Items"`
 	ResultCode int `json:"ResultCode"`
@@ -137,6 +136,7 @@ type LookupBill struct {
 
 // LookupBillCreateData is the typed request payload for LookupBill.CreateTyped.
 type LookupBillCreateData struct {
+	Request map[string]any `json:"request"`
 	ErrorCodes []any `json:"ErrorCodes"`
 	Items []any `json:"Items"`
 	ResultCode int `json:"ResultCode"`
@@ -151,9 +151,12 @@ type Product struct {
 
 // ProductListMatch is the typed request payload for Product.ListTyped.
 type ProductListMatch struct {
-	ErrorCodes *[]any `json:"ErrorCodes,omitempty"`
-	Items *[]any `json:"Items,omitempty"`
-	ResultCode *int `json:"ResultCode,omitempty"`
+	AccountNumber *int `json:"account_number,omitempty"`
+	Benefit *any `json:"benefit,omitempty"`
+	CountryIso *any `json:"country_iso,omitempty"`
+	ProviderCode *any `json:"provider_code,omitempty"`
+	RegionCode *any `json:"region_code,omitempty"`
+	SkuCode *any `json:"sku_code,omitempty"`
 }
 
 // ProductDescription is the typed data model for the product_description entity.
@@ -165,9 +168,8 @@ type ProductDescription struct {
 
 // ProductDescriptionListMatch is the typed request payload for ProductDescription.ListTyped.
 type ProductDescriptionListMatch struct {
-	ErrorCodes *[]any `json:"ErrorCodes,omitempty"`
-	Items *[]any `json:"Items,omitempty"`
-	ResultCode *int `json:"ResultCode,omitempty"`
+	LanguageCode *any `json:"language_code,omitempty"`
+	SkuCode *any `json:"sku_code,omitempty"`
 }
 
 // Promotion is the typed data model for the promotion entity.
@@ -179,9 +181,9 @@ type Promotion struct {
 
 // PromotionListMatch is the typed request payload for Promotion.ListTyped.
 type PromotionListMatch struct {
-	ErrorCodes *[]any `json:"ErrorCodes,omitempty"`
-	Items *[]any `json:"Items,omitempty"`
-	ResultCode *int `json:"ResultCode,omitempty"`
+	AccountNumber *int `json:"account_number,omitempty"`
+	CountryIso *any `json:"country_iso,omitempty"`
+	ProviderCode *any `json:"provider_code,omitempty"`
 }
 
 // PromotionDescription is the typed data model for the promotion_description entity.
@@ -193,9 +195,7 @@ type PromotionDescription struct {
 
 // PromotionDescriptionListMatch is the typed request payload for PromotionDescription.ListTyped.
 type PromotionDescriptionListMatch struct {
-	ErrorCodes *[]any `json:"ErrorCodes,omitempty"`
-	Items *[]any `json:"Items,omitempty"`
-	ResultCode *int `json:"ResultCode,omitempty"`
+	LanguageCode *any `json:"language_code,omitempty"`
 }
 
 // Provider is the typed data model for the provider entity.
@@ -207,9 +207,10 @@ type Provider struct {
 
 // ProviderListMatch is the typed request payload for Provider.ListTyped.
 type ProviderListMatch struct {
-	ErrorCodes *[]any `json:"ErrorCodes,omitempty"`
-	Items *[]any `json:"Items,omitempty"`
-	ResultCode *int `json:"ResultCode,omitempty"`
+	AccountNumber *int `json:"account_number,omitempty"`
+	CountryIso *any `json:"country_iso,omitempty"`
+	ProviderCode *any `json:"provider_code,omitempty"`
+	RegionCode *any `json:"region_code,omitempty"`
 }
 
 // ProviderStatus is the typed data model for the provider_status entity.
@@ -221,9 +222,7 @@ type ProviderStatus struct {
 
 // ProviderStatusListMatch is the typed request payload for ProviderStatus.ListTyped.
 type ProviderStatusListMatch struct {
-	ErrorCodes *[]any `json:"ErrorCodes,omitempty"`
-	Items *[]any `json:"Items,omitempty"`
-	ResultCode *int `json:"ResultCode,omitempty"`
+	ProviderCode *any `json:"provider_code,omitempty"`
 }
 
 // Region is the typed data model for the region entity.
@@ -235,9 +234,7 @@ type Region struct {
 
 // RegionListMatch is the typed request payload for Region.ListTyped.
 type RegionListMatch struct {
-	ErrorCodes *[]any `json:"ErrorCodes,omitempty"`
-	Items *[]any `json:"Items,omitempty"`
-	ResultCode *int `json:"ResultCode,omitempty"`
+	CountryIso *any `json:"country_iso,omitempty"`
 }
 
 // SendTransfer is the typed data model for the send_transfer entity.
@@ -249,6 +246,7 @@ type SendTransfer struct {
 
 // SendTransferCreateData is the typed request payload for SendTransfer.CreateTyped.
 type SendTransferCreateData struct {
+	Request map[string]any `json:"request"`
 	ErrorCodes []any `json:"ErrorCodes"`
 	ResultCode int `json:"ResultCode"`
 	TransferRecord map[string]any `json:"TransferRecord"`

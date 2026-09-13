@@ -571,6 +571,7 @@ Create an instance: `cancelTransfer := client.CancelTransfer(nil)`
 
 ```go
 result, err := client.CancelTransfer(nil).Create(map[string]any{
+    "cancellation_request": []any{},
     "ErrorCodes": []any{},
     "Items": []any{},
     "ResultCode": 1,
@@ -691,6 +692,7 @@ Create an instance: `estimatePrice := client.EstimatePrice(nil)`
 
 ```go
 result, err := client.EstimatePrice(nil).Create(map[string]any{
+    "requested_estimation": []any{},
     "ErrorCodes": []any{},
     "Items": []any{},
     "ResultCode": 1,
@@ -725,6 +727,7 @@ Create an instance: `listTransferRecord := client.ListTransferRecord(nil)`
 
 ```go
 result, err := client.ListTransferRecord(nil).Create(map[string]any{
+    "request": map[string]any{},
     "ErrorCodes": []any{},
     "Items": []any{},
     "ResultCode": 1,
@@ -759,6 +762,7 @@ Create an instance: `lookupBill := client.LookupBill(nil)`
 
 ```go
 result, err := client.LookupBill(nil).Create(map[string]any{
+    "request": map[string]any{},
     "ErrorCodes": []any{},
     "Items": []any{},
     "ResultCode": 1,
@@ -995,6 +999,7 @@ Create an instance: `sendTransfer := client.SendTransfer(nil)`
 
 ```go
 result, err := client.SendTransfer(nil).Create(map[string]any{
+    "request": map[string]any{},
     "ErrorCodes": []any{},
     "ResultCode": 1,
     "TransferRecord": map[string]any{},
@@ -1004,6 +1009,29 @@ if err != nil {
 }
 fmt.Println(result)
 ```
+
+## Features
+
+This SDK ships 1 optional features. Each is **inactive until you
+switch it on**, so an SDK you have not configured behaves exactly as if none of
+them existed — no retries, no cache, no logging, no measurable overhead.
+
+Activate a feature by name in the client options, alongside the options shown
+above:
+
+| Feature | What it does |
+|---|---|
+| [`test`](#test) | In-memory mock transport for testing without a live server |
+
+### test
+
+In-memory mock transport for testing without a live server.
+
+| Option | Default |
+|---|---|
+| `active` | `false` |
+
+Set `feature.test.active` to enable it, then override any of the options above.
 
 
 ## Advanced

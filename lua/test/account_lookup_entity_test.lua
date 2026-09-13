@@ -133,7 +133,7 @@ function account_lookup_basic_setup(extra)
     ["DINGCONNECT_TEST_ACCOUNT_LOOKUP_ENTID"] = idmap,
     ["DINGCONNECT_TEST_LIVE"] = "FALSE",
     ["DINGCONNECT_TEST_EXPLAIN"] = "FALSE",
-    ["DINGCONNECT_APIKEY"] = "NONE",
+    ["DINGCONNECT_APIKEY"] = "",
   })
 
   local idmap_resolved = helpers.to_map(
@@ -144,6 +144,9 @@ function account_lookup_basic_setup(extra)
 
   if env["DINGCONNECT_TEST_LIVE"] == "TRUE" then
     local merged_opts = vs.merge({
+      -- FIRST, so the generated fields below win: sdk-test-control.json's
+      -- test.client.options adds to the live client, it does not redirect it.
+      runner.live_client_options(),
       {
         apikey = env["DINGCONNECT_APIKEY"],
       },

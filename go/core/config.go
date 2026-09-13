@@ -76,6 +76,7 @@ func MakeConfig() map[string]any {
 						"type": "`$ARRAY`",
 					},
 					map[string]any{
+						"format": "int32",
 						"name": "ResultCode",
 						"req": true,
 						"type": "`$INTEGER`",
@@ -109,10 +110,16 @@ func MakeConfig() map[string]any {
 								"kind": "http",
 								"method": "GET",
 								"orig": "/api/V1/GetAccountLookup",
-								"parts": []any{
-									"api",
-									"V1",
-									"GetAccountLookup",
+								"segments": []any{
+									map[string]any{
+										"lit": "api",
+									},
+									map[string]any{
+										"lit": "V1",
+									},
+									map[string]any{
+										"lit": "GetAccountLookup",
+									},
 								},
 								"select": map[string]any{
 									"exist": []any{
@@ -123,6 +130,11 @@ func MakeConfig() map[string]any {
 								"transform": map[string]any{
 									"req": "`reqdata`",
 									"res": "`body`",
+								},
+								"parts": []any{
+									"api",
+									"V1",
+									"GetAccountLookup",
 								},
 							},
 						},
@@ -166,10 +178,16 @@ func MakeConfig() map[string]any {
 								"kind": "http",
 								"method": "GET",
 								"orig": "/api/V1/GetBalance",
-								"parts": []any{
-									"api",
-									"V1",
-									"GetBalance",
+								"segments": []any{
+									map[string]any{
+										"lit": "api",
+									},
+									map[string]any{
+										"lit": "V1",
+									},
+									map[string]any{
+										"lit": "GetBalance",
+									},
 								},
 								"select": map[string]any{
 									"exist": []any{
@@ -179,6 +197,11 @@ func MakeConfig() map[string]any {
 								"transform": map[string]any{
 									"req": "`reqdata`",
 									"res": "`body.ErrorCodes`",
+								},
+								"parts": []any{
+									"api",
+									"V1",
+									"GetBalance",
 								},
 							},
 						},
@@ -201,6 +224,7 @@ func MakeConfig() map[string]any {
 						"type": "`$ARRAY`",
 					},
 					map[string]any{
+						"format": "int32",
 						"name": "ResultCode",
 						"req": true,
 						"type": "`$INTEGER`",
@@ -235,10 +259,16 @@ func MakeConfig() map[string]any {
 								"kind": "http",
 								"method": "POST",
 								"orig": "/api/V1/CancelTransfers",
-								"parts": []any{
-									"api",
-									"V1",
-									"CancelTransfers",
+								"segments": []any{
+									map[string]any{
+										"lit": "api",
+									},
+									map[string]any{
+										"lit": "V1",
+									},
+									map[string]any{
+										"lit": "CancelTransfers",
+									},
 								},
 								"select": map[string]any{
 									"exist": []any{
@@ -249,6 +279,11 @@ func MakeConfig() map[string]any {
 								"transform": map[string]any{
 									"req": "`reqdata`",
 									"res": "`body`",
+								},
+								"parts": []any{
+									"api",
+									"V1",
+									"CancelTransfers",
 								},
 							},
 						},
@@ -272,6 +307,7 @@ func MakeConfig() map[string]any {
 						"type": "`$ARRAY`",
 					},
 					map[string]any{
+						"format": "int32",
 						"name": "ResultCode",
 						"req": true,
 						"type": "`$INTEGER`",
@@ -297,10 +333,16 @@ func MakeConfig() map[string]any {
 								"kind": "http",
 								"method": "GET",
 								"orig": "/api/V1/GetCountries",
-								"parts": []any{
-									"api",
-									"V1",
-									"GetCountries",
+								"segments": []any{
+									map[string]any{
+										"lit": "api",
+									},
+									map[string]any{
+										"lit": "V1",
+									},
+									map[string]any{
+										"lit": "GetCountries",
+									},
 								},
 								"select": map[string]any{
 									"exist": []any{
@@ -310,6 +352,11 @@ func MakeConfig() map[string]any {
 								"transform": map[string]any{
 									"req": "`reqdata`",
 									"res": "`body`",
+								},
+								"parts": []any{
+									"api",
+									"V1",
+									"GetCountries",
 								},
 							},
 						},
@@ -332,6 +379,7 @@ func MakeConfig() map[string]any {
 						"type": "`$ARRAY`",
 					},
 					map[string]any{
+						"format": "int32",
 						"name": "ResultCode",
 						"req": true,
 						"type": "`$INTEGER`",
@@ -357,10 +405,16 @@ func MakeConfig() map[string]any {
 								"kind": "http",
 								"method": "GET",
 								"orig": "/api/V1/GetCurrencies",
-								"parts": []any{
-									"api",
-									"V1",
-									"GetCurrencies",
+								"segments": []any{
+									map[string]any{
+										"lit": "api",
+									},
+									map[string]any{
+										"lit": "V1",
+									},
+									map[string]any{
+										"lit": "GetCurrencies",
+									},
 								},
 								"select": map[string]any{
 									"exist": []any{
@@ -370,6 +424,11 @@ func MakeConfig() map[string]any {
 								"transform": map[string]any{
 									"req": "`reqdata`",
 									"res": "`body`",
+								},
+								"parts": []any{
+									"api",
+									"V1",
+									"GetCurrencies",
 								},
 							},
 						},
@@ -393,6 +452,7 @@ func MakeConfig() map[string]any {
 						"type": "`$ARRAY`",
 					},
 					map[string]any{
+						"format": "int32",
 						"name": "ResultCode",
 						"req": true,
 						"type": "`$INTEGER`",
@@ -418,10 +478,16 @@ func MakeConfig() map[string]any {
 								"kind": "http",
 								"method": "GET",
 								"orig": "/api/V1/GetErrorCodeDescriptions",
-								"parts": []any{
-									"api",
-									"V1",
-									"GetErrorCodeDescriptions",
+								"segments": []any{
+									map[string]any{
+										"lit": "api",
+									},
+									map[string]any{
+										"lit": "V1",
+									},
+									map[string]any{
+										"lit": "GetErrorCodeDescriptions",
+									},
 								},
 								"select": map[string]any{
 									"exist": []any{
@@ -431,6 +497,11 @@ func MakeConfig() map[string]any {
 								"transform": map[string]any{
 									"req": "`reqdata`",
 									"res": "`body`",
+								},
+								"parts": []any{
+									"api",
+									"V1",
+									"GetErrorCodeDescriptions",
 								},
 							},
 						},
@@ -453,6 +524,7 @@ func MakeConfig() map[string]any {
 						"type": "`$ARRAY`",
 					},
 					map[string]any{
+						"format": "int32",
 						"name": "ResultCode",
 						"req": true,
 						"type": "`$INTEGER`",
@@ -487,10 +559,16 @@ func MakeConfig() map[string]any {
 								"kind": "http",
 								"method": "POST",
 								"orig": "/api/V1/EstimatePrices",
-								"parts": []any{
-									"api",
-									"V1",
-									"EstimatePrices",
+								"segments": []any{
+									map[string]any{
+										"lit": "api",
+									},
+									map[string]any{
+										"lit": "V1",
+									},
+									map[string]any{
+										"lit": "EstimatePrices",
+									},
 								},
 								"select": map[string]any{
 									"exist": []any{
@@ -501,6 +579,11 @@ func MakeConfig() map[string]any {
 								"transform": map[string]any{
 									"req": "`reqdata`",
 									"res": "`body`",
+								},
+								"parts": []any{
+									"api",
+									"V1",
+									"EstimatePrices",
 								},
 							},
 						},
@@ -524,6 +607,7 @@ func MakeConfig() map[string]any {
 						"type": "`$ARRAY`",
 					},
 					map[string]any{
+						"format": "int32",
 						"name": "ResultCode",
 						"req": true,
 						"type": "`$INTEGER`",
@@ -564,10 +648,16 @@ func MakeConfig() map[string]any {
 								"kind": "http",
 								"method": "POST",
 								"orig": "/api/V1/ListTransferRecords",
-								"parts": []any{
-									"api",
-									"V1",
-									"ListTransferRecords",
+								"segments": []any{
+									map[string]any{
+										"lit": "api",
+									},
+									map[string]any{
+										"lit": "V1",
+									},
+									map[string]any{
+										"lit": "ListTransferRecords",
+									},
 								},
 								"select": map[string]any{
 									"exist": []any{
@@ -578,6 +668,11 @@ func MakeConfig() map[string]any {
 								"transform": map[string]any{
 									"req": "`reqdata`",
 									"res": "`body`",
+								},
+								"parts": []any{
+									"api",
+									"V1",
+									"ListTransferRecords",
 								},
 							},
 						},
@@ -600,6 +695,7 @@ func MakeConfig() map[string]any {
 						"type": "`$ARRAY`",
 					},
 					map[string]any{
+						"format": "int32",
 						"name": "ResultCode",
 						"req": true,
 						"type": "`$INTEGER`",
@@ -634,10 +730,16 @@ func MakeConfig() map[string]any {
 								"kind": "http",
 								"method": "POST",
 								"orig": "/api/V1/LookupBills",
-								"parts": []any{
-									"api",
-									"V1",
-									"LookupBills",
+								"segments": []any{
+									map[string]any{
+										"lit": "api",
+									},
+									map[string]any{
+										"lit": "V1",
+									},
+									map[string]any{
+										"lit": "LookupBills",
+									},
 								},
 								"select": map[string]any{
 									"exist": []any{
@@ -648,6 +750,11 @@ func MakeConfig() map[string]any {
 								"transform": map[string]any{
 									"req": "`reqdata`",
 									"res": "`body`",
+								},
+								"parts": []any{
+									"api",
+									"V1",
+									"LookupBills",
 								},
 							},
 						},
@@ -671,6 +778,7 @@ func MakeConfig() map[string]any {
 						"type": "`$ARRAY`",
 					},
 					map[string]any{
+						"format": "int32",
 						"name": "ResultCode",
 						"req": true,
 						"type": "`$INTEGER`",
@@ -734,10 +842,16 @@ func MakeConfig() map[string]any {
 								"kind": "http",
 								"method": "GET",
 								"orig": "/api/V1/GetProducts",
-								"parts": []any{
-									"api",
-									"V1",
-									"GetProducts",
+								"segments": []any{
+									map[string]any{
+										"lit": "api",
+									},
+									map[string]any{
+										"lit": "V1",
+									},
+									map[string]any{
+										"lit": "GetProducts",
+									},
 								},
 								"select": map[string]any{
 									"exist": []any{
@@ -753,6 +867,11 @@ func MakeConfig() map[string]any {
 								"transform": map[string]any{
 									"req": "`reqdata`",
 									"res": "`body`",
+								},
+								"parts": []any{
+									"api",
+									"V1",
+									"GetProducts",
 								},
 							},
 						},
@@ -776,6 +895,7 @@ func MakeConfig() map[string]any {
 						"type": "`$ARRAY`",
 					},
 					map[string]any{
+						"format": "int32",
 						"name": "ResultCode",
 						"req": true,
 						"type": "`$INTEGER`",
@@ -815,10 +935,16 @@ func MakeConfig() map[string]any {
 								"kind": "http",
 								"method": "GET",
 								"orig": "/api/V1/GetProductDescriptions",
-								"parts": []any{
-									"api",
-									"V1",
-									"GetProductDescriptions",
+								"segments": []any{
+									map[string]any{
+										"lit": "api",
+									},
+									map[string]any{
+										"lit": "V1",
+									},
+									map[string]any{
+										"lit": "GetProductDescriptions",
+									},
 								},
 								"select": map[string]any{
 									"exist": []any{
@@ -830,6 +956,11 @@ func MakeConfig() map[string]any {
 								"transform": map[string]any{
 									"req": "`reqdata`",
 									"res": "`body`",
+								},
+								"parts": []any{
+									"api",
+									"V1",
+									"GetProductDescriptions",
 								},
 							},
 						},
@@ -853,6 +984,7 @@ func MakeConfig() map[string]any {
 						"type": "`$ARRAY`",
 					},
 					map[string]any{
+						"format": "int32",
 						"name": "ResultCode",
 						"req": true,
 						"type": "`$INTEGER`",
@@ -898,10 +1030,16 @@ func MakeConfig() map[string]any {
 								"kind": "http",
 								"method": "GET",
 								"orig": "/api/V1/GetPromotions",
-								"parts": []any{
-									"api",
-									"V1",
-									"GetPromotions",
+								"segments": []any{
+									map[string]any{
+										"lit": "api",
+									},
+									map[string]any{
+										"lit": "V1",
+									},
+									map[string]any{
+										"lit": "GetPromotions",
+									},
 								},
 								"select": map[string]any{
 									"exist": []any{
@@ -914,6 +1052,11 @@ func MakeConfig() map[string]any {
 								"transform": map[string]any{
 									"req": "`reqdata`",
 									"res": "`body`",
+								},
+								"parts": []any{
+									"api",
+									"V1",
+									"GetPromotions",
 								},
 							},
 						},
@@ -937,6 +1080,7 @@ func MakeConfig() map[string]any {
 						"type": "`$ARRAY`",
 					},
 					map[string]any{
+						"format": "int32",
 						"name": "ResultCode",
 						"req": true,
 						"type": "`$INTEGER`",
@@ -970,10 +1114,16 @@ func MakeConfig() map[string]any {
 								"kind": "http",
 								"method": "GET",
 								"orig": "/api/V1/GetPromotionDescriptions",
-								"parts": []any{
-									"api",
-									"V1",
-									"GetPromotionDescriptions",
+								"segments": []any{
+									map[string]any{
+										"lit": "api",
+									},
+									map[string]any{
+										"lit": "V1",
+									},
+									map[string]any{
+										"lit": "GetPromotionDescriptions",
+									},
 								},
 								"select": map[string]any{
 									"exist": []any{
@@ -984,6 +1134,11 @@ func MakeConfig() map[string]any {
 								"transform": map[string]any{
 									"req": "`reqdata`",
 									"res": "`body`",
+								},
+								"parts": []any{
+									"api",
+									"V1",
+									"GetPromotionDescriptions",
 								},
 							},
 						},
@@ -1007,6 +1162,7 @@ func MakeConfig() map[string]any {
 						"type": "`$ARRAY`",
 					},
 					map[string]any{
+						"format": "int32",
 						"name": "ResultCode",
 						"req": true,
 						"type": "`$INTEGER`",
@@ -1058,10 +1214,16 @@ func MakeConfig() map[string]any {
 								"kind": "http",
 								"method": "GET",
 								"orig": "/api/V1/GetProviders",
-								"parts": []any{
-									"api",
-									"V1",
-									"GetProviders",
+								"segments": []any{
+									map[string]any{
+										"lit": "api",
+									},
+									map[string]any{
+										"lit": "V1",
+									},
+									map[string]any{
+										"lit": "GetProviders",
+									},
 								},
 								"select": map[string]any{
 									"exist": []any{
@@ -1075,6 +1237,11 @@ func MakeConfig() map[string]any {
 								"transform": map[string]any{
 									"req": "`reqdata`",
 									"res": "`body`",
+								},
+								"parts": []any{
+									"api",
+									"V1",
+									"GetProviders",
 								},
 							},
 						},
@@ -1097,6 +1264,7 @@ func MakeConfig() map[string]any {
 						"type": "`$ARRAY`",
 					},
 					map[string]any{
+						"format": "int32",
 						"name": "ResultCode",
 						"req": true,
 						"type": "`$INTEGER`",
@@ -1130,10 +1298,16 @@ func MakeConfig() map[string]any {
 								"kind": "http",
 								"method": "GET",
 								"orig": "/api/V1/GetProviderStatus",
-								"parts": []any{
-									"api",
-									"V1",
-									"GetProviderStatus",
+								"segments": []any{
+									map[string]any{
+										"lit": "api",
+									},
+									map[string]any{
+										"lit": "V1",
+									},
+									map[string]any{
+										"lit": "GetProviderStatus",
+									},
 								},
 								"select": map[string]any{
 									"exist": []any{
@@ -1144,6 +1318,11 @@ func MakeConfig() map[string]any {
 								"transform": map[string]any{
 									"req": "`reqdata`",
 									"res": "`body`",
+								},
+								"parts": []any{
+									"api",
+									"V1",
+									"GetProviderStatus",
 								},
 							},
 						},
@@ -1167,6 +1346,7 @@ func MakeConfig() map[string]any {
 						"type": "`$ARRAY`",
 					},
 					map[string]any{
+						"format": "int32",
 						"name": "ResultCode",
 						"req": true,
 						"type": "`$INTEGER`",
@@ -1200,10 +1380,16 @@ func MakeConfig() map[string]any {
 								"kind": "http",
 								"method": "GET",
 								"orig": "/api/V1/GetRegions",
-								"parts": []any{
-									"api",
-									"V1",
-									"GetRegions",
+								"segments": []any{
+									map[string]any{
+										"lit": "api",
+									},
+									map[string]any{
+										"lit": "V1",
+									},
+									map[string]any{
+										"lit": "GetRegions",
+									},
 								},
 								"select": map[string]any{
 									"exist": []any{
@@ -1214,6 +1400,11 @@ func MakeConfig() map[string]any {
 								"transform": map[string]any{
 									"req": "`reqdata`",
 									"res": "`body`",
+								},
+								"parts": []any{
+									"api",
+									"V1",
+									"GetRegions",
 								},
 							},
 						},
@@ -1231,6 +1422,7 @@ func MakeConfig() map[string]any {
 						"type": "`$ARRAY`",
 					},
 					map[string]any{
+						"format": "int32",
 						"name": "ResultCode",
 						"req": true,
 						"type": "`$INTEGER`",
@@ -1270,10 +1462,16 @@ func MakeConfig() map[string]any {
 								"kind": "http",
 								"method": "POST",
 								"orig": "/api/V1/SendTransfer",
-								"parts": []any{
-									"api",
-									"V1",
-									"SendTransfer",
+								"segments": []any{
+									map[string]any{
+										"lit": "api",
+									},
+									map[string]any{
+										"lit": "V1",
+									},
+									map[string]any{
+										"lit": "SendTransfer",
+									},
 								},
 								"select": map[string]any{
 									"exist": []any{
@@ -1285,6 +1483,11 @@ func MakeConfig() map[string]any {
 									"req": "`reqdata`",
 									"res": "`body`",
 								},
+								"parts": []any{
+									"api",
+									"V1",
+									"SendTransfer",
+								},
 							},
 						},
 					},
@@ -1295,6 +1498,17 @@ func MakeConfig() map[string]any {
 			},
 		},
 	}
+}
+
+// The plugin definitions the model selected per feature, as []any so a
+// feature package can consume them without core naming its types. Empty
+// when no active feature declares active plugin groups for this target.
+var featurePlugins = map[string][]any{
+}
+
+// FeaturePlugins is the definitions list for one feature's chain.
+func FeaturePlugins(name string) []any {
+	return featurePlugins[name]
 }
 
 var (

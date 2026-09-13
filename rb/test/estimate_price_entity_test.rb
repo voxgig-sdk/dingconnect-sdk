@@ -76,7 +76,7 @@ def estimate_price_basic_setup(extra)
     "DINGCONNECT_TEST_ESTIMATE_PRICE_ENTID" => idmap,
     "DINGCONNECT_TEST_LIVE" => "FALSE",
     "DINGCONNECT_TEST_EXPLAIN" => "FALSE",
-    "DINGCONNECT_APIKEY" => "NONE",
+    "DINGCONNECT_APIKEY" => "",
   })
 
   idmap_resolved = Helpers.to_map(
@@ -87,6 +87,9 @@ def estimate_price_basic_setup(extra)
 
   if env["DINGCONNECT_TEST_LIVE"] == "TRUE"
     merged_opts = Vs.merge([
+      # FIRST, so the generated fields below win: sdk-test-control.json's
+      # test.client.options adds to the live client, it does not redirect it.
+      Runner.live_client_options,
       {
         "apikey" => env["DINGCONNECT_APIKEY"],
       },

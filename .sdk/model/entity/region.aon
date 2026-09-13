@@ -17,6 +17,7 @@ main: kit: entity: region: {
       type: "`$ARRAY`"
     }
     {
+      format: "int32"
       name: "ResultCode"
       req: true
       type: "`$INTEGER`"
@@ -51,10 +52,16 @@ main: kit: entity: region: {
           }
           method: "GET"
           orig: "/api/V1/GetRegions"
-          parts: [
-            "api"
-            "V1"
-            "GetRegions"
+          segments: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "V1"
+            }
+            {
+              lit: "GetRegions"
+            }
           ]
           select: {
             exist: [

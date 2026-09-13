@@ -17,6 +17,7 @@ main: kit: entity: list_transfer_record: {
       type: "`$ARRAY`"
     }
     {
+      format: "int32"
       name: "ResultCode"
       req: true
       type: "`$INTEGER`"
@@ -57,10 +58,16 @@ main: kit: entity: list_transfer_record: {
           }
           method: "POST"
           orig: "/api/V1/ListTransferRecords"
-          parts: [
-            "api"
-            "V1"
-            "ListTransferRecords"
+          segments: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "V1"
+            }
+            {
+              lit: "ListTransferRecords"
+            }
           ]
           select: {
             exist: [

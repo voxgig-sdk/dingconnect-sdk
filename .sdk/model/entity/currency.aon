@@ -16,6 +16,7 @@ main: kit: entity: currency: {
       type: "`$ARRAY`"
     }
     {
+      format: "int32"
       name: "ResultCode"
       req: true
       type: "`$INTEGER`"
@@ -41,10 +42,16 @@ main: kit: entity: currency: {
           }
           method: "GET"
           orig: "/api/V1/GetCurrencies"
-          parts: [
-            "api"
-            "V1"
-            "GetCurrencies"
+          segments: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "V1"
+            }
+            {
+              lit: "GetCurrencies"
+            }
           ]
           select: {
             exist: [

@@ -72,6 +72,7 @@ local function make_config()
             ["type"] = "`$ARRAY`",
           },
           {
+            ["format"] = "int32",
             ["name"] = "ResultCode",
             ["req"] = true,
             ["type"] = "`$INTEGER`",
@@ -105,10 +106,16 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/api/V1/GetAccountLookup",
-                ["parts"] = {
-                  "api",
-                  "V1",
-                  "GetAccountLookup",
+                ["segments"] = {
+                  {
+                    ["lit"] = "api",
+                  },
+                  {
+                    ["lit"] = "V1",
+                  },
+                  {
+                    ["lit"] = "GetAccountLookup",
+                  },
                 },
                 ["select"] = {
                   ["exist"] = {
@@ -119,6 +126,11 @@ local function make_config()
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "api",
+                  "V1",
+                  "GetAccountLookup",
                 },
               },
             },
@@ -162,10 +174,16 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/api/V1/GetBalance",
-                ["parts"] = {
-                  "api",
-                  "V1",
-                  "GetBalance",
+                ["segments"] = {
+                  {
+                    ["lit"] = "api",
+                  },
+                  {
+                    ["lit"] = "V1",
+                  },
+                  {
+                    ["lit"] = "GetBalance",
+                  },
                 },
                 ["select"] = {
                   ["exist"] = {
@@ -175,6 +193,11 @@ local function make_config()
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body.ErrorCodes`",
+                },
+                ["parts"] = {
+                  "api",
+                  "V1",
+                  "GetBalance",
                 },
               },
             },
@@ -197,6 +220,7 @@ local function make_config()
             ["type"] = "`$ARRAY`",
           },
           {
+            ["format"] = "int32",
             ["name"] = "ResultCode",
             ["req"] = true,
             ["type"] = "`$INTEGER`",
@@ -231,10 +255,16 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/api/V1/CancelTransfers",
-                ["parts"] = {
-                  "api",
-                  "V1",
-                  "CancelTransfers",
+                ["segments"] = {
+                  {
+                    ["lit"] = "api",
+                  },
+                  {
+                    ["lit"] = "V1",
+                  },
+                  {
+                    ["lit"] = "CancelTransfers",
+                  },
                 },
                 ["select"] = {
                   ["exist"] = {
@@ -245,6 +275,11 @@ local function make_config()
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "api",
+                  "V1",
+                  "CancelTransfers",
                 },
               },
             },
@@ -268,6 +303,7 @@ local function make_config()
             ["type"] = "`$ARRAY`",
           },
           {
+            ["format"] = "int32",
             ["name"] = "ResultCode",
             ["req"] = true,
             ["type"] = "`$INTEGER`",
@@ -293,10 +329,16 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/api/V1/GetCountries",
-                ["parts"] = {
-                  "api",
-                  "V1",
-                  "GetCountries",
+                ["segments"] = {
+                  {
+                    ["lit"] = "api",
+                  },
+                  {
+                    ["lit"] = "V1",
+                  },
+                  {
+                    ["lit"] = "GetCountries",
+                  },
                 },
                 ["select"] = {
                   ["exist"] = {
@@ -306,6 +348,11 @@ local function make_config()
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "api",
+                  "V1",
+                  "GetCountries",
                 },
               },
             },
@@ -328,6 +375,7 @@ local function make_config()
             ["type"] = "`$ARRAY`",
           },
           {
+            ["format"] = "int32",
             ["name"] = "ResultCode",
             ["req"] = true,
             ["type"] = "`$INTEGER`",
@@ -353,10 +401,16 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/api/V1/GetCurrencies",
-                ["parts"] = {
-                  "api",
-                  "V1",
-                  "GetCurrencies",
+                ["segments"] = {
+                  {
+                    ["lit"] = "api",
+                  },
+                  {
+                    ["lit"] = "V1",
+                  },
+                  {
+                    ["lit"] = "GetCurrencies",
+                  },
                 },
                 ["select"] = {
                   ["exist"] = {
@@ -366,6 +420,11 @@ local function make_config()
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "api",
+                  "V1",
+                  "GetCurrencies",
                 },
               },
             },
@@ -389,6 +448,7 @@ local function make_config()
             ["type"] = "`$ARRAY`",
           },
           {
+            ["format"] = "int32",
             ["name"] = "ResultCode",
             ["req"] = true,
             ["type"] = "`$INTEGER`",
@@ -414,10 +474,16 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/api/V1/GetErrorCodeDescriptions",
-                ["parts"] = {
-                  "api",
-                  "V1",
-                  "GetErrorCodeDescriptions",
+                ["segments"] = {
+                  {
+                    ["lit"] = "api",
+                  },
+                  {
+                    ["lit"] = "V1",
+                  },
+                  {
+                    ["lit"] = "GetErrorCodeDescriptions",
+                  },
                 },
                 ["select"] = {
                   ["exist"] = {
@@ -427,6 +493,11 @@ local function make_config()
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "api",
+                  "V1",
+                  "GetErrorCodeDescriptions",
                 },
               },
             },
@@ -449,6 +520,7 @@ local function make_config()
             ["type"] = "`$ARRAY`",
           },
           {
+            ["format"] = "int32",
             ["name"] = "ResultCode",
             ["req"] = true,
             ["type"] = "`$INTEGER`",
@@ -483,10 +555,16 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/api/V1/EstimatePrices",
-                ["parts"] = {
-                  "api",
-                  "V1",
-                  "EstimatePrices",
+                ["segments"] = {
+                  {
+                    ["lit"] = "api",
+                  },
+                  {
+                    ["lit"] = "V1",
+                  },
+                  {
+                    ["lit"] = "EstimatePrices",
+                  },
                 },
                 ["select"] = {
                   ["exist"] = {
@@ -497,6 +575,11 @@ local function make_config()
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "api",
+                  "V1",
+                  "EstimatePrices",
                 },
               },
             },
@@ -520,6 +603,7 @@ local function make_config()
             ["type"] = "`$ARRAY`",
           },
           {
+            ["format"] = "int32",
             ["name"] = "ResultCode",
             ["req"] = true,
             ["type"] = "`$INTEGER`",
@@ -560,10 +644,16 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/api/V1/ListTransferRecords",
-                ["parts"] = {
-                  "api",
-                  "V1",
-                  "ListTransferRecords",
+                ["segments"] = {
+                  {
+                    ["lit"] = "api",
+                  },
+                  {
+                    ["lit"] = "V1",
+                  },
+                  {
+                    ["lit"] = "ListTransferRecords",
+                  },
                 },
                 ["select"] = {
                   ["exist"] = {
@@ -574,6 +664,11 @@ local function make_config()
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "api",
+                  "V1",
+                  "ListTransferRecords",
                 },
               },
             },
@@ -596,6 +691,7 @@ local function make_config()
             ["type"] = "`$ARRAY`",
           },
           {
+            ["format"] = "int32",
             ["name"] = "ResultCode",
             ["req"] = true,
             ["type"] = "`$INTEGER`",
@@ -630,10 +726,16 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/api/V1/LookupBills",
-                ["parts"] = {
-                  "api",
-                  "V1",
-                  "LookupBills",
+                ["segments"] = {
+                  {
+                    ["lit"] = "api",
+                  },
+                  {
+                    ["lit"] = "V1",
+                  },
+                  {
+                    ["lit"] = "LookupBills",
+                  },
                 },
                 ["select"] = {
                   ["exist"] = {
@@ -644,6 +746,11 @@ local function make_config()
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "api",
+                  "V1",
+                  "LookupBills",
                 },
               },
             },
@@ -667,6 +774,7 @@ local function make_config()
             ["type"] = "`$ARRAY`",
           },
           {
+            ["format"] = "int32",
             ["name"] = "ResultCode",
             ["req"] = true,
             ["type"] = "`$INTEGER`",
@@ -730,10 +838,16 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/api/V1/GetProducts",
-                ["parts"] = {
-                  "api",
-                  "V1",
-                  "GetProducts",
+                ["segments"] = {
+                  {
+                    ["lit"] = "api",
+                  },
+                  {
+                    ["lit"] = "V1",
+                  },
+                  {
+                    ["lit"] = "GetProducts",
+                  },
                 },
                 ["select"] = {
                   ["exist"] = {
@@ -749,6 +863,11 @@ local function make_config()
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "api",
+                  "V1",
+                  "GetProducts",
                 },
               },
             },
@@ -772,6 +891,7 @@ local function make_config()
             ["type"] = "`$ARRAY`",
           },
           {
+            ["format"] = "int32",
             ["name"] = "ResultCode",
             ["req"] = true,
             ["type"] = "`$INTEGER`",
@@ -811,10 +931,16 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/api/V1/GetProductDescriptions",
-                ["parts"] = {
-                  "api",
-                  "V1",
-                  "GetProductDescriptions",
+                ["segments"] = {
+                  {
+                    ["lit"] = "api",
+                  },
+                  {
+                    ["lit"] = "V1",
+                  },
+                  {
+                    ["lit"] = "GetProductDescriptions",
+                  },
                 },
                 ["select"] = {
                   ["exist"] = {
@@ -826,6 +952,11 @@ local function make_config()
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "api",
+                  "V1",
+                  "GetProductDescriptions",
                 },
               },
             },
@@ -849,6 +980,7 @@ local function make_config()
             ["type"] = "`$ARRAY`",
           },
           {
+            ["format"] = "int32",
             ["name"] = "ResultCode",
             ["req"] = true,
             ["type"] = "`$INTEGER`",
@@ -894,10 +1026,16 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/api/V1/GetPromotions",
-                ["parts"] = {
-                  "api",
-                  "V1",
-                  "GetPromotions",
+                ["segments"] = {
+                  {
+                    ["lit"] = "api",
+                  },
+                  {
+                    ["lit"] = "V1",
+                  },
+                  {
+                    ["lit"] = "GetPromotions",
+                  },
                 },
                 ["select"] = {
                   ["exist"] = {
@@ -910,6 +1048,11 @@ local function make_config()
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "api",
+                  "V1",
+                  "GetPromotions",
                 },
               },
             },
@@ -933,6 +1076,7 @@ local function make_config()
             ["type"] = "`$ARRAY`",
           },
           {
+            ["format"] = "int32",
             ["name"] = "ResultCode",
             ["req"] = true,
             ["type"] = "`$INTEGER`",
@@ -966,10 +1110,16 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/api/V1/GetPromotionDescriptions",
-                ["parts"] = {
-                  "api",
-                  "V1",
-                  "GetPromotionDescriptions",
+                ["segments"] = {
+                  {
+                    ["lit"] = "api",
+                  },
+                  {
+                    ["lit"] = "V1",
+                  },
+                  {
+                    ["lit"] = "GetPromotionDescriptions",
+                  },
                 },
                 ["select"] = {
                   ["exist"] = {
@@ -980,6 +1130,11 @@ local function make_config()
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "api",
+                  "V1",
+                  "GetPromotionDescriptions",
                 },
               },
             },
@@ -1003,6 +1158,7 @@ local function make_config()
             ["type"] = "`$ARRAY`",
           },
           {
+            ["format"] = "int32",
             ["name"] = "ResultCode",
             ["req"] = true,
             ["type"] = "`$INTEGER`",
@@ -1054,10 +1210,16 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/api/V1/GetProviders",
-                ["parts"] = {
-                  "api",
-                  "V1",
-                  "GetProviders",
+                ["segments"] = {
+                  {
+                    ["lit"] = "api",
+                  },
+                  {
+                    ["lit"] = "V1",
+                  },
+                  {
+                    ["lit"] = "GetProviders",
+                  },
                 },
                 ["select"] = {
                   ["exist"] = {
@@ -1071,6 +1233,11 @@ local function make_config()
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "api",
+                  "V1",
+                  "GetProviders",
                 },
               },
             },
@@ -1093,6 +1260,7 @@ local function make_config()
             ["type"] = "`$ARRAY`",
           },
           {
+            ["format"] = "int32",
             ["name"] = "ResultCode",
             ["req"] = true,
             ["type"] = "`$INTEGER`",
@@ -1126,10 +1294,16 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/api/V1/GetProviderStatus",
-                ["parts"] = {
-                  "api",
-                  "V1",
-                  "GetProviderStatus",
+                ["segments"] = {
+                  {
+                    ["lit"] = "api",
+                  },
+                  {
+                    ["lit"] = "V1",
+                  },
+                  {
+                    ["lit"] = "GetProviderStatus",
+                  },
                 },
                 ["select"] = {
                   ["exist"] = {
@@ -1140,6 +1314,11 @@ local function make_config()
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "api",
+                  "V1",
+                  "GetProviderStatus",
                 },
               },
             },
@@ -1163,6 +1342,7 @@ local function make_config()
             ["type"] = "`$ARRAY`",
           },
           {
+            ["format"] = "int32",
             ["name"] = "ResultCode",
             ["req"] = true,
             ["type"] = "`$INTEGER`",
@@ -1196,10 +1376,16 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/api/V1/GetRegions",
-                ["parts"] = {
-                  "api",
-                  "V1",
-                  "GetRegions",
+                ["segments"] = {
+                  {
+                    ["lit"] = "api",
+                  },
+                  {
+                    ["lit"] = "V1",
+                  },
+                  {
+                    ["lit"] = "GetRegions",
+                  },
                 },
                 ["select"] = {
                   ["exist"] = {
@@ -1210,6 +1396,11 @@ local function make_config()
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "api",
+                  "V1",
+                  "GetRegions",
                 },
               },
             },
@@ -1227,6 +1418,7 @@ local function make_config()
             ["type"] = "`$ARRAY`",
           },
           {
+            ["format"] = "int32",
             ["name"] = "ResultCode",
             ["req"] = true,
             ["type"] = "`$INTEGER`",
@@ -1266,10 +1458,16 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/api/V1/SendTransfer",
-                ["parts"] = {
-                  "api",
-                  "V1",
-                  "SendTransfer",
+                ["segments"] = {
+                  {
+                    ["lit"] = "api",
+                  },
+                  {
+                    ["lit"] = "V1",
+                  },
+                  {
+                    ["lit"] = "SendTransfer",
+                  },
                 },
                 ["select"] = {
                   ["exist"] = {
@@ -1280,6 +1478,11 @@ local function make_config()
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "api",
+                  "V1",
+                  "SendTransfer",
                 },
               },
             },
