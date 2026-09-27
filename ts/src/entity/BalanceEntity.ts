@@ -19,7 +19,6 @@ import type {
   BalanceListMatch,
 } from '../DingconnectTypes'
 
-// TODO: needs Entity superclass
 class BalanceEntity extends DingconnectEntityBase<Balance> {
 
   constructor(client: DingconnectSDK, entopts: any) {

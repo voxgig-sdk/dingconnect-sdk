@@ -4,17 +4,17 @@
       "PROMOTION_DESCRIPTION00": {
         "ErrorCodes": [],
         "Items": [],
-        "ResultCode": "s20"
+        "ResultCode": 32
       },
       "PROMOTION_DESCRIPTION01": {
         "ErrorCodes": [],
         "Items": [],
-        "ResultCode": "s3e"
+        "ResultCode": 62
       },
       "PROMOTION_DESCRIPTION02": {
         "ErrorCodes": [],
         "Items": [],
-        "ResultCode": "s5c"
+        "ResultCode": 92
       }
     }
   },
@@ -23,8 +23,15 @@
       "promotion_description_ref01": {
         "ErrorCodes": [],
         "Items": [],
-        "ResultCode": "s7a"
+        "ResultCode": 122
       }
+    }
+  },
+  "requests": {
+    "GET /api/V1/GetPromotionDescriptions": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "swagger2"
     }
   }
 }

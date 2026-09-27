@@ -1,0 +1,105 @@
+# Entity: account_lookup
+
+main: kit: entity: account_lookup: {
+
+  alias: field: {}
+
+  fields: {
+    AccountNumberNormalized: {
+      h: "Account Number Normalized"
+      n: "AccountNumberNormalized"
+      r: false
+      sh: "We attempt to normalize phone numbers following the public telecommunication numbering plan <a href=\"https://en.wikipedia.org/wiki/E.164\" target=\"_blank\">E.164</a>, if we succeed the normalized number will be returned in this field formatt…"
+      t: "`$STRING`"
+    }
+    CountryIso: {
+      h: "Country Iso"
+      n: "CountryIso"
+      r: false
+      sh: "The country of the account number"
+      t: "`$STRING`"
+    }
+    ErrorCodes: {
+      h: "Error Codes"
+      n: "ErrorCodes"
+      r: true
+      t: "`$ARRAY`"
+    }
+    Items: {
+      h: "Items"
+      n: "Items"
+      r: true
+      sh: "This will contain provider information associated to the account number."
+      t: "`$ARRAY`"
+    }
+    ResultCode: {
+      fo: "int32"
+      h: "Result Code"
+      n: "ResultCode"
+      r: true
+      t: "`$INTEGER`"
+    }
+  }
+
+  name: "account_lookup"
+  op: {
+    list: {
+      name: "list"
+      points: [
+        {
+          co: {
+            id: "GET /api/V1/GetAccountLookup"
+            source: "swagger2"
+            version: 2
+          }
+          g: {
+            header: [
+              {
+                k: "header"
+                n: "x_correlation_id"
+                or: "x_correlation_id"
+                r: false
+                t: "`$STRING`"
+              }
+            ]
+            query: [
+              {
+                k: "query"
+                n: "account_number"
+                or: "account_number"
+                r: false
+                t: "`$INTEGER`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/api/V1/GetAccountLookup"
+          q: {
+            exist: [
+              "account_number"
+              "x_correlation_id"
+            ]
+          }
+          s: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "V1"
+            }
+            {
+              lit: "GetAccountLookup"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

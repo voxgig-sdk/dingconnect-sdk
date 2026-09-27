@@ -1,5 +1,5 @@
 {
-  "name": "voxgig-sdk/dingconnect",
+  "name": "voxgig-sdk/dingconnect-sdk",
   "description": "Unofficial generated PHP SDK for the Ding public API. Not affiliated with or endorsed by the upstream API provider.",
   "type": "library",
   "keywords": ["voxgig", "sdk", "generated-sdk", "openapi", "api-client", "dingconnect"],
@@ -21,7 +21,7 @@
   },
   "autoload": {
     "files": ["dingconnect_sdk.php"],
-    "classmap": ["core/", "entity/", "feature/", "types/", "utility/", "config.php", "features.php"]
+    "classmap": ["core/", "entity/", "feature/", "types/", "utility/", "config.php", "schema.php", "features.php"]
   },
   "autoload-dev": {
     "classmap": ["test/"]

@@ -1,0 +1,81 @@
+# Entity: country
+
+main: kit: entity: country: {
+
+  alias: field: {}
+
+  fields: {
+    ErrorCodes: {
+      h: "Error Codes"
+      n: "ErrorCodes"
+      r: true
+      t: "`$ARRAY`"
+    }
+    Items: {
+      h: "Items"
+      n: "Items"
+      r: true
+      sh: "The list of countries that our system is aware of."
+      t: "`$ARRAY`"
+    }
+    ResultCode: {
+      fo: "int32"
+      h: "Result Code"
+      n: "ResultCode"
+      r: true
+      t: "`$INTEGER`"
+    }
+  }
+
+  name: "country"
+  op: {
+    list: {
+      name: "list"
+      points: [
+        {
+          co: {
+            id: "GET /api/V1/GetCountries"
+            source: "swagger2"
+            version: 2
+          }
+          g: {
+            header: [
+              {
+                k: "header"
+                n: "x_correlation_id"
+                or: "x_correlation_id"
+                r: false
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/api/V1/GetCountries"
+          q: {
+            exist: [
+              "x_correlation_id"
+            ]
+          }
+          s: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "V1"
+            }
+            {
+              lit: "GetCountries"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

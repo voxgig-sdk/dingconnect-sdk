@@ -2,7 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CurrencyEntity = void 0;
 const DingconnectEntityBase_1 = require("../DingconnectEntityBase");
-// TODO: needs Entity superclass
 class CurrencyEntity extends DingconnectEntityBase_1.DingconnectEntityBase {
     constructor(client, entopts) {
         super(client, entopts);

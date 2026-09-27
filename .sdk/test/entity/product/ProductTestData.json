@@ -4,17 +4,17 @@
       "PRODUCT00": {
         "ErrorCodes": [],
         "Items": [],
-        "ResultCode": "s20"
+        "ResultCode": 32
       },
       "PRODUCT01": {
         "ErrorCodes": [],
         "Items": [],
-        "ResultCode": "s3e"
+        "ResultCode": 62
       },
       "PRODUCT02": {
         "ErrorCodes": [],
         "Items": [],
-        "ResultCode": "s5c"
+        "ResultCode": 92
       }
     }
   },
@@ -23,8 +23,15 @@
       "product_ref01": {
         "ErrorCodes": [],
         "Items": [],
-        "ResultCode": "s7a"
+        "ResultCode": 122
       }
+    }
+  },
+  "requests": {
+    "GET /api/V1/GetProducts": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "swagger2"
     }
   }
 }

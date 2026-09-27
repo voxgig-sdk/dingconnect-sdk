@@ -1,0 +1,90 @@
+# Entity: estimate_price
+
+main: kit: entity: estimate_price: {
+
+  alias: field: {}
+
+  fields: {
+    ErrorCodes: {
+      h: "Error Codes"
+      n: "ErrorCodes"
+      r: true
+      t: "`$ARRAY`"
+    }
+    Items: {
+      h: "Items"
+      n: "Items"
+      r: true
+      t: "`$ARRAY`"
+    }
+    ResultCode: {
+      fo: "int32"
+      h: "Result Code"
+      n: "ResultCode"
+      r: true
+      t: "`$INTEGER`"
+    }
+  }
+
+  name: "estimate_price"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          co: {
+            id: "POST /api/V1/EstimatePrices"
+            source: "swagger2"
+            version: 2
+          }
+          g: {
+            header: [
+              {
+                k: "header"
+                n: "x_correlation_id"
+                or: "x_correlation_id"
+                r: false
+                t: "`$STRING`"
+              }
+            ]
+            query: [
+              {
+                k: "query"
+                n: "requested_estimation"
+                or: "requested_estimation"
+                r: true
+                t: "`$ARRAY`"
+              }
+            ]
+          }
+          m: "POST"
+          o: "/api/V1/EstimatePrices"
+          q: {
+            exist: [
+              "requested_estimation"
+              "x_correlation_id"
+            ]
+          }
+          s: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "V1"
+            }
+            {
+              lit: "EstimatePrices"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

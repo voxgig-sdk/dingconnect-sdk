@@ -40,12 +40,10 @@ const node_path_1 = __importDefault(require("node:path"));
 const Fs = __importStar(require("node:fs"));
 const node_test_1 = require("node:test");
 const node_assert_1 = __importDefault(require("node:assert"));
+const live_runner_1 = require("../../live-runner");
+const live_entity_1 = require("../../live-entity");
 const __1 = require("../../..");
 const utility_1 = require("../../utility");
-// AFTER the imports on purpose: TypeScript hoists `import` above any
-// statement in the emitted CommonJS, so a loader placed above them would
-// run only after every imported module had already been evaluated - and
-// anything reading process.env at module scope would miss these values.
 (0, utility_1.loadEnvLocal)(__dirname + '/../../../.env.local');
 (0, node_test_1.describe)('CancelTransferEntity', async () => {
     // Per-test live pacing. Delay is read from sdk-test-control.json's
@@ -59,16 +57,12 @@ const utility_1 = require("../../utility");
     (0, node_test_1.test)('basic', async (t) => {
         const live = 'TRUE' === process.env.DINGCONNECT_TEST_LIVE;
         for (const op of ['create']) {
-            if ((0, utility_1.maybeSkipControl)(t, 'entityOp', 'cancel_transfer.' + op, live))
+            if (!live && (0, utility_1.maybeSkipControl)(t, 'entityOp', 'cancel_transfer.' + op, live))
                 return;
         }
         const setup = basicSetup();
-        // The basic flow consumes synthetic IDs and field values from the
-        // fixture (entity TestData.json). Those don't exist on the live API.
-        // Skip live runs unless the user provided a real ENTID env override.
-        if (setup.syntheticOnly) {
-            t.skip('live entity test uses synthetic IDs from fixture — set DINGCONNECT_TEST_CANCEL_TRANSFER_ENTID JSON to run live');
-            return;
+        if (setup.live) {
+            return (0, live_entity_1.runLiveEntity)(setup, { "active": true, "alias": { "field": {} }, "fields": { "ErrorCodes": { "a": true, "h": "Error Codes", "n": "ErrorCodes", "r": true, "t": "`$ARRAY`", "key$": "ErrorCodes", "index$": 0 }, "Items": { "a": true, "h": "Items", "n": "Items", "r": true, "t": "`$ARRAY`", "key$": "Items", "index$": 1 }, "ResultCode": { "a": true, "fo": "int32", "h": "Result Code", "n": "ResultCode", "r": true, "t": "`$INTEGER`", "key$": "ResultCode", "index$": 2 } }, "name": "cancel_transfer", "op": { "create": { "input": "data", "name": "create", "points": [{ "a": true, "co": { "id": "POST /api/V1/CancelTransfers", "source": "swagger2", "version": 2 }, "g": { "header": [{ "a": true, "k": "header", "n": "x_correlation_id", "or": "x_correlation_id", "r": false, "t": "`$STRING`", "index$": 0 }], "query": [{ "a": true, "k": "query", "n": "cancellation_request", "or": "cancellation_request", "r": true, "t": "`$ARRAY`", "index$": 0 }] }, "k": "http", "m": "POST", "o": "/api/V1/CancelTransfers", "q": { "exist": ["cancellation_request", "x_correlation_id"] }, "r": {}, "s": [{ "lit": "api" }, { "lit": "V1" }, { "lit": "CancelTransfers" }], "t": { "req": "`reqdata`", "res": "`body`" }, "index$": 0 }], "key$": "create" } }, "relations": { "ancestors": [] }, "key$": "cancel_transfer", "name__orig": "cancel_transfer", "Name": "CancelTransfer", "name_": "cancel_transfer", "name-": "cancel-transfer", "NAME": "CANCEL_TRANSFER", "index$": 2 }, { "active": true, "entity": "cancel_transfer", "key$": "BasicCancelTransferFlow", "kind": "basic", "name": "BasicCancelTransferFlow", "param": {}, "step": [{ "a": true, "d": {}, "i": { "ref": "cancel_transfer_ref01" }, "m": {}, "o": "create", "s": [], "v": [], "index$": 0 }] }, 'CancelTransfer', { "POST /api/V1/CancelTransfers": { "protocol": "http", "parameters": [{ "in": "header", "name": "X-Correlation-Id", "description": "Correlates HTTP requests between a client and server", "type": "String", "index$": 0 }, { "in": "body", "name": "cancellationRequests", "description": "An explicit list of records to cancel.", "required": true, "schema": { "type": "array", "items": { "required": ["BatchItemRef", "TransferId"], "type": "object", "properties": { "TransferId": { "required": ["TransferRef", "DistributorRef"], "type": "object", "properties": { "TransferRef": { "description": "The unique identifier for the transfer within our system", "type": "string" }, "DistributorRef": { "description": "The distributor's identifier for the transfer.", "type": "string" } }, "additionalProperties": false, "x-ref": "#/definitions/TransferId" }, "BatchItemRef": { "description": "A unique number for an item in an overall batched request", "type": "string" } }, "additionalProperties": false, "x-ref": "#/definitions/CancellationRequest" } }, "index$": 1 }] } });
         }
         const client = setup.client;
         const struct = setup.struct;
@@ -101,12 +95,6 @@ function basicSetup(extra) {
                 '`$VAL`': ['`$FORMAT`', 'upper', '`$COPY`']
             }]
     });
-    // Detect whether the user provided a real ENTID JSON via env var. The
-    // basic flow consumes synthetic IDs from the fixture file; without an
-    // override those synthetic IDs reach the live API and 4xx. Surface this
-    // to the test so it can skip rather than fail.
-    const idmapEnvVal = process.env['DINGCONNECT_TEST_CANCEL_TRANSFER_ENTID'];
-    const idmapOverridden = null != idmapEnvVal && idmapEnvVal.trim().startsWith('{');
     const env = (0, utility_1.envOverride)({
         'DINGCONNECT_TEST_CANCEL_TRANSFER_ENTID': idmap,
         'DINGCONNECT_TEST_LIVE': 'FALSE',
@@ -115,7 +103,13 @@ function basicSetup(extra) {
     });
     idmap = env['DINGCONNECT_TEST_CANCEL_TRANSFER_ENTID'];
     const live = 'TRUE' === env.DINGCONNECT_TEST_LIVE;
+    const transport = (0, live_runner_1.createLiveTransport)();
     if (live) {
+        const rawIds = process.env['DINGCONNECT_TEST_CANCEL_TRANSFER_ENTID'];
+        idmap = rawIds && rawIds.trim() ? JSON.parse(rawIds) : {};
+        if (!idmap || Array.isArray(idmap) || typeof idmap !== 'object') {
+            throw new Error('Live ENTID must be a JSON object');
+        }
         client = new __1.DingconnectSDK(merge([
             // FIRST, so the generated fields below win: sdk-test-control.json's
             // test.client.options adds to the live client, it does not redirect it.
@@ -128,7 +122,8 @@ function basicSetup(extra) {
             // argument at all - so a bare 'extra' silently discarded the apikey
             // and server values above and handed the SDK undefined. Harmless
             // while there was nothing in that object; not harmless now.
-            extra || {}
+            extra || {},
+            { system: { fetch: transport.fetch } }
         ]));
     }
     const setup = {
@@ -140,7 +135,7 @@ function basicSetup(extra) {
         data: entityData,
         explain: 'TRUE' === env.DINGCONNECT_TEST_EXPLAIN,
         live,
-        syntheticOnly: live && !idmapOverridden,
+        transport,
         now: Date.now(),
     };
     return setup;

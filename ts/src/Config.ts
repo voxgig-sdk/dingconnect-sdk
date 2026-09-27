@@ -1,21 +1,29 @@
 
 import { BaseFeature } from './feature/base/BaseFeature'
+import { DebugFeature } from './feature/debug/DebugFeature'
+import { IdempotencyFeature } from './feature/idempotency/IdempotencyFeature'
+import { MetricsFeature } from './feature/metrics/MetricsFeature'
+import { PagingFeature } from './feature/paging/PagingFeature'
+import { RatelimitFeature } from './feature/ratelimit/RatelimitFeature'
+import { RetryFeature } from './feature/retry/RetryFeature'
 import { TestFeature } from './feature/test/TestFeature'
+import { TimeoutFeature } from './feature/timeout/TimeoutFeature'
 
 
 
 const FEATURE_CLASS: Record<string, typeof BaseFeature> = {
-   test: TestFeature,
+   debug: DebugFeature,
+ idempotency: IdempotencyFeature,
+ metrics: MetricsFeature,
+ paging: PagingFeature,
+ ratelimit: RatelimitFeature,
+ retry: RetryFeature,
+ test: TestFeature,
+ timeout: TimeoutFeature,
 
 }
 
 
-// Per-feature plugin DEFINITIONS (voxgig/plugin `Definition` values), from
-// the model's active plugin groups. A feature that takes a `plugins` option
-// (secrets over sekreto) reads its own entry; a feature with no plugins has
-// none. Named imports above make each definition statically reachable, so
-// an SDK carries exactly the plugin modules its model selects — the same
-// leanness the old side-effect registry imports bought, without a registry.
 const FEATURE_PLUGINS: Record<string, any[]> = {
   
 }
@@ -26,7 +34,6 @@ class Config {
   makeFeature(this: any, fn: string) {
     const fc = FEATURE_CLASS[fn]
     const fi = new fc()
-    // TODO: errors etc
     return fi
   }
 
@@ -48,11 +55,135 @@ class Config {
 
 
   feature = {
-     test:     {
+     debug:     {
+      "options": {
+        "active": false,
+        "max": 100,
+        "redact": [
+          "authorization",
+          "cookie",
+          "set-cookie",
+          "api-key",
+          "apikey",
+          "x-api-key",
+          "idempotency-key"
+        ]
+      },
+      "optspec": {
+        "now": "`$FUNCTION`",
+        "onEntry": "`$FUNCTION`"
+      },
+      "strict": false,
+      "transport": "none"
+    },
+ idempotency:     {
+      "options": {
+        "active": false,
+        "header": "Idempotency-Key",
+        "methods": [
+          "POST",
+          "PUT",
+          "PATCH",
+          "DELETE"
+        ],
+        "ops": [
+          "create",
+          "update",
+          "remove"
+        ]
+      },
+      "optspec": {
+        "keygen": "`$FUNCTION`"
+      },
+      "strict": false,
+      "transport": "none"
+    },
+ metrics:     {
       "options": {
         "active": false
       },
+      "optspec": {
+        "now": "`$FUNCTION`"
+      },
+      "strict": false,
+      "transport": "none"
+    },
+ paging:     {
+      "options": {
+        "active": false,
+        "afterVar": "after",
+        "cursorParam": "cursor",
+        "firstVar": "first",
+        "limitParam": "limit",
+        "pageParam": "page",
+        "startPage": 1
+      },
+      "optspec": {
+        "limit": "`$NUMBER`",
+        "ops": "`$LIST`"
+      },
+      "strict": false,
+      "transport": "none"
+    },
+ ratelimit:     {
+      "options": {
+        "active": false,
+        "burst": 5,
+        "rate": 5
+      },
+      "optspec": {
+        "now": "`$FUNCTION`",
+        "sleep": "`$FUNCTION`"
+      },
+      "strict": false,
+      "transport": "wrap"
+    },
+ retry:     {
+      "options": {
+        "active": false,
+        "factor": 2,
+        "maxDelay": 2000,
+        "minDelay": 50,
+        "retries": 2,
+        "statuses": [
+          408,
+          425,
+          429,
+          500,
+          502,
+          503,
+          504
+        ]
+      },
+      "optspec": {
+        "jitter": "`$BOOLEAN`",
+        "sleep": "`$FUNCTION`"
+      },
+      "strict": false,
+      "transport": "wrap"
+    },
+ test:     {
+      "options": {
+        "active": false
+      },
+      "optspec": {
+        "entity": "`$MAP`",
+        "net": "`$MAP`"
+      },
+      "strict": false,
       "transport": "base"
+    },
+ timeout:     {
+      "options": {
+        "active": false,
+        "ms": 30000
+      },
+      "optspec": {
+        "clearTimer": "`$FUNCTION`",
+        "setTimer": "`$FUNCTION`"
+      },
+      "strict": false,
+      "transport": "wrap"
     },
 
   }
@@ -63,6 +194,7 @@ class Config {
 
     auth: {
       prefix: '',
+      name: 'api_key',
     },
 
     headers: {
@@ -71,57 +203,57 @@ class Config {
 
     entity: {
       
-      account_lookup: {
-      },
-
-      balance: {
-      },
-
-      cancel_transfer: {
-      },
-
-      country: {
-      },
-
-      currency: {
-      },
-
-      error_code_description: {
-      },
-
-      estimate_price: {
-      },
-
-      list_transfer_record: {
-      },
-
-      lookup_bill: {
-      },
-
-      product: {
-      },
-
-      product_description: {
-      },
-
-      promotion: {
-      },
-
-      promotion_description: {
-      },
-
-      provider: {
-      },
-
-      provider_status: {
-      },
-
-      region: {
-      },
-
-      send_transfer: {
-      },
-
+        account_lookup: {
+        },
+  
+        balance: {
+        },
+  
+        cancel_transfer: {
+        },
+  
+        country: {
+        },
+  
+        currency: {
+        },
+  
+        error_code_description: {
+        },
+  
+        estimate_price: {
+        },
+  
+        list_transfer_record: {
+        },
+  
+        lookup_bill: {
+        },
+  
+        product: {
+        },
+  
+        product_description: {
+        },
+  
+        promotion: {
+        },
+  
+        promotion_description: {
+        },
+  
+        provider: {
+        },
+  
+        provider_status: {
+        },
+  
+        region: {
+        },
+  
+        send_transfer: {
+        },
+  
     }
   }
 
@@ -131,30 +263,35 @@ class Config {
       "fields": [
         {
           "name": "AccountNumberNormalized",
-          "short": "We attempt to normalize phone numbers following the public telecommunication numbering plan <a href=\"https://en.wikipedia.org/wiki/E.164\" target=\"_blank\">E.164</a>, if we succeed the normalized number will be returned in this field formatt…",
-          "type": "`$STRING`"
+          "title": "Account Number Normalized",
+          "type": "`$STRING`",
+          "short": "We attempt to normalize phone numbers following the public telecommunication numbering plan <a href=\"https://en.wikipedia.org/wiki/E.164\" target=\"_blank\">E.164</a>, if we succeed the normalized number will be returned in this field formatt…"
         },
         {
           "name": "CountryIso",
-          "short": "The country of the account number",
-          "type": "`$STRING`"
+          "title": "Country Iso",
+          "type": "`$STRING`",
+          "short": "The country of the account number"
         },
         {
           "name": "ErrorCodes",
-          "req": true,
-          "type": "`$ARRAY`"
+          "title": "Error Codes",
+          "type": "`$ARRAY`",
+          "req": true
         },
         {
           "name": "Items",
+          "title": "Items",
+          "type": "`$ARRAY`",
           "req": true,
-          "short": "This will contain provider information associated to the account number.",
-          "type": "`$ARRAY`"
+          "short": "This will contain provider information associated to the account number."
         },
         {
-          "format": "int32",
           "name": "ResultCode",
+          "title": "Result Code",
+          "type": "`$INTEGER`",
           "req": true,
-          "type": "`$INTEGER`"
+          "format": "int32"
         }
       ],
       "name": "account_lookup",
@@ -164,24 +301,6 @@ class Config {
           "name": "list",
           "points": [
             {
-              "args": {
-                "header": [
-                  {
-                    "kind": "header",
-                    "name": "x_correlation_id",
-                    "orig": "x_correlation_id",
-                    "type": "`$STRING`"
-                  }
-                ],
-                "query": [
-                  {
-                    "kind": "query",
-                    "name": "account_number",
-                    "orig": "account_number",
-                    "type": "`$INTEGER`"
-                  }
-                ]
-              },
               "kind": "http",
               "method": "GET",
               "orig": "/api/V1/GetAccountLookup",
@@ -196,21 +315,40 @@ class Config {
                   "lit": "GetAccountLookup"
                 }
               ],
+              "parts": [
+                "api",
+                "V1",
+                "GetAccountLookup"
+              ],
+              "rename": {},
+              "transform": {
+                "req": "`reqdata`",
+                "res": "`body`"
+              },
+              "args": {
+                "header": [
+                  {
+                    "name": "x_correlation_id",
+                    "orig": "x_correlation_id",
+                    "type": "`$STRING`",
+                    "kind": "header"
+                  }
+                ],
+                "query": [
+                  {
+                    "name": "account_number",
+                    "orig": "account_number",
+                    "type": "`$INTEGER`",
+                    "kind": "query"
+                  }
+                ]
+              },
               "select": {
                 "exist": [
                   "account_number",
                   "x_correlation_id"
                 ]
-              },
-              "transform": {
-                "req": "`reqdata`",
-                "res": "`body`"
-              },
-              "parts": [
-                "api",
-                "V1",
-                "GetAccountLookup"
-              ]
+              }
             }
           ]
         }
@@ -223,14 +361,16 @@ class Config {
       "fields": [
         {
           "name": "Code",
+          "title": "Code",
+          "type": "`$STRING`",
           "req": true,
-          "short": "The code that can be used to lookup the explanatory message associated with the error",
-          "type": "`$STRING`"
+          "short": "The code that can be used to lookup the explanatory message associated with the error"
         },
         {
           "name": "Context",
-          "short": "API specific context as to the reason for the specific code",
-          "type": "`$STRING`"
+          "title": "Context",
+          "type": "`$STRING`",
+          "short": "API specific context as to the reason for the specific code"
         }
       ],
       "name": "balance",
@@ -240,16 +380,6 @@ class Config {
           "name": "list",
           "points": [
             {
-              "args": {
-                "header": [
-                  {
-                    "kind": "header",
-                    "name": "x_correlation_id",
-                    "orig": "x_correlation_id",
-                    "type": "`$STRING`"
-                  }
-                ]
-              },
               "kind": "http",
               "method": "GET",
               "orig": "/api/V1/GetBalance",
@@ -264,20 +394,31 @@ class Config {
                   "lit": "GetBalance"
                 }
               ],
-              "select": {
-                "exist": [
-                  "x_correlation_id"
-                ]
-              },
-              "transform": {
-                "req": "`reqdata`",
-                "res": "`body.ErrorCodes`"
-              },
               "parts": [
                 "api",
                 "V1",
                 "GetBalance"
-              ]
+              ],
+              "rename": {},
+              "transform": {
+                "req": "`reqdata`",
+                "res": "`body.ErrorCodes`"
+              },
+              "args": {
+                "header": [
+                  {
+                    "name": "x_correlation_id",
+                    "orig": "x_correlation_id",
+                    "type": "`$STRING`",
+                    "kind": "header"
+                  }
+                ]
+              },
+              "select": {
+                "exist": [
+                  "x_correlation_id"
+                ]
+              }
             }
           ]
         }
@@ -290,19 +431,22 @@ class Config {
       "fields": [
         {
           "name": "ErrorCodes",
-          "req": true,
-          "type": "`$ARRAY`"
+          "title": "Error Codes",
+          "type": "`$ARRAY`",
+          "req": true
         },
         {
           "name": "Items",
-          "req": true,
-          "type": "`$ARRAY`"
+          "title": "Items",
+          "type": "`$ARRAY`",
+          "req": true
         },
         {
-          "format": "int32",
           "name": "ResultCode",
+          "title": "Result Code",
+          "type": "`$INTEGER`",
           "req": true,
-          "type": "`$INTEGER`"
+          "format": "int32"
         }
       ],
       "name": "cancel_transfer",
@@ -312,25 +456,6 @@ class Config {
           "name": "create",
           "points": [
             {
-              "args": {
-                "header": [
-                  {
-                    "kind": "header",
-                    "name": "x_correlation_id",
-                    "orig": "x_correlation_id",
-                    "type": "`$STRING`"
-                  }
-                ],
-                "query": [
-                  {
-                    "kind": "query",
-                    "name": "cancellation_request",
-                    "orig": "cancellation_request",
-                    "reqd": true,
-                    "type": "`$ARRAY`"
-                  }
-                ]
-              },
               "kind": "http",
               "method": "POST",
               "orig": "/api/V1/CancelTransfers",
@@ -345,21 +470,41 @@ class Config {
                   "lit": "CancelTransfers"
                 }
               ],
+              "parts": [
+                "api",
+                "V1",
+                "CancelTransfers"
+              ],
+              "rename": {},
+              "transform": {
+                "req": "`reqdata`",
+                "res": "`body`"
+              },
+              "args": {
+                "header": [
+                  {
+                    "name": "x_correlation_id",
+                    "orig": "x_correlation_id",
+                    "type": "`$STRING`",
+                    "kind": "header"
+                  }
+                ],
+                "query": [
+                  {
+                    "name": "cancellation_request",
+                    "orig": "cancellation_request",
+                    "type": "`$ARRAY`",
+                    "kind": "query",
+                    "reqd": true
+                  }
+                ]
+              },
               "select": {
                 "exist": [
                   "cancellation_request",
                   "x_correlation_id"
                 ]
-              },
-              "transform": {
-                "req": "`reqdata`",
-                "res": "`body`"
-              },
-              "parts": [
-                "api",
-                "V1",
-                "CancelTransfers"
-              ]
+              }
             }
           ]
         }
@@ -372,20 +517,23 @@ class Config {
       "fields": [
         {
           "name": "ErrorCodes",
-          "req": true,
-          "type": "`$ARRAY`"
+          "title": "Error Codes",
+          "type": "`$ARRAY`",
+          "req": true
         },
         {
           "name": "Items",
+          "title": "Items",
+          "type": "`$ARRAY`",
           "req": true,
-          "short": "The list of countries that our system is aware of.",
-          "type": "`$ARRAY`"
+          "short": "The list of countries that our system is aware of."
         },
         {
-          "format": "int32",
           "name": "ResultCode",
+          "title": "Result Code",
+          "type": "`$INTEGER`",
           "req": true,
-          "type": "`$INTEGER`"
+          "format": "int32"
         }
       ],
       "name": "country",
@@ -395,16 +543,6 @@ class Config {
           "name": "list",
           "points": [
             {
-              "args": {
-                "header": [
-                  {
-                    "kind": "header",
-                    "name": "x_correlation_id",
-                    "orig": "x_correlation_id",
-                    "type": "`$STRING`"
-                  }
-                ]
-              },
               "kind": "http",
               "method": "GET",
               "orig": "/api/V1/GetCountries",
@@ -419,20 +557,31 @@ class Config {
                   "lit": "GetCountries"
                 }
               ],
-              "select": {
-                "exist": [
-                  "x_correlation_id"
-                ]
-              },
-              "transform": {
-                "req": "`reqdata`",
-                "res": "`body`"
-              },
               "parts": [
                 "api",
                 "V1",
                 "GetCountries"
-              ]
+              ],
+              "rename": {},
+              "transform": {
+                "req": "`reqdata`",
+                "res": "`body`"
+              },
+              "args": {
+                "header": [
+                  {
+                    "name": "x_correlation_id",
+                    "orig": "x_correlation_id",
+                    "type": "`$STRING`",
+                    "kind": "header"
+                  }
+                ]
+              },
+              "select": {
+                "exist": [
+                  "x_correlation_id"
+                ]
+              }
             }
           ]
         }
@@ -445,19 +594,22 @@ class Config {
       "fields": [
         {
           "name": "ErrorCodes",
-          "req": true,
-          "type": "`$ARRAY`"
+          "title": "Error Codes",
+          "type": "`$ARRAY`",
+          "req": true
         },
         {
           "name": "Items",
-          "req": true,
-          "type": "`$ARRAY`"
+          "title": "Items",
+          "type": "`$ARRAY`",
+          "req": true
         },
         {
-          "format": "int32",
           "name": "ResultCode",
+          "title": "Result Code",
+          "type": "`$INTEGER`",
           "req": true,
-          "type": "`$INTEGER`"
+          "format": "int32"
         }
       ],
       "name": "currency",
@@ -467,16 +619,6 @@ class Config {
           "name": "list",
           "points": [
             {
-              "args": {
-                "header": [
-                  {
-                    "kind": "header",
-                    "name": "x_correlation_id",
-                    "orig": "x_correlation_id",
-                    "type": "`$STRING`"
-                  }
-                ]
-              },
               "kind": "http",
               "method": "GET",
               "orig": "/api/V1/GetCurrencies",
@@ -491,20 +633,31 @@ class Config {
                   "lit": "GetCurrencies"
                 }
               ],
-              "select": {
-                "exist": [
-                  "x_correlation_id"
-                ]
-              },
-              "transform": {
-                "req": "`reqdata`",
-                "res": "`body`"
-              },
               "parts": [
                 "api",
                 "V1",
                 "GetCurrencies"
-              ]
+              ],
+              "rename": {},
+              "transform": {
+                "req": "`reqdata`",
+                "res": "`body`"
+              },
+              "args": {
+                "header": [
+                  {
+                    "name": "x_correlation_id",
+                    "orig": "x_correlation_id",
+                    "type": "`$STRING`",
+                    "kind": "header"
+                  }
+                ]
+              },
+              "select": {
+                "exist": [
+                  "x_correlation_id"
+                ]
+              }
             }
           ]
         }
@@ -517,20 +670,23 @@ class Config {
       "fields": [
         {
           "name": "ErrorCodes",
-          "req": true,
-          "type": "`$ARRAY`"
+          "title": "Error Codes",
+          "type": "`$ARRAY`",
+          "req": true
         },
         {
           "name": "Items",
+          "title": "Items",
+          "type": "`$ARRAY`",
           "req": true,
-          "short": "A list of ErrorCodes and their localized descriptions",
-          "type": "`$ARRAY`"
+          "short": "A list of ErrorCodes and their localized descriptions"
         },
         {
-          "format": "int32",
           "name": "ResultCode",
+          "title": "Result Code",
+          "type": "`$INTEGER`",
           "req": true,
-          "type": "`$INTEGER`"
+          "format": "int32"
         }
       ],
       "name": "error_code_description",
@@ -540,16 +696,6 @@ class Config {
           "name": "list",
           "points": [
             {
-              "args": {
-                "header": [
-                  {
-                    "kind": "header",
-                    "name": "x_correlation_id",
-                    "orig": "x_correlation_id",
-                    "type": "`$STRING`"
-                  }
-                ]
-              },
               "kind": "http",
               "method": "GET",
               "orig": "/api/V1/GetErrorCodeDescriptions",
@@ -564,20 +710,31 @@ class Config {
                   "lit": "GetErrorCodeDescriptions"
                 }
               ],
-              "select": {
-                "exist": [
-                  "x_correlation_id"
-                ]
-              },
-              "transform": {
-                "req": "`reqdata`",
-                "res": "`body`"
-              },
               "parts": [
                 "api",
                 "V1",
                 "GetErrorCodeDescriptions"
-              ]
+              ],
+              "rename": {},
+              "transform": {
+                "req": "`reqdata`",
+                "res": "`body`"
+              },
+              "args": {
+                "header": [
+                  {
+                    "name": "x_correlation_id",
+                    "orig": "x_correlation_id",
+                    "type": "`$STRING`",
+                    "kind": "header"
+                  }
+                ]
+              },
+              "select": {
+                "exist": [
+                  "x_correlation_id"
+                ]
+              }
             }
           ]
         }
@@ -590,19 +747,22 @@ class Config {
       "fields": [
         {
           "name": "ErrorCodes",
-          "req": true,
-          "type": "`$ARRAY`"
+          "title": "Error Codes",
+          "type": "`$ARRAY`",
+          "req": true
         },
         {
           "name": "Items",
-          "req": true,
-          "type": "`$ARRAY`"
+          "title": "Items",
+          "type": "`$ARRAY`",
+          "req": true
         },
         {
-          "format": "int32",
           "name": "ResultCode",
+          "title": "Result Code",
+          "type": "`$INTEGER`",
           "req": true,
-          "type": "`$INTEGER`"
+          "format": "int32"
         }
       ],
       "name": "estimate_price",
@@ -612,25 +772,6 @@ class Config {
           "name": "create",
           "points": [
             {
-              "args": {
-                "header": [
-                  {
-                    "kind": "header",
-                    "name": "x_correlation_id",
-                    "orig": "x_correlation_id",
-                    "type": "`$STRING`"
-                  }
-                ],
-                "query": [
-                  {
-                    "kind": "query",
-                    "name": "requested_estimation",
-                    "orig": "requested_estimation",
-                    "reqd": true,
-                    "type": "`$ARRAY`"
-                  }
-                ]
-              },
               "kind": "http",
               "method": "POST",
               "orig": "/api/V1/EstimatePrices",
@@ -645,21 +786,41 @@ class Config {
                   "lit": "EstimatePrices"
                 }
               ],
+              "parts": [
+                "api",
+                "V1",
+                "EstimatePrices"
+              ],
+              "rename": {},
+              "transform": {
+                "req": "`reqdata`",
+                "res": "`body`"
+              },
+              "args": {
+                "header": [
+                  {
+                    "name": "x_correlation_id",
+                    "orig": "x_correlation_id",
+                    "type": "`$STRING`",
+                    "kind": "header"
+                  }
+                ],
+                "query": [
+                  {
+                    "name": "requested_estimation",
+                    "orig": "requested_estimation",
+                    "type": "`$ARRAY`",
+                    "kind": "query",
+                    "reqd": true
+                  }
+                ]
+              },
               "select": {
                 "exist": [
                   "requested_estimation",
                   "x_correlation_id"
                 ]
-              },
-              "transform": {
-                "req": "`reqdata`",
-                "res": "`body`"
-              },
-              "parts": [
-                "api",
-                "V1",
-                "EstimatePrices"
-              ]
+              }
             }
           ]
         }
@@ -672,26 +833,30 @@ class Config {
       "fields": [
         {
           "name": "ErrorCodes",
-          "req": true,
-          "type": "`$ARRAY`"
+          "title": "Error Codes",
+          "type": "`$ARRAY`",
+          "req": true
         },
         {
           "name": "Items",
+          "title": "Items",
+          "type": "`$ARRAY`",
           "req": true,
-          "short": "The list of items satisfying the transfer query.",
-          "type": "`$ARRAY`"
+          "short": "The list of items satisfying the transfer query."
         },
         {
-          "format": "int32",
           "name": "ResultCode",
+          "title": "Result Code",
+          "type": "`$INTEGER`",
           "req": true,
-          "type": "`$INTEGER`"
+          "format": "int32"
         },
         {
           "name": "ThereAreMoreItems",
+          "title": "There Are More Items",
+          "type": "`$BOOLEAN`",
           "req": true,
-          "short": "Indicates if the caller should execute the query again.",
-          "type": "`$BOOLEAN`"
+          "short": "Indicates if the caller should execute the query again."
         }
       ],
       "name": "list_transfer_record",
@@ -701,25 +866,6 @@ class Config {
           "name": "create",
           "points": [
             {
-              "args": {
-                "header": [
-                  {
-                    "kind": "header",
-                    "name": "x_correlation_id",
-                    "orig": "x_correlation_id",
-                    "type": "`$STRING`"
-                  }
-                ],
-                "query": [
-                  {
-                    "kind": "query",
-                    "name": "request",
-                    "orig": "request",
-                    "reqd": true,
-                    "type": "`$OBJECT`"
-                  }
-                ]
-              },
               "kind": "http",
               "method": "POST",
               "orig": "/api/V1/ListTransferRecords",
@@ -734,21 +880,41 @@ class Config {
                   "lit": "ListTransferRecords"
                 }
               ],
+              "parts": [
+                "api",
+                "V1",
+                "ListTransferRecords"
+              ],
+              "rename": {},
+              "transform": {
+                "req": "`reqdata`",
+                "res": "`body`"
+              },
+              "args": {
+                "header": [
+                  {
+                    "name": "x_correlation_id",
+                    "orig": "x_correlation_id",
+                    "type": "`$STRING`",
+                    "kind": "header"
+                  }
+                ],
+                "query": [
+                  {
+                    "name": "request",
+                    "orig": "request",
+                    "type": "`$OBJECT`",
+                    "kind": "query",
+                    "reqd": true
+                  }
+                ]
+              },
               "select": {
                 "exist": [
                   "request",
                   "x_correlation_id"
                 ]
-              },
-              "transform": {
-                "req": "`reqdata`",
-                "res": "`body`"
-              },
-              "parts": [
-                "api",
-                "V1",
-                "ListTransferRecords"
-              ]
+              }
             }
           ]
         }
@@ -761,19 +927,22 @@ class Config {
       "fields": [
         {
           "name": "ErrorCodes",
-          "req": true,
-          "type": "`$ARRAY`"
+          "title": "Error Codes",
+          "type": "`$ARRAY`",
+          "req": true
         },
         {
           "name": "Items",
-          "req": true,
-          "type": "`$ARRAY`"
+          "title": "Items",
+          "type": "`$ARRAY`",
+          "req": true
         },
         {
-          "format": "int32",
           "name": "ResultCode",
+          "title": "Result Code",
+          "type": "`$INTEGER`",
           "req": true,
-          "type": "`$INTEGER`"
+          "format": "int32"
         }
       ],
       "name": "lookup_bill",
@@ -783,25 +952,6 @@ class Config {
           "name": "create",
           "points": [
             {
-              "args": {
-                "header": [
-                  {
-                    "kind": "header",
-                    "name": "x_correlation_id",
-                    "orig": "x_correlation_id",
-                    "type": "`$STRING`"
-                  }
-                ],
-                "query": [
-                  {
-                    "kind": "query",
-                    "name": "request",
-                    "orig": "request",
-                    "reqd": true,
-                    "type": "`$OBJECT`"
-                  }
-                ]
-              },
               "kind": "http",
               "method": "POST",
               "orig": "/api/V1/LookupBills",
@@ -816,21 +966,41 @@ class Config {
                   "lit": "LookupBills"
                 }
               ],
+              "parts": [
+                "api",
+                "V1",
+                "LookupBills"
+              ],
+              "rename": {},
+              "transform": {
+                "req": "`reqdata`",
+                "res": "`body`"
+              },
+              "args": {
+                "header": [
+                  {
+                    "name": "x_correlation_id",
+                    "orig": "x_correlation_id",
+                    "type": "`$STRING`",
+                    "kind": "header"
+                  }
+                ],
+                "query": [
+                  {
+                    "name": "request",
+                    "orig": "request",
+                    "type": "`$OBJECT`",
+                    "kind": "query",
+                    "reqd": true
+                  }
+                ]
+              },
               "select": {
                 "exist": [
                   "request",
                   "x_correlation_id"
                 ]
-              },
-              "transform": {
-                "req": "`reqdata`",
-                "res": "`body`"
-              },
-              "parts": [
-                "api",
-                "V1",
-                "LookupBills"
-              ]
+              }
             }
           ]
         }
@@ -843,20 +1013,23 @@ class Config {
       "fields": [
         {
           "name": "ErrorCodes",
-          "req": true,
-          "type": "`$ARRAY`"
+          "title": "Error Codes",
+          "type": "`$ARRAY`",
+          "req": true
         },
         {
           "name": "Items",
+          "title": "Items",
+          "type": "`$ARRAY`",
           "req": true,
-          "short": "A list of products that fulfil the submitted criteria.",
-          "type": "`$ARRAY`"
+          "short": "A list of products that fulfil the submitted criteria."
         },
         {
-          "format": "int32",
           "name": "ResultCode",
+          "title": "Result Code",
+          "type": "`$INTEGER`",
           "req": true,
-          "type": "`$INTEGER`"
+          "format": "int32"
         }
       ],
       "name": "product",
@@ -866,54 +1039,6 @@ class Config {
           "name": "list",
           "points": [
             {
-              "args": {
-                "header": [
-                  {
-                    "kind": "header",
-                    "name": "x_correlation_id",
-                    "orig": "x_correlation_id",
-                    "type": "`$STRING`"
-                  }
-                ],
-                "query": [
-                  {
-                    "kind": "query",
-                    "name": "account_number",
-                    "orig": "account_number",
-                    "type": "`$INTEGER`"
-                  },
-                  {
-                    "kind": "query",
-                    "name": "benefit",
-                    "orig": "benefit",
-                    "type": "`$ANY`"
-                  },
-                  {
-                    "kind": "query",
-                    "name": "country_iso",
-                    "orig": "country_iso",
-                    "type": "`$ANY`"
-                  },
-                  {
-                    "kind": "query",
-                    "name": "provider_code",
-                    "orig": "provider_code",
-                    "type": "`$ANY`"
-                  },
-                  {
-                    "kind": "query",
-                    "name": "region_code",
-                    "orig": "region_code",
-                    "type": "`$ANY`"
-                  },
-                  {
-                    "kind": "query",
-                    "name": "sku_code",
-                    "orig": "sku_code",
-                    "type": "`$ANY`"
-                  }
-                ]
-              },
               "kind": "http",
               "method": "GET",
               "orig": "/api/V1/GetProducts",
@@ -928,6 +1053,64 @@ class Config {
                   "lit": "GetProducts"
                 }
               ],
+              "parts": [
+                "api",
+                "V1",
+                "GetProducts"
+              ],
+              "rename": {},
+              "transform": {
+                "req": "`reqdata`",
+                "res": "`body`"
+              },
+              "args": {
+                "header": [
+                  {
+                    "name": "x_correlation_id",
+                    "orig": "x_correlation_id",
+                    "type": "`$STRING`",
+                    "kind": "header"
+                  }
+                ],
+                "query": [
+                  {
+                    "name": "account_number",
+                    "orig": "account_number",
+                    "type": "`$INTEGER`",
+                    "kind": "query"
+                  },
+                  {
+                    "name": "benefit",
+                    "orig": "benefit",
+                    "type": "`$ANY`",
+                    "kind": "query"
+                  },
+                  {
+                    "name": "country_iso",
+                    "orig": "country_iso",
+                    "type": "`$ANY`",
+                    "kind": "query"
+                  },
+                  {
+                    "name": "provider_code",
+                    "orig": "provider_code",
+                    "type": "`$ANY`",
+                    "kind": "query"
+                  },
+                  {
+                    "name": "region_code",
+                    "orig": "region_code",
+                    "type": "`$ANY`",
+                    "kind": "query"
+                  },
+                  {
+                    "name": "sku_code",
+                    "orig": "sku_code",
+                    "type": "`$ANY`",
+                    "kind": "query"
+                  }
+                ]
+              },
               "select": {
                 "exist": [
                   "account_number",
@@ -938,16 +1121,7 @@ class Config {
                   "sku_code",
                   "x_correlation_id"
                 ]
-              },
-              "transform": {
-                "req": "`reqdata`",
-                "res": "`body`"
-              },
-              "parts": [
-                "api",
-                "V1",
-                "GetProducts"
-              ]
+              }
             }
           ]
         }
@@ -960,20 +1134,23 @@ class Config {
       "fields": [
         {
           "name": "ErrorCodes",
-          "req": true,
-          "type": "`$ARRAY`"
+          "title": "Error Codes",
+          "type": "`$ARRAY`",
+          "req": true
         },
         {
           "name": "Items",
+          "title": "Items",
+          "type": "`$ARRAY`",
           "req": true,
-          "short": "A localized list of product descriptions.",
-          "type": "`$ARRAY`"
+          "short": "A localized list of product descriptions."
         },
         {
-          "format": "int32",
           "name": "ResultCode",
+          "title": "Result Code",
+          "type": "`$INTEGER`",
           "req": true,
-          "type": "`$INTEGER`"
+          "format": "int32"
         }
       ],
       "name": "product_description",
@@ -983,30 +1160,6 @@ class Config {
           "name": "list",
           "points": [
             {
-              "args": {
-                "header": [
-                  {
-                    "kind": "header",
-                    "name": "x_correlation_id",
-                    "orig": "x_correlation_id",
-                    "type": "`$STRING`"
-                  }
-                ],
-                "query": [
-                  {
-                    "kind": "query",
-                    "name": "language_code",
-                    "orig": "language_code",
-                    "type": "`$ANY`"
-                  },
-                  {
-                    "kind": "query",
-                    "name": "sku_code",
-                    "orig": "sku_code",
-                    "type": "`$ANY`"
-                  }
-                ]
-              },
               "kind": "http",
               "method": "GET",
               "orig": "/api/V1/GetProductDescriptions",
@@ -1021,22 +1174,47 @@ class Config {
                   "lit": "GetProductDescriptions"
                 }
               ],
+              "parts": [
+                "api",
+                "V1",
+                "GetProductDescriptions"
+              ],
+              "rename": {},
+              "transform": {
+                "req": "`reqdata`",
+                "res": "`body`"
+              },
+              "args": {
+                "header": [
+                  {
+                    "name": "x_correlation_id",
+                    "orig": "x_correlation_id",
+                    "type": "`$STRING`",
+                    "kind": "header"
+                  }
+                ],
+                "query": [
+                  {
+                    "name": "language_code",
+                    "orig": "language_code",
+                    "type": "`$ANY`",
+                    "kind": "query"
+                  },
+                  {
+                    "name": "sku_code",
+                    "orig": "sku_code",
+                    "type": "`$ANY`",
+                    "kind": "query"
+                  }
+                ]
+              },
               "select": {
                 "exist": [
                   "language_code",
                   "sku_code",
                   "x_correlation_id"
                 ]
-              },
-              "transform": {
-                "req": "`reqdata`",
-                "res": "`body`"
-              },
-              "parts": [
-                "api",
-                "V1",
-                "GetProductDescriptions"
-              ]
+              }
             }
           ]
         }
@@ -1049,20 +1227,23 @@ class Config {
       "fields": [
         {
           "name": "ErrorCodes",
-          "req": true,
-          "type": "`$ARRAY`"
+          "title": "Error Codes",
+          "type": "`$ARRAY`",
+          "req": true
         },
         {
           "name": "Items",
+          "title": "Items",
+          "type": "`$ARRAY`",
           "req": true,
-          "short": "List of available promotions",
-          "type": "`$ARRAY`"
+          "short": "List of available promotions"
         },
         {
-          "format": "int32",
           "name": "ResultCode",
+          "title": "Result Code",
+          "type": "`$INTEGER`",
           "req": true,
-          "type": "`$INTEGER`"
+          "format": "int32"
         }
       ],
       "name": "promotion",
@@ -1072,36 +1253,6 @@ class Config {
           "name": "list",
           "points": [
             {
-              "args": {
-                "header": [
-                  {
-                    "kind": "header",
-                    "name": "x_correlation_id",
-                    "orig": "x_correlation_id",
-                    "type": "`$STRING`"
-                  }
-                ],
-                "query": [
-                  {
-                    "kind": "query",
-                    "name": "account_number",
-                    "orig": "account_number",
-                    "type": "`$INTEGER`"
-                  },
-                  {
-                    "kind": "query",
-                    "name": "country_iso",
-                    "orig": "country_iso",
-                    "type": "`$ANY`"
-                  },
-                  {
-                    "kind": "query",
-                    "name": "provider_code",
-                    "orig": "provider_code",
-                    "type": "`$ANY`"
-                  }
-                ]
-              },
               "kind": "http",
               "method": "GET",
               "orig": "/api/V1/GetPromotions",
@@ -1116,6 +1267,46 @@ class Config {
                   "lit": "GetPromotions"
                 }
               ],
+              "parts": [
+                "api",
+                "V1",
+                "GetPromotions"
+              ],
+              "rename": {},
+              "transform": {
+                "req": "`reqdata`",
+                "res": "`body`"
+              },
+              "args": {
+                "header": [
+                  {
+                    "name": "x_correlation_id",
+                    "orig": "x_correlation_id",
+                    "type": "`$STRING`",
+                    "kind": "header"
+                  }
+                ],
+                "query": [
+                  {
+                    "name": "account_number",
+                    "orig": "account_number",
+                    "type": "`$INTEGER`",
+                    "kind": "query"
+                  },
+                  {
+                    "name": "country_iso",
+                    "orig": "country_iso",
+                    "type": "`$ANY`",
+                    "kind": "query"
+                  },
+                  {
+                    "name": "provider_code",
+                    "orig": "provider_code",
+                    "type": "`$ANY`",
+                    "kind": "query"
+                  }
+                ]
+              },
               "select": {
                 "exist": [
                   "account_number",
@@ -1123,16 +1314,7 @@ class Config {
                   "provider_code",
                   "x_correlation_id"
                 ]
-              },
-              "transform": {
-                "req": "`reqdata`",
-                "res": "`body`"
-              },
-              "parts": [
-                "api",
-                "V1",
-                "GetPromotions"
-              ]
+              }
             }
           ]
         }
@@ -1145,20 +1327,23 @@ class Config {
       "fields": [
         {
           "name": "ErrorCodes",
-          "req": true,
-          "type": "`$ARRAY`"
+          "title": "Error Codes",
+          "type": "`$ARRAY`",
+          "req": true
         },
         {
           "name": "Items",
+          "title": "Items",
+          "type": "`$ARRAY`",
           "req": true,
-          "short": "A localized list of promotions.",
-          "type": "`$ARRAY`"
+          "short": "A localized list of promotions."
         },
         {
-          "format": "int32",
           "name": "ResultCode",
+          "title": "Result Code",
+          "type": "`$INTEGER`",
           "req": true,
-          "type": "`$INTEGER`"
+          "format": "int32"
         }
       ],
       "name": "promotion_description",
@@ -1168,24 +1353,6 @@ class Config {
           "name": "list",
           "points": [
             {
-              "args": {
-                "header": [
-                  {
-                    "kind": "header",
-                    "name": "x_correlation_id",
-                    "orig": "x_correlation_id",
-                    "type": "`$STRING`"
-                  }
-                ],
-                "query": [
-                  {
-                    "kind": "query",
-                    "name": "language_code",
-                    "orig": "language_code",
-                    "type": "`$ANY`"
-                  }
-                ]
-              },
               "kind": "http",
               "method": "GET",
               "orig": "/api/V1/GetPromotionDescriptions",
@@ -1200,21 +1367,40 @@ class Config {
                   "lit": "GetPromotionDescriptions"
                 }
               ],
+              "parts": [
+                "api",
+                "V1",
+                "GetPromotionDescriptions"
+              ],
+              "rename": {},
+              "transform": {
+                "req": "`reqdata`",
+                "res": "`body`"
+              },
+              "args": {
+                "header": [
+                  {
+                    "name": "x_correlation_id",
+                    "orig": "x_correlation_id",
+                    "type": "`$STRING`",
+                    "kind": "header"
+                  }
+                ],
+                "query": [
+                  {
+                    "name": "language_code",
+                    "orig": "language_code",
+                    "type": "`$ANY`",
+                    "kind": "query"
+                  }
+                ]
+              },
               "select": {
                 "exist": [
                   "language_code",
                   "x_correlation_id"
                 ]
-              },
-              "transform": {
-                "req": "`reqdata`",
-                "res": "`body`"
-              },
-              "parts": [
-                "api",
-                "V1",
-                "GetPromotionDescriptions"
-              ]
+              }
             }
           ]
         }
@@ -1227,20 +1413,23 @@ class Config {
       "fields": [
         {
           "name": "ErrorCodes",
-          "req": true,
-          "type": "`$ARRAY`"
+          "title": "Error Codes",
+          "type": "`$ARRAY`",
+          "req": true
         },
         {
           "name": "Items",
+          "title": "Items",
+          "type": "`$ARRAY`",
           "req": true,
-          "short": "A list of providers that the distributor has Products for.",
-          "type": "`$ARRAY`"
+          "short": "A list of providers that the distributor has Products for."
         },
         {
-          "format": "int32",
           "name": "ResultCode",
+          "title": "Result Code",
+          "type": "`$INTEGER`",
           "req": true,
-          "type": "`$INTEGER`"
+          "format": "int32"
         }
       ],
       "name": "provider",
@@ -1250,42 +1439,6 @@ class Config {
           "name": "list",
           "points": [
             {
-              "args": {
-                "header": [
-                  {
-                    "kind": "header",
-                    "name": "x_correlation_id",
-                    "orig": "x_correlation_id",
-                    "type": "`$STRING`"
-                  }
-                ],
-                "query": [
-                  {
-                    "kind": "query",
-                    "name": "account_number",
-                    "orig": "account_number",
-                    "type": "`$INTEGER`"
-                  },
-                  {
-                    "kind": "query",
-                    "name": "country_iso",
-                    "orig": "country_iso",
-                    "type": "`$ANY`"
-                  },
-                  {
-                    "kind": "query",
-                    "name": "provider_code",
-                    "orig": "provider_code",
-                    "type": "`$ANY`"
-                  },
-                  {
-                    "kind": "query",
-                    "name": "region_code",
-                    "orig": "region_code",
-                    "type": "`$ANY`"
-                  }
-                ]
-              },
               "kind": "http",
               "method": "GET",
               "orig": "/api/V1/GetProviders",
@@ -1300,6 +1453,52 @@ class Config {
                   "lit": "GetProviders"
                 }
               ],
+              "parts": [
+                "api",
+                "V1",
+                "GetProviders"
+              ],
+              "rename": {},
+              "transform": {
+                "req": "`reqdata`",
+                "res": "`body`"
+              },
+              "args": {
+                "header": [
+                  {
+                    "name": "x_correlation_id",
+                    "orig": "x_correlation_id",
+                    "type": "`$STRING`",
+                    "kind": "header"
+                  }
+                ],
+                "query": [
+                  {
+                    "name": "account_number",
+                    "orig": "account_number",
+                    "type": "`$INTEGER`",
+                    "kind": "query"
+                  },
+                  {
+                    "name": "country_iso",
+                    "orig": "country_iso",
+                    "type": "`$ANY`",
+                    "kind": "query"
+                  },
+                  {
+                    "name": "provider_code",
+                    "orig": "provider_code",
+                    "type": "`$ANY`",
+                    "kind": "query"
+                  },
+                  {
+                    "name": "region_code",
+                    "orig": "region_code",
+                    "type": "`$ANY`",
+                    "kind": "query"
+                  }
+                ]
+              },
               "select": {
                 "exist": [
                   "account_number",
@@ -1308,16 +1507,7 @@ class Config {
                   "region_code",
                   "x_correlation_id"
                 ]
-              },
-              "transform": {
-                "req": "`reqdata`",
-                "res": "`body`"
-              },
-              "parts": [
-                "api",
-                "V1",
-                "GetProviders"
-              ]
+              }
             }
           ]
         }
@@ -1330,19 +1520,22 @@ class Config {
       "fields": [
         {
           "name": "ErrorCodes",
-          "req": true,
-          "type": "`$ARRAY`"
+          "title": "Error Codes",
+          "type": "`$ARRAY`",
+          "req": true
         },
         {
           "name": "Items",
-          "req": true,
-          "type": "`$ARRAY`"
+          "title": "Items",
+          "type": "`$ARRAY`",
+          "req": true
         },
         {
-          "format": "int32",
           "name": "ResultCode",
+          "title": "Result Code",
+          "type": "`$INTEGER`",
           "req": true,
-          "type": "`$INTEGER`"
+          "format": "int32"
         }
       ],
       "name": "provider_status",
@@ -1352,24 +1545,6 @@ class Config {
           "name": "list",
           "points": [
             {
-              "args": {
-                "header": [
-                  {
-                    "kind": "header",
-                    "name": "x_correlation_id",
-                    "orig": "x_correlation_id",
-                    "type": "`$STRING`"
-                  }
-                ],
-                "query": [
-                  {
-                    "kind": "query",
-                    "name": "provider_code",
-                    "orig": "provider_code",
-                    "type": "`$ANY`"
-                  }
-                ]
-              },
               "kind": "http",
               "method": "GET",
               "orig": "/api/V1/GetProviderStatus",
@@ -1384,21 +1559,40 @@ class Config {
                   "lit": "GetProviderStatus"
                 }
               ],
+              "parts": [
+                "api",
+                "V1",
+                "GetProviderStatus"
+              ],
+              "rename": {},
+              "transform": {
+                "req": "`reqdata`",
+                "res": "`body`"
+              },
+              "args": {
+                "header": [
+                  {
+                    "name": "x_correlation_id",
+                    "orig": "x_correlation_id",
+                    "type": "`$STRING`",
+                    "kind": "header"
+                  }
+                ],
+                "query": [
+                  {
+                    "name": "provider_code",
+                    "orig": "provider_code",
+                    "type": "`$ANY`",
+                    "kind": "query"
+                  }
+                ]
+              },
               "select": {
                 "exist": [
                   "provider_code",
                   "x_correlation_id"
                 ]
-              },
-              "transform": {
-                "req": "`reqdata`",
-                "res": "`body`"
-              },
-              "parts": [
-                "api",
-                "V1",
-                "GetProviderStatus"
-              ]
+              }
             }
           ]
         }
@@ -1411,20 +1605,23 @@ class Config {
       "fields": [
         {
           "name": "ErrorCodes",
-          "req": true,
-          "type": "`$ARRAY`"
+          "title": "Error Codes",
+          "type": "`$ARRAY`",
+          "req": true
         },
         {
           "name": "Items",
+          "title": "Items",
+          "type": "`$ARRAY`",
           "req": true,
-          "short": "The list of regions that the system uses.",
-          "type": "`$ARRAY`"
+          "short": "The list of regions that the system uses."
         },
         {
-          "format": "int32",
           "name": "ResultCode",
+          "title": "Result Code",
+          "type": "`$INTEGER`",
           "req": true,
-          "type": "`$INTEGER`"
+          "format": "int32"
         }
       ],
       "name": "region",
@@ -1434,24 +1631,6 @@ class Config {
           "name": "list",
           "points": [
             {
-              "args": {
-                "header": [
-                  {
-                    "kind": "header",
-                    "name": "x_correlation_id",
-                    "orig": "x_correlation_id",
-                    "type": "`$STRING`"
-                  }
-                ],
-                "query": [
-                  {
-                    "kind": "query",
-                    "name": "country_iso",
-                    "orig": "country_iso",
-                    "type": "`$ANY`"
-                  }
-                ]
-              },
               "kind": "http",
               "method": "GET",
               "orig": "/api/V1/GetRegions",
@@ -1466,21 +1645,40 @@ class Config {
                   "lit": "GetRegions"
                 }
               ],
+              "parts": [
+                "api",
+                "V1",
+                "GetRegions"
+              ],
+              "rename": {},
+              "transform": {
+                "req": "`reqdata`",
+                "res": "`body`"
+              },
+              "args": {
+                "header": [
+                  {
+                    "name": "x_correlation_id",
+                    "orig": "x_correlation_id",
+                    "type": "`$STRING`",
+                    "kind": "header"
+                  }
+                ],
+                "query": [
+                  {
+                    "name": "country_iso",
+                    "orig": "country_iso",
+                    "type": "`$ANY`",
+                    "kind": "query"
+                  }
+                ]
+              },
               "select": {
                 "exist": [
                   "country_iso",
                   "x_correlation_id"
                 ]
-              },
-              "transform": {
-                "req": "`reqdata`",
-                "res": "`body`"
-              },
-              "parts": [
-                "api",
-                "V1",
-                "GetRegions"
-              ]
+              }
             }
           ]
         }
@@ -1493,19 +1691,22 @@ class Config {
       "fields": [
         {
           "name": "ErrorCodes",
-          "req": true,
-          "type": "`$ARRAY`"
+          "title": "Error Codes",
+          "type": "`$ARRAY`",
+          "req": true
         },
         {
-          "format": "int32",
           "name": "ResultCode",
+          "title": "Result Code",
+          "type": "`$INTEGER`",
           "req": true,
-          "type": "`$INTEGER`"
+          "format": "int32"
         },
         {
           "name": "TransferRecord",
-          "req": true,
-          "type": "`$OBJECT`"
+          "title": "Transfer Record",
+          "type": "`$OBJECT`",
+          "req": true
         }
       ],
       "name": "send_transfer",
@@ -1515,25 +1716,6 @@ class Config {
           "name": "create",
           "points": [
             {
-              "args": {
-                "header": [
-                  {
-                    "kind": "header",
-                    "name": "x_correlation_id",
-                    "orig": "x_correlation_id",
-                    "type": "`$STRING`"
-                  }
-                ],
-                "query": [
-                  {
-                    "kind": "query",
-                    "name": "request",
-                    "orig": "request",
-                    "reqd": true,
-                    "type": "`$OBJECT`"
-                  }
-                ]
-              },
               "kind": "http",
               "method": "POST",
               "orig": "/api/V1/SendTransfer",
@@ -1548,21 +1730,41 @@ class Config {
                   "lit": "SendTransfer"
                 }
               ],
+              "parts": [
+                "api",
+                "V1",
+                "SendTransfer"
+              ],
+              "rename": {},
+              "transform": {
+                "req": "`reqdata`",
+                "res": "`body`"
+              },
+              "args": {
+                "header": [
+                  {
+                    "name": "x_correlation_id",
+                    "orig": "x_correlation_id",
+                    "type": "`$STRING`",
+                    "kind": "header"
+                  }
+                ],
+                "query": [
+                  {
+                    "name": "request",
+                    "orig": "request",
+                    "type": "`$OBJECT`",
+                    "kind": "query",
+                    "reqd": true
+                  }
+                ]
+              },
               "select": {
                 "exist": [
                   "request",
                   "x_correlation_id"
                 ]
-              },
-              "transform": {
-                "req": "`reqdata`",
-                "res": "`body`"
-              },
-              "parts": [
-                "api",
-                "V1",
-                "SendTransfer"
-              ]
+              }
             }
           ]
         }

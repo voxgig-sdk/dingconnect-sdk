@@ -41,17 +41,142 @@ def make_config():
             "target": "py",
         },
         "feature": {
+            "debug": {
+        "options": {
+          "active": False,
+          "max": 100,
+          "redact": [
+            "authorization",
+            "cookie",
+            "set-cookie",
+            "api-key",
+            "apikey",
+            "x-api-key",
+            "idempotency-key",
+          ],
+        },
+        "optspec": {
+          "now": "`$FUNCTION`",
+          "onEntry": "`$FUNCTION`",
+        },
+        "strict": False,
+        "transport": "none",
+      },
+            "idempotency": {
+        "options": {
+          "active": False,
+          "header": "Idempotency-Key",
+          "methods": [
+            "POST",
+            "PUT",
+            "PATCH",
+            "DELETE",
+          ],
+          "ops": [
+            "create",
+            "update",
+            "remove",
+          ],
+        },
+        "optspec": {
+          "keygen": "`$FUNCTION`",
+        },
+        "strict": False,
+        "transport": "none",
+      },
+            "metrics": {
+        "options": {
+          "active": False,
+        },
+        "optspec": {
+          "now": "`$FUNCTION`",
+        },
+        "strict": False,
+        "transport": "none",
+      },
+            "paging": {
+        "options": {
+          "active": False,
+          "afterVar": "after",
+          "cursorParam": "cursor",
+          "firstVar": "first",
+          "limitParam": "limit",
+          "pageParam": "page",
+          "startPage": 1,
+        },
+        "optspec": {
+          "limit": "`$NUMBER`",
+          "ops": "`$LIST`",
+        },
+        "strict": False,
+        "transport": "none",
+      },
+            "ratelimit": {
+        "options": {
+          "active": False,
+          "burst": 5,
+          "rate": 5,
+        },
+        "optspec": {
+          "now": "`$FUNCTION`",
+          "sleep": "`$FUNCTION`",
+        },
+        "strict": False,
+        "transport": "wrap",
+      },
+            "retry": {
+        "options": {
+          "active": False,
+          "factor": 2,
+          "maxDelay": 2000,
+          "minDelay": 50,
+          "retries": 2,
+          "statuses": [
+            408,
+            425,
+            429,
+            500,
+            502,
+            503,
+            504,
+          ],
+        },
+        "optspec": {
+          "jitter": "`$BOOLEAN`",
+          "sleep": "`$FUNCTION`",
+        },
+        "strict": False,
+        "transport": "wrap",
+      },
             "test": {
         "options": {
           "active": False,
         },
+        "optspec": {
+          "entity": "`$MAP`",
+          "net": "`$MAP`",
+        },
+        "strict": False,
         "transport": "base",
+      },
+            "timeout": {
+        "options": {
+          "active": False,
+          "ms": 30000,
+        },
+        "optspec": {
+          "clearTimer": "`$FUNCTION`",
+          "setTimer": "`$FUNCTION`",
+        },
+        "strict": False,
+        "transport": "wrap",
       },
         },
         "options": {
             "base": "https://api.dingconnect.com",
             "auth": {
                 "prefix": "",
+                "name": "api_key",
             },
             "headers": {
         "content-type": "application/json",
@@ -81,30 +206,35 @@ def make_config():
         "fields": [
           {
             "name": "AccountNumberNormalized",
-            "short": "We attempt to normalize phone numbers following the public telecommunication numbering plan <a href=\"https://en.wikipedia.org/wiki/E.164\" target=\"_blank\">E.164</a>, if we succeed the normalized number will be returned in this field formatt…",
+            "title": "Account Number Normalized",
             "type": "`$STRING`",
+            "short": "We attempt to normalize phone numbers following the public telecommunication numbering plan <a href=\"https://en.wikipedia.org/wiki/E.164\" target=\"_blank\">E.164</a>, if we succeed the normalized number will be returned in this field formatt…",
           },
           {
             "name": "CountryIso",
-            "short": "The country of the account number",
+            "title": "Country Iso",
             "type": "`$STRING`",
+            "short": "The country of the account number",
           },
           {
             "name": "ErrorCodes",
-            "req": True,
+            "title": "Error Codes",
             "type": "`$ARRAY`",
+            "req": True,
           },
           {
             "name": "Items",
+            "title": "Items",
+            "type": "`$ARRAY`",
             "req": True,
             "short": "This will contain provider information associated to the account number.",
-            "type": "`$ARRAY`",
           },
           {
-            "format": "int32",
             "name": "ResultCode",
-            "req": True,
+            "title": "Result Code",
             "type": "`$INTEGER`",
+            "req": True,
+            "format": "int32",
           },
         ],
         "name": "account_lookup",
@@ -114,24 +244,6 @@ def make_config():
             "name": "list",
             "points": [
               {
-                "args": {
-                  "header": [
-                    {
-                      "kind": "header",
-                      "name": "x_correlation_id",
-                      "orig": "x_correlation_id",
-                      "type": "`$STRING`",
-                    },
-                  ],
-                  "query": [
-                    {
-                      "kind": "query",
-                      "name": "account_number",
-                      "orig": "account_number",
-                      "type": "`$INTEGER`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "GET",
                 "orig": "/api/V1/GetAccountLookup",
@@ -146,21 +258,40 @@ def make_config():
                     "lit": "GetAccountLookup",
                   },
                 ],
+                "parts": [
+                  "api",
+                  "V1",
+                  "GetAccountLookup",
+                ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "header": [
+                    {
+                      "name": "x_correlation_id",
+                      "orig": "x_correlation_id",
+                      "type": "`$STRING`",
+                      "kind": "header",
+                    },
+                  ],
+                  "query": [
+                    {
+                      "name": "account_number",
+                      "orig": "account_number",
+                      "type": "`$INTEGER`",
+                      "kind": "query",
+                    },
+                  ],
+                },
                 "select": {
                   "exist": [
                     "account_number",
                     "x_correlation_id",
                   ],
                 },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
-                "parts": [
-                  "api",
-                  "V1",
-                  "GetAccountLookup",
-                ],
               },
             ],
           },
@@ -173,14 +304,16 @@ def make_config():
         "fields": [
           {
             "name": "Code",
+            "title": "Code",
+            "type": "`$STRING`",
             "req": True,
             "short": "The code that can be used to lookup the explanatory message associated with the error",
-            "type": "`$STRING`",
           },
           {
             "name": "Context",
-            "short": "API specific context as to the reason for the specific code",
+            "title": "Context",
             "type": "`$STRING`",
+            "short": "API specific context as to the reason for the specific code",
           },
         ],
         "name": "balance",
@@ -190,16 +323,6 @@ def make_config():
             "name": "list",
             "points": [
               {
-                "args": {
-                  "header": [
-                    {
-                      "kind": "header",
-                      "name": "x_correlation_id",
-                      "orig": "x_correlation_id",
-                      "type": "`$STRING`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "GET",
                 "orig": "/api/V1/GetBalance",
@@ -214,20 +337,31 @@ def make_config():
                     "lit": "GetBalance",
                   },
                 ],
-                "select": {
-                  "exist": [
-                    "x_correlation_id",
-                  ],
-                },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body.ErrorCodes`",
-                },
                 "parts": [
                   "api",
                   "V1",
                   "GetBalance",
                 ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body.ErrorCodes`",
+                },
+                "args": {
+                  "header": [
+                    {
+                      "name": "x_correlation_id",
+                      "orig": "x_correlation_id",
+                      "type": "`$STRING`",
+                      "kind": "header",
+                    },
+                  ],
+                },
+                "select": {
+                  "exist": [
+                    "x_correlation_id",
+                  ],
+                },
               },
             ],
           },
@@ -240,19 +374,22 @@ def make_config():
         "fields": [
           {
             "name": "ErrorCodes",
-            "req": True,
+            "title": "Error Codes",
             "type": "`$ARRAY`",
+            "req": True,
           },
           {
             "name": "Items",
-            "req": True,
+            "title": "Items",
             "type": "`$ARRAY`",
+            "req": True,
           },
           {
-            "format": "int32",
             "name": "ResultCode",
-            "req": True,
+            "title": "Result Code",
             "type": "`$INTEGER`",
+            "req": True,
+            "format": "int32",
           },
         ],
         "name": "cancel_transfer",
@@ -262,25 +399,6 @@ def make_config():
             "name": "create",
             "points": [
               {
-                "args": {
-                  "header": [
-                    {
-                      "kind": "header",
-                      "name": "x_correlation_id",
-                      "orig": "x_correlation_id",
-                      "type": "`$STRING`",
-                    },
-                  ],
-                  "query": [
-                    {
-                      "kind": "query",
-                      "name": "cancellation_request",
-                      "orig": "cancellation_request",
-                      "reqd": True,
-                      "type": "`$ARRAY`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "POST",
                 "orig": "/api/V1/CancelTransfers",
@@ -295,21 +413,41 @@ def make_config():
                     "lit": "CancelTransfers",
                   },
                 ],
+                "parts": [
+                  "api",
+                  "V1",
+                  "CancelTransfers",
+                ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "header": [
+                    {
+                      "name": "x_correlation_id",
+                      "orig": "x_correlation_id",
+                      "type": "`$STRING`",
+                      "kind": "header",
+                    },
+                  ],
+                  "query": [
+                    {
+                      "name": "cancellation_request",
+                      "orig": "cancellation_request",
+                      "type": "`$ARRAY`",
+                      "kind": "query",
+                      "reqd": True,
+                    },
+                  ],
+                },
                 "select": {
                   "exist": [
                     "cancellation_request",
                     "x_correlation_id",
                   ],
                 },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
-                "parts": [
-                  "api",
-                  "V1",
-                  "CancelTransfers",
-                ],
               },
             ],
           },
@@ -322,20 +460,23 @@ def make_config():
         "fields": [
           {
             "name": "ErrorCodes",
-            "req": True,
+            "title": "Error Codes",
             "type": "`$ARRAY`",
+            "req": True,
           },
           {
             "name": "Items",
+            "title": "Items",
+            "type": "`$ARRAY`",
             "req": True,
             "short": "The list of countries that our system is aware of.",
-            "type": "`$ARRAY`",
           },
           {
-            "format": "int32",
             "name": "ResultCode",
-            "req": True,
+            "title": "Result Code",
             "type": "`$INTEGER`",
+            "req": True,
+            "format": "int32",
           },
         ],
         "name": "country",
@@ -345,16 +486,6 @@ def make_config():
             "name": "list",
             "points": [
               {
-                "args": {
-                  "header": [
-                    {
-                      "kind": "header",
-                      "name": "x_correlation_id",
-                      "orig": "x_correlation_id",
-                      "type": "`$STRING`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "GET",
                 "orig": "/api/V1/GetCountries",
@@ -369,20 +500,31 @@ def make_config():
                     "lit": "GetCountries",
                   },
                 ],
-                "select": {
-                  "exist": [
-                    "x_correlation_id",
-                  ],
-                },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
                 "parts": [
                   "api",
                   "V1",
                   "GetCountries",
                 ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "header": [
+                    {
+                      "name": "x_correlation_id",
+                      "orig": "x_correlation_id",
+                      "type": "`$STRING`",
+                      "kind": "header",
+                    },
+                  ],
+                },
+                "select": {
+                  "exist": [
+                    "x_correlation_id",
+                  ],
+                },
               },
             ],
           },
@@ -395,19 +537,22 @@ def make_config():
         "fields": [
           {
             "name": "ErrorCodes",
-            "req": True,
+            "title": "Error Codes",
             "type": "`$ARRAY`",
+            "req": True,
           },
           {
             "name": "Items",
-            "req": True,
+            "title": "Items",
             "type": "`$ARRAY`",
+            "req": True,
           },
           {
-            "format": "int32",
             "name": "ResultCode",
-            "req": True,
+            "title": "Result Code",
             "type": "`$INTEGER`",
+            "req": True,
+            "format": "int32",
           },
         ],
         "name": "currency",
@@ -417,16 +562,6 @@ def make_config():
             "name": "list",
             "points": [
               {
-                "args": {
-                  "header": [
-                    {
-                      "kind": "header",
-                      "name": "x_correlation_id",
-                      "orig": "x_correlation_id",
-                      "type": "`$STRING`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "GET",
                 "orig": "/api/V1/GetCurrencies",
@@ -441,20 +576,31 @@ def make_config():
                     "lit": "GetCurrencies",
                   },
                 ],
-                "select": {
-                  "exist": [
-                    "x_correlation_id",
-                  ],
-                },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
                 "parts": [
                   "api",
                   "V1",
                   "GetCurrencies",
                 ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "header": [
+                    {
+                      "name": "x_correlation_id",
+                      "orig": "x_correlation_id",
+                      "type": "`$STRING`",
+                      "kind": "header",
+                    },
+                  ],
+                },
+                "select": {
+                  "exist": [
+                    "x_correlation_id",
+                  ],
+                },
               },
             ],
           },
@@ -467,20 +613,23 @@ def make_config():
         "fields": [
           {
             "name": "ErrorCodes",
-            "req": True,
+            "title": "Error Codes",
             "type": "`$ARRAY`",
+            "req": True,
           },
           {
             "name": "Items",
+            "title": "Items",
+            "type": "`$ARRAY`",
             "req": True,
             "short": "A list of ErrorCodes and their localized descriptions",
-            "type": "`$ARRAY`",
           },
           {
-            "format": "int32",
             "name": "ResultCode",
-            "req": True,
+            "title": "Result Code",
             "type": "`$INTEGER`",
+            "req": True,
+            "format": "int32",
           },
         ],
         "name": "error_code_description",
@@ -490,16 +639,6 @@ def make_config():
             "name": "list",
             "points": [
               {
-                "args": {
-                  "header": [
-                    {
-                      "kind": "header",
-                      "name": "x_correlation_id",
-                      "orig": "x_correlation_id",
-                      "type": "`$STRING`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "GET",
                 "orig": "/api/V1/GetErrorCodeDescriptions",
@@ -514,20 +653,31 @@ def make_config():
                     "lit": "GetErrorCodeDescriptions",
                   },
                 ],
-                "select": {
-                  "exist": [
-                    "x_correlation_id",
-                  ],
-                },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
                 "parts": [
                   "api",
                   "V1",
                   "GetErrorCodeDescriptions",
                 ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "header": [
+                    {
+                      "name": "x_correlation_id",
+                      "orig": "x_correlation_id",
+                      "type": "`$STRING`",
+                      "kind": "header",
+                    },
+                  ],
+                },
+                "select": {
+                  "exist": [
+                    "x_correlation_id",
+                  ],
+                },
               },
             ],
           },
@@ -540,19 +690,22 @@ def make_config():
         "fields": [
           {
             "name": "ErrorCodes",
-            "req": True,
+            "title": "Error Codes",
             "type": "`$ARRAY`",
+            "req": True,
           },
           {
             "name": "Items",
-            "req": True,
+            "title": "Items",
             "type": "`$ARRAY`",
+            "req": True,
           },
           {
-            "format": "int32",
             "name": "ResultCode",
-            "req": True,
+            "title": "Result Code",
             "type": "`$INTEGER`",
+            "req": True,
+            "format": "int32",
           },
         ],
         "name": "estimate_price",
@@ -562,25 +715,6 @@ def make_config():
             "name": "create",
             "points": [
               {
-                "args": {
-                  "header": [
-                    {
-                      "kind": "header",
-                      "name": "x_correlation_id",
-                      "orig": "x_correlation_id",
-                      "type": "`$STRING`",
-                    },
-                  ],
-                  "query": [
-                    {
-                      "kind": "query",
-                      "name": "requested_estimation",
-                      "orig": "requested_estimation",
-                      "reqd": True,
-                      "type": "`$ARRAY`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "POST",
                 "orig": "/api/V1/EstimatePrices",
@@ -595,21 +729,41 @@ def make_config():
                     "lit": "EstimatePrices",
                   },
                 ],
+                "parts": [
+                  "api",
+                  "V1",
+                  "EstimatePrices",
+                ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "header": [
+                    {
+                      "name": "x_correlation_id",
+                      "orig": "x_correlation_id",
+                      "type": "`$STRING`",
+                      "kind": "header",
+                    },
+                  ],
+                  "query": [
+                    {
+                      "name": "requested_estimation",
+                      "orig": "requested_estimation",
+                      "type": "`$ARRAY`",
+                      "kind": "query",
+                      "reqd": True,
+                    },
+                  ],
+                },
                 "select": {
                   "exist": [
                     "requested_estimation",
                     "x_correlation_id",
                   ],
                 },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
-                "parts": [
-                  "api",
-                  "V1",
-                  "EstimatePrices",
-                ],
               },
             ],
           },
@@ -622,26 +776,30 @@ def make_config():
         "fields": [
           {
             "name": "ErrorCodes",
-            "req": True,
+            "title": "Error Codes",
             "type": "`$ARRAY`",
+            "req": True,
           },
           {
             "name": "Items",
+            "title": "Items",
+            "type": "`$ARRAY`",
             "req": True,
             "short": "The list of items satisfying the transfer query.",
-            "type": "`$ARRAY`",
           },
           {
-            "format": "int32",
             "name": "ResultCode",
-            "req": True,
+            "title": "Result Code",
             "type": "`$INTEGER`",
+            "req": True,
+            "format": "int32",
           },
           {
             "name": "ThereAreMoreItems",
+            "title": "There Are More Items",
+            "type": "`$BOOLEAN`",
             "req": True,
             "short": "Indicates if the caller should execute the query again.",
-            "type": "`$BOOLEAN`",
           },
         ],
         "name": "list_transfer_record",
@@ -651,25 +809,6 @@ def make_config():
             "name": "create",
             "points": [
               {
-                "args": {
-                  "header": [
-                    {
-                      "kind": "header",
-                      "name": "x_correlation_id",
-                      "orig": "x_correlation_id",
-                      "type": "`$STRING`",
-                    },
-                  ],
-                  "query": [
-                    {
-                      "kind": "query",
-                      "name": "request",
-                      "orig": "request",
-                      "reqd": True,
-                      "type": "`$OBJECT`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "POST",
                 "orig": "/api/V1/ListTransferRecords",
@@ -684,21 +823,41 @@ def make_config():
                     "lit": "ListTransferRecords",
                   },
                 ],
+                "parts": [
+                  "api",
+                  "V1",
+                  "ListTransferRecords",
+                ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "header": [
+                    {
+                      "name": "x_correlation_id",
+                      "orig": "x_correlation_id",
+                      "type": "`$STRING`",
+                      "kind": "header",
+                    },
+                  ],
+                  "query": [
+                    {
+                      "name": "request",
+                      "orig": "request",
+                      "type": "`$OBJECT`",
+                      "kind": "query",
+                      "reqd": True,
+                    },
+                  ],
+                },
                 "select": {
                   "exist": [
                     "request",
                     "x_correlation_id",
                   ],
                 },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
-                "parts": [
-                  "api",
-                  "V1",
-                  "ListTransferRecords",
-                ],
               },
             ],
           },
@@ -711,19 +870,22 @@ def make_config():
         "fields": [
           {
             "name": "ErrorCodes",
-            "req": True,
+            "title": "Error Codes",
             "type": "`$ARRAY`",
+            "req": True,
           },
           {
             "name": "Items",
-            "req": True,
+            "title": "Items",
             "type": "`$ARRAY`",
+            "req": True,
           },
           {
-            "format": "int32",
             "name": "ResultCode",
-            "req": True,
+            "title": "Result Code",
             "type": "`$INTEGER`",
+            "req": True,
+            "format": "int32",
           },
         ],
         "name": "lookup_bill",
@@ -733,25 +895,6 @@ def make_config():
             "name": "create",
             "points": [
               {
-                "args": {
-                  "header": [
-                    {
-                      "kind": "header",
-                      "name": "x_correlation_id",
-                      "orig": "x_correlation_id",
-                      "type": "`$STRING`",
-                    },
-                  ],
-                  "query": [
-                    {
-                      "kind": "query",
-                      "name": "request",
-                      "orig": "request",
-                      "reqd": True,
-                      "type": "`$OBJECT`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "POST",
                 "orig": "/api/V1/LookupBills",
@@ -766,21 +909,41 @@ def make_config():
                     "lit": "LookupBills",
                   },
                 ],
+                "parts": [
+                  "api",
+                  "V1",
+                  "LookupBills",
+                ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "header": [
+                    {
+                      "name": "x_correlation_id",
+                      "orig": "x_correlation_id",
+                      "type": "`$STRING`",
+                      "kind": "header",
+                    },
+                  ],
+                  "query": [
+                    {
+                      "name": "request",
+                      "orig": "request",
+                      "type": "`$OBJECT`",
+                      "kind": "query",
+                      "reqd": True,
+                    },
+                  ],
+                },
                 "select": {
                   "exist": [
                     "request",
                     "x_correlation_id",
                   ],
                 },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
-                "parts": [
-                  "api",
-                  "V1",
-                  "LookupBills",
-                ],
               },
             ],
           },
@@ -793,20 +956,23 @@ def make_config():
         "fields": [
           {
             "name": "ErrorCodes",
-            "req": True,
+            "title": "Error Codes",
             "type": "`$ARRAY`",
+            "req": True,
           },
           {
             "name": "Items",
+            "title": "Items",
+            "type": "`$ARRAY`",
             "req": True,
             "short": "A list of products that fulfil the submitted criteria.",
-            "type": "`$ARRAY`",
           },
           {
-            "format": "int32",
             "name": "ResultCode",
-            "req": True,
+            "title": "Result Code",
             "type": "`$INTEGER`",
+            "req": True,
+            "format": "int32",
           },
         ],
         "name": "product",
@@ -816,54 +982,6 @@ def make_config():
             "name": "list",
             "points": [
               {
-                "args": {
-                  "header": [
-                    {
-                      "kind": "header",
-                      "name": "x_correlation_id",
-                      "orig": "x_correlation_id",
-                      "type": "`$STRING`",
-                    },
-                  ],
-                  "query": [
-                    {
-                      "kind": "query",
-                      "name": "account_number",
-                      "orig": "account_number",
-                      "type": "`$INTEGER`",
-                    },
-                    {
-                      "kind": "query",
-                      "name": "benefit",
-                      "orig": "benefit",
-                      "type": "`$ANY`",
-                    },
-                    {
-                      "kind": "query",
-                      "name": "country_iso",
-                      "orig": "country_iso",
-                      "type": "`$ANY`",
-                    },
-                    {
-                      "kind": "query",
-                      "name": "provider_code",
-                      "orig": "provider_code",
-                      "type": "`$ANY`",
-                    },
-                    {
-                      "kind": "query",
-                      "name": "region_code",
-                      "orig": "region_code",
-                      "type": "`$ANY`",
-                    },
-                    {
-                      "kind": "query",
-                      "name": "sku_code",
-                      "orig": "sku_code",
-                      "type": "`$ANY`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "GET",
                 "orig": "/api/V1/GetProducts",
@@ -878,6 +996,64 @@ def make_config():
                     "lit": "GetProducts",
                   },
                 ],
+                "parts": [
+                  "api",
+                  "V1",
+                  "GetProducts",
+                ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "header": [
+                    {
+                      "name": "x_correlation_id",
+                      "orig": "x_correlation_id",
+                      "type": "`$STRING`",
+                      "kind": "header",
+                    },
+                  ],
+                  "query": [
+                    {
+                      "name": "account_number",
+                      "orig": "account_number",
+                      "type": "`$INTEGER`",
+                      "kind": "query",
+                    },
+                    {
+                      "name": "benefit",
+                      "orig": "benefit",
+                      "type": "`$ANY`",
+                      "kind": "query",
+                    },
+                    {
+                      "name": "country_iso",
+                      "orig": "country_iso",
+                      "type": "`$ANY`",
+                      "kind": "query",
+                    },
+                    {
+                      "name": "provider_code",
+                      "orig": "provider_code",
+                      "type": "`$ANY`",
+                      "kind": "query",
+                    },
+                    {
+                      "name": "region_code",
+                      "orig": "region_code",
+                      "type": "`$ANY`",
+                      "kind": "query",
+                    },
+                    {
+                      "name": "sku_code",
+                      "orig": "sku_code",
+                      "type": "`$ANY`",
+                      "kind": "query",
+                    },
+                  ],
+                },
                 "select": {
                   "exist": [
                     "account_number",
@@ -889,15 +1065,6 @@ def make_config():
                     "x_correlation_id",
                   ],
                 },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
-                "parts": [
-                  "api",
-                  "V1",
-                  "GetProducts",
-                ],
               },
             ],
           },
@@ -910,20 +1077,23 @@ def make_config():
         "fields": [
           {
             "name": "ErrorCodes",
-            "req": True,
+            "title": "Error Codes",
             "type": "`$ARRAY`",
+            "req": True,
           },
           {
             "name": "Items",
+            "title": "Items",
+            "type": "`$ARRAY`",
             "req": True,
             "short": "A localized list of product descriptions.",
-            "type": "`$ARRAY`",
           },
           {
-            "format": "int32",
             "name": "ResultCode",
-            "req": True,
+            "title": "Result Code",
             "type": "`$INTEGER`",
+            "req": True,
+            "format": "int32",
           },
         ],
         "name": "product_description",
@@ -933,30 +1103,6 @@ def make_config():
             "name": "list",
             "points": [
               {
-                "args": {
-                  "header": [
-                    {
-                      "kind": "header",
-                      "name": "x_correlation_id",
-                      "orig": "x_correlation_id",
-                      "type": "`$STRING`",
-                    },
-                  ],
-                  "query": [
-                    {
-                      "kind": "query",
-                      "name": "language_code",
-                      "orig": "language_code",
-                      "type": "`$ANY`",
-                    },
-                    {
-                      "kind": "query",
-                      "name": "sku_code",
-                      "orig": "sku_code",
-                      "type": "`$ANY`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "GET",
                 "orig": "/api/V1/GetProductDescriptions",
@@ -971,6 +1117,40 @@ def make_config():
                     "lit": "GetProductDescriptions",
                   },
                 ],
+                "parts": [
+                  "api",
+                  "V1",
+                  "GetProductDescriptions",
+                ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "header": [
+                    {
+                      "name": "x_correlation_id",
+                      "orig": "x_correlation_id",
+                      "type": "`$STRING`",
+                      "kind": "header",
+                    },
+                  ],
+                  "query": [
+                    {
+                      "name": "language_code",
+                      "orig": "language_code",
+                      "type": "`$ANY`",
+                      "kind": "query",
+                    },
+                    {
+                      "name": "sku_code",
+                      "orig": "sku_code",
+                      "type": "`$ANY`",
+                      "kind": "query",
+                    },
+                  ],
+                },
                 "select": {
                   "exist": [
                     "language_code",
@@ -978,15 +1158,6 @@ def make_config():
                     "x_correlation_id",
                   ],
                 },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
-                "parts": [
-                  "api",
-                  "V1",
-                  "GetProductDescriptions",
-                ],
               },
             ],
           },
@@ -999,20 +1170,23 @@ def make_config():
         "fields": [
           {
             "name": "ErrorCodes",
-            "req": True,
+            "title": "Error Codes",
             "type": "`$ARRAY`",
+            "req": True,
           },
           {
             "name": "Items",
+            "title": "Items",
+            "type": "`$ARRAY`",
             "req": True,
             "short": "List of available promotions",
-            "type": "`$ARRAY`",
           },
           {
-            "format": "int32",
             "name": "ResultCode",
-            "req": True,
+            "title": "Result Code",
             "type": "`$INTEGER`",
+            "req": True,
+            "format": "int32",
           },
         ],
         "name": "promotion",
@@ -1022,36 +1196,6 @@ def make_config():
             "name": "list",
             "points": [
               {
-                "args": {
-                  "header": [
-                    {
-                      "kind": "header",
-                      "name": "x_correlation_id",
-                      "orig": "x_correlation_id",
-                      "type": "`$STRING`",
-                    },
-                  ],
-                  "query": [
-                    {
-                      "kind": "query",
-                      "name": "account_number",
-                      "orig": "account_number",
-                      "type": "`$INTEGER`",
-                    },
-                    {
-                      "kind": "query",
-                      "name": "country_iso",
-                      "orig": "country_iso",
-                      "type": "`$ANY`",
-                    },
-                    {
-                      "kind": "query",
-                      "name": "provider_code",
-                      "orig": "provider_code",
-                      "type": "`$ANY`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "GET",
                 "orig": "/api/V1/GetPromotions",
@@ -1066,6 +1210,46 @@ def make_config():
                     "lit": "GetPromotions",
                   },
                 ],
+                "parts": [
+                  "api",
+                  "V1",
+                  "GetPromotions",
+                ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "header": [
+                    {
+                      "name": "x_correlation_id",
+                      "orig": "x_correlation_id",
+                      "type": "`$STRING`",
+                      "kind": "header",
+                    },
+                  ],
+                  "query": [
+                    {
+                      "name": "account_number",
+                      "orig": "account_number",
+                      "type": "`$INTEGER`",
+                      "kind": "query",
+                    },
+                    {
+                      "name": "country_iso",
+                      "orig": "country_iso",
+                      "type": "`$ANY`",
+                      "kind": "query",
+                    },
+                    {
+                      "name": "provider_code",
+                      "orig": "provider_code",
+                      "type": "`$ANY`",
+                      "kind": "query",
+                    },
+                  ],
+                },
                 "select": {
                   "exist": [
                     "account_number",
@@ -1074,15 +1258,6 @@ def make_config():
                     "x_correlation_id",
                   ],
                 },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
-                "parts": [
-                  "api",
-                  "V1",
-                  "GetPromotions",
-                ],
               },
             ],
           },
@@ -1095,20 +1270,23 @@ def make_config():
         "fields": [
           {
             "name": "ErrorCodes",
-            "req": True,
+            "title": "Error Codes",
             "type": "`$ARRAY`",
+            "req": True,
           },
           {
             "name": "Items",
+            "title": "Items",
+            "type": "`$ARRAY`",
             "req": True,
             "short": "A localized list of promotions.",
-            "type": "`$ARRAY`",
           },
           {
-            "format": "int32",
             "name": "ResultCode",
-            "req": True,
+            "title": "Result Code",
             "type": "`$INTEGER`",
+            "req": True,
+            "format": "int32",
           },
         ],
         "name": "promotion_description",
@@ -1118,24 +1296,6 @@ def make_config():
             "name": "list",
             "points": [
               {
-                "args": {
-                  "header": [
-                    {
-                      "kind": "header",
-                      "name": "x_correlation_id",
-                      "orig": "x_correlation_id",
-                      "type": "`$STRING`",
-                    },
-                  ],
-                  "query": [
-                    {
-                      "kind": "query",
-                      "name": "language_code",
-                      "orig": "language_code",
-                      "type": "`$ANY`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "GET",
                 "orig": "/api/V1/GetPromotionDescriptions",
@@ -1150,21 +1310,40 @@ def make_config():
                     "lit": "GetPromotionDescriptions",
                   },
                 ],
+                "parts": [
+                  "api",
+                  "V1",
+                  "GetPromotionDescriptions",
+                ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "header": [
+                    {
+                      "name": "x_correlation_id",
+                      "orig": "x_correlation_id",
+                      "type": "`$STRING`",
+                      "kind": "header",
+                    },
+                  ],
+                  "query": [
+                    {
+                      "name": "language_code",
+                      "orig": "language_code",
+                      "type": "`$ANY`",
+                      "kind": "query",
+                    },
+                  ],
+                },
                 "select": {
                   "exist": [
                     "language_code",
                     "x_correlation_id",
                   ],
                 },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
-                "parts": [
-                  "api",
-                  "V1",
-                  "GetPromotionDescriptions",
-                ],
               },
             ],
           },
@@ -1177,20 +1356,23 @@ def make_config():
         "fields": [
           {
             "name": "ErrorCodes",
-            "req": True,
+            "title": "Error Codes",
             "type": "`$ARRAY`",
+            "req": True,
           },
           {
             "name": "Items",
+            "title": "Items",
+            "type": "`$ARRAY`",
             "req": True,
             "short": "A list of providers that the distributor has Products for.",
-            "type": "`$ARRAY`",
           },
           {
-            "format": "int32",
             "name": "ResultCode",
-            "req": True,
+            "title": "Result Code",
             "type": "`$INTEGER`",
+            "req": True,
+            "format": "int32",
           },
         ],
         "name": "provider",
@@ -1200,42 +1382,6 @@ def make_config():
             "name": "list",
             "points": [
               {
-                "args": {
-                  "header": [
-                    {
-                      "kind": "header",
-                      "name": "x_correlation_id",
-                      "orig": "x_correlation_id",
-                      "type": "`$STRING`",
-                    },
-                  ],
-                  "query": [
-                    {
-                      "kind": "query",
-                      "name": "account_number",
-                      "orig": "account_number",
-                      "type": "`$INTEGER`",
-                    },
-                    {
-                      "kind": "query",
-                      "name": "country_iso",
-                      "orig": "country_iso",
-                      "type": "`$ANY`",
-                    },
-                    {
-                      "kind": "query",
-                      "name": "provider_code",
-                      "orig": "provider_code",
-                      "type": "`$ANY`",
-                    },
-                    {
-                      "kind": "query",
-                      "name": "region_code",
-                      "orig": "region_code",
-                      "type": "`$ANY`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "GET",
                 "orig": "/api/V1/GetProviders",
@@ -1250,6 +1396,52 @@ def make_config():
                     "lit": "GetProviders",
                   },
                 ],
+                "parts": [
+                  "api",
+                  "V1",
+                  "GetProviders",
+                ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "header": [
+                    {
+                      "name": "x_correlation_id",
+                      "orig": "x_correlation_id",
+                      "type": "`$STRING`",
+                      "kind": "header",
+                    },
+                  ],
+                  "query": [
+                    {
+                      "name": "account_number",
+                      "orig": "account_number",
+                      "type": "`$INTEGER`",
+                      "kind": "query",
+                    },
+                    {
+                      "name": "country_iso",
+                      "orig": "country_iso",
+                      "type": "`$ANY`",
+                      "kind": "query",
+                    },
+                    {
+                      "name": "provider_code",
+                      "orig": "provider_code",
+                      "type": "`$ANY`",
+                      "kind": "query",
+                    },
+                    {
+                      "name": "region_code",
+                      "orig": "region_code",
+                      "type": "`$ANY`",
+                      "kind": "query",
+                    },
+                  ],
+                },
                 "select": {
                   "exist": [
                     "account_number",
@@ -1259,15 +1451,6 @@ def make_config():
                     "x_correlation_id",
                   ],
                 },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
-                "parts": [
-                  "api",
-                  "V1",
-                  "GetProviders",
-                ],
               },
             ],
           },
@@ -1280,19 +1463,22 @@ def make_config():
         "fields": [
           {
             "name": "ErrorCodes",
-            "req": True,
+            "title": "Error Codes",
             "type": "`$ARRAY`",
+            "req": True,
           },
           {
             "name": "Items",
-            "req": True,
+            "title": "Items",
             "type": "`$ARRAY`",
+            "req": True,
           },
           {
-            "format": "int32",
             "name": "ResultCode",
-            "req": True,
+            "title": "Result Code",
             "type": "`$INTEGER`",
+            "req": True,
+            "format": "int32",
           },
         ],
         "name": "provider_status",
@@ -1302,24 +1488,6 @@ def make_config():
             "name": "list",
             "points": [
               {
-                "args": {
-                  "header": [
-                    {
-                      "kind": "header",
-                      "name": "x_correlation_id",
-                      "orig": "x_correlation_id",
-                      "type": "`$STRING`",
-                    },
-                  ],
-                  "query": [
-                    {
-                      "kind": "query",
-                      "name": "provider_code",
-                      "orig": "provider_code",
-                      "type": "`$ANY`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "GET",
                 "orig": "/api/V1/GetProviderStatus",
@@ -1334,21 +1502,40 @@ def make_config():
                     "lit": "GetProviderStatus",
                   },
                 ],
+                "parts": [
+                  "api",
+                  "V1",
+                  "GetProviderStatus",
+                ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "header": [
+                    {
+                      "name": "x_correlation_id",
+                      "orig": "x_correlation_id",
+                      "type": "`$STRING`",
+                      "kind": "header",
+                    },
+                  ],
+                  "query": [
+                    {
+                      "name": "provider_code",
+                      "orig": "provider_code",
+                      "type": "`$ANY`",
+                      "kind": "query",
+                    },
+                  ],
+                },
                 "select": {
                   "exist": [
                     "provider_code",
                     "x_correlation_id",
                   ],
                 },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
-                "parts": [
-                  "api",
-                  "V1",
-                  "GetProviderStatus",
-                ],
               },
             ],
           },
@@ -1361,20 +1548,23 @@ def make_config():
         "fields": [
           {
             "name": "ErrorCodes",
-            "req": True,
+            "title": "Error Codes",
             "type": "`$ARRAY`",
+            "req": True,
           },
           {
             "name": "Items",
+            "title": "Items",
+            "type": "`$ARRAY`",
             "req": True,
             "short": "The list of regions that the system uses.",
-            "type": "`$ARRAY`",
           },
           {
-            "format": "int32",
             "name": "ResultCode",
-            "req": True,
+            "title": "Result Code",
             "type": "`$INTEGER`",
+            "req": True,
+            "format": "int32",
           },
         ],
         "name": "region",
@@ -1384,24 +1574,6 @@ def make_config():
             "name": "list",
             "points": [
               {
-                "args": {
-                  "header": [
-                    {
-                      "kind": "header",
-                      "name": "x_correlation_id",
-                      "orig": "x_correlation_id",
-                      "type": "`$STRING`",
-                    },
-                  ],
-                  "query": [
-                    {
-                      "kind": "query",
-                      "name": "country_iso",
-                      "orig": "country_iso",
-                      "type": "`$ANY`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "GET",
                 "orig": "/api/V1/GetRegions",
@@ -1416,21 +1588,40 @@ def make_config():
                     "lit": "GetRegions",
                   },
                 ],
+                "parts": [
+                  "api",
+                  "V1",
+                  "GetRegions",
+                ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "header": [
+                    {
+                      "name": "x_correlation_id",
+                      "orig": "x_correlation_id",
+                      "type": "`$STRING`",
+                      "kind": "header",
+                    },
+                  ],
+                  "query": [
+                    {
+                      "name": "country_iso",
+                      "orig": "country_iso",
+                      "type": "`$ANY`",
+                      "kind": "query",
+                    },
+                  ],
+                },
                 "select": {
                   "exist": [
                     "country_iso",
                     "x_correlation_id",
                   ],
                 },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
-                "parts": [
-                  "api",
-                  "V1",
-                  "GetRegions",
-                ],
               },
             ],
           },
@@ -1443,19 +1634,22 @@ def make_config():
         "fields": [
           {
             "name": "ErrorCodes",
-            "req": True,
+            "title": "Error Codes",
             "type": "`$ARRAY`",
+            "req": True,
           },
           {
-            "format": "int32",
             "name": "ResultCode",
-            "req": True,
+            "title": "Result Code",
             "type": "`$INTEGER`",
+            "req": True,
+            "format": "int32",
           },
           {
             "name": "TransferRecord",
-            "req": True,
+            "title": "Transfer Record",
             "type": "`$OBJECT`",
+            "req": True,
           },
         ],
         "name": "send_transfer",
@@ -1465,25 +1659,6 @@ def make_config():
             "name": "create",
             "points": [
               {
-                "args": {
-                  "header": [
-                    {
-                      "kind": "header",
-                      "name": "x_correlation_id",
-                      "orig": "x_correlation_id",
-                      "type": "`$STRING`",
-                    },
-                  ],
-                  "query": [
-                    {
-                      "kind": "query",
-                      "name": "request",
-                      "orig": "request",
-                      "reqd": True,
-                      "type": "`$OBJECT`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "POST",
                 "orig": "/api/V1/SendTransfer",
@@ -1498,21 +1673,41 @@ def make_config():
                     "lit": "SendTransfer",
                   },
                 ],
+                "parts": [
+                  "api",
+                  "V1",
+                  "SendTransfer",
+                ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "header": [
+                    {
+                      "name": "x_correlation_id",
+                      "orig": "x_correlation_id",
+                      "type": "`$STRING`",
+                      "kind": "header",
+                    },
+                  ],
+                  "query": [
+                    {
+                      "name": "request",
+                      "orig": "request",
+                      "type": "`$OBJECT`",
+                      "kind": "query",
+                      "reqd": True,
+                    },
+                  ],
+                },
                 "select": {
                   "exist": [
                     "request",
                     "x_correlation_id",
                   ],
                 },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
-                "parts": [
-                  "api",
-                  "V1",
-                  "SendTransfer",
-                ],
               },
             ],
           },

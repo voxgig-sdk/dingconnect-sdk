@@ -3,19 +3,19 @@
     "send_transfer": {
       "SEND_TRANSFER00": {
         "ErrorCodes": [],
-        "ResultCode": "s1f",
+        "ResultCode": 31,
         "TransferRecord": {},
         "id": "SEND_TRANSFER00"
       },
       "SEND_TRANSFER01": {
         "ErrorCodes": [],
-        "ResultCode": "s3d",
+        "ResultCode": 61,
         "TransferRecord": {},
         "id": "SEND_TRANSFER01"
       },
       "SEND_TRANSFER02": {
         "ErrorCodes": [],
-        "ResultCode": "s5b",
+        "ResultCode": 91,
         "TransferRecord": {},
         "id": "SEND_TRANSFER02"
       }
@@ -25,9 +25,16 @@
     "send_transfer": {
       "send_transfer_ref01": {
         "ErrorCodes": [],
-        "ResultCode": "s79",
+        "ResultCode": 121,
         "TransferRecord": {}
       }
+    }
+  },
+  "requests": {
+    "POST /api/V1/SendTransfer": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "swagger2"
     }
   }
 }

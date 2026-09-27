@@ -19,7 +19,6 @@ import type {
   AccountLookupListMatch,
 } from '../DingconnectTypes'
 
-// TODO: needs Entity superclass
 class AccountLookupEntity extends DingconnectEntityBase<AccountLookup> {
 
   constructor(client: DingconnectSDK, entopts: any) {

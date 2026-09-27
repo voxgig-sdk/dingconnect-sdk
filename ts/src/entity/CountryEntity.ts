@@ -19,7 +19,6 @@ import type {
   CountryListMatch,
 } from '../DingconnectTypes'
 
-// TODO: needs Entity superclass
 class CountryEntity extends DingconnectEntityBase<Country> {
 
   constructor(client: DingconnectSDK, entopts: any) {

@@ -1,0 +1,90 @@
+# Entity: cancel_transfer
+
+main: kit: entity: cancel_transfer: {
+
+  alias: field: {}
+
+  fields: {
+    ErrorCodes: {
+      h: "Error Codes"
+      n: "ErrorCodes"
+      r: true
+      t: "`$ARRAY`"
+    }
+    Items: {
+      h: "Items"
+      n: "Items"
+      r: true
+      t: "`$ARRAY`"
+    }
+    ResultCode: {
+      fo: "int32"
+      h: "Result Code"
+      n: "ResultCode"
+      r: true
+      t: "`$INTEGER`"
+    }
+  }
+
+  name: "cancel_transfer"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          co: {
+            id: "POST /api/V1/CancelTransfers"
+            source: "swagger2"
+            version: 2
+          }
+          g: {
+            header: [
+              {
+                k: "header"
+                n: "x_correlation_id"
+                or: "x_correlation_id"
+                r: false
+                t: "`$STRING`"
+              }
+            ]
+            query: [
+              {
+                k: "query"
+                n: "cancellation_request"
+                or: "cancellation_request"
+                r: true
+                t: "`$ARRAY`"
+              }
+            ]
+          }
+          m: "POST"
+          o: "/api/V1/CancelTransfers"
+          q: {
+            exist: [
+              "cancellation_request"
+              "x_correlation_id"
+            ]
+          }
+          s: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "V1"
+            }
+            {
+              lit: "CancelTransfers"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

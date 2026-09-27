@@ -5,6 +5,8 @@ import * as Fs from 'node:fs'
 
 import { test, describe, afterEach } from 'node:test'
 import assert from 'node:assert'
+import { createLiveTransport } from '../../live-runner'
+import { runLiveEntity } from '../../live-entity'
 
 
 import { DingconnectSDK, BaseFeature, stdutil } from '../../..'
@@ -23,10 +25,6 @@ import {
 } from '../../utility'
 
 
-// AFTER the imports on purpose: TypeScript hoists `import` above any
-// statement in the emitted CommonJS, so a loader placed above them would
-// run only after every imported module had already been evaluated - and
-// anything reading process.env at module scope would miss these values.
 loadEnvLocal(__dirname + '/../../../.env.local')
 
 
@@ -47,16 +45,13 @@ describe('PromotionDescriptionEntity', async () => {
 
     const live = 'TRUE' === process.env.DINGCONNECT_TEST_LIVE
     for (const op of ['list']) {
-      if (maybeSkipControl(t, 'entityOp', 'promotion_description.' + op, live)) return
+      if (!live && maybeSkipControl(t, 'entityOp', 'promotion_description.' + op, live)) return
     }
 
+    
     const setup = basicSetup()
-    // The basic flow consumes synthetic IDs and field values from the
-    // fixture (entity TestData.json). Those don't exist on the live API.
-    // Skip live runs unless the user provided a real ENTID env override.
-    if (setup.syntheticOnly) {
-      t.skip('live entity test uses synthetic IDs from fixture — set DINGCONNECT_TEST_PROMOTION_DESCRIPTION_ENTID JSON to run live')
-      return
+    if (setup.live) {
+      return runLiveEntity(setup, {"active":true,"alias":{"field":{}},"fields":{"ErrorCodes":{"a":true,"h":"Error Codes","n":"ErrorCodes","r":true,"t":"`$ARRAY`","key$":"ErrorCodes","index$":0},"Items":{"a":true,"h":"Items","n":"Items","r":true,"sh":"A localized list of promotions.","t":"`$ARRAY`","key$":"Items","index$":1},"ResultCode":{"a":true,"fo":"int32","h":"Result Code","n":"ResultCode","r":true,"t":"`$INTEGER`","key$":"ResultCode","index$":2}},"name":"promotion_description","op":{"list":{"input":"data","name":"list","points":[{"a":true,"co":{"id":"GET /api/V1/GetPromotionDescriptions","source":"swagger2","version":2},"g":{"header":[{"a":true,"k":"header","n":"x_correlation_id","or":"x_correlation_id","r":false,"t":"`$STRING`","index$":0}],"query":[{"a":true,"k":"query","n":"language_code","or":"language_code","r":false,"t":"`$ANY`","index$":0}]},"k":"http","m":"GET","o":"/api/V1/GetPromotionDescriptions","q":{"exist":["language_code","x_correlation_id"]},"r":{},"s":[{"lit":"api"},{"lit":"V1"},{"lit":"GetPromotionDescriptions"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"list"}},"relations":{"ancestors":[]},"key$":"promotion_description","name__orig":"promotion_description","Name":"PromotionDescription","name_":"promotion_description","name-":"promotion-description","NAME":"PROMOTION_DESCRIPTION","index$":12}, {"active":true,"entity":"promotion_description","key$":"BasicPromotionDescriptionFlow","kind":"basic","name":"BasicPromotionDescriptionFlow","param":{},"step":[{"a":true,"d":{},"i":{},"m":{},"o":"list","s":[],"v":[{"apply":"ItemExists","def":{"ref":"promotion_description_ref01"}}],"index$":0}]}, 'PromotionDescription', {"GET /api/V1/GetPromotionDescriptions":{"protocol":"http","parameters":[{"in":"query","name":"languageCodes","description":"Filter the list to promotion descriptions with the submitted language codes.","type":"array","items":{"type":"string"},"collectionFormat":"multi","index$":0},{"in":"header","name":"X-Correlation-Id","description":"Correlates HTTP requests between a client and server","type":"String","index$":1}]}})
     }
     const client = setup.client
     const struct = setup.struct
@@ -109,13 +104,6 @@ function basicSetup(extra?: any) {
       }]
     })
 
-  // Detect whether the user provided a real ENTID JSON via env var. The
-  // basic flow consumes synthetic IDs from the fixture file; without an
-  // override those synthetic IDs reach the live API and 4xx. Surface this
-  // to the test so it can skip rather than fail.
-  const idmapEnvVal = process.env['DINGCONNECT_TEST_PROMOTION_DESCRIPTION_ENTID']
-  const idmapOverridden = null != idmapEnvVal && idmapEnvVal.trim().startsWith('{')
-
   const env = envOverride({
     'DINGCONNECT_TEST_PROMOTION_DESCRIPTION_ENTID': idmap,
     'DINGCONNECT_TEST_LIVE': 'FALSE',
@@ -127,7 +115,13 @@ function basicSetup(extra?: any) {
 
   const live = 'TRUE' === env.DINGCONNECT_TEST_LIVE
 
+  const transport = createLiveTransport()
   if (live) {
+    const rawIds = process.env['DINGCONNECT_TEST_PROMOTION_DESCRIPTION_ENTID']
+    idmap = rawIds && rawIds.trim() ? JSON.parse(rawIds) : {}
+    if (!idmap || Array.isArray(idmap) || typeof idmap !== 'object') {
+      throw new Error('Live ENTID must be a JSON object')
+    }
     client = new DingconnectSDK(merge([
       // FIRST, so the generated fields below win: sdk-test-control.json's
       // test.client.options adds to the live client, it does not redirect it.
@@ -140,7 +134,8 @@ function basicSetup(extra?: any) {
       // argument at all - so a bare 'extra' silently discarded the apikey
       // and server values above and handed the SDK undefined. Harmless
       // while there was nothing in that object; not harmless now.
-      extra || {}
+      extra || {},
+      { system: { fetch: transport.fetch } }
     ]))
   }
 
@@ -153,7 +148,7 @@ function basicSetup(extra?: any) {
     data: entityData,
     explain: 'TRUE' === env.DINGCONNECT_TEST_EXPLAIN,
     live,
-    syntheticOnly: live && !idmapOverridden,
+    transport,
     now: Date.now(),
   }
 

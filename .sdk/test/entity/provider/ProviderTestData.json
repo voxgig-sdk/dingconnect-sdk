@@ -4,17 +4,17 @@
       "PROVIDER00": {
         "ErrorCodes": [],
         "Items": [],
-        "ResultCode": "s20"
+        "ResultCode": 32
       },
       "PROVIDER01": {
         "ErrorCodes": [],
         "Items": [],
-        "ResultCode": "s3e"
+        "ResultCode": 62
       },
       "PROVIDER02": {
         "ErrorCodes": [],
         "Items": [],
-        "ResultCode": "s5c"
+        "ResultCode": 92
       }
     }
   },
@@ -23,8 +23,15 @@
       "provider_ref01": {
         "ErrorCodes": [],
         "Items": [],
-        "ResultCode": "s7a"
+        "ResultCode": 122
       }
+    }
+  },
+  "requests": {
+    "GET /api/V1/GetProviders": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "swagger2"
     }
   }
 }

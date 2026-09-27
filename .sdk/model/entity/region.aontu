@@ -1,0 +1,91 @@
+# Entity: region
+
+main: kit: entity: region: {
+
+  alias: field: {}
+
+  fields: {
+    ErrorCodes: {
+      h: "Error Codes"
+      n: "ErrorCodes"
+      r: true
+      t: "`$ARRAY`"
+    }
+    Items: {
+      h: "Items"
+      n: "Items"
+      r: true
+      sh: "The list of regions that the system uses."
+      t: "`$ARRAY`"
+    }
+    ResultCode: {
+      fo: "int32"
+      h: "Result Code"
+      n: "ResultCode"
+      r: true
+      t: "`$INTEGER`"
+    }
+  }
+
+  name: "region"
+  op: {
+    list: {
+      name: "list"
+      points: [
+        {
+          co: {
+            id: "GET /api/V1/GetRegions"
+            source: "swagger2"
+            version: 2
+          }
+          g: {
+            header: [
+              {
+                k: "header"
+                n: "x_correlation_id"
+                or: "x_correlation_id"
+                r: false
+                t: "`$STRING`"
+              }
+            ]
+            query: [
+              {
+                k: "query"
+                n: "country_iso"
+                or: "country_iso"
+                r: false
+                t: "`$ANY`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/api/V1/GetRegions"
+          q: {
+            exist: [
+              "country_iso"
+              "x_correlation_id"
+            ]
+          }
+          s: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "V1"
+            }
+            {
+              lit: "GetRegions"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

@@ -19,7 +19,6 @@ import type {
   ErrorCodeDescriptionListMatch,
 } from '../DingconnectTypes'
 
-// TODO: needs Entity superclass
 class ErrorCodeDescriptionEntity extends DingconnectEntityBase<ErrorCodeDescription> {
 
   constructor(client: DingconnectSDK, entopts: any) {

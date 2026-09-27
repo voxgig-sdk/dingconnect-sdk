@@ -19,7 +19,6 @@ import type {
   ProductListMatch,
 } from '../DingconnectTypes'
 
-// TODO: needs Entity superclass
 class ProductEntity extends DingconnectEntityBase<Product> {
 
   constructor(client: DingconnectSDK, entopts: any) {

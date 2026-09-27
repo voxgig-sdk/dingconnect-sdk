@@ -19,7 +19,6 @@ import type {
   PromotionDescriptionListMatch,
 } from '../DingconnectTypes'
 
-// TODO: needs Entity superclass
 class PromotionDescriptionEntity extends DingconnectEntityBase<PromotionDescription> {
 
   constructor(client: DingconnectSDK, entopts: any) {

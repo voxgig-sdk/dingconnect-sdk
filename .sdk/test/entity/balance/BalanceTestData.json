@@ -22,5 +22,12 @@
         "Context": "s51"
       }
     }
+  },
+  "requests": {
+    "GET /api/V1/GetBalance": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "swagger2"
+    }
   }
 }

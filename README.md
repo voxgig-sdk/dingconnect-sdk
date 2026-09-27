@@ -12,7 +12,7 @@ Learn more about Voxgig SDKs at [voxgig.com/sdk](https://voxgig.com/sdk/).
 
 > TypeScript, Python, PHP, Golang, Ruby, Lua SDKs, a CLI with an interactive REPL, and an MCP server for AI agents — all generated from one OpenAPI spec by [@voxgig/sdkgen](https://github.com/voxgig/sdkgen).
 
-> **Features:** `test` — opt-in,
+> **Features:** `undefined`, `undefined`, `undefined`, `undefined`, `undefined`, `undefined`, `undefined`, `undefined` — opt-in,
 > inactive until switched on, and configured per client. See the Features
 > section of any SDK README below for what each one does.
 
@@ -103,12 +103,12 @@ local results, err = client:Currency():list()
 
 | Language | Package | Install |
 | --- | --- | --- |
-| TypeScript | `@voxgig-sdk/dingconnect` | publish pending — [install from git tag](https://github.com/voxgig-sdk/dingconnect-sdk/releases) |
-| Python | `voxgig-sdk-dingconnect` | publish pending — [install from git tag](https://github.com/voxgig-sdk/dingconnect-sdk/releases) |
-| PHP | `voxgig-sdk/dingconnect` | publish pending — [install from git tag](https://github.com/voxgig-sdk/dingconnect-sdk/releases) |
+| TypeScript | `@voxgig-sdk/dingconnect-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/dingconnect-sdk/tags) |
+| Python | `voxgig-sdk-dingconnect-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/dingconnect-sdk/tags) |
+| PHP | `voxgig-sdk/dingconnect-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/dingconnect-sdk/tags) |
 | Golang | `github.com/voxgig-sdk/dingconnect-sdk/go` | `go get github.com/voxgig-sdk/dingconnect-sdk/go@latest` |
-| Ruby | `voxgig-sdk-dingconnect` | publish pending — [install from git tag](https://github.com/voxgig-sdk/dingconnect-sdk/releases) |
-| Lua | `voxgig-sdk-dingconnect` | publish pending — [install from git tag](https://github.com/voxgig-sdk/dingconnect-sdk/releases) |
+| Ruby | `voxgig-sdk-dingconnect-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/dingconnect-sdk/tags) |
+| Lua | `voxgig-sdk-dingconnect-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/dingconnect-sdk/tags) |
 | Go CLI | `github.com/voxgig-sdk/dingconnect-sdk/go-cli` | `go install github.com/voxgig-sdk/dingconnect-sdk/go-cli/cmd/dingconnect@latest` |
 | Go MCP server | `github.com/voxgig-sdk/dingconnect-sdk/go-mcp` | `go get github.com/voxgig-sdk/dingconnect-sdk/go-mcp@latest` |
 
@@ -117,7 +117,7 @@ local results, err = client:Currency():list()
 ### TypeScript
 
 ```ts
-import { DingconnectSDK } from '@voxgig-sdk/dingconnect'
+import { DingconnectSDK } from '@voxgig-sdk/dingconnect-sdk'
 
 const client = new DingconnectSDK({
   apikey: process.env.DINGCONNECT_APIKEY,
@@ -219,7 +219,7 @@ $client = new DingconnectSDK([
 
 // List all accountlookups (returns an array; throws on error)
 $accountlookups = $client->AccountLookup()->list();
-print_r($accountlookups);
+print_r(array_map(fn($item) => $item->data_get(), $accountlookups));
 ```
 
 ### Golang
@@ -366,7 +366,14 @@ forking the SDK.
 
 | Feature | Purpose |
 | --- | --- |
-| **TestFeature** | In-memory mock transport for testing without a live server |
+| **DebugFeature** | Debug capture |
+| **IdempotencyFeature** | Idempotency |
+| **MetricsFeature** | Metrics |
+| **PagingFeature** | Paging |
+| **RatelimitFeature** | Rate limiting |
+| **RetryFeature** | Retry |
+| **TestFeature** | Test transport |
+| **TimeoutFeature** | Timeout |
 
 Pass custom features via the `extend` option at construction time.
 

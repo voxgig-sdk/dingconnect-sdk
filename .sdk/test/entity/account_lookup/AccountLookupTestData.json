@@ -6,21 +6,21 @@
         "CountryIso": "s33",
         "ErrorCodes": [],
         "Items": [],
-        "ResultCode": "s36"
+        "ResultCode": 54
       },
       "ACCOUNT_LOOKUP01": {
         "AccountNumberNormalized": "s64",
         "CountryIso": "s65",
         "ErrorCodes": [],
         "Items": [],
-        "ResultCode": "s68"
+        "ResultCode": 104
       },
       "ACCOUNT_LOOKUP02": {
         "AccountNumberNormalized": "s96",
         "CountryIso": "s97",
         "ErrorCodes": [],
         "Items": [],
-        "ResultCode": "s9a"
+        "ResultCode": 154
       }
     }
   },
@@ -31,8 +31,15 @@
         "CountryIso": "sc9",
         "ErrorCodes": [],
         "Items": [],
-        "ResultCode": "scc"
+        "ResultCode": 204
       }
+    }
+  },
+  "requests": {
+    "GET /api/V1/GetAccountLookup": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "swagger2"
     }
   }
 }

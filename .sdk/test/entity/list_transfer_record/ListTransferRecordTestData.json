@@ -4,21 +4,21 @@
       "LIST_TRANSFER_RECORD00": {
         "ErrorCodes": [],
         "Items": [],
-        "ResultCode": "s2a",
+        "ResultCode": 42,
         "ThereAreMoreItems": false,
         "id": "LIST_TRANSFER_RECORD00"
       },
       "LIST_TRANSFER_RECORD01": {
         "ErrorCodes": [],
         "Items": [],
-        "ResultCode": "s52",
+        "ResultCode": 82,
         "ThereAreMoreItems": false,
         "id": "LIST_TRANSFER_RECORD01"
       },
       "LIST_TRANSFER_RECORD02": {
         "ErrorCodes": [],
         "Items": [],
-        "ResultCode": "s7a",
+        "ResultCode": 122,
         "ThereAreMoreItems": false,
         "id": "LIST_TRANSFER_RECORD02"
       }
@@ -29,9 +29,16 @@
       "list_transfer_record_ref01": {
         "ErrorCodes": [],
         "Items": [],
-        "ResultCode": "sa2",
+        "ResultCode": 162,
         "ThereAreMoreItems": false
       }
+    }
+  },
+  "requests": {
+    "POST /api/V1/ListTransferRecords": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "swagger2"
     }
   }
 }

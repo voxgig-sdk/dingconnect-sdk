@@ -4,17 +4,17 @@
       "PROVIDER_STATUS00": {
         "ErrorCodes": [],
         "Items": [],
-        "ResultCode": "s20"
+        "ResultCode": 32
       },
       "PROVIDER_STATUS01": {
         "ErrorCodes": [],
         "Items": [],
-        "ResultCode": "s3e"
+        "ResultCode": 62
       },
       "PROVIDER_STATUS02": {
         "ErrorCodes": [],
         "Items": [],
-        "ResultCode": "s5c"
+        "ResultCode": 92
       }
     }
   },
@@ -23,8 +23,15 @@
       "provider_status_ref01": {
         "ErrorCodes": [],
         "Items": [],
-        "ResultCode": "s7a"
+        "ResultCode": 122
       }
+    }
+  },
+  "requests": {
+    "GET /api/V1/GetProviderStatus": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "swagger2"
     }
   }
 }

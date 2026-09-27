@@ -4,19 +4,19 @@
       "LOOKUP_BILL00": {
         "ErrorCodes": [],
         "Items": [],
-        "ResultCode": "s20",
+        "ResultCode": 32,
         "id": "LOOKUP_BILL00"
       },
       "LOOKUP_BILL01": {
         "ErrorCodes": [],
         "Items": [],
-        "ResultCode": "s3e",
+        "ResultCode": 62,
         "id": "LOOKUP_BILL01"
       },
       "LOOKUP_BILL02": {
         "ErrorCodes": [],
         "Items": [],
-        "ResultCode": "s5c",
+        "ResultCode": 92,
         "id": "LOOKUP_BILL02"
       }
     }
@@ -26,8 +26,15 @@
       "lookup_bill_ref01": {
         "ErrorCodes": [],
         "Items": [],
-        "ResultCode": "s7a"
+        "ResultCode": 122
       }
+    }
+  },
+  "requests": {
+    "POST /api/V1/LookupBills": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "swagger2"
     }
   }
 }

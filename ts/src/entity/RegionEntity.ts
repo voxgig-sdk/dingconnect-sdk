@@ -19,7 +19,6 @@ import type {
   RegionListMatch,
 } from '../DingconnectTypes'
 
-// TODO: needs Entity superclass
 class RegionEntity extends DingconnectEntityBase<Region> {
 
   constructor(client: DingconnectSDK, entopts: any) {

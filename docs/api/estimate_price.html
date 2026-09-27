@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>EstimatePrice | Ding API</title><link rel="stylesheet" href="../assets/style.css"></head>
+<body><a class="skip" href="#content">Skip to content</a>
+<header class="site-header"><a class="site-title" href="../index.html">Ding API<span>SDK documentation</span></a><div class="site-links"><a class="repo-link" href="https://github.com/voxgig-sdk/dingconnect-sdk">voxgig-sdk/dingconnect-sdk</a></div></header>
+<div class="site-notice" role="note"></div>
+<div class="shell"><nav class="site-nav" aria-label="Documentation"><div class="search"><label for="search">Search documentation</label><input id="search" type="search" data-base="../" placeholder="Find a guide or reference"><div id="results" aria-live="polite"></div></div><details><summary>Overview</summary><a href="../index.html">Ding API</a></details>
+<details open><summary>API</summary><a href="../api/index.html">API overview</a>
+<a href="../api/account_lookup.html">AccountLookup</a>
+<a href="../api/balance.html">Balance</a>
+<a href="../api/cancel_transfer.html">CancelTransfer</a>
+<a href="../api/country.html">Country</a>
+<a href="../api/currency.html">Currency</a>
+<a href="../api/error_code_description.html">ErrorCodeDescription</a>
+<a aria-current="page" href="../api/estimate_price.html">EstimatePrice</a><div class="nav-sections"><a class="nav-section" href="#post-apiv1estimateprices">POST /api/V1/EstimatePrices</a></div>
+<a href="../api/list_transfer_record.html">ListTransferRecord</a>
+<a href="../api/lookup_bill.html">LookupBill</a>
+<a href="../api/product.html">Product</a>
+<a href="../api/product_description.html">ProductDescription</a>
+<a href="../api/promotion.html">Promotion</a>
+<a href="../api/promotion_description.html">PromotionDescription</a>
+<a href="../api/provider.html">Provider</a>
+<a href="../api/provider_status.html">ProviderStatus</a>
+<a href="../api/region.html">Region</a>
+<a href="../api/send_transfer.html">SendTransfer</a></details>
+<details><summary>Guides</summary><a href="../guides/authentication.html">Authentication</a>
+<a href="../guides/first-call.html">Make your first API call</a>
+<a href="../guides/errors.html">Handle errors</a>
+<a href="../guides/concepts.html">Entities, SDKs, and tools</a></details>
+<details><summary>SDKs</summary><a href="../sdks/go.html">Golang</a>
+<a href="../sdks/lua.html">Lua</a>
+<a href="../sdks/php.html">PHP</a>
+<a href="../sdks/py.html">Python</a>
+<a href="../sdks/rb.html">Ruby</a>
+<a href="../sdks/ts.html">TypeScript</a></details>
+<details><summary>Tools</summary><a href="../tools/go-cli.html">Go CLI</a>
+<a href="../tools/go-mcp.html">Go MCP server</a></details>
+<details><summary>Features</summary><a href="../features/debug.html">Debug capture</a>
+<a href="../features/idempotency.html">Idempotency</a>
+<a href="../features/metrics.html">Metrics</a>
+<a href="../features/paging.html">Paging</a>
+<a href="../features/ratelimit.html">Rate limiting</a>
+<a href="../features/retry.html">Retry</a>
+<a href="../features/test.html">Test transport</a>
+<a href="../features/timeout.html">Timeout</a></details></nav><main id="content"><div class="page-context"><span class="section-dot" aria-hidden="true"></span>API</div><h1 id="estimateprice">EstimatePrice</h1>
+<h2 id="operations">Operations</h2>
+<p>Every route this entity exposes. Each route links to its own reference on this page.</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Route</th>
+<th>SDK operation</th>
+<th>Returns</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>POST</code></td>
+<td><a href="#post-apiv1estimateprices"><code>/api/V1/EstimatePrices</code></a></td>
+<td><code>create</code></td>
+<td>OK</td>
+</tr>
+</tbody>
+</table>
+<h2 id="examples">Examples</h2>
+<p>One example per SDK, generated from the API model. The argument names are the parameters and fields of this entity, and the values are placeholders. The examples are not compiled or executed.</p>
+<h3 id="golang">Golang</h3>
+<p>Construct <code>client</code> as shown in the <a href="../sdks/go.html#set-up-the-client">Golang setup</a>, then call the operations:</p>
+<pre><code class="language-go">created, err := client.EstimatePrice(nil).Create(map[string]any{&quot;requested_estimation&quot;: []any{}, &quot;ErrorCodes&quot;: []any{}, &quot;Items&quot;: []any{}, &quot;ResultCode&quot;: 1}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(created)
+</code></pre>
+<h3 id="lua">Lua</h3>
+<p>Construct <code>client</code> as shown in the <a href="../sdks/lua.html#set-up-the-client">Lua setup</a>, then call the operations:</p>
+<pre><code class="language-lua">local created, err = client:EstimatePrice():create({ requested_estimation = {}, ErrorCodes = {}, Items = {}, ResultCode = 1 })
+</code></pre>
+<h3 id="php">PHP</h3>
+<p>Construct <code>client</code> as shown in the <a href="../sdks/php.html#set-up-the-client">PHP setup</a>, then call the operations:</p>
+<pre><code class="language-php">$created = $client-&gt;EstimatePrice()-&gt;create([&quot;requested_estimation&quot; =&gt; [], &quot;ErrorCodes&quot; =&gt; [], &quot;Items&quot; =&gt; [], &quot;ResultCode&quot; =&gt; 1]);
+</code></pre>
+<h3 id="python">Python</h3>
+<p>Construct <code>client</code> as shown in the <a href="../sdks/py.html#set-up-the-client">Python setup</a>, then call the operations:</p>
+<pre><code class="language-py">created = client.EstimatePrice().create({ &quot;requested_estimation&quot;: [], &quot;ErrorCodes&quot;: [], &quot;Items&quot;: [], &quot;ResultCode&quot;: 1 })
+</code></pre>
+<h3 id="ruby">Ruby</h3>
+<p>Construct <code>client</code> as shown in the <a href="../sdks/rb.html#set-up-the-client">Ruby setup</a>, then call the operations:</p>
+<pre><code class="language-rb">created = client.EstimatePrice.create({ &quot;requested_estimation&quot; =&gt; [], &quot;ErrorCodes&quot; =&gt; [], &quot;Items&quot; =&gt; [], &quot;ResultCode&quot; =&gt; 1 })
+</code></pre>
+<h3 id="typescript">TypeScript</h3>
+<p>Construct <code>client</code> as shown in the <a href="../sdks/ts.html#set-up-the-client">TypeScript setup</a>, then call the operations:</p>
+<pre><code class="language-ts">const created = await client.EstimatePrice().create({ requested_estimation: [], ErrorCodes: [], Items: [], ResultCode: 1 })
+</code></pre>
+<h2 id="fields">Fields</h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ErrorCodes</code></td>
+<td><code>array</code></td>
+<td>Yes</td>
+<td>Error Codes</td>
+</tr>
+<tr>
+<td><code>Items</code></td>
+<td><code>array</code></td>
+<td>Yes</td>
+<td>Items</td>
+</tr>
+<tr>
+<td><code>ResultCode</code></td>
+<td><code>integer</code></td>
+<td>Yes</td>
+<td>Result Code</td>
+</tr>
+</tbody>
+</table>
+<h2 id="create">create</h2>
+<h3 id="post-apiv1estimateprices" class="operation" data-method="post"><code>POST</code> /api/V1/EstimatePrices</h3>
+<p>Operation ID: <code>EstimatePrices</code>.</p>
+<h4 id="parameters">Parameters</h4>
+<p>| Parameter | In | Type | Required | Description |
+| --- | --- | --- | --- |
+| <code>X-Correlation-Id</code> | <code>header</code> | <code>any</code> | No | Correlates HTTP requests between a client and server |
+| <code>requestedEstimations</code> | <code>body</code> | <code>array of object</code> | Yes |  |</p>
+<h4 id="responses">Responses</h4>
+<h5 id="200-ok" class="status" data-status="2xx">200: OK</h5>
+<h5 id="400-badrequest" class="status" data-status="4xx">400: BadRequest</h5>
+<h5 id="401-unauthorized" class="status" data-status="4xx">401: Unauthorized</h5>
+<h5 id="500-internalservererror" class="status" data-status="5xx">500: InternalServerError</h5>
+<h5 id="503-serviceunavailable" class="status" data-status="5xx">503: ServiceUnavailable</h5>
+</main></div>
+<script src="../assets/search.js" defer></script></body></html>

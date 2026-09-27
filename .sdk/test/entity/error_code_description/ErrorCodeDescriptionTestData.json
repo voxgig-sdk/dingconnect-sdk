@@ -4,17 +4,17 @@
       "ERROR_CODE_DESCRIPTION00": {
         "ErrorCodes": [],
         "Items": [],
-        "ResultCode": "s20"
+        "ResultCode": 32
       },
       "ERROR_CODE_DESCRIPTION01": {
         "ErrorCodes": [],
         "Items": [],
-        "ResultCode": "s3e"
+        "ResultCode": 62
       },
       "ERROR_CODE_DESCRIPTION02": {
         "ErrorCodes": [],
         "Items": [],
-        "ResultCode": "s5c"
+        "ResultCode": 92
       }
     }
   },
@@ -23,8 +23,15 @@
       "error_code_description_ref01": {
         "ErrorCodes": [],
         "Items": [],
-        "ResultCode": "s7a"
+        "ResultCode": 122
       }
+    }
+  },
+  "requests": {
+    "GET /api/V1/GetErrorCodeDescriptions": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "swagger2"
     }
   }
 }

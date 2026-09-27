@@ -5,6 +5,8 @@ import * as Fs from 'node:fs'
 
 import { test, describe, afterEach } from 'node:test'
 import assert from 'node:assert'
+import { createLiveTransport } from '../../live-runner'
+import { runLiveEntity } from '../../live-entity'
 
 
 import { DingconnectSDK, BaseFeature, stdutil } from '../../..'
@@ -23,10 +25,6 @@ import {
 } from '../../utility'
 
 
-// AFTER the imports on purpose: TypeScript hoists `import` above any
-// statement in the emitted CommonJS, so a loader placed above them would
-// run only after every imported module had already been evaluated - and
-// anything reading process.env at module scope would miss these values.
 loadEnvLocal(__dirname + '/../../../.env.local')
 
 
@@ -47,16 +45,13 @@ describe('ProviderEntity', async () => {
 
     const live = 'TRUE' === process.env.DINGCONNECT_TEST_LIVE
     for (const op of ['list']) {
-      if (maybeSkipControl(t, 'entityOp', 'provider.' + op, live)) return
+      if (!live && maybeSkipControl(t, 'entityOp', 'provider.' + op, live)) return
     }
 
+    
     const setup = basicSetup()
-    // The basic flow consumes synthetic IDs and field values from the
-    // fixture (entity TestData.json). Those don't exist on the live API.
-    // Skip live runs unless the user provided a real ENTID env override.
-    if (setup.syntheticOnly) {
-      t.skip('live entity test uses synthetic IDs from fixture — set DINGCONNECT_TEST_PROVIDER_ENTID JSON to run live')
-      return
+    if (setup.live) {
+      return runLiveEntity(setup, {"active":true,"alias":{"field":{}},"fields":{"ErrorCodes":{"a":true,"h":"Error Codes","n":"ErrorCodes","r":true,"t":"`$ARRAY`","key$":"ErrorCodes","index$":0},"Items":{"a":true,"h":"Items","n":"Items","r":true,"sh":"A list of providers that the distributor has Products for.","t":"`$ARRAY`","key$":"Items","index$":1},"ResultCode":{"a":true,"fo":"int32","h":"Result Code","n":"ResultCode","r":true,"t":"`$INTEGER`","key$":"ResultCode","index$":2}},"name":"provider","op":{"list":{"input":"data","name":"list","points":[{"a":true,"co":{"id":"GET /api/V1/GetProviders","source":"swagger2","version":2},"g":{"header":[{"a":true,"k":"header","n":"x_correlation_id","or":"x_correlation_id","r":false,"t":"`$STRING`","index$":0}],"query":[{"a":true,"k":"query","n":"account_number","or":"account_number","r":false,"t":"`$INTEGER`","index$":0},{"a":true,"k":"query","n":"country_iso","or":"country_iso","r":false,"t":"`$ANY`","index$":1},{"a":true,"k":"query","n":"provider_code","or":"provider_code","r":false,"t":"`$ANY`","index$":2},{"a":true,"k":"query","n":"region_code","or":"region_code","r":false,"t":"`$ANY`","index$":3}]},"k":"http","m":"GET","o":"/api/V1/GetProviders","q":{"exist":["account_number","country_iso","provider_code","region_code","x_correlation_id"]},"r":{},"s":[{"lit":"api"},{"lit":"V1"},{"lit":"GetProviders"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"list"}},"relations":{"ancestors":[]},"key$":"provider","name__orig":"provider","Name":"Provider","name_":"provider","name-":"provider","NAME":"PROVIDER","index$":13}, {"active":true,"entity":"provider","key$":"BasicProviderFlow","kind":"basic","name":"BasicProviderFlow","param":{},"step":[{"a":true,"d":{},"i":{},"m":{},"o":"list","s":[],"v":[{"apply":"ItemExists","def":{"ref":"provider_ref01"}}],"index$":0}]}, 'Provider', {"GET /api/V1/GetProviders":{"protocol":"http","parameters":[{"in":"query","name":"providerCodes","description":"Filter the list to providers with the submitted provider codes.","type":"array","items":{"type":"string"},"collectionFormat":"multi","index$":0},{"in":"query","name":"countryIsos","description":"Filter the list to providers in countries with the submitted countryIso.","type":"array","items":{"type":"string"},"collectionFormat":"multi","index$":1},{"in":"query","name":"regionCodes","description":"Filter the list to providers in regions with the submitted regionCodes.","type":"array","items":{"type":"string"},"collectionFormat":"multi","index$":2},{"in":"query","name":"accountNumber","description":"Filter the list to providers that are valid for the submitted account number. For phone number based products, the account number should be in international phone number format.","type":"string","default":"","index$":3},{"in":"header","name":"X-Correlation-Id","description":"Correlates HTTP requests between a client and server","type":"String","index$":4}]}})
     }
     const client = setup.client
     const struct = setup.struct
@@ -109,13 +104,6 @@ function basicSetup(extra?: any) {
       }]
     })
 
-  // Detect whether the user provided a real ENTID JSON via env var. The
-  // basic flow consumes synthetic IDs from the fixture file; without an
-  // override those synthetic IDs reach the live API and 4xx. Surface this
-  // to the test so it can skip rather than fail.
-  const idmapEnvVal = process.env['DINGCONNECT_TEST_PROVIDER_ENTID']
-  const idmapOverridden = null != idmapEnvVal && idmapEnvVal.trim().startsWith('{')
-
   const env = envOverride({
     'DINGCONNECT_TEST_PROVIDER_ENTID': idmap,
     'DINGCONNECT_TEST_LIVE': 'FALSE',
@@ -127,7 +115,13 @@ function basicSetup(extra?: any) {
 
   const live = 'TRUE' === env.DINGCONNECT_TEST_LIVE
 
+  const transport = createLiveTransport()
   if (live) {
+    const rawIds = process.env['DINGCONNECT_TEST_PROVIDER_ENTID']
+    idmap = rawIds && rawIds.trim() ? JSON.parse(rawIds) : {}
+    if (!idmap || Array.isArray(idmap) || typeof idmap !== 'object') {
+      throw new Error('Live ENTID must be a JSON object')
+    }
     client = new DingconnectSDK(merge([
       // FIRST, so the generated fields below win: sdk-test-control.json's
       // test.client.options adds to the live client, it does not redirect it.
@@ -140,7 +134,8 @@ function basicSetup(extra?: any) {
       // argument at all - so a bare 'extra' silently discarded the apikey
       // and server values above and handed the SDK undefined. Harmless
       // while there was nothing in that object; not harmless now.
-      extra || {}
+      extra || {},
+      { system: { fetch: transport.fetch } }
     ]))
   }
 
@@ -153,7 +148,7 @@ function basicSetup(extra?: any) {
     data: entityData,
     explain: 'TRUE' === env.DINGCONNECT_TEST_EXPLAIN,
     live,
-    syntheticOnly: live && !idmapOverridden,
+    transport,
     now: Date.now(),
   }
 

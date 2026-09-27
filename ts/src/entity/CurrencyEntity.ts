@@ -19,7 +19,6 @@ import type {
   CurrencyListMatch,
 } from '../DingconnectTypes'
 
-// TODO: needs Entity superclass
 class CurrencyEntity extends DingconnectEntityBase<Currency> {
 
   constructor(client: DingconnectSDK, entopts: any) {

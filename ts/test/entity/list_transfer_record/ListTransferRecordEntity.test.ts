@@ -5,6 +5,8 @@ import * as Fs from 'node:fs'
 
 import { test, describe, afterEach } from 'node:test'
 import assert from 'node:assert'
+import { createLiveTransport } from '../../live-runner'
+import { runLiveEntity } from '../../live-entity'
 
 
 import { DingconnectSDK, BaseFeature, stdutil } from '../../..'
@@ -23,10 +25,6 @@ import {
 } from '../../utility'
 
 
-// AFTER the imports on purpose: TypeScript hoists `import` above any
-// statement in the emitted CommonJS, so a loader placed above them would
-// run only after every imported module had already been evaluated - and
-// anything reading process.env at module scope would miss these values.
 loadEnvLocal(__dirname + '/../../../.env.local')
 
 
@@ -47,16 +45,13 @@ describe('ListTransferRecordEntity', async () => {
 
     const live = 'TRUE' === process.env.DINGCONNECT_TEST_LIVE
     for (const op of ['create']) {
-      if (maybeSkipControl(t, 'entityOp', 'list_transfer_record.' + op, live)) return
+      if (!live && maybeSkipControl(t, 'entityOp', 'list_transfer_record.' + op, live)) return
     }
 
+    
     const setup = basicSetup()
-    // The basic flow consumes synthetic IDs and field values from the
-    // fixture (entity TestData.json). Those don't exist on the live API.
-    // Skip live runs unless the user provided a real ENTID env override.
-    if (setup.syntheticOnly) {
-      t.skip('live entity test uses synthetic IDs from fixture — set DINGCONNECT_TEST_LIST_TRANSFER_RECORD_ENTID JSON to run live')
-      return
+    if (setup.live) {
+      return runLiveEntity(setup, {"active":true,"alias":{"field":{}},"fields":{"ErrorCodes":{"a":true,"h":"Error Codes","n":"ErrorCodes","r":true,"t":"`$ARRAY`","key$":"ErrorCodes","index$":0},"Items":{"a":true,"h":"Items","n":"Items","r":true,"sh":"The list of items satisfying the transfer query.","t":"`$ARRAY`","key$":"Items","index$":1},"ResultCode":{"a":true,"fo":"int32","h":"Result Code","n":"ResultCode","r":true,"t":"`$INTEGER`","key$":"ResultCode","index$":2},"ThereAreMoreItems":{"a":true,"h":"There Are More Items","n":"ThereAreMoreItems","r":true,"sh":"Indicates if the caller should execute the query again.","t":"`$BOOLEAN`","key$":"ThereAreMoreItems","index$":3}},"name":"list_transfer_record","op":{"create":{"input":"data","name":"create","points":[{"a":true,"co":{"id":"POST /api/V1/ListTransferRecords","source":"swagger2","version":2},"g":{"header":[{"a":true,"k":"header","n":"x_correlation_id","or":"x_correlation_id","r":false,"t":"`$STRING`","index$":0}],"query":[{"a":true,"k":"query","n":"request","or":"request","r":true,"t":"`$OBJECT`","index$":0}]},"k":"http","m":"POST","o":"/api/V1/ListTransferRecords","q":{"exist":["request","x_correlation_id"]},"r":{},"s":[{"lit":"api"},{"lit":"V1"},{"lit":"ListTransferRecords"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"create"}},"relations":{"ancestors":[]},"key$":"list_transfer_record","name__orig":"list_transfer_record","Name":"ListTransferRecord","name_":"list_transfer_record","name-":"list-transfer-record","NAME":"LIST_TRANSFER_RECORD","index$":7}, {"active":true,"entity":"list_transfer_record","key$":"BasicListTransferRecordFlow","kind":"basic","name":"BasicListTransferRecordFlow","param":{},"step":[{"a":true,"d":{},"i":{"ref":"list_transfer_record_ref01"},"m":{},"o":"create","s":[],"v":[],"index$":0}]}, 'ListTransferRecord', {"POST /api/V1/ListTransferRecords":{"protocol":"http","parameters":[{"in":"header","name":"X-Correlation-Id","description":"Correlates HTTP requests between a client and server","type":"String","index$":0},{"in":"body","name":"request","required":true,"schema":{"required":["Take"],"type":"object","properties":{"TransferRef":{"description":"Filter by Ding TransferRef","type":"string"},"DistributorRef":{"description":"Filter transfers by DistributorRef.","type":"string"},"AccountNumber":{"description":"Filter transfers by AccountNumber","type":"string"},"Skip":{"format":"int32","description":"The amount of records to by-pass before returning the remaining records","type":"integer"},"Take":{"format":"int32","description":"The amount of records to return","type":"integer"}},"additionalProperties":false,"x-ref":"#/definitions/ListTransferRecordsRequest"},"index$":1}]}})
     }
     const client = setup.client
     const struct = setup.struct
@@ -109,13 +104,6 @@ function basicSetup(extra?: any) {
       }]
     })
 
-  // Detect whether the user provided a real ENTID JSON via env var. The
-  // basic flow consumes synthetic IDs from the fixture file; without an
-  // override those synthetic IDs reach the live API and 4xx. Surface this
-  // to the test so it can skip rather than fail.
-  const idmapEnvVal = process.env['DINGCONNECT_TEST_LIST_TRANSFER_RECORD_ENTID']
-  const idmapOverridden = null != idmapEnvVal && idmapEnvVal.trim().startsWith('{')
-
   const env = envOverride({
     'DINGCONNECT_TEST_LIST_TRANSFER_RECORD_ENTID': idmap,
     'DINGCONNECT_TEST_LIVE': 'FALSE',
@@ -127,7 +115,13 @@ function basicSetup(extra?: any) {
 
   const live = 'TRUE' === env.DINGCONNECT_TEST_LIVE
 
+  const transport = createLiveTransport()
   if (live) {
+    const rawIds = process.env['DINGCONNECT_TEST_LIST_TRANSFER_RECORD_ENTID']
+    idmap = rawIds && rawIds.trim() ? JSON.parse(rawIds) : {}
+    if (!idmap || Array.isArray(idmap) || typeof idmap !== 'object') {
+      throw new Error('Live ENTID must be a JSON object')
+    }
     client = new DingconnectSDK(merge([
       // FIRST, so the generated fields below win: sdk-test-control.json's
       // test.client.options adds to the live client, it does not redirect it.
@@ -140,7 +134,8 @@ function basicSetup(extra?: any) {
       // argument at all - so a bare 'extra' silently discarded the apikey
       // and server values above and handed the SDK undefined. Harmless
       // while there was nothing in that object; not harmless now.
-      extra || {}
+      extra || {},
+      { system: { fetch: transport.fetch } }
     ]))
   }
 
@@ -153,7 +148,7 @@ function basicSetup(extra?: any) {
     data: entityData,
     explain: 'TRUE' === env.DINGCONNECT_TEST_EXPLAIN,
     live,
-    syntheticOnly: live && !idmapOverridden,
+    transport,
     now: Date.now(),
   }
 

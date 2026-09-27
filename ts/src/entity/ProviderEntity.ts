@@ -19,7 +19,6 @@ import type {
   ProviderListMatch,
 } from '../DingconnectTypes'
 
-// TODO: needs Entity superclass
 class ProviderEntity extends DingconnectEntityBase<Provider> {
 
   constructor(client: DingconnectSDK, entopts: any) {

@@ -4,19 +4,19 @@
       "CANCEL_TRANSFER00": {
         "ErrorCodes": [],
         "Items": [],
-        "ResultCode": "s20",
+        "ResultCode": 32,
         "id": "CANCEL_TRANSFER00"
       },
       "CANCEL_TRANSFER01": {
         "ErrorCodes": [],
         "Items": [],
-        "ResultCode": "s3e",
+        "ResultCode": 62,
         "id": "CANCEL_TRANSFER01"
       },
       "CANCEL_TRANSFER02": {
         "ErrorCodes": [],
         "Items": [],
-        "ResultCode": "s5c",
+        "ResultCode": 92,
         "id": "CANCEL_TRANSFER02"
       }
     }
@@ -26,8 +26,15 @@
       "cancel_transfer_ref01": {
         "ErrorCodes": [],
         "Items": [],
-        "ResultCode": "s7a"
+        "ResultCode": 122
       }
+    }
+  },
+  "requests": {
+    "POST /api/V1/CancelTransfers": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "swagger2"
     }
   }
 }
