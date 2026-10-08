@@ -160,14 +160,14 @@ account_lookup = client.AccountLookup()
 
 ### Operations
 
-#### `list(reqmatch=None, ctrl=None) -> list`
+#### `list(reqmatch=None, ctrl=None) -> list[AccountLookupEntity]`
 
-List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```python
 results = client.AccountLookup().list()
 for account_lookup in results:
-    print(account_lookup)
+    print(account_lookup.data_get())
 ```
 
 ### Common Methods
@@ -214,14 +214,14 @@ balance = client.Balance()
 
 ### Operations
 
-#### `list(reqmatch=None, ctrl=None) -> list`
+#### `list(reqmatch=None, ctrl=None) -> list[BalanceEntity]`
 
-List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```python
 results = client.Balance().list()
 for balance in results:
-    print(balance)
+    print(balance.data_get())
 ```
 
 ### Common Methods
@@ -266,16 +266,16 @@ cancel_transfer = client.CancelTransfer()
 | `ErrorCodes` | `list` | Yes |  |
 | `Items` | `list` | Yes |  |
 | `ResultCode` | `int` | Yes |  |
+| `cancellations` | `list` | No | An explicit list of records to cancel. |
 
 ### Operations
 
-#### `create(reqdata, ctrl=None) -> dict`
+#### `create(reqdata, ctrl=None) -> CancelTransferEntity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```python
 result = client.CancelTransfer().create({
-    "cancellation_request": [],  # list
     "ErrorCodes": [],  # list
     "Items": [],  # list
     "ResultCode": 1,  # int
@@ -327,14 +327,14 @@ country = client.Country()
 
 ### Operations
 
-#### `list(reqmatch=None, ctrl=None) -> list`
+#### `list(reqmatch=None, ctrl=None) -> list[CountryEntity]`
 
-List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```python
 results = client.Country().list()
 for country in results:
-    print(country)
+    print(country.data_get())
 ```
 
 ### Common Methods
@@ -382,14 +382,14 @@ currency = client.Currency()
 
 ### Operations
 
-#### `list(reqmatch=None, ctrl=None) -> list`
+#### `list(reqmatch=None, ctrl=None) -> list[CurrencyEntity]`
 
-List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```python
 results = client.Currency().list()
 for currency in results:
-    print(currency)
+    print(currency.data_get())
 ```
 
 ### Common Methods
@@ -437,14 +437,14 @@ error_code_description = client.ErrorCodeDescription()
 
 ### Operations
 
-#### `list(reqmatch=None, ctrl=None) -> list`
+#### `list(reqmatch=None, ctrl=None) -> list[ErrorCodeDescriptionEntity]`
 
-List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```python
 results = client.ErrorCodeDescription().list()
 for error_code_description in results:
-    print(error_code_description)
+    print(error_code_description.data_get())
 ```
 
 ### Common Methods
@@ -489,16 +489,16 @@ estimate_price = client.EstimatePrice()
 | `ErrorCodes` | `list` | Yes |  |
 | `Items` | `list` | Yes |  |
 | `ResultCode` | `int` | Yes |  |
+| `estimations` | `list` | No |  |
 
 ### Operations
 
-#### `create(reqdata, ctrl=None) -> dict`
+#### `create(reqdata, ctrl=None) -> EstimatePriceEntity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```python
 result = client.EstimatePrice().create({
-    "requested_estimation": [],  # list
     "ErrorCodes": [],  # list
     "Items": [],  # list
     "ResultCode": 1,  # int
@@ -544,23 +544,28 @@ list_transfer_record = client.ListTransferRecord()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `AccountNumber` | `str` | No | Filter transfers by AccountNumber |
+| `DistributorRef` | `str` | No | Filter transfers by DistributorRef. |
 | `ErrorCodes` | `list` | Yes |  |
 | `Items` | `list` | Yes | The list of items satisfying the transfer query. |
 | `ResultCode` | `int` | Yes |  |
+| `Skip` | `int` | No | The amount of records to by-pass before returning the remaining records |
+| `Take` | `int` | Yes | The amount of records to return |
 | `ThereAreMoreItems` | `bool` | Yes | Indicates if the caller should execute the query again. |
+| `TransferRef` | `str` | No | Filter by Ding TransferRef |
 
 ### Operations
 
-#### `create(reqdata, ctrl=None) -> dict`
+#### `create(reqdata, ctrl=None) -> ListTransferRecordEntity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```python
 result = client.ListTransferRecord().create({
-    "request": {},  # dict
     "ErrorCodes": [],  # list
     "Items": [],  # list
     "ResultCode": 1,  # int
+    "Take": 1,  # int
     "ThereAreMoreItems": True,  # bool
 })
 ```
@@ -604,22 +609,26 @@ lookup_bill = client.LookupBill()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `AccountNumber` | `str` | Yes | The account number to target |
 | `ErrorCodes` | `list` | Yes |  |
 | `Items` | `list` | Yes |  |
 | `ResultCode` | `int` | Yes |  |
+| `Settings` | `list` | No | Product specific name/value pairs to be associated with the lookup bills request |
+| `SkuCode` | `str` | Yes | Code provided by GetProducts API |
 
 ### Operations
 
-#### `create(reqdata, ctrl=None) -> dict`
+#### `create(reqdata, ctrl=None) -> LookupBillEntity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```python
 result = client.LookupBill().create({
-    "request": {},  # dict
+    "AccountNumber": "example_AccountNumber",  # str
     "ErrorCodes": [],  # list
     "Items": [],  # list
     "ResultCode": 1,  # int
+    "SkuCode": "example_SkuCode",  # str
 })
 ```
 
@@ -668,14 +677,14 @@ product = client.Product()
 
 ### Operations
 
-#### `list(reqmatch=None, ctrl=None) -> list`
+#### `list(reqmatch=None, ctrl=None) -> list[ProductEntity]`
 
-List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```python
 results = client.Product().list()
 for product in results:
-    print(product)
+    print(product.data_get())
 ```
 
 ### Common Methods
@@ -723,14 +732,14 @@ product_description = client.ProductDescription()
 
 ### Operations
 
-#### `list(reqmatch=None, ctrl=None) -> list`
+#### `list(reqmatch=None, ctrl=None) -> list[ProductDescriptionEntity]`
 
-List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```python
 results = client.ProductDescription().list()
 for product_description in results:
-    print(product_description)
+    print(product_description.data_get())
 ```
 
 ### Common Methods
@@ -778,14 +787,14 @@ promotion = client.Promotion()
 
 ### Operations
 
-#### `list(reqmatch=None, ctrl=None) -> list`
+#### `list(reqmatch=None, ctrl=None) -> list[PromotionEntity]`
 
-List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```python
 results = client.Promotion().list()
 for promotion in results:
-    print(promotion)
+    print(promotion.data_get())
 ```
 
 ### Common Methods
@@ -833,14 +842,14 @@ promotion_description = client.PromotionDescription()
 
 ### Operations
 
-#### `list(reqmatch=None, ctrl=None) -> list`
+#### `list(reqmatch=None, ctrl=None) -> list[PromotionDescriptionEntity]`
 
-List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```python
 results = client.PromotionDescription().list()
 for promotion_description in results:
-    print(promotion_description)
+    print(promotion_description.data_get())
 ```
 
 ### Common Methods
@@ -888,14 +897,14 @@ provider = client.Provider()
 
 ### Operations
 
-#### `list(reqmatch=None, ctrl=None) -> list`
+#### `list(reqmatch=None, ctrl=None) -> list[ProviderEntity]`
 
-List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```python
 results = client.Provider().list()
 for provider in results:
-    print(provider)
+    print(provider.data_get())
 ```
 
 ### Common Methods
@@ -943,14 +952,14 @@ provider_status = client.ProviderStatus()
 
 ### Operations
 
-#### `list(reqmatch=None, ctrl=None) -> list`
+#### `list(reqmatch=None, ctrl=None) -> list[ProviderStatusEntity]`
 
-List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```python
 results = client.ProviderStatus().list()
 for provider_status in results:
-    print(provider_status)
+    print(provider_status.data_get())
 ```
 
 ### Common Methods
@@ -998,14 +1007,14 @@ region = client.Region()
 
 ### Operations
 
-#### `list(reqmatch=None, ctrl=None) -> list`
+#### `list(reqmatch=None, ctrl=None) -> list[RegionEntity]`
 
-List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```python
 results = client.Region().list()
 for region in results:
-    print(region)
+    print(region.data_get())
 ```
 
 ### Common Methods
@@ -1047,22 +1056,34 @@ send_transfer = client.SendTransfer()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `AccountNumber` | `str` | Yes | The account number to target |
+| `BillRef` | `str` | No | Bill reference. |
+| `DistributorRef` | `str` | Yes | Unique identifier in the distributor system to be associated with the transfer |
 | `ErrorCodes` | `list` | Yes |  |
 | `ResultCode` | `int` | Yes |  |
+| `SendCurrencyIso` | `str` | No | The currency of the `SendValue`. |
+| `SendValue` | `float` | Yes | The transfer value to be sent. |
+| `Settings` | `list` | No | Product specific name/value pairs to be associated with the transfer request |
+| `SkuCode` | `str` | Yes | Code provided by GetProducts API |
 | `TransferRecord` | `dict` | Yes |  |
+| `ValidateOnly` | `bool` | Yes | Validate the request with the provider without doing a transfer |
 
 ### Operations
 
-#### `create(reqdata, ctrl=None) -> dict`
+#### `create(reqdata, ctrl=None) -> SendTransferEntity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```python
 result = client.SendTransfer().create({
-    "request": {},  # dict
+    "AccountNumber": "example_AccountNumber",  # str
+    "DistributorRef": "example_DistributorRef",  # str
     "ErrorCodes": [],  # list
     "ResultCode": 1,  # int
+    "SendValue": 1,  # float
+    "SkuCode": "example_SkuCode",  # str
     "TransferRecord": {},  # dict
+    "ValidateOnly": True,  # bool
 })
 ```
 
@@ -1385,6 +1406,7 @@ Timeout.
 | Option | Type |
 |---|---|
 | `clearTimer` | function |
+| `now` | function |
 | `setTimer` | function |
 
 These take no default: the feature behaves one way when you supply them and

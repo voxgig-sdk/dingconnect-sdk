@@ -2,21 +2,30 @@
   "existing": {
     "lookup_bill": {
       "LOOKUP_BILL00": {
+        "AccountNumber": "s3c",
         "ErrorCodes": [],
         "Items": [],
-        "ResultCode": 32,
+        "ResultCode": 63,
+        "Settings": [],
+        "SkuCode": "s41",
         "id": "LOOKUP_BILL00"
       },
       "LOOKUP_BILL01": {
+        "AccountNumber": "s78",
         "ErrorCodes": [],
         "Items": [],
-        "ResultCode": 62,
+        "ResultCode": 123,
+        "Settings": [],
+        "SkuCode": "s7d",
         "id": "LOOKUP_BILL01"
       },
       "LOOKUP_BILL02": {
+        "AccountNumber": "sb4",
         "ErrorCodes": [],
         "Items": [],
-        "ResultCode": 92,
+        "ResultCode": 183,
+        "Settings": [],
+        "SkuCode": "sb9",
         "id": "LOOKUP_BILL02"
       }
     }
@@ -24,9 +33,12 @@
   "new": {
     "lookup_bill": {
       "lookup_bill_ref01": {
+        "AccountNumber": "sf0",
         "ErrorCodes": [],
         "Items": [],
-        "ResultCode": 122
+        "ResultCode": 243,
+        "Settings": [],
+        "SkuCode": "sf5"
       }
     }
   },

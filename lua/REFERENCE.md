@@ -165,7 +165,7 @@ local account_lookup = client:AccountLookup(nil)
 
 #### `list(reqmatch, ctrl) -> any, err`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Returns an array of entities, one per record, or `nil` and an error on failure.
 
 ```lua
 local results, err = client:AccountLookup():list()
@@ -218,7 +218,7 @@ local balance = client:Balance(nil)
 
 #### `list(reqmatch, ctrl) -> any, err`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Returns an array of entities, one per record, or `nil` and an error on failure.
 
 ```lua
 local results, err = client:Balance():list()
@@ -267,16 +267,16 @@ local cancel_transfer = client:CancelTransfer(nil)
 | `ErrorCodes` | `table` | Yes |  |
 | `Items` | `table` | Yes |  |
 | `ResultCode` | `number` | Yes |  |
+| `cancellations` | `table` | No | An explicit list of records to cancel. |
 
 ### Operations
 
 #### `create(reqdata, ctrl) -> any, err`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Returns the created entity, or `nil` and an error on failure.
 
 ```lua
 local result, err = client:CancelTransfer():create({
-  cancellation_request = --[[ table ]],
   ErrorCodes = --[[ table ]],
   Items = --[[ table ]],
   ResultCode = --[[ number ]],
@@ -331,7 +331,7 @@ local country = client:Country(nil)
 
 #### `list(reqmatch, ctrl) -> any, err`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Returns an array of entities, one per record, or `nil` and an error on failure.
 
 ```lua
 local results, err = client:Country():list()
@@ -385,7 +385,7 @@ local currency = client:Currency(nil)
 
 #### `list(reqmatch, ctrl) -> any, err`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Returns an array of entities, one per record, or `nil` and an error on failure.
 
 ```lua
 local results, err = client:Currency():list()
@@ -439,7 +439,7 @@ local error_code_description = client:ErrorCodeDescription(nil)
 
 #### `list(reqmatch, ctrl) -> any, err`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Returns an array of entities, one per record, or `nil` and an error on failure.
 
 ```lua
 local results, err = client:ErrorCodeDescription():list()
@@ -488,16 +488,16 @@ local estimate_price = client:EstimatePrice(nil)
 | `ErrorCodes` | `table` | Yes |  |
 | `Items` | `table` | Yes |  |
 | `ResultCode` | `number` | Yes |  |
+| `estimations` | `table` | No |  |
 
 ### Operations
 
 #### `create(reqdata, ctrl) -> any, err`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Returns the created entity, or `nil` and an error on failure.
 
 ```lua
 local result, err = client:EstimatePrice():create({
-  requested_estimation = --[[ table ]],
   ErrorCodes = --[[ table ]],
   Items = --[[ table ]],
   ResultCode = --[[ number ]],
@@ -544,23 +544,28 @@ local list_transfer_record = client:ListTransferRecord(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `AccountNumber` | `string` | No | Filter transfers by AccountNumber |
+| `DistributorRef` | `string` | No | Filter transfers by DistributorRef. |
 | `ErrorCodes` | `table` | Yes |  |
 | `Items` | `table` | Yes | The list of items satisfying the transfer query. |
 | `ResultCode` | `number` | Yes |  |
+| `Skip` | `number` | No | The amount of records to by-pass before returning the remaining records |
+| `Take` | `number` | Yes | The amount of records to return |
 | `ThereAreMoreItems` | `boolean` | Yes | Indicates if the caller should execute the query again. |
+| `TransferRef` | `string` | No | Filter by Ding TransferRef |
 
 ### Operations
 
 #### `create(reqdata, ctrl) -> any, err`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Returns the created entity, or `nil` and an error on failure.
 
 ```lua
 local result, err = client:ListTransferRecord():create({
-  request = --[[ table ]],
   ErrorCodes = --[[ table ]],
   Items = --[[ table ]],
   ResultCode = --[[ number ]],
+  Take = --[[ number ]],
   ThereAreMoreItems = --[[ boolean ]],
 })
 ```
@@ -605,22 +610,26 @@ local lookup_bill = client:LookupBill(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `AccountNumber` | `string` | Yes | The account number to target |
 | `ErrorCodes` | `table` | Yes |  |
 | `Items` | `table` | Yes |  |
 | `ResultCode` | `number` | Yes |  |
+| `Settings` | `table` | No | Product specific name/value pairs to be associated with the lookup bills request |
+| `SkuCode` | `string` | Yes | Code provided by GetProducts API |
 
 ### Operations
 
 #### `create(reqdata, ctrl) -> any, err`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Returns the created entity, or `nil` and an error on failure.
 
 ```lua
 local result, err = client:LookupBill():create({
-  request = --[[ table ]],
+  AccountNumber = --[[ string ]],
   ErrorCodes = --[[ table ]],
   Items = --[[ table ]],
   ResultCode = --[[ number ]],
+  SkuCode = --[[ string ]],
 })
 ```
 
@@ -672,7 +681,7 @@ local product = client:Product(nil)
 
 #### `list(reqmatch, ctrl) -> any, err`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Returns an array of entities, one per record, or `nil` and an error on failure.
 
 ```lua
 local results, err = client:Product():list()
@@ -726,7 +735,7 @@ local product_description = client:ProductDescription(nil)
 
 #### `list(reqmatch, ctrl) -> any, err`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Returns an array of entities, one per record, or `nil` and an error on failure.
 
 ```lua
 local results, err = client:ProductDescription():list()
@@ -780,7 +789,7 @@ local promotion = client:Promotion(nil)
 
 #### `list(reqmatch, ctrl) -> any, err`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Returns an array of entities, one per record, or `nil` and an error on failure.
 
 ```lua
 local results, err = client:Promotion():list()
@@ -834,7 +843,7 @@ local promotion_description = client:PromotionDescription(nil)
 
 #### `list(reqmatch, ctrl) -> any, err`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Returns an array of entities, one per record, or `nil` and an error on failure.
 
 ```lua
 local results, err = client:PromotionDescription():list()
@@ -888,7 +897,7 @@ local provider = client:Provider(nil)
 
 #### `list(reqmatch, ctrl) -> any, err`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Returns an array of entities, one per record, or `nil` and an error on failure.
 
 ```lua
 local results, err = client:Provider():list()
@@ -942,7 +951,7 @@ local provider_status = client:ProviderStatus(nil)
 
 #### `list(reqmatch, ctrl) -> any, err`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Returns an array of entities, one per record, or `nil` and an error on failure.
 
 ```lua
 local results, err = client:ProviderStatus():list()
@@ -996,7 +1005,7 @@ local region = client:Region(nil)
 
 #### `list(reqmatch, ctrl) -> any, err`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Returns an array of entities, one per record, or `nil` and an error on failure.
 
 ```lua
 local results, err = client:Region():list()
@@ -1042,22 +1051,34 @@ local send_transfer = client:SendTransfer(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `AccountNumber` | `string` | Yes | The account number to target |
+| `BillRef` | `string` | No | Bill reference. |
+| `DistributorRef` | `string` | Yes | Unique identifier in the distributor system to be associated with the transfer |
 | `ErrorCodes` | `table` | Yes |  |
 | `ResultCode` | `number` | Yes |  |
+| `SendCurrencyIso` | `string` | No | The currency of the `SendValue`. |
+| `SendValue` | `number` | Yes | The transfer value to be sent. |
+| `Settings` | `table` | No | Product specific name/value pairs to be associated with the transfer request |
+| `SkuCode` | `string` | Yes | Code provided by GetProducts API |
 | `TransferRecord` | `table` | Yes |  |
+| `ValidateOnly` | `boolean` | Yes | Validate the request with the provider without doing a transfer |
 
 ### Operations
 
 #### `create(reqdata, ctrl) -> any, err`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Returns the created entity, or `nil` and an error on failure.
 
 ```lua
 local result, err = client:SendTransfer():create({
-  request = --[[ table ]],
+  AccountNumber = --[[ string ]],
+  DistributorRef = --[[ string ]],
   ErrorCodes = --[[ table ]],
   ResultCode = --[[ number ]],
+  SendValue = --[[ number ]],
+  SkuCode = --[[ string ]],
   TransferRecord = --[[ table ]],
+  ValidateOnly = --[[ boolean ]],
 })
 ```
 
@@ -1381,6 +1402,7 @@ Timeout.
 | Option | Type |
 |---|---|
 | `clearTimer` | function |
+| `now` | function |
 | `setTimer` | function |
 
 These take no default: the feature behaves one way when you supply them and

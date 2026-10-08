@@ -57,28 +57,33 @@ main: kit: entity: account_lookup: {
               {
                 k: "header"
                 n: "x_correlation_id"
-                or: "x_correlation_id"
+                or: "X-Correlation-Id"
                 r: false
                 t: "`$STRING`"
               }
             ]
             query: [
               {
+                ex: ""
                 k: "query"
                 n: "account_number"
-                or: "account_number"
+                or: "accountNumber"
                 r: false
-                t: "`$INTEGER`"
+                t: "`$STRING`"
               }
             ]
           }
           m: "GET"
           o: "/api/V1/GetAccountLookup"
-          q: {
-            exist: [
-              "account_number"
-              "x_correlation_id"
+          rs: {
+            alternatives: [
+              {
+                kind: "json"
+                media: "text/json"
+              }
             ]
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {

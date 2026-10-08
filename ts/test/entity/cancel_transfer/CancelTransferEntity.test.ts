@@ -9,7 +9,7 @@ import { createLiveTransport } from '../../live-runner'
 import { runLiveEntity } from '../../live-entity'
 
 
-import { DingconnectSDK, BaseFeature, stdutil } from '../../..'
+import { DingconnectSDK, BaseFeature, config, stdutil } from '../../..'
 
 import {
   envOverride,
@@ -41,6 +41,18 @@ describe('CancelTransferEntity', async () => {
   })
 
 
+  test('validate', async (t) => {
+    if (null == (config as any).feature?.validate) {
+      t.skip('feature not present in this SDK: validate')
+      return
+    }
+    const client = DingconnectSDK.test(undefined, { feature: { validate: { active: true } } })
+    await assert.rejects(client.CancelTransfer().create({"ErrorCodes":"x","Items":"x","ResultCode":"x"} as any),
+      (err: any) => 'validate_failed' === err.code)
+  })
+
+
+
   test('basic', async (t) => {
 
     const live = 'TRUE' === process.env.DINGCONNECT_TEST_LIVE
@@ -51,7 +63,7 @@ describe('CancelTransferEntity', async () => {
     
     const setup = basicSetup()
     if (setup.live) {
-      return runLiveEntity(setup, {"active":true,"alias":{"field":{}},"fields":{"ErrorCodes":{"a":true,"h":"Error Codes","n":"ErrorCodes","r":true,"t":"`$ARRAY`","key$":"ErrorCodes","index$":0},"Items":{"a":true,"h":"Items","n":"Items","r":true,"t":"`$ARRAY`","key$":"Items","index$":1},"ResultCode":{"a":true,"fo":"int32","h":"Result Code","n":"ResultCode","r":true,"t":"`$INTEGER`","key$":"ResultCode","index$":2}},"name":"cancel_transfer","op":{"create":{"input":"data","name":"create","points":[{"a":true,"co":{"id":"POST /api/V1/CancelTransfers","source":"swagger2","version":2},"g":{"header":[{"a":true,"k":"header","n":"x_correlation_id","or":"x_correlation_id","r":false,"t":"`$STRING`","index$":0}],"query":[{"a":true,"k":"query","n":"cancellation_request","or":"cancellation_request","r":true,"t":"`$ARRAY`","index$":0}]},"k":"http","m":"POST","o":"/api/V1/CancelTransfers","q":{"exist":["cancellation_request","x_correlation_id"]},"r":{},"s":[{"lit":"api"},{"lit":"V1"},{"lit":"CancelTransfers"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"create"}},"relations":{"ancestors":[]},"key$":"cancel_transfer","name__orig":"cancel_transfer","Name":"CancelTransfer","name_":"cancel_transfer","name-":"cancel-transfer","NAME":"CANCEL_TRANSFER","index$":2}, {"active":true,"entity":"cancel_transfer","key$":"BasicCancelTransferFlow","kind":"basic","name":"BasicCancelTransferFlow","param":{},"step":[{"a":true,"d":{},"i":{"ref":"cancel_transfer_ref01"},"m":{},"o":"create","s":[],"v":[],"index$":0}]}, 'CancelTransfer', {"POST /api/V1/CancelTransfers":{"protocol":"http","parameters":[{"in":"header","name":"X-Correlation-Id","description":"Correlates HTTP requests between a client and server","type":"String","index$":0},{"in":"body","name":"cancellationRequests","description":"An explicit list of records to cancel.","required":true,"schema":{"type":"array","items":{"required":["BatchItemRef","TransferId"],"type":"object","properties":{"TransferId":{"required":["TransferRef","DistributorRef"],"type":"object","properties":{"TransferRef":{"description":"The unique identifier for the transfer within our system","type":"string"},"DistributorRef":{"description":"The distributor's identifier for the transfer.","type":"string"}},"additionalProperties":false,"x-ref":"#/definitions/TransferId"},"BatchItemRef":{"description":"A unique number for an item in an overall batched request","type":"string"}},"additionalProperties":false,"x-ref":"#/definitions/CancellationRequest"}},"index$":1}]}})
+      return runLiveEntity(setup, {"active":true,"alias":{"field":{}},"fields":{"ErrorCodes":{"a":true,"h":"Error Codes","n":"ErrorCodes","r":true,"t":"`$ARRAY`","key$":"ErrorCodes","index$":0},"Items":{"a":true,"h":"Items","n":"Items","r":true,"t":"`$ARRAY`","key$":"Items","index$":1},"ResultCode":{"a":true,"fo":"int32","h":"Result Code","n":"ResultCode","r":true,"t":"`$INTEGER`","key$":"ResultCode","index$":2},"cancellations":{"a":true,"h":"Cancellations","n":"cancellations","r":false,"sh":"An explicit list of records to cancel.","t":"`$ARRAY`","key$":"cancellations","index$":3}},"name":"cancel_transfer","op":{"create":{"input":"data","name":"create","points":[{"a":true,"bf":["cancellations"],"co":{"id":"POST /api/V1/CancelTransfers","source":"swagger2","version":2},"g":{"header":[{"a":true,"k":"header","n":"x_correlation_id","or":"X-Correlation-Id","r":false,"t":"`$STRING`","index$":0}]},"k":"http","m":"POST","o":"/api/V1/CancelTransfers","q":{"exist":["cancellations"]},"r":{},"rs":{"alternatives":[{"kind":"json","media":"text/json"}],"kind":"json","media":"application/json"},"s":[{"lit":"api"},{"lit":"V1"},{"lit":"CancelTransfers"}],"t":{"req":"`reqdata.cancellations`","res":"`body`"},"index$":0}],"key$":"create"}},"relations":{"ancestors":[]},"key$":"cancel_transfer","name__orig":"cancel_transfer","Name":"CancelTransfer","name_":"cancel_transfer","name-":"cancel-transfer","NAME":"CANCEL_TRANSFER","index$":2}, {"active":true,"entity":"cancel_transfer","key$":"BasicCancelTransferFlow","kind":"basic","name":"BasicCancelTransferFlow","param":{},"step":[{"a":true,"d":{},"i":{"ref":"cancel_transfer_ref01"},"m":{},"o":"create","s":[],"v":[],"index$":0}]}, 'CancelTransfer', {"POST /api/V1/CancelTransfers":{"protocol":"http","parameters":[{"in":"header","name":"X-Correlation-Id","description":"Correlates HTTP requests between a client and server","type":"String","index$":0},{"in":"body","name":"cancellationRequests","description":"An explicit list of records to cancel.","required":true,"schema":{"type":"array","items":{"required":["BatchItemRef","TransferId"],"type":"object","properties":{"TransferId":{"required":["TransferRef","DistributorRef"],"type":"object","properties":{"TransferRef":{"description":"The unique identifier for the transfer within our system","type":"string"},"DistributorRef":{"description":"The distributor's identifier for the transfer.","type":"string"}},"additionalProperties":false,"x-ref":"#/definitions/TransferId"},"BatchItemRef":{"description":"A unique number for an item in an overall batched request","type":"string"}},"additionalProperties":false,"x-ref":"#/definitions/CancellationRequest"},"index$":1},"index$":1}]}}, { strict: LIVE_STRICT, t })
     }
     const client = setup.client
     const struct = setup.struct
@@ -72,6 +84,12 @@ describe('CancelTransferEntity', async () => {
 })
 
 
+
+// main.kit.test.live.strict is true (the default is true): a live
+// request that fails, or a live test missing an input it needs,
+// fails the test.
+// An account with no record for a test to read skips it either way.
+const LIVE_STRICT = true
 
 function basicSetup(extra?: any) {
   // TODO: fix test def options

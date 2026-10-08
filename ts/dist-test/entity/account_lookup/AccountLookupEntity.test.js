@@ -54,6 +54,53 @@ const utility_1 = require("../../utility");
         const ent = testsdk.AccountLookup();
         (0, node_assert_1.default)(null != ent);
     });
+    class FailHook extends __1.BaseFeature {
+        name = 'failhook';
+        version = '0.0.1';
+        active = true;
+        unexpected = 0;
+        init() { }
+        PreSpec() { throw new Error('account_lookup hook failed'); }
+        PreUnexpected() { this.unexpected++; }
+    }
+    (0, node_test_1.test)('stream-error', async () => {
+        const offline = { net: { offline: true } };
+        await node_assert_1.default.rejects(async () => {
+            for await (const _item of __1.DingconnectSDK.test(offline).AccountLookup().stream('list')) { }
+        }, /offline/);
+        for await (const _item of __1.DingconnectSDK.test(offline).AccountLookup()
+            .stream('list', undefined, { ctrl: { throw: false } })) { }
+        if (null != __1.config.feature?.rbac) {
+            const denied = __1.DingconnectSDK.test(undefined, { feature: { rbac: { active: true, deny: true } } });
+            await node_assert_1.default.rejects(async () => {
+                for await (const _item of denied.AccountLookup().stream('list')) { }
+            }, (err) => 'rbac_denied' === err.code);
+        }
+    });
+    (0, node_test_1.test)('stream-ctrl', async () => {
+        const explain = {};
+        const ctrl = { explain };
+        for await (const _item of __1.DingconnectSDK.test().AccountLookup().stream('list', undefined, { ctrl })) { }
+        node_assert_1.default.deepStrictEqual(Object.keys(ctrl), ['explain']);
+        (0, node_assert_1.default)(explain === ctrl.explain && 0 < Object.keys(explain).length);
+    });
+    (0, node_test_1.test)('unexpected', async () => {
+        const hook = new FailHook();
+        const client = new __1.DingconnectSDK({ feature: { test: { active: true } }, extend: [hook] });
+        await node_assert_1.default.rejects(client.AccountLookup().list(), /hook failed/);
+        (0, node_assert_1.default)(0 < hook.unexpected);
+        const fired = hook.unexpected;
+        node_assert_1.default.strictEqual(await client.AccountLookup().list(undefined, { throw: false }), undefined);
+        (0, node_assert_1.default)(fired < hook.unexpected);
+    });
+    (0, node_test_1.test)('validate', async (t) => {
+        if (null == __1.config.feature?.validate) {
+            t.skip('feature not present in this SDK: validate');
+            return;
+        }
+        const client = __1.DingconnectSDK.test(undefined, { feature: { validate: { active: true } } });
+        await node_assert_1.default.rejects(client.AccountLookup().list({ "account_number": 1 }), (err) => 'validate_failed' === err.code);
+    });
     (0, node_test_1.test)('basic', async (t) => {
         const live = 'TRUE' === process.env.DINGCONNECT_TEST_LIVE;
         for (const op of ['list']) {
@@ -62,7 +109,7 @@ const utility_1 = require("../../utility");
         }
         const setup = basicSetup();
         if (setup.live) {
-            return (0, live_entity_1.runLiveEntity)(setup, { "active": true, "alias": { "field": {} }, "fields": { "AccountNumberNormalized": { "a": true, "h": "Account Number Normalized", "n": "AccountNumberNormalized", "r": false, "sh": "We attempt to normalize phone numbers following the public telecommunication numbering plan <a href=\"https://en.wikipedia.org/wiki/E.164\" target=\"_blank\">E.164</a>, if we succeed the normalized number will be returned in this field formatt…", "t": "`$STRING`", "key$": "AccountNumberNormalized", "index$": 0 }, "CountryIso": { "a": true, "h": "Country Iso", "n": "CountryIso", "r": false, "sh": "The country of the account number", "t": "`$STRING`", "key$": "CountryIso", "index$": 1 }, "ErrorCodes": { "a": true, "h": "Error Codes", "n": "ErrorCodes", "r": true, "t": "`$ARRAY`", "key$": "ErrorCodes", "index$": 2 }, "Items": { "a": true, "h": "Items", "n": "Items", "r": true, "sh": "This will contain provider information associated to the account number.", "t": "`$ARRAY`", "key$": "Items", "index$": 3 }, "ResultCode": { "a": true, "fo": "int32", "h": "Result Code", "n": "ResultCode", "r": true, "t": "`$INTEGER`", "key$": "ResultCode", "index$": 4 } }, "name": "account_lookup", "op": { "list": { "input": "data", "name": "list", "points": [{ "a": true, "co": { "id": "GET /api/V1/GetAccountLookup", "source": "swagger2", "version": 2 }, "g": { "header": [{ "a": true, "k": "header", "n": "x_correlation_id", "or": "x_correlation_id", "r": false, "t": "`$STRING`", "index$": 0 }], "query": [{ "a": true, "k": "query", "n": "account_number", "or": "account_number", "r": false, "t": "`$INTEGER`", "index$": 0 }] }, "k": "http", "m": "GET", "o": "/api/V1/GetAccountLookup", "q": { "exist": ["account_number", "x_correlation_id"] }, "r": {}, "s": [{ "lit": "api" }, { "lit": "V1" }, { "lit": "GetAccountLookup" }], "t": { "req": "`reqdata`", "res": "`body`" }, "index$": 0 }], "key$": "list" } }, "relations": { "ancestors": [] }, "key$": "account_lookup", "name__orig": "account_lookup", "Name": "AccountLookup", "name_": "account_lookup", "name-": "account-lookup", "NAME": "ACCOUNT_LOOKUP", "index$": 0 }, { "active": true, "entity": "account_lookup", "key$": "BasicAccountLookupFlow", "kind": "basic", "name": "BasicAccountLookupFlow", "param": {}, "step": [{ "a": true, "d": {}, "i": {}, "m": {}, "o": "list", "s": [], "v": [{ "apply": "ItemExists", "def": { "ref": "account_lookup_ref01" } }], "index$": 0 }] }, 'AccountLookup', { "GET /api/V1/GetAccountLookup": { "protocol": "http", "parameters": [{ "in": "query", "name": "accountNumber", "description": "For phone number based products, the account number should be in international phone number format.", "type": "string", "default": "", "index$": 0 }, { "in": "header", "name": "X-Correlation-Id", "description": "Correlates HTTP requests between a client and server", "type": "String", "index$": 1 }] } });
+            return (0, live_entity_1.runLiveEntity)(setup, { "active": true, "alias": { "field": {} }, "fields": { "AccountNumberNormalized": { "a": true, "h": "Account Number Normalized", "n": "AccountNumberNormalized", "r": false, "sh": "We attempt to normalize phone numbers following the public telecommunication numbering plan <a href=\"https://en.wikipedia.org/wiki/E.164\" target=\"_blank\">E.164</a>, if we succeed the normalized number will be returned in this field formatt…", "t": "`$STRING`", "key$": "AccountNumberNormalized", "index$": 0 }, "CountryIso": { "a": true, "h": "Country Iso", "n": "CountryIso", "r": false, "sh": "The country of the account number", "t": "`$STRING`", "key$": "CountryIso", "index$": 1 }, "ErrorCodes": { "a": true, "h": "Error Codes", "n": "ErrorCodes", "r": true, "t": "`$ARRAY`", "key$": "ErrorCodes", "index$": 2 }, "Items": { "a": true, "h": "Items", "n": "Items", "r": true, "sh": "This will contain provider information associated to the account number.", "t": "`$ARRAY`", "key$": "Items", "index$": 3 }, "ResultCode": { "a": true, "fo": "int32", "h": "Result Code", "n": "ResultCode", "r": true, "t": "`$INTEGER`", "key$": "ResultCode", "index$": 4 } }, "name": "account_lookup", "op": { "list": { "input": "data", "name": "list", "points": [{ "a": true, "co": { "id": "GET /api/V1/GetAccountLookup", "source": "swagger2", "version": 2 }, "g": { "header": [{ "a": true, "k": "header", "n": "x_correlation_id", "or": "X-Correlation-Id", "r": false, "t": "`$STRING`", "index$": 0 }], "query": [{ "a": true, "ex": "", "k": "query", "n": "account_number", "or": "accountNumber", "r": false, "t": "`$STRING`", "index$": 0 }] }, "k": "http", "m": "GET", "o": "/api/V1/GetAccountLookup", "q": {}, "r": {}, "rs": { "alternatives": [{ "kind": "json", "media": "text/json" }], "kind": "json", "media": "application/json" }, "s": [{ "lit": "api" }, { "lit": "V1" }, { "lit": "GetAccountLookup" }], "t": { "req": "`reqdata`", "res": "`body`" }, "index$": 0 }], "key$": "list" } }, "relations": { "ancestors": [] }, "key$": "account_lookup", "name__orig": "account_lookup", "Name": "AccountLookup", "name_": "account_lookup", "name-": "account-lookup", "NAME": "ACCOUNT_LOOKUP", "index$": 0 }, { "active": true, "entity": "account_lookup", "key$": "BasicAccountLookupFlow", "kind": "basic", "name": "BasicAccountLookupFlow", "param": {}, "step": [{ "a": true, "d": {}, "i": {}, "m": {}, "o": "list", "s": [], "v": [{ "apply": "ItemExists", "def": { "ref": "account_lookup_ref01" } }], "index$": 0 }] }, 'AccountLookup', { "GET /api/V1/GetAccountLookup": { "protocol": "http", "parameters": [{ "in": "query", "name": "accountNumber", "description": "For phone number based products, the account number should be in international phone number format.", "type": "string", "default": "", "index$": 0 }, { "in": "header", "name": "X-Correlation-Id", "description": "Correlates HTTP requests between a client and server", "type": "String", "index$": 1 }] } }, { strict: LIVE_STRICT, t });
         }
         const client = setup.client;
         const struct = setup.struct;
@@ -75,6 +122,11 @@ const utility_1 = require("../../utility");
         const account_lookup_ref01_list = (await account_lookup_ref01_ent.list(account_lookup_ref01_match)).map((e) => e.data());
     });
 });
+// main.kit.test.live.strict is true (the default is true): a live
+// request that fails, or a live test missing an input it needs,
+// fails the test.
+// An account with no record for a test to read skips it either way.
+const LIVE_STRICT = true;
 function basicSetup(extra) {
     // TODO: fix test def options
     const options = {}; // null

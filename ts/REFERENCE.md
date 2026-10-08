@@ -280,8 +280,10 @@ Make a direct HTTP request to any API endpoint.
 | `fetchargs.headers` | `object` | Request headers (merged with defaults). |
 | `fetchargs.body` | `any` | Request body (objects are JSON-serialized). |
 | `fetchargs.ctrl` | `object` | Control options (e.g. `{ explain: true }`). |
+| `fetchargs.ctrl.signal` | `AbortSignal` | Aborts the request in flight: `ok` is then `false` and `err.code` is `request_aborted`. |
 
-**Returns:** `Promise<{ ok, status, headers, data } | Error>`
+**Returns:** `Promise<{ ok, status, headers, data }>`. On a failure
+`ok` is `false` and `err` holds the error.
 
 #### `prepare(fetchargs?: object)`
 
@@ -295,6 +297,15 @@ same parameters as `direct()`.
 Alias for `DingconnectSDK.test()`.
 
 **Returns:** `DingconnectSDK` instance in test mode.
+
+#### Cancelling a call
+
+Every entity operation takes an optional `ctrl` object after its match or
+data, and an `AbortSignal` in `ctrl.signal` cancels the request in flight.
+The operation then rejects with an error whose `code` is
+`request_aborted` and whose `cause` is the signal's reason. A request
+whose signal has already aborted is not sent. `stream()` takes the signal
+as `callopts.signal`, and ends when it aborts.
 
 
 ---
@@ -319,7 +330,7 @@ const account_lookup = client.AccountLookup()
 
 #### `list(match: object, ctrl?: object)`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Resolves to an array of entities, one per record.
 
 ```ts
 const results = await client.AccountLookup().list()
@@ -370,7 +381,7 @@ const balance = client.Balance()
 
 #### `list(match: object, ctrl?: object)`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Resolves to an array of entities, one per record.
 
 ```ts
 const results = await client.Balance().list()
@@ -417,16 +428,16 @@ const cancel_transfer = client.CancelTransfer()
 | `ErrorCodes` | `any[]` | Yes |  |
 | `Items` | `any[]` | Yes |  |
 | `ResultCode` | `number` | Yes |  |
+| `cancellations` | `any[]` | No | An explicit list of records to cancel. |
 
 ### Operations
 
 #### `create(data: object, ctrl?: object)`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Resolves to the created entity.
 
 ```ts
 const result = await client.CancelTransfer().create({
-  cancellation_request: [],
   ErrorCodes: [],
   Items: [],
   ResultCode: 1,
@@ -479,7 +490,7 @@ const country = client.Country()
 
 #### `list(match: object, ctrl?: object)`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Resolves to an array of entities, one per record.
 
 ```ts
 const results = await client.Country().list()
@@ -531,7 +542,7 @@ const currency = client.Currency()
 
 #### `list(match: object, ctrl?: object)`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Resolves to an array of entities, one per record.
 
 ```ts
 const results = await client.Currency().list()
@@ -583,7 +594,7 @@ const error_code_description = client.ErrorCodeDescription()
 
 #### `list(match: object, ctrl?: object)`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Resolves to an array of entities, one per record.
 
 ```ts
 const results = await client.ErrorCodeDescription().list()
@@ -630,16 +641,16 @@ const estimate_price = client.EstimatePrice()
 | `ErrorCodes` | `any[]` | Yes |  |
 | `Items` | `any[]` | Yes |  |
 | `ResultCode` | `number` | Yes |  |
+| `estimations` | `any[]` | No |  |
 
 ### Operations
 
 #### `create(data: object, ctrl?: object)`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Resolves to the created entity.
 
 ```ts
 const result = await client.EstimatePrice().create({
-  requested_estimation: [],
   ErrorCodes: [],
   Items: [],
   ResultCode: 1,
@@ -684,23 +695,28 @@ const list_transfer_record = client.ListTransferRecord()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `AccountNumber` | `string` | No | Filter transfers by AccountNumber |
+| `DistributorRef` | `string` | No | Filter transfers by DistributorRef. |
 | `ErrorCodes` | `any[]` | Yes |  |
 | `Items` | `any[]` | Yes | The list of items satisfying the transfer query. |
 | `ResultCode` | `number` | Yes |  |
+| `Skip` | `number` | No | The amount of records to by-pass before returning the remaining records |
+| `Take` | `number` | Yes | The amount of records to return |
 | `ThereAreMoreItems` | `boolean` | Yes | Indicates if the caller should execute the query again. |
+| `TransferRef` | `string` | No | Filter by Ding TransferRef |
 
 ### Operations
 
 #### `create(data: object, ctrl?: object)`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Resolves to the created entity.
 
 ```ts
 const result = await client.ListTransferRecord().create({
-  request: {},
   ErrorCodes: [],
   Items: [],
   ResultCode: 1,
+  Take: 1,
   ThereAreMoreItems: true,
 })
 ```
@@ -743,22 +759,26 @@ const lookup_bill = client.LookupBill()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `AccountNumber` | `string` | Yes | The account number to target |
 | `ErrorCodes` | `any[]` | Yes |  |
 | `Items` | `any[]` | Yes |  |
 | `ResultCode` | `number` | Yes |  |
+| `Settings` | `any[]` | No | Product specific name/value pairs to be associated with the lookup bills request |
+| `SkuCode` | `string` | Yes | Code provided by GetProducts API |
 
 ### Operations
 
 #### `create(data: object, ctrl?: object)`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Resolves to the created entity.
 
 ```ts
 const result = await client.LookupBill().create({
-  request: {},
+  AccountNumber: 'example_AccountNumber',
   ErrorCodes: [],
   Items: [],
   ResultCode: 1,
+  SkuCode: 'example_SkuCode',
 })
 ```
 
@@ -808,7 +828,7 @@ const product = client.Product()
 
 #### `list(match: object, ctrl?: object)`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Resolves to an array of entities, one per record.
 
 ```ts
 const results = await client.Product().list()
@@ -860,7 +880,7 @@ const product_description = client.ProductDescription()
 
 #### `list(match: object, ctrl?: object)`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Resolves to an array of entities, one per record.
 
 ```ts
 const results = await client.ProductDescription().list()
@@ -912,7 +932,7 @@ const promotion = client.Promotion()
 
 #### `list(match: object, ctrl?: object)`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Resolves to an array of entities, one per record.
 
 ```ts
 const results = await client.Promotion().list()
@@ -964,7 +984,7 @@ const promotion_description = client.PromotionDescription()
 
 #### `list(match: object, ctrl?: object)`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Resolves to an array of entities, one per record.
 
 ```ts
 const results = await client.PromotionDescription().list()
@@ -1016,7 +1036,7 @@ const provider = client.Provider()
 
 #### `list(match: object, ctrl?: object)`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Resolves to an array of entities, one per record.
 
 ```ts
 const results = await client.Provider().list()
@@ -1068,7 +1088,7 @@ const provider_status = client.ProviderStatus()
 
 #### `list(match: object, ctrl?: object)`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Resolves to an array of entities, one per record.
 
 ```ts
 const results = await client.ProviderStatus().list()
@@ -1120,7 +1140,7 @@ const region = client.Region()
 
 #### `list(match: object, ctrl?: object)`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Resolves to an array of entities, one per record.
 
 ```ts
 const results = await client.Region().list()
@@ -1164,22 +1184,34 @@ const send_transfer = client.SendTransfer()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `AccountNumber` | `string` | Yes | The account number to target |
+| `BillRef` | `string` | No | Bill reference. |
+| `DistributorRef` | `string` | Yes | Unique identifier in the distributor system to be associated with the transfer |
 | `ErrorCodes` | `any[]` | Yes |  |
 | `ResultCode` | `number` | Yes |  |
+| `SendCurrencyIso` | `string` | No | The currency of the `SendValue`. |
+| `SendValue` | `number` | Yes | The transfer value to be sent. |
+| `Settings` | `any[]` | No | Product specific name/value pairs to be associated with the transfer request |
+| `SkuCode` | `string` | Yes | Code provided by GetProducts API |
 | `TransferRecord` | `Record<string, any>` | Yes |  |
+| `ValidateOnly` | `boolean` | Yes | Validate the request with the provider without doing a transfer |
 
 ### Operations
 
 #### `create(data: object, ctrl?: object)`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Resolves to the created entity.
 
 ```ts
 const result = await client.SendTransfer().create({
-  request: {},
+  AccountNumber: 'example_AccountNumber',
+  DistributorRef: 'example_DistributorRef',
   ErrorCodes: [],
   ResultCode: 1,
+  SendValue: 1,
+  SkuCode: 'example_SkuCode',
   TransferRecord: {},
+  ValidateOnly: true,
 })
 ```
 
@@ -1501,6 +1533,7 @@ Timeout.
 | Option | Type |
 |---|---|
 | `clearTimer` | function |
+| `now` | function |
 | `setTimer` | function |
 
 These take no default: the feature behaves one way when you supply them and

@@ -16,7 +16,7 @@ go get github.com/voxgig-sdk/dingconnect-sdk/go@latest
 ```
 
 The Go module proxy resolves the version from the `go/vX.Y.Z` GitHub
-release tag — see [Releases](https://github.com/voxgig-sdk/dingconnect-sdk/releases) for the available versions.
+release tag — see [Tags](https://github.com/voxgig-sdk/dingconnect-sdk/tags) for the available versions.
 
 To vendor from a local checkout instead, clone this repo alongside your
 project and add a `replace` directive pointing at the checked-out
@@ -30,14 +30,15 @@ go mod edit -replace github.com/voxgig-sdk/dingconnect-sdk/go=../dingconnect-sdk
 ## Tutorial: your first API call
 
 This tutorial walks through creating a client, listing entities, and
-loading a specific record.
+loading a specific record. The client sends the API key in the `api_key` header.
 
 ### Quickstart
 
 A complete program: create a client, then call the entity operations.
-Each operation returns `(value, error)` — the value is the data itself
-(there is no `{ok, data}` wrapper), so check `err` and use the value
-directly.
+Each operation returns `(value, error)` — the value is the entity, and for
+`List` a `[]any` of entities, one per record (there is no `{ok, data}`
+wrapper), so check `err` and read a record through the entity's
+`Data()`.
 
 ```go
 package main
@@ -53,13 +54,13 @@ func main() {
         "apikey": os.Getenv("DINGCONNECT_APIKEY"),
     })
 
-    // List accountLookup records — the value is the array of records itself.
+    // List accountLookup records — the value is a []any of entities, one per record.
     accountLookups, err := client.AccountLookup(nil).List(nil, nil)
     if err != nil {
         panic(err)
     }
     for _, item := range accountLookups.([]any) {
-        fmt.Println(item)
+        fmt.Println(item.(sdk.Entity).Data())
     }
 }
 ```
@@ -140,13 +141,16 @@ Create a mock client for unit testing — no server required:
 ```go
 client := sdk.Test()
 
-currency, err := client.Currency(nil).List(
+currencys, err := client.Currency(nil).List(
     nil, nil,
 )
 if err != nil {
     panic(err)
 }
-fmt.Println(currency) // the returned mock data
+// A []any of entities, one per mock record.
+for _, item := range currencys.([]any) {
+    fmt.Println(item.(sdk.Entity).Data())
+}
 ```
 
 ### Use a custom fetch function
@@ -249,8 +253,8 @@ All entities implement the `DingconnectEntity` interface.
 
 | Method | Signature | Description |
 | --- | --- | --- |
-| `List` | `(reqmatch, ctrl map[string]any) (any, error)` | List entities matching the criteria. |
-| `Create` | `(reqdata, ctrl map[string]any) (any, error)` | Create a new entity. |
+| `List` | `(reqmatch, ctrl map[string]any) (any, error)` | List entities matching the criteria, one per record. |
+| `Create` | `(reqdata, ctrl map[string]any) (any, error)` | Create a new entity, and return it. |
 | `Data` | `(args ...any) any` | Get or set entity data. |
 | `Match` | `(args ...any) any` | Get or set entity match criteria. |
 | `Make` | `() Entity` | Create a new instance with the same options. |
@@ -258,21 +262,21 @@ All entities implement the `DingconnectEntity` interface.
 
 ### Result shape
 
-Entity operations return `(value, error)`. The `value` is the
-operation's data **directly** — there is no wrapper:
+Entity operations return `(value, error)`. The `value` is the entity
+itself — there is no wrapper:
 
 | Operation | `value` |
 | --- | --- |
-| `Create` | the entity record (`map[string]any`) |
-| `List` | a `[]any` of entity records |
+| `Create` | the entity, whose `Data()` reads its record (`map[string]any`) |
+| `List` | a `[]any` of entities, one per record |
 
 Check `err` first, then use the value directly (or the typed
 `...Typed` variants, which return the entity's model struct and a typed
 slice):
 
-    accountLookup, err := client.AccountLookup(nil).List(map[string]any{/* fields */}, nil)
+    accountLookup, err := client.AccountLookup(nil).List(nil, nil)
     if err != nil { /* handle */ }
-    // accountLookup is the returned record
+    // accountLookup is a []any of entities, one per record
 
 Only `Direct()` returns a response envelope — a `map[string]any` with
 `"ok"`, `"status"`, `"headers"`, and `"data"` keys.
@@ -311,6 +315,7 @@ API path: `/api/V1/GetBalance`
 | `"ErrorCodes"` |  |
 | `"Items"` |  |
 | `"ResultCode"` |  |
+| `"cancellations"` | An explicit list of records to cancel. |
 
 Operations: Create.
 
@@ -359,6 +364,7 @@ API path: `/api/V1/GetErrorCodeDescriptions`
 | `"ErrorCodes"` |  |
 | `"Items"` |  |
 | `"ResultCode"` |  |
+| `"estimations"` |  |
 
 Operations: Create.
 
@@ -368,10 +374,15 @@ API path: `/api/V1/EstimatePrices`
 
 | Field | Description |
 | --- | --- |
+| `"AccountNumber"` | Filter transfers by AccountNumber |
+| `"DistributorRef"` | Filter transfers by DistributorRef. |
 | `"ErrorCodes"` |  |
 | `"Items"` | The list of items satisfying the transfer query. |
 | `"ResultCode"` |  |
+| `"Skip"` | The amount of records to by-pass before returning the remaining records |
+| `"Take"` | The amount of records to return |
 | `"ThereAreMoreItems"` | Indicates if the caller should execute the query again. |
+| `"TransferRef"` | Filter by Ding TransferRef |
 
 Operations: Create.
 
@@ -381,9 +392,12 @@ API path: `/api/V1/ListTransferRecords`
 
 | Field | Description |
 | --- | --- |
+| `"AccountNumber"` | The account number to target |
 | `"ErrorCodes"` |  |
 | `"Items"` |  |
 | `"ResultCode"` |  |
+| `"Settings"` | Product specific name/value pairs to be associated with the lookup bills request |
+| `"SkuCode"` | Code provided by GetProducts API |
 
 Operations: Create.
 
@@ -477,9 +491,17 @@ API path: `/api/V1/GetRegions`
 
 | Field | Description |
 | --- | --- |
+| `"AccountNumber"` | The account number to target |
+| `"BillRef"` | Bill reference. |
+| `"DistributorRef"` | Unique identifier in the distributor system to be associated with the transfer |
 | `"ErrorCodes"` |  |
 | `"ResultCode"` |  |
+| `"SendCurrencyIso"` | The currency of the `SendValue`. |
+| `"SendValue"` | The transfer value to be sent. |
+| `"Settings"` | Product specific name/value pairs to be associated with the transfer request |
+| `"SkuCode"` | Code provided by GetProducts API |
 | `"TransferRecord"` |  |
+| `"ValidateOnly"` | Validate the request with the provider without doing a transfer |
 
 Operations: Create.
 
@@ -517,7 +539,10 @@ accountLookups, err := client.AccountLookup(nil).List(nil, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(accountLookups) // the array of records
+// A []any of entities, one per record.
+for _, item := range accountLookups.([]any) {
+    fmt.Println(item.(sdk.Entity).Data())
+}
 ```
 
 
@@ -545,7 +570,10 @@ balances, err := client.Balance(nil).List(nil, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(balances) // the array of records
+// A []any of entities, one per record.
+for _, item := range balances.([]any) {
+    fmt.Println(item.(sdk.Entity).Data())
+}
 ```
 
 
@@ -566,12 +594,12 @@ Create an instance: `cancelTransfer := client.CancelTransfer(nil)`
 | `ErrorCodes` | `[]any` |  |
 | `Items` | `[]any` |  |
 | `ResultCode` | `int` |  |
+| `cancellations` | `[]any` | An explicit list of records to cancel. |
 
 #### Example: Create
 
 ```go
 result, err := client.CancelTransfer(nil).Create(map[string]any{
-    "cancellation_request": []any{},
     "ErrorCodes": []any{},
     "Items": []any{},
     "ResultCode": 1,
@@ -579,7 +607,7 @@ result, err := client.CancelTransfer(nil).Create(map[string]any{
 if err != nil {
     panic(err)
 }
-fmt.Println(result)
+fmt.Println(result.(sdk.Entity).Data()) // the created entity's record
 ```
 
 
@@ -608,7 +636,10 @@ countrys, err := client.Country(nil).List(nil, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(countrys) // the array of records
+// A []any of entities, one per record.
+for _, item := range countrys.([]any) {
+    fmt.Println(item.(sdk.Entity).Data())
+}
 ```
 
 
@@ -637,7 +668,10 @@ currencys, err := client.Currency(nil).List(nil, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(currencys) // the array of records
+// A []any of entities, one per record.
+for _, item := range currencys.([]any) {
+    fmt.Println(item.(sdk.Entity).Data())
+}
 ```
 
 
@@ -666,7 +700,10 @@ errorCodeDescriptions, err := client.ErrorCodeDescription(nil).List(nil, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(errorCodeDescriptions) // the array of records
+// A []any of entities, one per record.
+for _, item := range errorCodeDescriptions.([]any) {
+    fmt.Println(item.(sdk.Entity).Data())
+}
 ```
 
 
@@ -687,12 +724,12 @@ Create an instance: `estimatePrice := client.EstimatePrice(nil)`
 | `ErrorCodes` | `[]any` |  |
 | `Items` | `[]any` |  |
 | `ResultCode` | `int` |  |
+| `estimations` | `[]any` |  |
 
 #### Example: Create
 
 ```go
 result, err := client.EstimatePrice(nil).Create(map[string]any{
-    "requested_estimation": []any{},
     "ErrorCodes": []any{},
     "Items": []any{},
     "ResultCode": 1,
@@ -700,7 +737,7 @@ result, err := client.EstimatePrice(nil).Create(map[string]any{
 if err != nil {
     panic(err)
 }
-fmt.Println(result)
+fmt.Println(result.(sdk.Entity).Data()) // the created entity's record
 ```
 
 
@@ -718,25 +755,30 @@ Create an instance: `listTransferRecord := client.ListTransferRecord(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `AccountNumber` | `string` | Filter transfers by AccountNumber |
+| `DistributorRef` | `string` | Filter transfers by DistributorRef. |
 | `ErrorCodes` | `[]any` |  |
 | `Items` | `[]any` | The list of items satisfying the transfer query. |
 | `ResultCode` | `int` |  |
+| `Skip` | `int` | The amount of records to by-pass before returning the remaining records |
+| `Take` | `int` | The amount of records to return |
 | `ThereAreMoreItems` | `bool` | Indicates if the caller should execute the query again. |
+| `TransferRef` | `string` | Filter by Ding TransferRef |
 
 #### Example: Create
 
 ```go
 result, err := client.ListTransferRecord(nil).Create(map[string]any{
-    "request": map[string]any{},
     "ErrorCodes": []any{},
     "Items": []any{},
     "ResultCode": 1,
+    "Take": 1,
     "ThereAreMoreItems": true,
 }, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(result)
+fmt.Println(result.(sdk.Entity).Data()) // the created entity's record
 ```
 
 
@@ -754,23 +796,27 @@ Create an instance: `lookupBill := client.LookupBill(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `AccountNumber` | `string` | The account number to target |
 | `ErrorCodes` | `[]any` |  |
 | `Items` | `[]any` |  |
 | `ResultCode` | `int` |  |
+| `Settings` | `[]any` | Product specific name/value pairs to be associated with the lookup bills request |
+| `SkuCode` | `string` | Code provided by GetProducts API |
 
 #### Example: Create
 
 ```go
 result, err := client.LookupBill(nil).Create(map[string]any{
-    "request": map[string]any{},
+    "AccountNumber": "example_AccountNumber",
     "ErrorCodes": []any{},
     "Items": []any{},
     "ResultCode": 1,
+    "SkuCode": "example_SkuCode",
 }, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(result)
+fmt.Println(result.(sdk.Entity).Data()) // the created entity's record
 ```
 
 
@@ -799,7 +845,10 @@ products, err := client.Product(nil).List(nil, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(products) // the array of records
+// A []any of entities, one per record.
+for _, item := range products.([]any) {
+    fmt.Println(item.(sdk.Entity).Data())
+}
 ```
 
 
@@ -828,7 +877,10 @@ productDescriptions, err := client.ProductDescription(nil).List(nil, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(productDescriptions) // the array of records
+// A []any of entities, one per record.
+for _, item := range productDescriptions.([]any) {
+    fmt.Println(item.(sdk.Entity).Data())
+}
 ```
 
 
@@ -857,7 +909,10 @@ promotions, err := client.Promotion(nil).List(nil, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(promotions) // the array of records
+// A []any of entities, one per record.
+for _, item := range promotions.([]any) {
+    fmt.Println(item.(sdk.Entity).Data())
+}
 ```
 
 
@@ -886,7 +941,10 @@ promotionDescriptions, err := client.PromotionDescription(nil).List(nil, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(promotionDescriptions) // the array of records
+// A []any of entities, one per record.
+for _, item := range promotionDescriptions.([]any) {
+    fmt.Println(item.(sdk.Entity).Data())
+}
 ```
 
 
@@ -915,7 +973,10 @@ providers, err := client.Provider(nil).List(nil, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(providers) // the array of records
+// A []any of entities, one per record.
+for _, item := range providers.([]any) {
+    fmt.Println(item.(sdk.Entity).Data())
+}
 ```
 
 
@@ -944,7 +1005,10 @@ providerStatuss, err := client.ProviderStatus(nil).List(nil, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(providerStatuss) // the array of records
+// A []any of entities, one per record.
+for _, item := range providerStatuss.([]any) {
+    fmt.Println(item.(sdk.Entity).Data())
+}
 ```
 
 
@@ -973,7 +1037,10 @@ regions, err := client.Region(nil).List(nil, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(regions) // the array of records
+// A []any of entities, one per record.
+for _, item := range regions.([]any) {
+    fmt.Println(item.(sdk.Entity).Data())
+}
 ```
 
 
@@ -991,23 +1058,35 @@ Create an instance: `sendTransfer := client.SendTransfer(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `AccountNumber` | `string` | The account number to target |
+| `BillRef` | `string` | Bill reference. |
+| `DistributorRef` | `string` | Unique identifier in the distributor system to be associated with the transfer |
 | `ErrorCodes` | `[]any` |  |
 | `ResultCode` | `int` |  |
+| `SendCurrencyIso` | `string` | The currency of the `SendValue`. |
+| `SendValue` | `float64` | The transfer value to be sent. |
+| `Settings` | `[]any` | Product specific name/value pairs to be associated with the transfer request |
+| `SkuCode` | `string` | Code provided by GetProducts API |
 | `TransferRecord` | `map[string]any` |  |
+| `ValidateOnly` | `bool` | Validate the request with the provider without doing a transfer |
 
 #### Example: Create
 
 ```go
 result, err := client.SendTransfer(nil).Create(map[string]any{
-    "request": map[string]any{},
+    "AccountNumber": "example_AccountNumber",
+    "DistributorRef": "example_DistributorRef",
     "ErrorCodes": []any{},
     "ResultCode": 1,
+    "SendValue": 1,
+    "SkuCode": "example_SkuCode",
     "TransferRecord": map[string]any{},
+    "ValidateOnly": true,
 }, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(result)
+fmt.Println(result.(sdk.Entity).Data()) // the created entity's record
 ```
 
 ## Features
@@ -1203,7 +1282,9 @@ The Go SDK uses `map[string]any` throughout rather than typed structs.
 This mirrors the dynamic nature of the API and keeps the SDK
 flexible — no code generation is needed when the API schema changes.
 
-Use `core.ToMapAny()` to safely cast results and nested data.
+An operation returns the entity, and its `Data()` returns the record. Use
+`core.ToMapAny()` to safely cast that record, or data nested in it, to
+`map[string]any`: it returns `nil` for anything else, an entity included.
 
 ### Package structure
 

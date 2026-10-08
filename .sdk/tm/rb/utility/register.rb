@@ -33,6 +33,8 @@ require_relative 'transform_response'
 
 DingconnectUtility.registrar = ->(u) {
   u.clean = DingconnectUtilities::Clean
+  u.clean_add = DingconnectUtilities::CleanAdd
+  u.clean_explain = DingconnectUtilities::CleanExplain
   u.done = DingconnectUtilities::Done
   u.make_error = DingconnectUtilities::MakeError
   u.feature_add = DingconnectUtilities::FeatureAdd

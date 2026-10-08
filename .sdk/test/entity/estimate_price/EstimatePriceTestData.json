@@ -4,19 +4,22 @@
       "ESTIMATE_PRICE00": {
         "ErrorCodes": [],
         "Items": [],
-        "ResultCode": 32,
+        "ResultCode": 42,
+        "estimations": [],
         "id": "ESTIMATE_PRICE00"
       },
       "ESTIMATE_PRICE01": {
         "ErrorCodes": [],
         "Items": [],
-        "ResultCode": 62,
+        "ResultCode": 82,
+        "estimations": [],
         "id": "ESTIMATE_PRICE01"
       },
       "ESTIMATE_PRICE02": {
         "ErrorCodes": [],
         "Items": [],
-        "ResultCode": 92,
+        "ResultCode": 122,
+        "estimations": [],
         "id": "ESTIMATE_PRICE02"
       }
     }
@@ -26,7 +29,8 @@
       "estimate_price_ref01": {
         "ErrorCodes": [],
         "Items": [],
-        "ResultCode": 122
+        "ResultCode": 162,
+        "estimations": []
       }
     }
   },

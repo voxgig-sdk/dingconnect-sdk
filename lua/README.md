@@ -12,7 +12,7 @@ It exposes the API as capitalised, semantic **Entities** — e.g. `client:Accoun
 
 ## Install
 This package is not yet published to LuaRocks. Install it from the
-GitHub release tag (`lua/vX.Y.Z`, see [Releases](https://github.com/voxgig-sdk/dingconnect-sdk/releases)),
+GitHub release tag (`lua/vX.Y.Z`, see [Tags](https://github.com/voxgig-sdk/dingconnect-sdk/tags)),
 or add the source directory to your `LUA_PATH`:
 
 ```bash
@@ -23,7 +23,7 @@ export LUA_PATH="path/to/lua/?.lua;path/to/lua/?/init.lua;;"
 ## Tutorial: your first API call
 
 This tutorial walks through creating a client, listing entities, and
-loading a specific record.
+loading a specific record. The client sends the API key in the `api_key` header.
 
 ### 1. Create a client
 
@@ -37,15 +37,16 @@ local client = sdk.new({
 
 ### 2. List accountlookup records
 
-Entity operations return `(value, err)`. For `list`, `value` is the
-array of records itself — iterate it directly (there is no wrapper).
+Entity operations return `(value, err)`. For `list`, `value` is an
+array of entities, one per record — iterate it directly (there is no
+wrapper), and read each record with `data_get()`.
 
 ```lua
 local accountlookups, err = client:AccountLookup():list()
 if err then error(err) end
 
 for _, item in ipairs(accountlookups) do
-  print(item)
+  for k, val in pairs(item:data_get()) do print(k, val) end
 end
 ```
 
@@ -115,7 +116,7 @@ Create a mock client for unit testing — no server required:
 local client = sdk.test()
 
 local result, err = client:Currency():list()
--- result is the returned data; err is set on failure
+-- result is an array of entities, one per mock record; err is set on failure
 ```
 
 ### Use a custom fetch function
@@ -219,8 +220,8 @@ All entities share the same interface.
 
 | Method | Signature | Description |
 | --- | --- | --- |
-| `list` | `(reqmatch, ctrl) -> any, err` | List entities matching the criteria. |
-| `create` | `(reqdata, ctrl) -> any, err` | Create a new entity. |
+| `list` | `(reqmatch, ctrl) -> any, err` | List entities matching the criteria, one per record. |
+| `create` | `(reqdata, ctrl) -> any, err` | Create a new entity, and return it. |
 | `data_get` | `() -> table` | Get entity data. |
 | `data_set` | `(data)` | Set entity data. |
 | `match_get` | `() -> table` | Get entity match criteria. |
@@ -230,19 +231,19 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return `(value, err)`. The `value` is the operation's
-data **directly** — there is no wrapper:
+Entity operations return `(value, err)`. The `value` is the entity
+itself — there is no wrapper:
 
 | Operation | `value` |
 | --- | --- |
-| `create` | the entity record (a `table`) |
-| `list` | an array (`table`) of entity records |
+| `create` | the entity, whose `data_get()` reads its record (a `table`) |
+| `list` | an array (`table`) of entities, one per record |
 
 Check `err` first (it is non-`nil` on failure), then use `value`:
 
     local account_lookup, err = client:AccountLookup():list()
     if err then error(err) end
-    -- account_lookup is the record list
+    -- account_lookup is an array of entities, one per record
 
 Only `direct()` returns a response envelope — a `table` with `ok`,
 `status`, `headers`, and `data` keys.
@@ -281,6 +282,7 @@ API path: `/api/V1/GetBalance`
 | `ErrorCodes` |  |
 | `Items` |  |
 | `ResultCode` |  |
+| `cancellations` | An explicit list of records to cancel. |
 
 Operations: Create.
 
@@ -329,6 +331,7 @@ API path: `/api/V1/GetErrorCodeDescriptions`
 | `ErrorCodes` |  |
 | `Items` |  |
 | `ResultCode` |  |
+| `estimations` |  |
 
 Operations: Create.
 
@@ -338,10 +341,15 @@ API path: `/api/V1/EstimatePrices`
 
 | Field | Description |
 | --- | --- |
+| `AccountNumber` | Filter transfers by AccountNumber |
+| `DistributorRef` | Filter transfers by DistributorRef. |
 | `ErrorCodes` |  |
 | `Items` | The list of items satisfying the transfer query. |
 | `ResultCode` |  |
+| `Skip` | The amount of records to by-pass before returning the remaining records |
+| `Take` | The amount of records to return |
 | `ThereAreMoreItems` | Indicates if the caller should execute the query again. |
+| `TransferRef` | Filter by Ding TransferRef |
 
 Operations: Create.
 
@@ -351,9 +359,12 @@ API path: `/api/V1/ListTransferRecords`
 
 | Field | Description |
 | --- | --- |
+| `AccountNumber` | The account number to target |
 | `ErrorCodes` |  |
 | `Items` |  |
 | `ResultCode` |  |
+| `Settings` | Product specific name/value pairs to be associated with the lookup bills request |
+| `SkuCode` | Code provided by GetProducts API |
 
 Operations: Create.
 
@@ -447,9 +458,17 @@ API path: `/api/V1/GetRegions`
 
 | Field | Description |
 | --- | --- |
+| `AccountNumber` | The account number to target |
+| `BillRef` | Bill reference. |
+| `DistributorRef` | Unique identifier in the distributor system to be associated with the transfer |
 | `ErrorCodes` |  |
 | `ResultCode` |  |
+| `SendCurrencyIso` | The currency of the `SendValue`. |
+| `SendValue` | The transfer value to be sent. |
+| `Settings` | Product specific name/value pairs to be associated with the transfer request |
+| `SkuCode` | Code provided by GetProducts API |
 | `TransferRecord` |  |
+| `ValidateOnly` | Validate the request with the provider without doing a transfer |
 
 Operations: Create.
 
@@ -528,12 +547,12 @@ Create an instance: `local cancel_transfer = client:CancelTransfer(nil)`
 | `ErrorCodes` | `table` |  |
 | `Items` | `table` |  |
 | `ResultCode` | `number` |  |
+| `cancellations` | `table` | An explicit list of records to cancel. |
 
 #### Example: Create
 
 ```lua
 local cancel_transfer, err = client:CancelTransfer():create({
-  cancellation_request = {}, -- table
   ErrorCodes = {}, -- table
   Items = {}, -- table
   ResultCode = 1, -- number
@@ -633,12 +652,12 @@ Create an instance: `local estimate_price = client:EstimatePrice(nil)`
 | `ErrorCodes` | `table` |  |
 | `Items` | `table` |  |
 | `ResultCode` | `number` |  |
+| `estimations` | `table` |  |
 
 #### Example: Create
 
 ```lua
 local estimate_price, err = client:EstimatePrice():create({
-  requested_estimation = {}, -- table
   ErrorCodes = {}, -- table
   Items = {}, -- table
   ResultCode = 1, -- number
@@ -660,19 +679,24 @@ Create an instance: `local list_transfer_record = client:ListTransferRecord(nil)
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `AccountNumber` | `string` | Filter transfers by AccountNumber |
+| `DistributorRef` | `string` | Filter transfers by DistributorRef. |
 | `ErrorCodes` | `table` |  |
 | `Items` | `table` | The list of items satisfying the transfer query. |
 | `ResultCode` | `number` |  |
+| `Skip` | `number` | The amount of records to by-pass before returning the remaining records |
+| `Take` | `number` | The amount of records to return |
 | `ThereAreMoreItems` | `boolean` | Indicates if the caller should execute the query again. |
+| `TransferRef` | `string` | Filter by Ding TransferRef |
 
 #### Example: Create
 
 ```lua
 local list_transfer_record, err = client:ListTransferRecord():create({
-  request = {}, -- table
   ErrorCodes = {}, -- table
   Items = {}, -- table
   ResultCode = 1, -- number
+  Take = 1, -- number
   ThereAreMoreItems = true, -- boolean
 })
 ```
@@ -692,18 +716,22 @@ Create an instance: `local lookup_bill = client:LookupBill(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `AccountNumber` | `string` | The account number to target |
 | `ErrorCodes` | `table` |  |
 | `Items` | `table` |  |
 | `ResultCode` | `number` |  |
+| `Settings` | `table` | Product specific name/value pairs to be associated with the lookup bills request |
+| `SkuCode` | `string` | Code provided by GetProducts API |
 
 #### Example: Create
 
 ```lua
 local lookup_bill, err = client:LookupBill():create({
-  request = {}, -- table
+  AccountNumber = "example_AccountNumber", -- string
   ErrorCodes = {}, -- table
   Items = {}, -- table
   ResultCode = 1, -- number
+  SkuCode = "example_SkuCode", -- string
 })
 ```
 
@@ -897,18 +925,30 @@ Create an instance: `local send_transfer = client:SendTransfer(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `AccountNumber` | `string` | The account number to target |
+| `BillRef` | `string` | Bill reference. |
+| `DistributorRef` | `string` | Unique identifier in the distributor system to be associated with the transfer |
 | `ErrorCodes` | `table` |  |
 | `ResultCode` | `number` |  |
+| `SendCurrencyIso` | `string` | The currency of the `SendValue`. |
+| `SendValue` | `number` | The transfer value to be sent. |
+| `Settings` | `table` | Product specific name/value pairs to be associated with the transfer request |
+| `SkuCode` | `string` | Code provided by GetProducts API |
 | `TransferRecord` | `table` |  |
+| `ValidateOnly` | `boolean` | Validate the request with the provider without doing a transfer |
 
 #### Example: Create
 
 ```lua
 local send_transfer, err = client:SendTransfer():create({
-  request = {}, -- table
+  AccountNumber = "example_AccountNumber", -- string
+  DistributorRef = "example_DistributorRef", -- string
   ErrorCodes = {}, -- table
   ResultCode = 1, -- number
+  SendValue = 1, -- number
+  SkuCode = "example_SkuCode", -- string
   TransferRecord = {}, -- table
+  ValidateOnly = true, -- boolean
 })
 ```
 

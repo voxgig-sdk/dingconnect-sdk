@@ -15,7 +15,7 @@ keeps the cognitive load low.
 
 ## Install
 This package is not yet published to PyPI. Install it from the GitHub
-release tag (`py/vX.Y.Z`, see [Releases](https://github.com/voxgig-sdk/dingconnect-sdk/releases)) or
+release tag (`py/vX.Y.Z`, see [Tags](https://github.com/voxgig-sdk/dingconnect-sdk/tags)) or
 from a source checkout:
 
 ```bash
@@ -26,7 +26,7 @@ pip install -e .
 ## Tutorial: your first API call
 
 This tutorial walks through creating a client, listing entities, and
-loading a specific record.
+loading a specific record. The client sends the API key in the `api_key` header.
 
 ### 1. Create a client
 
@@ -41,14 +41,14 @@ client = DingconnectSDK({
 
 ### 2. List accountlookup records
 
-`list()` returns a `list` of records (each a `dict`) and raises on
-error — iterate it directly.
+`list()` returns a `list` of entities, one per record, and raises on
+error; an entity's `data_get()` reads its record (a `dict`).
 
 ```python
 try:
     accountlookups = client.AccountLookup().list()
     for accountlookup in accountlookups:
-        print(accountlookup)
+        print(accountlookup.data_get())
 except Exception as err:
     print(f"list failed: {err}")
 ```
@@ -61,7 +61,7 @@ Entity operations raise on failure, so wrap them in `try` / `except`:
 ```python
 try:
     currencys = client.Currency().list()
-    print(currencys)
+    print([item.data_get() for item in currencys])
 except Exception as err:
     print(f"list failed: {err}")
 ```
@@ -127,10 +127,9 @@ Create a mock client for unit testing — no server required:
 ```python
 client = DingconnectSDK.test()
 
-# Entity ops return the ENTITY and raises on error;
-# call data_get() for the record.
+# Entity ops return the entity, and list one per record; they raise on error.
 currency = client.Currency().list()
-# currency contains the mock response record
+# data_get() on an entity reads its mock response record
 ```
 
 ### Use a custom fetch function
@@ -232,8 +231,8 @@ All entities share the same interface.
 
 | Method | Signature | Description |
 | --- | --- | --- |
-| `list` | `(reqmatch, ctrl) -> list` | List entities matching the criteria. Raises on error. |
-| `create` | `(reqdata, ctrl) -> any` | Create a new entity. Raises on error. |
+| `list` | `(reqmatch, ctrl) -> list` | List entities matching the criteria, one per record. Raises on error. |
+| `create` | `(reqdata, ctrl) -> any` | Create a new entity, and return it. Raises on error. |
 | `data_get` | `() -> dict` | Get entity data. |
 | `data_set` | `(data)` | Set entity data. |
 | `match_get` | `() -> dict` | Get entity match criteria. |
@@ -243,9 +242,9 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return the ENTITY (call data_get() for the record) (a `dict` for single-entity
-ops, a `list` for `list`) and raise on error. Wrap calls in
-`try`/`except` to handle failures.
+Entity operations return the entity, and `list` a `list` of entities, one
+per record; an entity's `data_get()` reads its record (a `dict`). They raise
+on error, so wrap calls in `try`/`except` to handle failures.
 
 The `direct()` escape hatch never raises — it returns a result `dict`
 you branch on via `result["ok"]`:
@@ -293,6 +292,7 @@ API path: `/api/V1/GetBalance`
 | `ErrorCodes` |  |
 | `Items` |  |
 | `ResultCode` |  |
+| `cancellations` | An explicit list of records to cancel. |
 
 Operations: Create.
 
@@ -341,6 +341,7 @@ API path: `/api/V1/GetErrorCodeDescriptions`
 | `ErrorCodes` |  |
 | `Items` |  |
 | `ResultCode` |  |
+| `estimations` |  |
 
 Operations: Create.
 
@@ -350,10 +351,15 @@ API path: `/api/V1/EstimatePrices`
 
 | Field | Description |
 | --- | --- |
+| `AccountNumber` | Filter transfers by AccountNumber |
+| `DistributorRef` | Filter transfers by DistributorRef. |
 | `ErrorCodes` |  |
 | `Items` | The list of items satisfying the transfer query. |
 | `ResultCode` |  |
+| `Skip` | The amount of records to by-pass before returning the remaining records |
+| `Take` | The amount of records to return |
 | `ThereAreMoreItems` | Indicates if the caller should execute the query again. |
+| `TransferRef` | Filter by Ding TransferRef |
 
 Operations: Create.
 
@@ -363,9 +369,12 @@ API path: `/api/V1/ListTransferRecords`
 
 | Field | Description |
 | --- | --- |
+| `AccountNumber` | The account number to target |
 | `ErrorCodes` |  |
 | `Items` |  |
 | `ResultCode` |  |
+| `Settings` | Product specific name/value pairs to be associated with the lookup bills request |
+| `SkuCode` | Code provided by GetProducts API |
 
 Operations: Create.
 
@@ -459,9 +468,17 @@ API path: `/api/V1/GetRegions`
 
 | Field | Description |
 | --- | --- |
+| `AccountNumber` | The account number to target |
+| `BillRef` | Bill reference. |
+| `DistributorRef` | Unique identifier in the distributor system to be associated with the transfer |
 | `ErrorCodes` |  |
 | `ResultCode` |  |
+| `SendCurrencyIso` | The currency of the `SendValue`. |
+| `SendValue` | The transfer value to be sent. |
+| `Settings` | Product specific name/value pairs to be associated with the transfer request |
+| `SkuCode` | Code provided by GetProducts API |
 | `TransferRecord` |  |
+| `ValidateOnly` | Validate the request with the provider without doing a transfer |
 
 Operations: Create.
 
@@ -540,12 +557,12 @@ Create an instance: `cancel_transfer = client.CancelTransfer()`
 | `ErrorCodes` | `list` |  |
 | `Items` | `list` |  |
 | `ResultCode` | `int` |  |
+| `cancellations` | `list` | An explicit list of records to cancel. |
 
 #### Example: Create
 
 ```python
 cancel_transfer = client.CancelTransfer().create({
-    "cancellation_request": [],  # list
     "ErrorCodes": [],  # list
     "Items": [],  # list
     "ResultCode": 1,  # int
@@ -645,12 +662,12 @@ Create an instance: `estimate_price = client.EstimatePrice()`
 | `ErrorCodes` | `list` |  |
 | `Items` | `list` |  |
 | `ResultCode` | `int` |  |
+| `estimations` | `list` |  |
 
 #### Example: Create
 
 ```python
 estimate_price = client.EstimatePrice().create({
-    "requested_estimation": [],  # list
     "ErrorCodes": [],  # list
     "Items": [],  # list
     "ResultCode": 1,  # int
@@ -672,19 +689,24 @@ Create an instance: `list_transfer_record = client.ListTransferRecord()`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `AccountNumber` | `str` | Filter transfers by AccountNumber |
+| `DistributorRef` | `str` | Filter transfers by DistributorRef. |
 | `ErrorCodes` | `list` |  |
 | `Items` | `list` | The list of items satisfying the transfer query. |
 | `ResultCode` | `int` |  |
+| `Skip` | `int` | The amount of records to by-pass before returning the remaining records |
+| `Take` | `int` | The amount of records to return |
 | `ThereAreMoreItems` | `bool` | Indicates if the caller should execute the query again. |
+| `TransferRef` | `str` | Filter by Ding TransferRef |
 
 #### Example: Create
 
 ```python
 list_transfer_record = client.ListTransferRecord().create({
-    "request": {},  # dict
     "ErrorCodes": [],  # list
     "Items": [],  # list
     "ResultCode": 1,  # int
+    "Take": 1,  # int
     "ThereAreMoreItems": True,  # bool
 })
 ```
@@ -704,18 +726,22 @@ Create an instance: `lookup_bill = client.LookupBill()`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `AccountNumber` | `str` | The account number to target |
 | `ErrorCodes` | `list` |  |
 | `Items` | `list` |  |
 | `ResultCode` | `int` |  |
+| `Settings` | `list` | Product specific name/value pairs to be associated with the lookup bills request |
+| `SkuCode` | `str` | Code provided by GetProducts API |
 
 #### Example: Create
 
 ```python
 lookup_bill = client.LookupBill().create({
-    "request": {},  # dict
+    "AccountNumber": "example_AccountNumber",  # str
     "ErrorCodes": [],  # list
     "Items": [],  # list
     "ResultCode": 1,  # int
+    "SkuCode": "example_SkuCode",  # str
 })
 ```
 
@@ -909,18 +935,30 @@ Create an instance: `send_transfer = client.SendTransfer()`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `AccountNumber` | `str` | The account number to target |
+| `BillRef` | `str` | Bill reference. |
+| `DistributorRef` | `str` | Unique identifier in the distributor system to be associated with the transfer |
 | `ErrorCodes` | `list` |  |
 | `ResultCode` | `int` |  |
+| `SendCurrencyIso` | `str` | The currency of the `SendValue`. |
+| `SendValue` | `float` | The transfer value to be sent. |
+| `Settings` | `list` | Product specific name/value pairs to be associated with the transfer request |
+| `SkuCode` | `str` | Code provided by GetProducts API |
 | `TransferRecord` | `dict` |  |
+| `ValidateOnly` | `bool` | Validate the request with the provider without doing a transfer |
 
 #### Example: Create
 
 ```python
 send_transfer = client.SendTransfer().create({
-    "request": {},  # dict
+    "AccountNumber": "example_AccountNumber",  # str
+    "DistributorRef": "example_DistributorRef",  # str
     "ErrorCodes": [],  # list
     "ResultCode": 1,  # int
+    "SendValue": 1,  # float
+    "SkuCode": "example_SkuCode",  # str
     "TransferRecord": {},  # dict
+    "ValidateOnly": True,  # bool
 })
 ```
 

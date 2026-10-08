@@ -6,7 +6,7 @@ export interface AccountLookup {
     ResultCode: number;
 }
 export interface AccountLookupListMatch {
-    account_number?: number;
+    account_number?: string;
 }
 export interface Balance {
     Code: string;
@@ -20,12 +20,13 @@ export interface CancelTransfer {
     ErrorCodes: any[];
     Items: any[];
     ResultCode: number;
+    cancellations?: any[];
 }
 export interface CancelTransferCreateData {
-    cancellation_request: any[];
     ErrorCodes: any[];
     Items: any[];
     ResultCode: number;
+    cancellations?: any[];
 }
 export interface Country {
     ErrorCodes: any[];
@@ -61,36 +62,51 @@ export interface EstimatePrice {
     ErrorCodes: any[];
     Items: any[];
     ResultCode: number;
+    estimations?: any[];
 }
 export interface EstimatePriceCreateData {
-    requested_estimation: any[];
     ErrorCodes: any[];
     Items: any[];
     ResultCode: number;
+    estimations?: any[];
 }
 export interface ListTransferRecord {
+    AccountNumber?: string;
+    DistributorRef?: string;
     ErrorCodes: any[];
     Items: any[];
     ResultCode: number;
+    Skip?: number;
+    Take: number;
     ThereAreMoreItems: boolean;
+    TransferRef?: string;
 }
 export interface ListTransferRecordCreateData {
-    request: Record<string, any>;
+    AccountNumber?: string;
+    DistributorRef?: string;
     ErrorCodes: any[];
     Items: any[];
     ResultCode: number;
+    Skip?: number;
+    Take: number;
     ThereAreMoreItems: boolean;
+    TransferRef?: string;
 }
 export interface LookupBill {
+    AccountNumber: string;
     ErrorCodes: any[];
     Items: any[];
     ResultCode: number;
+    Settings?: any[];
+    SkuCode: string;
 }
 export interface LookupBillCreateData {
-    request: Record<string, any>;
+    AccountNumber: string;
     ErrorCodes: any[];
     Items: any[];
     ResultCode: number;
+    Settings?: any[];
+    SkuCode: string;
 }
 export interface Product {
     ErrorCodes: any[];
@@ -98,12 +114,12 @@ export interface Product {
     ResultCode: number;
 }
 export interface ProductListMatch {
-    account_number?: number;
-    benefit?: any;
-    country_iso?: any;
-    provider_code?: any;
-    region_code?: any;
-    sku_code?: any;
+    account_number?: string;
+    benefit?: any[];
+    country_iso?: any[];
+    provider_code?: any[];
+    region_code?: any[];
+    sku_code?: any[];
 }
 export interface ProductDescription {
     ErrorCodes: any[];
@@ -111,8 +127,8 @@ export interface ProductDescription {
     ResultCode: number;
 }
 export interface ProductDescriptionListMatch {
-    language_code?: any;
-    sku_code?: any;
+    language_code?: any[];
+    sku_code?: any[];
 }
 export interface Promotion {
     ErrorCodes: any[];
@@ -120,9 +136,9 @@ export interface Promotion {
     ResultCode: number;
 }
 export interface PromotionListMatch {
-    account_number?: number;
-    country_iso?: any;
-    provider_code?: any;
+    account_number?: string;
+    country_iso?: any[];
+    provider_code?: any[];
 }
 export interface PromotionDescription {
     ErrorCodes: any[];
@@ -130,7 +146,7 @@ export interface PromotionDescription {
     ResultCode: number;
 }
 export interface PromotionDescriptionListMatch {
-    language_code?: any;
+    language_code?: any[];
 }
 export interface Provider {
     ErrorCodes: any[];
@@ -138,10 +154,10 @@ export interface Provider {
     ResultCode: number;
 }
 export interface ProviderListMatch {
-    account_number?: number;
-    country_iso?: any;
-    provider_code?: any;
-    region_code?: any;
+    account_number?: string;
+    country_iso?: any[];
+    provider_code?: any[];
+    region_code?: any[];
 }
 export interface ProviderStatus {
     ErrorCodes: any[];
@@ -149,7 +165,7 @@ export interface ProviderStatus {
     ResultCode: number;
 }
 export interface ProviderStatusListMatch {
-    provider_code?: any;
+    provider_code?: any[];
 }
 export interface Region {
     ErrorCodes: any[];
@@ -157,16 +173,31 @@ export interface Region {
     ResultCode: number;
 }
 export interface RegionListMatch {
-    country_iso?: any;
+    country_iso?: any[];
 }
 export interface SendTransfer {
+    AccountNumber: string;
+    BillRef?: string;
+    DistributorRef: string;
     ErrorCodes: any[];
     ResultCode: number;
+    SendCurrencyIso?: string;
+    SendValue: number;
+    Settings?: any[];
+    SkuCode: string;
     TransferRecord: Record<string, any>;
+    ValidateOnly: boolean;
 }
 export interface SendTransferCreateData {
-    request: Record<string, any>;
+    AccountNumber: string;
+    BillRef?: string;
+    DistributorRef: string;
     ErrorCodes: any[];
     ResultCode: number;
+    SendCurrencyIso?: string;
+    SendValue: number;
+    Settings?: any[];
+    SkuCode: string;
     TransferRecord: Record<string, any>;
+    ValidateOnly: boolean;
 }

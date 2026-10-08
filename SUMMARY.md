@@ -12,7 +12,7 @@ An entity groups related API operations. An operation can have several routes wi
 
 ## What the API provides
 
-### [AccountLookup](docs/api/account_lookup.html)
+### AccountLookup
 
 Results: OK.
 
@@ -20,11 +20,11 @@ SDK operations: `list`.
 
 Key fields to recognise:
 
-- `AccountNumberNormalized`: We attempt to normalize phone numbers following the public telecommunication numbering plan &lt;a href=&quot;https://en.wikipedia.org/wiki/E.164&quot; target=&quot;_blank&quot;&gt;E.164&lt;/a&gt;, if we succeed the normalized number will be returned in this field formatted as E164 without leading &#39;+&#39;
+- `AccountNumberNormalized`: We attempt to normalize phone numbers following the public telecommunication numbering plan &lt;a href=&quot;https://en.wikipedia.org/wiki/E.164&quot; target=&quot;`_blank`&quot;&gt;E.164&lt;/a&gt;, if we succeed the normalized number will be returned in this field formatted as E164 without leading &#39;+&#39;
 - `CountryIso`: The country of the account number
 - `Items`: This will contain provider information associated to the account number. If we can succesfully lookup the account number the list will contain the info for products associated to it.
 
-### [Balance](docs/api/balance.html)
+### Balance
 
 Results: OK.
 
@@ -35,7 +35,7 @@ Key fields to recognise:
 - `Code`: The code that can be used to lookup the explanatory message associated with the error
 - `Context`: API specific context as to the reason for the specific code
 
-### [CancelTransfer](docs/api/cancel_transfer.html)
+### CancelTransfer
 
 Results: OK.
 
@@ -45,8 +45,9 @@ Key fields to recognise:
 
 - `ErrorCodes`: ErrorCodes (if any) for processing the batch item with the given BatchItemRef
 - `ResultCode`: The individual result code for processing the batch item with the given BatchItemRef.
+- `cancellations`: An explicit list of records to cancel.
 
-### [Country](docs/api/country.html)
+### Country
 
 Results: OK.
 
@@ -56,13 +57,13 @@ Key fields to recognise:
 
 - `Items`: The list of countries that our system is aware of.
 
-### [Currency](docs/api/currency.html)
+### Currency
 
 Results: OK.
 
 SDK operations: `list`.
 
-### [ErrorCodeDescription](docs/api/error_code_description.html)
+### ErrorCodeDescription
 
 Results: OK.
 
@@ -72,7 +73,7 @@ Key fields to recognise:
 
 - `Items`: A list of ErrorCodes and their localized descriptions
 
-### [EstimatePrice](docs/api/estimate_price.html)
+### EstimatePrice
 
 Results: OK.
 
@@ -83,7 +84,7 @@ Key fields to recognise:
 - `ErrorCodes`: ErrorCodes (if any) for processing the batch item with the given BatchItemRef
 - `ResultCode`: The individual result code for processing the batch item with the given BatchItemRef.
 
-### [ListTransferRecord](docs/api/list_transfer_record.html)
+### ListTransferRecord
 
 Results: OK.
 
@@ -91,17 +92,25 @@ SDK operations: `create`.
 
 Key fields to recognise:
 
+- `AccountNumber`: The account number targeted in the transfer
+- `DistributorRef`: The distributor&#39;s identifier for the transfer.
 - `ErrorCodes`: Any error codes that were returned as part of the SendTransfer or in the case of a Batch `ProcessingMode` that may have occurred later after the batch was submitted to the Provider.
 - `Items`: The list of items satisfying the transfer query.
-- `ThereAreMoreItems`: Indicates if the caller should execute the query again.
+- `Skip`: The amount of records to by-pass before returning the remaining records
 
-### [LookupBill](docs/api/lookup_bill.html)
+### LookupBill
 
 Results: OK.
 
 SDK operations: `create`.
 
-### [Product](docs/api/product.html)
+Key fields to recognise:
+
+- `AccountNumber`: The account number to target
+- `Settings`: Product specific name/value pairs to be associated with the lookup bills request
+- `SkuCode`: Code provided by GetProducts API
+
+### Product
 
 Results: OK.
 
@@ -111,7 +120,7 @@ Key fields to recognise:
 
 - `Items`: A list of products that fulfil the submitted criteria.
 
-### [ProductDescription](docs/api/product_description.html)
+### ProductDescription
 
 Results: OK.
 
@@ -121,7 +130,7 @@ Key fields to recognise:
 
 - `Items`: A localized list of product descriptions.
 
-### [Promotion](docs/api/promotion.html)
+### Promotion
 
 Results: OK.
 
@@ -131,7 +140,7 @@ Key fields to recognise:
 
 - `Items`: List of available promotions
 
-### [PromotionDescription](docs/api/promotion_description.html)
+### PromotionDescription
 
 Results: OK.
 
@@ -141,7 +150,7 @@ Key fields to recognise:
 
 - `Items`: A localized list of promotions.
 
-### [Provider](docs/api/provider.html)
+### Provider
 
 Results: OK.
 
@@ -151,13 +160,13 @@ Key fields to recognise:
 
 - `Items`: A list of providers that the distributor has Products for.
 
-### [ProviderStatus](docs/api/provider_status.html)
+### ProviderStatus
 
 Results: OK.
 
 SDK operations: `list`.
 
-### [Region](docs/api/region.html)
+### Region
 
 Results: OK.
 
@@ -167,11 +176,19 @@ Key fields to recognise:
 
 - `Items`: The list of regions that the system uses.
 
-### [SendTransfer](docs/api/send_transfer.html)
+### SendTransfer
 
 Results: OK.
 
 SDK operations: `create`.
+
+Key fields to recognise:
+
+- `AccountNumber`: The account number targeted in the transfer
+- `BillRef`: Bill reference.
+- `DistributorRef`: The distributor&#39;s identifier for the transfer.
+- `SendCurrencyIso`: The currency of the SendValue field
+- `SendValue`: The value that is submitted to SendTransfer
 
 ### Route map
 
@@ -179,23 +196,23 @@ Use this map to locate a capability. Consult the entity reference before supplyi
 
 | Entity | SDK operation | HTTP route | Authentication |
 | --- | --- | --- | --- |
-| [AccountLookup](docs/api/account_lookup.html) | `list` | `GET /api/V1/GetAccountLookup` | See reference |
-| [Balance](docs/api/balance.html) | `list` | `GET /api/V1/GetBalance` | See reference |
-| [CancelTransfer](docs/api/cancel_transfer.html) | `create` | `POST /api/V1/CancelTransfers` | See reference |
-| [Country](docs/api/country.html) | `list` | `GET /api/V1/GetCountries` | See reference |
-| [Currency](docs/api/currency.html) | `list` | `GET /api/V1/GetCurrencies` | See reference |
-| [ErrorCodeDescription](docs/api/error_code_description.html) | `list` | `GET /api/V1/GetErrorCodeDescriptions` | See reference |
-| [EstimatePrice](docs/api/estimate_price.html) | `create` | `POST /api/V1/EstimatePrices` | See reference |
-| [ListTransferRecord](docs/api/list_transfer_record.html) | `create` | `POST /api/V1/ListTransferRecords` | See reference |
-| [LookupBill](docs/api/lookup_bill.html) | `create` | `POST /api/V1/LookupBills` | See reference |
-| [Product](docs/api/product.html) | `list` | `GET /api/V1/GetProducts` | See reference |
-| [ProductDescription](docs/api/product_description.html) | `list` | `GET /api/V1/GetProductDescriptions` | See reference |
-| [Promotion](docs/api/promotion.html) | `list` | `GET /api/V1/GetPromotions` | See reference |
-| [PromotionDescription](docs/api/promotion_description.html) | `list` | `GET /api/V1/GetPromotionDescriptions` | See reference |
-| [Provider](docs/api/provider.html) | `list` | `GET /api/V1/GetProviders` | See reference |
-| [ProviderStatus](docs/api/provider_status.html) | `list` | `GET /api/V1/GetProviderStatus` | See reference |
-| [Region](docs/api/region.html) | `list` | `GET /api/V1/GetRegions` | See reference |
-| [SendTransfer](docs/api/send_transfer.html) | `create` | `POST /api/V1/SendTransfer` | See reference |
+| AccountLookup | `list` | `GET /api/V1/GetAccountLookup` | See reference |
+| Balance | `list` | `GET /api/V1/GetBalance` | See reference |
+| CancelTransfer | `create` | `POST /api/V1/CancelTransfers` | See reference |
+| Country | `list` | `GET /api/V1/GetCountries` | See reference |
+| Currency | `list` | `GET /api/V1/GetCurrencies` | See reference |
+| ErrorCodeDescription | `list` | `GET /api/V1/GetErrorCodeDescriptions` | See reference |
+| EstimatePrice | `create` | `POST /api/V1/EstimatePrices` | See reference |
+| ListTransferRecord | `create` | `POST /api/V1/ListTransferRecords` | See reference |
+| LookupBill | `create` | `POST /api/V1/LookupBills` | See reference |
+| Product | `list` | `GET /api/V1/GetProducts` | See reference |
+| ProductDescription | `list` | `GET /api/V1/GetProductDescriptions` | See reference |
+| Promotion | `list` | `GET /api/V1/GetPromotions` | See reference |
+| PromotionDescription | `list` | `GET /api/V1/GetPromotionDescriptions` | See reference |
+| Provider | `list` | `GET /api/V1/GetProviders` | See reference |
+| ProviderStatus | `list` | `GET /api/V1/GetProviderStatus` | See reference |
+| Region | `list` | `GET /api/V1/GetRegions` | See reference |
+| SendTransfer | `create` | `POST /api/V1/SendTransfer` | See reference |
 
 ## Connect to the API
 
@@ -221,12 +238,12 @@ Choose the language already used by your application or service. The clients rep
 
 | Client | Repository directory | Distribution |
 | --- | --- | --- |
-| [Golang](docs/sdks/go.html) | `go/` | Build from source |
-| [Lua](docs/sdks/lua.html) | `lua/` | Build from source |
-| [PHP](docs/sdks/php.html) | `php/` | Build from source |
-| [Python](docs/sdks/py.html) | `py/` | Build from source |
-| [Ruby](docs/sdks/rb.html) | `rb/` | Build from source |
-| [TypeScript](docs/sdks/ts.html) | `ts/` | Build from source |
+| Golang | `go/` | Build from source |
+| Lua | `lua/` | Build from source |
+| PHP | `php/` | Build from source |
+| Python | `py/` | Build from source |
+| Ruby | `rb/` | Build from source |
+| TypeScript | `ts/` | Build from source |
 
 Build-from-source entries are not marked as published in the project model. Follow the build instructions in that target’s README, then consume the resulting package using your language’s local dependency mechanism. Published entries give the installation command recorded for that client.
 
@@ -234,14 +251,14 @@ Build-from-source entries are not marked as published in the project model. Foll
 
 These targets provide another way to use the API. Their available commands or tools can cover a smaller set of operations than the client libraries.
 
-### [Go CLI](docs/tools/go-cli.html)
+### Go CLI
 
 Use the command-line interface for shell-based tasks and scripts.
 
 Repository directory: `go-cli/`. Not published. Build from the go-cli directory.
 
 
-### [Go MCP server](docs/tools/go-mcp.html)
+### Go MCP server
 
 Use the MCP server to expose supported API operations to an MCP client.
 
@@ -254,21 +271,21 @@ Repository directory: `go-mcp/`. Not published. Build from the go-mcp directory.
 
 Features supply behaviour around API calls, such as request handling, diagnostics, or local testing. Inclusion in this project does not mean a feature is enabled at runtime. Check the selected SDK’s supported features and configuration defaults, then enable the behaviour your application needs.
 
-- [`debug`](docs/features/debug.html): Request/response capture ring buffer for debugging
-- [`idempotency`](docs/features/idempotency.html): Idempotency keys for safe retries of mutating operations
-- [`metrics`](docs/features/metrics.html): Statistics capture: per-operation counters and latency
-- [`paging`](docs/features/paging.html): Pagination signals for list operations
-- [`ratelimit`](docs/features/ratelimit.html): Client-side rate limiting via a token bucket
-- [`retry`](docs/features/retry.html): Automatic retry of transient failures with exponential backoff
-- [`test`](docs/features/test.html): In-memory mock transport for testing without a live server
-- [`timeout`](docs/features/timeout.html): Per-request timeout with transport abort
+- `debug`: Request/response capture ring buffer for debugging
+- `idempotency`: Idempotency keys for safe retries of mutating operations
+- `metrics`: Statistics capture: per-operation counters and latency
+- `paging`: Pagination signals for list operations
+- `ratelimit`: Client-side rate limiting via a token bucket
+- `retry`: Automatic retry of transient failures with exponential backoff
+- `test`: In-memory mock transport for testing without a live server
+- `timeout`: Per-request timeout with transport abort
 
 Start with the default client configuration. Add request limits and diagnostics as needed, test error paths, and review retry behaviour before using operations that change data. A retry can repeat an operation unless the API provides a suitable guarantee.
 
 ## Continue with the documentation
 
-- Follow the [first-call guide](docs/guides/first-call.html) for the setup sequence.
-- Read the [authentication guide](docs/guides/authentication.html) before using protected routes.
-- Use the [API reference](docs/api/index.html) for request schemas, response formats, and status codes.
+- Follow the first-call guide for the setup sequence.
+- Read the authentication guide before using protected routes.
+- Use the API reference for request schemas, response formats, and status codes.
 - Check the chosen SDK or companion tool reference for its configuration and supported operations.
 

@@ -43,44 +43,47 @@ main: kit: entity: promotion: {
               {
                 k: "header"
                 n: "x_correlation_id"
-                or: "x_correlation_id"
+                or: "X-Correlation-Id"
                 r: false
                 t: "`$STRING`"
               }
             ]
             query: [
               {
+                ex: ""
                 k: "query"
                 n: "account_number"
-                or: "account_number"
+                or: "accountNumber"
                 r: false
-                t: "`$INTEGER`"
+                t: "`$STRING`"
               }
               {
                 k: "query"
                 n: "country_iso"
-                or: "country_iso"
+                or: "countryIsos"
                 r: false
-                t: "`$ANY`"
+                t: "`$ARRAY`"
               }
               {
                 k: "query"
                 n: "provider_code"
-                or: "provider_code"
+                or: "providerCodes"
                 r: false
-                t: "`$ANY`"
+                t: "`$ARRAY`"
               }
             ]
           }
           m: "GET"
           o: "/api/V1/GetPromotions"
-          q: {
-            exist: [
-              "account_number"
-              "country_iso"
-              "provider_code"
-              "x_correlation_id"
+          rs: {
+            alternatives: [
+              {
+                kind: "json"
+                media: "text/json"
+              }
             ]
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {

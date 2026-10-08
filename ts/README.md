@@ -15,15 +15,19 @@ predictable and low-friction for both humans and AI agents.
 
 ## Install
 This package is not yet published to npm. Install it from the GitHub
-release tag (`ts/vX.Y.Z`):
+release tag (`ts/vX.Y.Z`, see [Tags](https://github.com/voxgig-sdk/dingconnect-sdk/tags)), or from a
+clone, which carries the compiled `dist/`:
 
-- Releases: [https://github.com/voxgig-sdk/dingconnect-sdk/releases](https://github.com/voxgig-sdk/dingconnect-sdk/releases)
+```bash
+git clone https://github.com/voxgig-sdk/dingconnect-sdk
+npm install ./dingconnect-sdk/ts
+```
 
 
 ## Tutorial: your first API call
 
 This tutorial walks through creating a client, listing entities, and
-loading a specific record.
+loading a specific record. The client sends the API key in the `api_key` header.
 
 ### 1. Create a client
 
@@ -45,7 +49,7 @@ resolves to entities, not raw records. Iterate them directly, and call
 const accountlookups = await client.AccountLookup().list()
 
 for (const accountlookup of accountlookups) {
-  console.log(accountlookup)
+  console.log(accountlookup.data())
 }
 ```
 
@@ -57,14 +61,15 @@ Entity operations reject on failure, so wrap them in `try` / `catch`:
 ```ts
 try {
   const currencys = await client.Currency().list()
-  console.log(currencys)
+  console.log(currencys.map((item) => item.data()))
 } catch (err) {
   console.error('list failed:', err)
 }
 ```
 
 The low-level `direct()` method does **not** throw — it returns the
-value or an `Error`, so check the result before using it:
+result envelope. Branch on `ok`; on failure `status` holds the HTTP status
+(for error responses) and `err` holds the error:
 
 ```ts
 const result = await client.direct({
@@ -73,8 +78,8 @@ const result = await client.direct({
   params: { id: 'example_id' },
 })
 
-if (result instanceof Error) {
-  throw result
+if (!result.ok) {
+  console.error('request failed:', result.status, result.err)
 }
 ```
 
@@ -92,9 +97,6 @@ const result = await client.direct({
   params: { id: 'example' },
 })
 
-if (result instanceof Error) {
-  throw result
-}
 if (result.ok) {
   console.log(result.status)  // 200
   console.log(result.data)    // response body
@@ -123,10 +125,9 @@ Create a mock client for unit testing — no server required:
 ```ts
 const client = DingconnectSDK.test()
 
-const currency = await client.Currency().list()
-// currency is the entity, populated with mock response data
-// — call currency.data() for the record itself
-console.log(currency)
+const currencys = await client.Currency().list()
+// currencys is an array of Currency entities, one per mock record
+console.log(currencys.map((currency) => currency.data()))
 ```
 
 You can also use the instance method:
@@ -261,8 +262,8 @@ All entities share the same interface.
 
 | Method | Signature | Description |
 | --- | --- | --- |
-| `list` | `list(reqmatch?, ctrl?): Promise<Entity[]>` | List entities matching the criteria. |
-| `create` | `create(reqdata?, ctrl?): Promise<Entity>` | Create a new entity. |
+| `list` | `list(reqmatch?, ctrl?): Promise<Entity[]>` | List entities matching the criteria, one per record. |
+| `create` | `create(reqdata?, ctrl?): Promise<Entity>` | Create a new entity, and return it. |
 | `data` | `data(data?: Partial<Entity>): Entity` | Get or set entity data. |
 | `match` | `match(match?: Partial<Entity>): Partial<Entity>` | Get or set entity match criteria. |
 | `make` | `make(): Entity` | Create a new instance with the same options. |
@@ -271,8 +272,8 @@ All entities share the same interface.
 
 #### Return values
 
-Entity operations resolve to the entity data directly — there is no
-result envelope:
+Entity operations resolve to the entity itself — there is no result
+envelope, and an entity's `data()` reads its record:
 
 - `create` resolves to a single entity object.
 - `list` resolves to an **array** of entity objects (iterate it directly;
@@ -344,6 +345,7 @@ API path: `/api/V1/GetBalance`
 | `ErrorCodes` |  |
 | `Items` |  |
 | `ResultCode` |  |
+| `cancellations` | An explicit list of records to cancel. |
 
 Operations: create.
 
@@ -392,6 +394,7 @@ API path: `/api/V1/GetErrorCodeDescriptions`
 | `ErrorCodes` |  |
 | `Items` |  |
 | `ResultCode` |  |
+| `estimations` |  |
 
 Operations: create.
 
@@ -401,10 +404,15 @@ API path: `/api/V1/EstimatePrices`
 
 | Field | Description |
 | --- | --- |
+| `AccountNumber` | Filter transfers by AccountNumber |
+| `DistributorRef` | Filter transfers by DistributorRef. |
 | `ErrorCodes` |  |
 | `Items` | The list of items satisfying the transfer query. |
 | `ResultCode` |  |
+| `Skip` | The amount of records to by-pass before returning the remaining records |
+| `Take` | The amount of records to return |
 | `ThereAreMoreItems` | Indicates if the caller should execute the query again. |
+| `TransferRef` | Filter by Ding TransferRef |
 
 Operations: create.
 
@@ -414,9 +422,12 @@ API path: `/api/V1/ListTransferRecords`
 
 | Field | Description |
 | --- | --- |
+| `AccountNumber` | The account number to target |
 | `ErrorCodes` |  |
 | `Items` |  |
 | `ResultCode` |  |
+| `Settings` | Product specific name/value pairs to be associated with the lookup bills request |
+| `SkuCode` | Code provided by GetProducts API |
 
 Operations: create.
 
@@ -510,9 +521,17 @@ API path: `/api/V1/GetRegions`
 
 | Field | Description |
 | --- | --- |
+| `AccountNumber` | The account number to target |
+| `BillRef` | Bill reference. |
+| `DistributorRef` | Unique identifier in the distributor system to be associated with the transfer |
 | `ErrorCodes` |  |
 | `ResultCode` |  |
+| `SendCurrencyIso` | The currency of the `SendValue`. |
+| `SendValue` | The transfer value to be sent. |
+| `Settings` | Product specific name/value pairs to be associated with the transfer request |
+| `SkuCode` | Code provided by GetProducts API |
 | `TransferRecord` |  |
+| `ValidateOnly` | Validate the request with the provider without doing a transfer |
 
 Operations: create.
 
@@ -591,12 +610,12 @@ Create an instance: `const cancel_transfer = client.CancelTransfer()`
 | `ErrorCodes` | `any[]` |  |
 | `Items` | `any[]` |  |
 | `ResultCode` | `number` |  |
+| `cancellations` | `any[]` | An explicit list of records to cancel. |
 
 #### Example: Create
 
 ```ts
 const cancel_transfer = await client.CancelTransfer().create({
-  cancellation_request: [],
   ErrorCodes: [],
   Items: [],
   ResultCode: 1,
@@ -696,12 +715,12 @@ Create an instance: `const estimate_price = client.EstimatePrice()`
 | `ErrorCodes` | `any[]` |  |
 | `Items` | `any[]` |  |
 | `ResultCode` | `number` |  |
+| `estimations` | `any[]` |  |
 
 #### Example: Create
 
 ```ts
 const estimate_price = await client.EstimatePrice().create({
-  requested_estimation: [],
   ErrorCodes: [],
   Items: [],
   ResultCode: 1,
@@ -723,19 +742,24 @@ Create an instance: `const list_transfer_record = client.ListTransferRecord()`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `AccountNumber` | `string` | Filter transfers by AccountNumber |
+| `DistributorRef` | `string` | Filter transfers by DistributorRef. |
 | `ErrorCodes` | `any[]` |  |
 | `Items` | `any[]` | The list of items satisfying the transfer query. |
 | `ResultCode` | `number` |  |
+| `Skip` | `number` | The amount of records to by-pass before returning the remaining records |
+| `Take` | `number` | The amount of records to return |
 | `ThereAreMoreItems` | `boolean` | Indicates if the caller should execute the query again. |
+| `TransferRef` | `string` | Filter by Ding TransferRef |
 
 #### Example: Create
 
 ```ts
 const list_transfer_record = await client.ListTransferRecord().create({
-  request: {},
   ErrorCodes: [],
   Items: [],
   ResultCode: 1,
+  Take: 1,
   ThereAreMoreItems: true,
 })
 ```
@@ -755,18 +779,22 @@ Create an instance: `const lookup_bill = client.LookupBill()`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `AccountNumber` | `string` | The account number to target |
 | `ErrorCodes` | `any[]` |  |
 | `Items` | `any[]` |  |
 | `ResultCode` | `number` |  |
+| `Settings` | `any[]` | Product specific name/value pairs to be associated with the lookup bills request |
+| `SkuCode` | `string` | Code provided by GetProducts API |
 
 #### Example: Create
 
 ```ts
 const lookup_bill = await client.LookupBill().create({
-  request: {},
+  AccountNumber: 'example_AccountNumber',
   ErrorCodes: [],
   Items: [],
   ResultCode: 1,
+  SkuCode: 'example_SkuCode',
 })
 ```
 
@@ -960,18 +988,30 @@ Create an instance: `const send_transfer = client.SendTransfer()`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `AccountNumber` | `string` | The account number to target |
+| `BillRef` | `string` | Bill reference. |
+| `DistributorRef` | `string` | Unique identifier in the distributor system to be associated with the transfer |
 | `ErrorCodes` | `any[]` |  |
 | `ResultCode` | `number` |  |
+| `SendCurrencyIso` | `string` | The currency of the `SendValue`. |
+| `SendValue` | `number` | The transfer value to be sent. |
+| `Settings` | `any[]` | Product specific name/value pairs to be associated with the transfer request |
+| `SkuCode` | `string` | Code provided by GetProducts API |
 | `TransferRecord` | `Record<string, any>` |  |
+| `ValidateOnly` | `boolean` | Validate the request with the provider without doing a transfer |
 
 #### Example: Create
 
 ```ts
 const send_transfer = await client.SendTransfer().create({
-  request: {},
+  AccountNumber: 'example_AccountNumber',
+  DistributorRef: 'example_DistributorRef',
   ErrorCodes: [],
   ResultCode: 1,
+  SendValue: 1,
+  SkuCode: 'example_SkuCode',
   TransferRecord: {},
+  ValidateOnly: true,
 })
 ```
 

@@ -12,15 +12,20 @@ The SDK exposes the API as capitalised, semantic **Entities** — for example `$
 
 ## Install
 This package is not yet published to Packagist. Install it from the
-GitHub release tag (`php/vX.Y.Z`):
+GitHub release tag (`php/vX.Y.Z`, see [Tags](https://github.com/voxgig-sdk/dingconnect-sdk/tags)), or
+from a clone as a Composer path repository:
 
-- Releases: [https://github.com/voxgig-sdk/dingconnect-sdk/releases](https://github.com/voxgig-sdk/dingconnect-sdk/releases)
+```bash
+git clone https://github.com/voxgig-sdk/dingconnect-sdk
+composer config repositories.dingconnect-sdk path ./dingconnect-sdk/php
+composer require voxgig-sdk/dingconnect-sdk:@dev
+```
 
 
 ## Tutorial: your first API call
 
 This tutorial walks through creating a client, listing entities, and
-loading a specific record.
+loading a specific record. The client sends the API key in the `api_key` header.
 
 ### 1. Create a client
 
@@ -236,8 +241,8 @@ All entities share the same interface.
 
 | Method | Signature | Description |
 | --- | --- | --- |
-| `list` | `(?array $reqmatch = null, $ctrl): array` | List entities matching the criteria (call with no argument to list all). |
-| `create` | `($reqdata, $ctrl): array` | Create a new entity. |
+| `list` | `(?array $reqmatch = null, $ctrl): mixed` | List entities matching the criteria (call with no argument to list all), one per record. |
+| `create` | `($reqdata, $ctrl): mixed` | Create a new entity, and return it. |
 | `data_get` | `(): array` | Get entity data. |
 | `data_set` | `($data): void` | Set entity data. |
 | `match_get` | `(): array` | Get entity match criteria. |
@@ -247,9 +252,9 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return the ENTITY (call data_get() for the record) (an `array` for single-entity
-ops, a `list` for `list`) and throw on error. Wrap calls in
-`try`/`catch` to handle failures.
+Entity operations return the entity, and `list` an `array` of entities, one
+per record; an entity's `data_get()` reads its record (an `array`). They
+throw on error, so wrap calls in `try`/`catch` to handle failures.
 
 The `direct()` escape hatch never throws — it returns a result `array`
 you branch on via `$result["ok"]`:
@@ -297,6 +302,7 @@ API path: `/api/V1/GetBalance`
 | `ErrorCodes` |  |
 | `Items` |  |
 | `ResultCode` |  |
+| `cancellations` | An explicit list of records to cancel. |
 
 Operations: Create.
 
@@ -345,6 +351,7 @@ API path: `/api/V1/GetErrorCodeDescriptions`
 | `ErrorCodes` |  |
 | `Items` |  |
 | `ResultCode` |  |
+| `estimations` |  |
 
 Operations: Create.
 
@@ -354,10 +361,15 @@ API path: `/api/V1/EstimatePrices`
 
 | Field | Description |
 | --- | --- |
+| `AccountNumber` | Filter transfers by AccountNumber |
+| `DistributorRef` | Filter transfers by DistributorRef. |
 | `ErrorCodes` |  |
 | `Items` | The list of items satisfying the transfer query. |
 | `ResultCode` |  |
+| `Skip` | The amount of records to by-pass before returning the remaining records |
+| `Take` | The amount of records to return |
 | `ThereAreMoreItems` | Indicates if the caller should execute the query again. |
+| `TransferRef` | Filter by Ding TransferRef |
 
 Operations: Create.
 
@@ -367,9 +379,12 @@ API path: `/api/V1/ListTransferRecords`
 
 | Field | Description |
 | --- | --- |
+| `AccountNumber` | The account number to target |
 | `ErrorCodes` |  |
 | `Items` |  |
 | `ResultCode` |  |
+| `Settings` | Product specific name/value pairs to be associated with the lookup bills request |
+| `SkuCode` | Code provided by GetProducts API |
 
 Operations: Create.
 
@@ -463,9 +478,17 @@ API path: `/api/V1/GetRegions`
 
 | Field | Description |
 | --- | --- |
+| `AccountNumber` | The account number to target |
+| `BillRef` | Bill reference. |
+| `DistributorRef` | Unique identifier in the distributor system to be associated with the transfer |
 | `ErrorCodes` |  |
 | `ResultCode` |  |
+| `SendCurrencyIso` | The currency of the `SendValue`. |
+| `SendValue` | The transfer value to be sent. |
+| `Settings` | Product specific name/value pairs to be associated with the transfer request |
+| `SkuCode` | Code provided by GetProducts API |
 | `TransferRecord` |  |
+| `ValidateOnly` | Validate the request with the provider without doing a transfer |
 
 Operations: Create.
 
@@ -499,7 +522,7 @@ Create an instance: `$account_lookup = $client->AccountLookup();`
 #### Example: List
 
 ```php
-// list() returns an array of AccountLookup records (throws on error).
+// list() returns an array of AccountLookup entities, one per record (throws on error).
 $account_lookups = $client->AccountLookup()->list();
 ```
 
@@ -524,7 +547,7 @@ Create an instance: `$balance = $client->Balance();`
 #### Example: List
 
 ```php
-// list() returns an array of Balance records (throws on error).
+// list() returns an array of Balance entities, one per record (throws on error).
 $balances = $client->Balance()->list();
 ```
 
@@ -546,12 +569,12 @@ Create an instance: `$cancel_transfer = $client->CancelTransfer();`
 | `ErrorCodes` | `array` |  |
 | `Items` | `array` |  |
 | `ResultCode` | `int` |  |
+| `cancellations` | `array` | An explicit list of records to cancel. |
 
 #### Example: Create
 
 ```php
 $cancel_transfer = $client->CancelTransfer()->create([
-    "cancellation_request" => null, // array
     "ErrorCodes" => null, // array
     "Items" => null, // array
     "ResultCode" => null, // int
@@ -580,7 +603,7 @@ Create an instance: `$country = $client->Country();`
 #### Example: List
 
 ```php
-// list() returns an array of Country records (throws on error).
+// list() returns an array of Country entities, one per record (throws on error).
 $countrys = $client->Country()->list();
 ```
 
@@ -606,7 +629,7 @@ Create an instance: `$currency = $client->Currency();`
 #### Example: List
 
 ```php
-// list() returns an array of Currency records (throws on error).
+// list() returns an array of Currency entities, one per record (throws on error).
 $currencys = $client->Currency()->list();
 ```
 
@@ -632,7 +655,7 @@ Create an instance: `$error_code_description = $client->ErrorCodeDescription();`
 #### Example: List
 
 ```php
-// list() returns an array of ErrorCodeDescription records (throws on error).
+// list() returns an array of ErrorCodeDescription entities, one per record (throws on error).
 $error_code_descriptions = $client->ErrorCodeDescription()->list();
 ```
 
@@ -654,12 +677,12 @@ Create an instance: `$estimate_price = $client->EstimatePrice();`
 | `ErrorCodes` | `array` |  |
 | `Items` | `array` |  |
 | `ResultCode` | `int` |  |
+| `estimations` | `array` |  |
 
 #### Example: Create
 
 ```php
 $estimate_price = $client->EstimatePrice()->create([
-    "requested_estimation" => null, // array
     "ErrorCodes" => null, // array
     "Items" => null, // array
     "ResultCode" => null, // int
@@ -681,19 +704,24 @@ Create an instance: `$list_transfer_record = $client->ListTransferRecord();`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `AccountNumber` | `string` | Filter transfers by AccountNumber |
+| `DistributorRef` | `string` | Filter transfers by DistributorRef. |
 | `ErrorCodes` | `array` |  |
 | `Items` | `array` | The list of items satisfying the transfer query. |
 | `ResultCode` | `int` |  |
+| `Skip` | `int` | The amount of records to by-pass before returning the remaining records |
+| `Take` | `int` | The amount of records to return |
 | `ThereAreMoreItems` | `bool` | Indicates if the caller should execute the query again. |
+| `TransferRef` | `string` | Filter by Ding TransferRef |
 
 #### Example: Create
 
 ```php
 $list_transfer_record = $client->ListTransferRecord()->create([
-    "request" => null, // array
     "ErrorCodes" => null, // array
     "Items" => null, // array
     "ResultCode" => null, // int
+    "Take" => null, // int
     "ThereAreMoreItems" => null, // bool
 ]);
 ```
@@ -713,18 +741,22 @@ Create an instance: `$lookup_bill = $client->LookupBill();`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `AccountNumber` | `string` | The account number to target |
 | `ErrorCodes` | `array` |  |
 | `Items` | `array` |  |
 | `ResultCode` | `int` |  |
+| `Settings` | `array` | Product specific name/value pairs to be associated with the lookup bills request |
+| `SkuCode` | `string` | Code provided by GetProducts API |
 
 #### Example: Create
 
 ```php
 $lookup_bill = $client->LookupBill()->create([
-    "request" => null, // array
+    "AccountNumber" => null, // string
     "ErrorCodes" => null, // array
     "Items" => null, // array
     "ResultCode" => null, // int
+    "SkuCode" => null, // string
 ]);
 ```
 
@@ -750,7 +782,7 @@ Create an instance: `$product = $client->Product();`
 #### Example: List
 
 ```php
-// list() returns an array of Product records (throws on error).
+// list() returns an array of Product entities, one per record (throws on error).
 $products = $client->Product()->list();
 ```
 
@@ -776,7 +808,7 @@ Create an instance: `$product_description = $client->ProductDescription();`
 #### Example: List
 
 ```php
-// list() returns an array of ProductDescription records (throws on error).
+// list() returns an array of ProductDescription entities, one per record (throws on error).
 $product_descriptions = $client->ProductDescription()->list();
 ```
 
@@ -802,7 +834,7 @@ Create an instance: `$promotion = $client->Promotion();`
 #### Example: List
 
 ```php
-// list() returns an array of Promotion records (throws on error).
+// list() returns an array of Promotion entities, one per record (throws on error).
 $promotions = $client->Promotion()->list();
 ```
 
@@ -828,7 +860,7 @@ Create an instance: `$promotion_description = $client->PromotionDescription();`
 #### Example: List
 
 ```php
-// list() returns an array of PromotionDescription records (throws on error).
+// list() returns an array of PromotionDescription entities, one per record (throws on error).
 $promotion_descriptions = $client->PromotionDescription()->list();
 ```
 
@@ -854,7 +886,7 @@ Create an instance: `$provider = $client->Provider();`
 #### Example: List
 
 ```php
-// list() returns an array of Provider records (throws on error).
+// list() returns an array of Provider entities, one per record (throws on error).
 $providers = $client->Provider()->list();
 ```
 
@@ -880,7 +912,7 @@ Create an instance: `$provider_status = $client->ProviderStatus();`
 #### Example: List
 
 ```php
-// list() returns an array of ProviderStatus records (throws on error).
+// list() returns an array of ProviderStatus entities, one per record (throws on error).
 $provider_statuss = $client->ProviderStatus()->list();
 ```
 
@@ -906,7 +938,7 @@ Create an instance: `$region = $client->Region();`
 #### Example: List
 
 ```php
-// list() returns an array of Region records (throws on error).
+// list() returns an array of Region entities, one per record (throws on error).
 $regions = $client->Region()->list();
 ```
 
@@ -925,18 +957,30 @@ Create an instance: `$send_transfer = $client->SendTransfer();`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `AccountNumber` | `string` | The account number to target |
+| `BillRef` | `string` | Bill reference. |
+| `DistributorRef` | `string` | Unique identifier in the distributor system to be associated with the transfer |
 | `ErrorCodes` | `array` |  |
 | `ResultCode` | `int` |  |
+| `SendCurrencyIso` | `string` | The currency of the `SendValue`. |
+| `SendValue` | `float` | The transfer value to be sent. |
+| `Settings` | `array` | Product specific name/value pairs to be associated with the transfer request |
+| `SkuCode` | `string` | Code provided by GetProducts API |
 | `TransferRecord` | `array` |  |
+| `ValidateOnly` | `bool` | Validate the request with the provider without doing a transfer |
 
 #### Example: Create
 
 ```php
 $send_transfer = $client->SendTransfer()->create([
-    "request" => null, // array
+    "AccountNumber" => null, // string
+    "DistributorRef" => null, // string
     "ErrorCodes" => null, // array
     "ResultCode" => null, // int
+    "SendValue" => null, // float
+    "SkuCode" => null, // string
     "TransferRecord" => null, // array
+    "ValidateOnly" => null, // bool
 ]);
 ```
 

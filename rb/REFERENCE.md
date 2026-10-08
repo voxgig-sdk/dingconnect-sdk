@@ -168,10 +168,11 @@ account_lookup = client.AccountLookup
 
 #### `list(reqmatch = nil, ctrl = nil) -> Array`
 
-List entities matching the given criteria (call with no argument to list all). Returns an array. Raises on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record; `data_get` reads each record. Raises on error.
 
 ```ruby
 results = client.AccountLookup.list
+results.each { |item| puts item.data_get }
 ```
 
 ### Common Methods
@@ -221,10 +222,11 @@ balance = client.Balance
 
 #### `list(reqmatch = nil, ctrl = nil) -> Array`
 
-List entities matching the given criteria (call with no argument to list all). Returns an array. Raises on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record; `data_get` reads each record. Raises on error.
 
 ```ruby
 results = client.Balance.list
+results.each { |item| puts item.data_get }
 ```
 
 ### Common Methods
@@ -270,16 +272,16 @@ cancel_transfer = client.CancelTransfer
 | `ErrorCodes` | `Array` | Yes |  |
 | `Items` | `Array` | Yes |  |
 | `ResultCode` | `Integer` | Yes |  |
+| `cancellations` | `Array` | No | An explicit list of records to cancel. |
 
 ### Operations
 
 #### `create(reqdata, ctrl = nil) -> result`
 
-Create a new entity with the given data. Raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```ruby
 result = client.CancelTransfer.create({
-  "cancellation_request" => [], # Array
   "ErrorCodes" => [], # Array
   "Items" => [], # Array
   "ResultCode" => 1, # Integer
@@ -334,10 +336,11 @@ country = client.Country
 
 #### `list(reqmatch = nil, ctrl = nil) -> Array`
 
-List entities matching the given criteria (call with no argument to list all). Returns an array. Raises on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record; `data_get` reads each record. Raises on error.
 
 ```ruby
 results = client.Country.list
+results.each { |item| puts item.data_get }
 ```
 
 ### Common Methods
@@ -388,10 +391,11 @@ currency = client.Currency
 
 #### `list(reqmatch = nil, ctrl = nil) -> Array`
 
-List entities matching the given criteria (call with no argument to list all). Returns an array. Raises on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record; `data_get` reads each record. Raises on error.
 
 ```ruby
 results = client.Currency.list
+results.each { |item| puts item.data_get }
 ```
 
 ### Common Methods
@@ -442,10 +446,11 @@ error_code_description = client.ErrorCodeDescription
 
 #### `list(reqmatch = nil, ctrl = nil) -> Array`
 
-List entities matching the given criteria (call with no argument to list all). Returns an array. Raises on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record; `data_get` reads each record. Raises on error.
 
 ```ruby
 results = client.ErrorCodeDescription.list
+results.each { |item| puts item.data_get }
 ```
 
 ### Common Methods
@@ -491,16 +496,16 @@ estimate_price = client.EstimatePrice
 | `ErrorCodes` | `Array` | Yes |  |
 | `Items` | `Array` | Yes |  |
 | `ResultCode` | `Integer` | Yes |  |
+| `estimations` | `Array` | No |  |
 
 ### Operations
 
 #### `create(reqdata, ctrl = nil) -> result`
 
-Create a new entity with the given data. Raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```ruby
 result = client.EstimatePrice.create({
-  "requested_estimation" => [], # Array
   "ErrorCodes" => [], # Array
   "Items" => [], # Array
   "ResultCode" => 1, # Integer
@@ -547,23 +552,28 @@ list_transfer_record = client.ListTransferRecord
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `AccountNumber` | `String` | No | Filter transfers by AccountNumber |
+| `DistributorRef` | `String` | No | Filter transfers by DistributorRef. |
 | `ErrorCodes` | `Array` | Yes |  |
 | `Items` | `Array` | Yes | The list of items satisfying the transfer query. |
 | `ResultCode` | `Integer` | Yes |  |
+| `Skip` | `Integer` | No | The amount of records to by-pass before returning the remaining records |
+| `Take` | `Integer` | Yes | The amount of records to return |
 | `ThereAreMoreItems` | `Boolean` | Yes | Indicates if the caller should execute the query again. |
+| `TransferRef` | `String` | No | Filter by Ding TransferRef |
 
 ### Operations
 
 #### `create(reqdata, ctrl = nil) -> result`
 
-Create a new entity with the given data. Raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```ruby
 result = client.ListTransferRecord.create({
-  "request" => {}, # Hash
   "ErrorCodes" => [], # Array
   "Items" => [], # Array
   "ResultCode" => 1, # Integer
+  "Take" => 1, # Integer
   "ThereAreMoreItems" => true, # Boolean
 })
 ```
@@ -608,22 +618,26 @@ lookup_bill = client.LookupBill
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `AccountNumber` | `String` | Yes | The account number to target |
 | `ErrorCodes` | `Array` | Yes |  |
 | `Items` | `Array` | Yes |  |
 | `ResultCode` | `Integer` | Yes |  |
+| `Settings` | `Array` | No | Product specific name/value pairs to be associated with the lookup bills request |
+| `SkuCode` | `String` | Yes | Code provided by GetProducts API |
 
 ### Operations
 
 #### `create(reqdata, ctrl = nil) -> result`
 
-Create a new entity with the given data. Raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```ruby
 result = client.LookupBill.create({
-  "request" => {}, # Hash
+  "AccountNumber" => "example_AccountNumber", # String
   "ErrorCodes" => [], # Array
   "Items" => [], # Array
   "ResultCode" => 1, # Integer
+  "SkuCode" => "example_SkuCode", # String
 })
 ```
 
@@ -675,10 +689,11 @@ product = client.Product
 
 #### `list(reqmatch = nil, ctrl = nil) -> Array`
 
-List entities matching the given criteria (call with no argument to list all). Returns an array. Raises on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record; `data_get` reads each record. Raises on error.
 
 ```ruby
 results = client.Product.list
+results.each { |item| puts item.data_get }
 ```
 
 ### Common Methods
@@ -729,10 +744,11 @@ product_description = client.ProductDescription
 
 #### `list(reqmatch = nil, ctrl = nil) -> Array`
 
-List entities matching the given criteria (call with no argument to list all). Returns an array. Raises on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record; `data_get` reads each record. Raises on error.
 
 ```ruby
 results = client.ProductDescription.list
+results.each { |item| puts item.data_get }
 ```
 
 ### Common Methods
@@ -783,10 +799,11 @@ promotion = client.Promotion
 
 #### `list(reqmatch = nil, ctrl = nil) -> Array`
 
-List entities matching the given criteria (call with no argument to list all). Returns an array. Raises on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record; `data_get` reads each record. Raises on error.
 
 ```ruby
 results = client.Promotion.list
+results.each { |item| puts item.data_get }
 ```
 
 ### Common Methods
@@ -837,10 +854,11 @@ promotion_description = client.PromotionDescription
 
 #### `list(reqmatch = nil, ctrl = nil) -> Array`
 
-List entities matching the given criteria (call with no argument to list all). Returns an array. Raises on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record; `data_get` reads each record. Raises on error.
 
 ```ruby
 results = client.PromotionDescription.list
+results.each { |item| puts item.data_get }
 ```
 
 ### Common Methods
@@ -891,10 +909,11 @@ provider = client.Provider
 
 #### `list(reqmatch = nil, ctrl = nil) -> Array`
 
-List entities matching the given criteria (call with no argument to list all). Returns an array. Raises on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record; `data_get` reads each record. Raises on error.
 
 ```ruby
 results = client.Provider.list
+results.each { |item| puts item.data_get }
 ```
 
 ### Common Methods
@@ -945,10 +964,11 @@ provider_status = client.ProviderStatus
 
 #### `list(reqmatch = nil, ctrl = nil) -> Array`
 
-List entities matching the given criteria (call with no argument to list all). Returns an array. Raises on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record; `data_get` reads each record. Raises on error.
 
 ```ruby
 results = client.ProviderStatus.list
+results.each { |item| puts item.data_get }
 ```
 
 ### Common Methods
@@ -999,10 +1019,11 @@ region = client.Region
 
 #### `list(reqmatch = nil, ctrl = nil) -> Array`
 
-List entities matching the given criteria (call with no argument to list all). Returns an array. Raises on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record; `data_get` reads each record. Raises on error.
 
 ```ruby
 results = client.Region.list
+results.each { |item| puts item.data_get }
 ```
 
 ### Common Methods
@@ -1045,22 +1066,34 @@ send_transfer = client.SendTransfer
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `AccountNumber` | `String` | Yes | The account number to target |
+| `BillRef` | `String` | No | Bill reference. |
+| `DistributorRef` | `String` | Yes | Unique identifier in the distributor system to be associated with the transfer |
 | `ErrorCodes` | `Array` | Yes |  |
 | `ResultCode` | `Integer` | Yes |  |
+| `SendCurrencyIso` | `String` | No | The currency of the `SendValue`. |
+| `SendValue` | `Float` | Yes | The transfer value to be sent. |
+| `Settings` | `Array` | No | Product specific name/value pairs to be associated with the transfer request |
+| `SkuCode` | `String` | Yes | Code provided by GetProducts API |
 | `TransferRecord` | `Hash` | Yes |  |
+| `ValidateOnly` | `Boolean` | Yes | Validate the request with the provider without doing a transfer |
 
 ### Operations
 
 #### `create(reqdata, ctrl = nil) -> result`
 
-Create a new entity with the given data. Raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```ruby
 result = client.SendTransfer.create({
-  "request" => {}, # Hash
+  "AccountNumber" => "example_AccountNumber", # String
+  "DistributorRef" => "example_DistributorRef", # String
   "ErrorCodes" => [], # Array
   "ResultCode" => 1, # Integer
+  "SendValue" => 1, # Float
+  "SkuCode" => "example_SkuCode", # String
   "TransferRecord" => {}, # Hash
+  "ValidateOnly" => true, # Boolean
 })
 ```
 
@@ -1384,6 +1417,7 @@ Timeout.
 | Option | Type |
 |---|---|
 | `clearTimer` | function |
+| `now` | function |
 | `setTimer` | function |
 
 These take no default: the feature behaves one way when you supply them and

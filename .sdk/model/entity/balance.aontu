@@ -37,7 +37,7 @@ main: kit: entity: balance: {
               {
                 k: "header"
                 n: "x_correlation_id"
-                or: "x_correlation_id"
+                or: "X-Correlation-Id"
                 r: false
                 t: "`$STRING`"
               }
@@ -45,10 +45,15 @@ main: kit: entity: balance: {
           }
           m: "GET"
           o: "/api/V1/GetBalance"
-          q: {
-            exist: [
-              "x_correlation_id"
+          rs: {
+            alternatives: [
+              {
+                kind: "json"
+                media: "text/json"
+              }
             ]
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {

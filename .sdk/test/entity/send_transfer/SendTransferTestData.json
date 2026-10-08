@@ -2,21 +2,45 @@
   "existing": {
     "send_transfer": {
       "SEND_TRANSFER00": {
+        "AccountNumber": "s6e",
+        "BillRef": "s6f",
+        "DistributorRef": "s70",
         "ErrorCodes": [],
-        "ResultCode": 31,
+        "ResultCode": 114,
+        "SendCurrencyIso": "s73",
+        "SendValue": 116,
+        "Settings": [],
+        "SkuCode": "s76",
         "TransferRecord": {},
+        "ValidateOnly": true,
         "id": "SEND_TRANSFER00"
       },
       "SEND_TRANSFER01": {
+        "AccountNumber": "sdc",
+        "BillRef": "sdd",
+        "DistributorRef": "sde",
         "ErrorCodes": [],
-        "ResultCode": 61,
+        "ResultCode": 224,
+        "SendCurrencyIso": "se1",
+        "SendValue": 226,
+        "Settings": [],
+        "SkuCode": "se4",
         "TransferRecord": {},
+        "ValidateOnly": true,
         "id": "SEND_TRANSFER01"
       },
       "SEND_TRANSFER02": {
+        "AccountNumber": "s14a",
+        "BillRef": "s14b",
+        "DistributorRef": "s14c",
         "ErrorCodes": [],
-        "ResultCode": 91,
+        "ResultCode": 334,
+        "SendCurrencyIso": "s14f",
+        "SendValue": 336,
+        "Settings": [],
+        "SkuCode": "s152",
         "TransferRecord": {},
+        "ValidateOnly": true,
         "id": "SEND_TRANSFER02"
       }
     }
@@ -24,9 +48,17 @@
   "new": {
     "send_transfer": {
       "send_transfer_ref01": {
+        "AccountNumber": "s1b8",
+        "BillRef": "s1b9",
+        "DistributorRef": "s1ba",
         "ErrorCodes": [],
-        "ResultCode": 121,
-        "TransferRecord": {}
+        "ResultCode": 444,
+        "SendCurrencyIso": "s1bd",
+        "SendValue": 446,
+        "Settings": [],
+        "SkuCode": "s1c0",
+        "TransferRecord": {},
+        "ValidateOnly": true
       }
     }
   },

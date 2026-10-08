@@ -12,7 +12,7 @@ Learn more about Voxgig SDKs at [voxgig.com/sdk](https://voxgig.com/sdk/).
 
 > TypeScript, Python, PHP, Golang, Ruby, Lua SDKs, a CLI with an interactive REPL, and an MCP server for AI agents — all generated from one OpenAPI spec by [@voxgig/sdkgen](https://github.com/voxgig/sdkgen).
 
-> **Features:** `undefined`, `undefined`, `undefined`, `undefined`, `undefined`, `undefined`, `undefined`, `undefined` — opt-in,
+> **Features:** `debug`, `idempotency`, `metrics`, `paging`, `ratelimit`, `retry`, `test`, `timeout` — opt-in,
 > inactive until switched on, and configured per client. See the Features
 > section of any SDK README below for what each one does.
 
@@ -50,9 +50,8 @@ const client = DingconnectSDK.test({
   },
 })
 const currencys = await client.Currency().list()
-// currencys is an array of Currency entities, populated with mock data
-// — call currencys[0].data() for the record itself
-console.log(currencys)
+// currencys is an array of Currency entities, one per mock record
+console.log(currencys.map((currency) => currency.data()))
 ```
 
 ### Python
@@ -60,7 +59,7 @@ console.log(currencys)
 ```python
 client = DingconnectSDK.test()
 currencys = client.Currency().list()
-print(currencys)
+print([item.data_get() for item in currencys])
 ```
 
 ### PHP
@@ -103,14 +102,14 @@ local results, err = client:Currency():list()
 
 | Language | Package | Install |
 | --- | --- | --- |
-| TypeScript | `@voxgig-sdk/dingconnect-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/dingconnect-sdk/tags) |
-| Python | `voxgig-sdk-dingconnect-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/dingconnect-sdk/tags) |
-| PHP | `voxgig-sdk/dingconnect-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/dingconnect-sdk/tags) |
+| TypeScript | `@voxgig-sdk/dingconnect-sdk` | publish pending — [install from source](ts/README.md#install) |
+| Python | `voxgig-sdk-dingconnect-sdk` | publish pending — [install from source](py/README.md#install) |
+| PHP | `voxgig-sdk/dingconnect-sdk` | publish pending — [install from source](php/README.md#install) |
 | Golang | `github.com/voxgig-sdk/dingconnect-sdk/go` | `go get github.com/voxgig-sdk/dingconnect-sdk/go@latest` |
-| Ruby | `voxgig-sdk-dingconnect-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/dingconnect-sdk/tags) |
-| Lua | `voxgig-sdk-dingconnect-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/dingconnect-sdk/tags) |
-| Go CLI | `github.com/voxgig-sdk/dingconnect-sdk/go-cli` | `go install github.com/voxgig-sdk/dingconnect-sdk/go-cli/cmd/dingconnect@latest` |
-| Go MCP server | `github.com/voxgig-sdk/dingconnect-sdk/go-mcp` | `go get github.com/voxgig-sdk/dingconnect-sdk/go-mcp@latest` |
+| Ruby | `voxgig-sdk-dingconnect-sdk` | publish pending — [install from source](rb/README.md#install) |
+| Lua | `voxgig-sdk-dingconnect-sdk` | publish pending — [install from source](lua/README.md#install) |
+| Go CLI | `github.com/voxgig-sdk/dingconnect-sdk/go-cli` | build from source — [go-cli/README.md](go-cli/README.md) |
+| Go MCP server | `github.com/voxgig-sdk/dingconnect-sdk/go-mcp` | build from source — [go-mcp/README.md](go-mcp/README.md) |
 
 ## Quickstart
 
@@ -123,12 +122,14 @@ const client = new DingconnectSDK({
   apikey: process.env.DINGCONNECT_APIKEY,
 })
 
-// List all accountlookups (returns AccountLookupEntity[] — .data() for the record)
+// List all accountlookups (returns AccountLookupEntity[], one entity per record)
 const accountlookups = await client.AccountLookup().list()
 for (const accountlookup of accountlookups) {
-  console.log(accountlookup)
+  console.log(accountlookup.data())
 }
 ```
+
+The client sends the API key in the `api_key` header.
 
 See the [TypeScript README](ts/README.md) for the full guide.
 
@@ -142,9 +143,10 @@ See the [TypeScript README](ts/README.md) for the full guide.
 
 ## Use it from an AI agent (MCP)
 
-The generated MCP server exposes every operation in this SDK as an
-[MCP](https://modelcontextprotocol.io) tool that Claude, Cursor or Cline
-can call directly. Build and register it:
+The generated MCP server exposes this SDK's list operations as
+[MCP](https://modelcontextprotocol.io) tools that Claude, Cursor or Cline
+can call directly. It only reads: create, update, patch and remove become tools when the SDK's model sets
+`main: kit: target: 'go-mcp': tool: write: true`. Build and register it:
 
 ```bash
 cd go-mcp && go build -o dingconnect-mcp .
@@ -201,10 +203,10 @@ client = DingconnectSDK({
     "apikey": os.environ.get("DINGCONNECT_APIKEY"),
 })
 
-# List all accountlookups (returns a list, raises on error)
+# List all accountlookups (a list of entities, one per record; raises on error)
 accountlookups = client.AccountLookup().list()
 for accountlookup in accountlookups:
-    print(accountlookup)
+    print(accountlookup.data_get())
 ```
 
 ### PHP
@@ -217,7 +219,7 @@ $client = new DingconnectSDK([
     "apikey" => getenv("DINGCONNECT_APIKEY"),
 ]);
 
-// List all accountlookups (returns an array; throws on error)
+// List all accountlookups (an array of entities, one per record; throws on error)
 $accountlookups = $client->AccountLookup()->list();
 print_r(array_map(fn($item) => $item->data_get(), $accountlookups));
 ```
@@ -231,12 +233,14 @@ client := sdk.NewDingconnectSDK(map[string]any{
     "apikey": os.Getenv("DINGCONNECT_APIKEY"),
 })
 
-// List all accountlookups
+// List all accountlookups (one entity per record; err is non-nil on failure)
 accountLookups, err := client.AccountLookup(nil).List(nil, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(accountLookups)
+for _, accountLookup := range accountLookups.([]any) {
+    fmt.Println(accountLookup.(sdk.Entity).Data())
+}
 ```
 
 ### Ruby
@@ -248,23 +252,27 @@ client = DingconnectSDK.new({
   "apikey" => ENV["DINGCONNECT_APIKEY"],
 })
 
-# List all accountlookups (returns an Array; raises on error)
+# List all accountlookups (an Array of entities, one per record; raises on error)
 accountlookups = client.AccountLookup.list
-puts accountlookups
+accountlookups.each { |item| puts item.data_get }
 ```
 
 ### Lua
 
 ```lua
 local sdk = require("dingconnect_sdk")
+local json = require("dkjson")
 
 local client = sdk.new({
   apikey = os.getenv("DINGCONNECT_APIKEY"),
 })
 
--- List all accountlookups
+-- List all accountlookups (an array of entities, one per record; err on failure)
 local accountlookups, err = client:AccountLookup():list()
-print(accountlookups)
+if err then error(err) end
+for _, accountlookup in ipairs(accountlookups) do
+  print(json.encode(accountlookup:data_get()))
+end
 ```
 
 ## Direct and prepare
@@ -290,10 +298,9 @@ const result = await client.direct({
   method: 'GET',
   params: { id: 'example' },
 })
-if (result instanceof Error) {
-  throw result
+if (result.ok) {
+  console.log(result.data)
 }
-console.log(result.data)
 ```
 
 **Python:**
@@ -391,10 +398,12 @@ customizable without forking any upstream tool:
 - **Templates** (`.sdk/tm/`) and **components** (`.sdk/src/cmp/`) are
   the two layers of generation, copied into this repo: templates are the
   literal per-language source, components generate the API-shaped parts.
-- **Regeneration merges.** By default, newly generated content is
-  three-way merged into existing files, so generator updates and local
-  edits usually converge without manual conflict handling. A project can
-  opt for plain overwrite instead.
+- **Regeneration overwrites.** Each run rewrites every generated file from
+  the model, the templates and the components, so an edit made to
+  generated output is lost. Say what this project needs in its own model
+  (`.sdk/model/sdk.aontu`), or extend a target with a component of its
+  own in `.sdk/src/cmp/<target>/`, registered with `registerComponent`,
+  which `voxgig-sdkgen doctor` reports as an addition rather than drift.
 - **Custom features and entire custom targets** arrive through sdkgen
   packages (`voxgig-sdkgen package add`), on the same rails as the
   bundled languages, and `voxgig-sdkgen doctor` reports any drift from

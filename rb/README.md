@@ -12,15 +12,24 @@ The SDK exposes the API as capitalised, semantic **Entities** — for example `c
 
 ## Install
 This package is not yet published to RubyGems. Install it from the
-GitHub release tag (`rb/vX.Y.Z`):
+GitHub release tag (`rb/vX.Y.Z`, see [Tags](https://github.com/voxgig-sdk/dingconnect-sdk/tags)), or
+from a clone:
 
-- Releases: [https://github.com/voxgig-sdk/dingconnect-sdk/releases](https://github.com/voxgig-sdk/dingconnect-sdk/releases)
+```bash
+git clone https://github.com/voxgig-sdk/dingconnect-sdk
+```
+
+Then add it to your `Gemfile` by path, and run `bundle install`:
+
+```ruby
+gem "voxgig-sdk-dingconnect-sdk", path: "./dingconnect-sdk/rb"
+```
 
 
 ## Tutorial: your first API call
 
 This tutorial walks through creating a client, listing entities, and
-loading a specific record.
+loading a specific record. The client sends the API key in the `api_key` header.
 
 ### 1. Create a client
 
@@ -36,10 +45,11 @@ client = DingconnectSDK.new({
 
 ```ruby
 begin
-  # list returns an Array of AccountLookup records — iterate directly.
+  # list returns an Array of AccountLookup entities, one per record; data_get reads the record.
   accountlookups = client.AccountLookup.list
   accountlookups.each do |item|
-    puts "#{item["AccountNumberNormalized"]}"
+    record = item.data_get
+    puts "#{record["AccountNumberNormalized"]}"
   end
 rescue => err
   warn "list failed: #{err}"
@@ -121,10 +131,10 @@ Create a mock client for unit testing — no server required:
 ```ruby
 client = DingconnectSDK.test
 
-# Entity ops return the ENTITY (raises on error);
-# call data_get for the mock record.
-currency = client.Currency.list()
-puts currency
+# list returns an Array of Currency entities, one per mock record (raises on
+# error); data_get reads each record.
+currencys = client.Currency.list()
+currencys.each { |item| puts item.data_get }
 ```
 
 ### Use a custom fetch function
@@ -226,8 +236,8 @@ All entities share the same interface.
 
 | Method | Signature | Description |
 | --- | --- | --- |
-| `list` | `(reqmatch = nil, ctrl) -> Array` | List entities matching the criteria (call with no argument to list all). Raises on error. |
-| `create` | `(reqdata, ctrl) -> any` | Create a new entity. Raises on error. |
+| `list` | `(reqmatch = nil, ctrl) -> Array` | List entities matching the criteria (call with no argument to list all), one per record. Raises on error. |
+| `create` | `(reqdata, ctrl) -> any` | Create a new entity, and return it. Raises on error. |
 | `data_get` | `() -> Hash` | Get entity data. |
 | `data_set` | `(data)` | Set entity data. |
 | `match_get` | `() -> Hash` | Get entity match criteria. |
@@ -237,9 +247,10 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return the result data directly. On failure they
-raise a `DingconnectError` (a `StandardError` subclass), so wrap
-calls in `begin`/`rescue` where you need to handle errors.
+Entity operations return the entity, and `list` an `Array` of entities, one
+per record; an entity's `data_get` reads its record. On failure they raise a
+`DingconnectError` (a `StandardError` subclass), so wrap calls in
+`begin`/`rescue` where you need to handle errors.
 
 The `direct` escape hatch is the exception: it never raises and instead
 returns a result `Hash` with these keys:
@@ -286,6 +297,7 @@ API path: `/api/V1/GetBalance`
 | `ErrorCodes` |  |
 | `Items` |  |
 | `ResultCode` |  |
+| `cancellations` | An explicit list of records to cancel. |
 
 Operations: Create.
 
@@ -334,6 +346,7 @@ API path: `/api/V1/GetErrorCodeDescriptions`
 | `ErrorCodes` |  |
 | `Items` |  |
 | `ResultCode` |  |
+| `estimations` |  |
 
 Operations: Create.
 
@@ -343,10 +356,15 @@ API path: `/api/V1/EstimatePrices`
 
 | Field | Description |
 | --- | --- |
+| `AccountNumber` | Filter transfers by AccountNumber |
+| `DistributorRef` | Filter transfers by DistributorRef. |
 | `ErrorCodes` |  |
 | `Items` | The list of items satisfying the transfer query. |
 | `ResultCode` |  |
+| `Skip` | The amount of records to by-pass before returning the remaining records |
+| `Take` | The amount of records to return |
 | `ThereAreMoreItems` | Indicates if the caller should execute the query again. |
+| `TransferRef` | Filter by Ding TransferRef |
 
 Operations: Create.
 
@@ -356,9 +374,12 @@ API path: `/api/V1/ListTransferRecords`
 
 | Field | Description |
 | --- | --- |
+| `AccountNumber` | The account number to target |
 | `ErrorCodes` |  |
 | `Items` |  |
 | `ResultCode` |  |
+| `Settings` | Product specific name/value pairs to be associated with the lookup bills request |
+| `SkuCode` | Code provided by GetProducts API |
 
 Operations: Create.
 
@@ -452,9 +473,17 @@ API path: `/api/V1/GetRegions`
 
 | Field | Description |
 | --- | --- |
+| `AccountNumber` | The account number to target |
+| `BillRef` | Bill reference. |
+| `DistributorRef` | Unique identifier in the distributor system to be associated with the transfer |
 | `ErrorCodes` |  |
 | `ResultCode` |  |
+| `SendCurrencyIso` | The currency of the `SendValue`. |
+| `SendValue` | The transfer value to be sent. |
+| `Settings` | Product specific name/value pairs to be associated with the transfer request |
+| `SkuCode` | Code provided by GetProducts API |
 | `TransferRecord` |  |
+| `ValidateOnly` | Validate the request with the provider without doing a transfer |
 
 Operations: Create.
 
@@ -488,8 +517,9 @@ Create an instance: `account_lookup = client.AccountLookup`
 #### Example: List
 
 ```ruby
-# list returns an Array of AccountLookup records (raises on error).
+# list returns an Array of AccountLookup entities, one per record (raises on error).
 account_lookups = client.AccountLookup.list
+account_lookups.each { |item| puts item.data_get }
 ```
 
 
@@ -513,8 +543,9 @@ Create an instance: `balance = client.Balance`
 #### Example: List
 
 ```ruby
-# list returns an Array of Balance records (raises on error).
+# list returns an Array of Balance entities, one per record (raises on error).
 balances = client.Balance.list
+balances.each { |item| puts item.data_get }
 ```
 
 
@@ -535,12 +566,12 @@ Create an instance: `cancel_transfer = client.CancelTransfer`
 | `ErrorCodes` | `Array` |  |
 | `Items` | `Array` |  |
 | `ResultCode` | `Integer` |  |
+| `cancellations` | `Array` | An explicit list of records to cancel. |
 
 #### Example: Create
 
 ```ruby
 cancel_transfer = client.CancelTransfer.create({
-  "cancellation_request" => [], # Array
   "ErrorCodes" => [], # Array
   "Items" => [], # Array
   "ResultCode" => 1, # Integer
@@ -569,8 +600,9 @@ Create an instance: `country = client.Country`
 #### Example: List
 
 ```ruby
-# list returns an Array of Country records (raises on error).
+# list returns an Array of Country entities, one per record (raises on error).
 countrys = client.Country.list
+countrys.each { |item| puts item.data_get }
 ```
 
 
@@ -595,8 +627,9 @@ Create an instance: `currency = client.Currency`
 #### Example: List
 
 ```ruby
-# list returns an Array of Currency records (raises on error).
+# list returns an Array of Currency entities, one per record (raises on error).
 currencys = client.Currency.list
+currencys.each { |item| puts item.data_get }
 ```
 
 
@@ -621,8 +654,9 @@ Create an instance: `error_code_description = client.ErrorCodeDescription`
 #### Example: List
 
 ```ruby
-# list returns an Array of ErrorCodeDescription records (raises on error).
+# list returns an Array of ErrorCodeDescription entities, one per record (raises on error).
 error_code_descriptions = client.ErrorCodeDescription.list
+error_code_descriptions.each { |item| puts item.data_get }
 ```
 
 
@@ -643,12 +677,12 @@ Create an instance: `estimate_price = client.EstimatePrice`
 | `ErrorCodes` | `Array` |  |
 | `Items` | `Array` |  |
 | `ResultCode` | `Integer` |  |
+| `estimations` | `Array` |  |
 
 #### Example: Create
 
 ```ruby
 estimate_price = client.EstimatePrice.create({
-  "requested_estimation" => [], # Array
   "ErrorCodes" => [], # Array
   "Items" => [], # Array
   "ResultCode" => 1, # Integer
@@ -670,19 +704,24 @@ Create an instance: `list_transfer_record = client.ListTransferRecord`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `AccountNumber` | `String` | Filter transfers by AccountNumber |
+| `DistributorRef` | `String` | Filter transfers by DistributorRef. |
 | `ErrorCodes` | `Array` |  |
 | `Items` | `Array` | The list of items satisfying the transfer query. |
 | `ResultCode` | `Integer` |  |
+| `Skip` | `Integer` | The amount of records to by-pass before returning the remaining records |
+| `Take` | `Integer` | The amount of records to return |
 | `ThereAreMoreItems` | `Boolean` | Indicates if the caller should execute the query again. |
+| `TransferRef` | `String` | Filter by Ding TransferRef |
 
 #### Example: Create
 
 ```ruby
 list_transfer_record = client.ListTransferRecord.create({
-  "request" => {}, # Hash
   "ErrorCodes" => [], # Array
   "Items" => [], # Array
   "ResultCode" => 1, # Integer
+  "Take" => 1, # Integer
   "ThereAreMoreItems" => true, # Boolean
 })
 ```
@@ -702,18 +741,22 @@ Create an instance: `lookup_bill = client.LookupBill`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `AccountNumber` | `String` | The account number to target |
 | `ErrorCodes` | `Array` |  |
 | `Items` | `Array` |  |
 | `ResultCode` | `Integer` |  |
+| `Settings` | `Array` | Product specific name/value pairs to be associated with the lookup bills request |
+| `SkuCode` | `String` | Code provided by GetProducts API |
 
 #### Example: Create
 
 ```ruby
 lookup_bill = client.LookupBill.create({
-  "request" => {}, # Hash
+  "AccountNumber" => "example_AccountNumber", # String
   "ErrorCodes" => [], # Array
   "Items" => [], # Array
   "ResultCode" => 1, # Integer
+  "SkuCode" => "example_SkuCode", # String
 })
 ```
 
@@ -739,8 +782,9 @@ Create an instance: `product = client.Product`
 #### Example: List
 
 ```ruby
-# list returns an Array of Product records (raises on error).
+# list returns an Array of Product entities, one per record (raises on error).
 products = client.Product.list
+products.each { |item| puts item.data_get }
 ```
 
 
@@ -765,8 +809,9 @@ Create an instance: `product_description = client.ProductDescription`
 #### Example: List
 
 ```ruby
-# list returns an Array of ProductDescription records (raises on error).
+# list returns an Array of ProductDescription entities, one per record (raises on error).
 product_descriptions = client.ProductDescription.list
+product_descriptions.each { |item| puts item.data_get }
 ```
 
 
@@ -791,8 +836,9 @@ Create an instance: `promotion = client.Promotion`
 #### Example: List
 
 ```ruby
-# list returns an Array of Promotion records (raises on error).
+# list returns an Array of Promotion entities, one per record (raises on error).
 promotions = client.Promotion.list
+promotions.each { |item| puts item.data_get }
 ```
 
 
@@ -817,8 +863,9 @@ Create an instance: `promotion_description = client.PromotionDescription`
 #### Example: List
 
 ```ruby
-# list returns an Array of PromotionDescription records (raises on error).
+# list returns an Array of PromotionDescription entities, one per record (raises on error).
 promotion_descriptions = client.PromotionDescription.list
+promotion_descriptions.each { |item| puts item.data_get }
 ```
 
 
@@ -843,8 +890,9 @@ Create an instance: `provider = client.Provider`
 #### Example: List
 
 ```ruby
-# list returns an Array of Provider records (raises on error).
+# list returns an Array of Provider entities, one per record (raises on error).
 providers = client.Provider.list
+providers.each { |item| puts item.data_get }
 ```
 
 
@@ -869,8 +917,9 @@ Create an instance: `provider_status = client.ProviderStatus`
 #### Example: List
 
 ```ruby
-# list returns an Array of ProviderStatus records (raises on error).
+# list returns an Array of ProviderStatus entities, one per record (raises on error).
 provider_statuss = client.ProviderStatus.list
+provider_statuss.each { |item| puts item.data_get }
 ```
 
 
@@ -895,8 +944,9 @@ Create an instance: `region = client.Region`
 #### Example: List
 
 ```ruby
-# list returns an Array of Region records (raises on error).
+# list returns an Array of Region entities, one per record (raises on error).
 regions = client.Region.list
+regions.each { |item| puts item.data_get }
 ```
 
 
@@ -914,18 +964,30 @@ Create an instance: `send_transfer = client.SendTransfer`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `AccountNumber` | `String` | The account number to target |
+| `BillRef` | `String` | Bill reference. |
+| `DistributorRef` | `String` | Unique identifier in the distributor system to be associated with the transfer |
 | `ErrorCodes` | `Array` |  |
 | `ResultCode` | `Integer` |  |
+| `SendCurrencyIso` | `String` | The currency of the `SendValue`. |
+| `SendValue` | `Float` | The transfer value to be sent. |
+| `Settings` | `Array` | Product specific name/value pairs to be associated with the transfer request |
+| `SkuCode` | `String` | Code provided by GetProducts API |
 | `TransferRecord` | `Hash` |  |
+| `ValidateOnly` | `Boolean` | Validate the request with the provider without doing a transfer |
 
 #### Example: Create
 
 ```ruby
 send_transfer = client.SendTransfer.create({
-  "request" => {}, # Hash
+  "AccountNumber" => "example_AccountNumber", # String
+  "DistributorRef" => "example_DistributorRef", # String
   "ErrorCodes" => [], # Array
   "ResultCode" => 1, # Integer
+  "SendValue" => 1, # Float
+  "SkuCode" => "example_SkuCode", # String
   "TransferRecord" => {}, # Hash
+  "ValidateOnly" => true, # Boolean
 })
 ```
 

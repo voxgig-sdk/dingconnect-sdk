@@ -141,6 +141,7 @@ func MakeConfig() map[string]any {
 				},
 				"optspec": map[string]any{
 					"clearTimer": "`$FUNCTION`",
+					"now": "`$FUNCTION`",
 					"setTimer": "`$FUNCTION`",
 				},
 				"strict": false,
@@ -247,7 +248,7 @@ func MakeConfig() map[string]any {
 									"header": []any{
 										map[string]any{
 											"name": "x_correlation_id",
-											"orig": "x_correlation_id",
+											"orig": "X-Correlation-Id",
 											"type": "`$STRING`",
 											"kind": "header",
 										},
@@ -255,17 +256,23 @@ func MakeConfig() map[string]any {
 									"query": []any{
 										map[string]any{
 											"name": "account_number",
-											"orig": "account_number",
-											"type": "`$INTEGER`",
+											"orig": "accountNumber",
+											"type": "`$STRING`",
 											"kind": "query",
+											"example": "",
 										},
 									},
 								},
-								"select": map[string]any{
-									"exist": []any{
-										"account_number",
-										"x_correlation_id",
+								"select": map[string]any{},
+								"response": map[string]any{
+									"alternatives": []any{
+										map[string]any{
+											"kind": "json",
+											"media": "text/json",
+										},
 									},
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 						},
@@ -326,16 +333,22 @@ func MakeConfig() map[string]any {
 									"header": []any{
 										map[string]any{
 											"name": "x_correlation_id",
-											"orig": "x_correlation_id",
+											"orig": "X-Correlation-Id",
 											"type": "`$STRING`",
 											"kind": "header",
 										},
 									},
 								},
-								"select": map[string]any{
-									"exist": []any{
-										"x_correlation_id",
+								"select": map[string]any{},
+								"response": map[string]any{
+									"alternatives": []any{
+										map[string]any{
+											"kind": "json",
+											"media": "text/json",
+										},
 									},
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 						},
@@ -366,6 +379,12 @@ func MakeConfig() map[string]any {
 						"req": true,
 						"format": "int32",
 					},
+					map[string]any{
+						"name": "cancellations",
+						"title": "Cancellations",
+						"type": "`$ARRAY`",
+						"short": "An explicit list of records to cancel.",
+					},
 				},
 				"name": "cancel_transfer",
 				"op": map[string]any{
@@ -395,33 +414,33 @@ func MakeConfig() map[string]any {
 								},
 								"rename": map[string]any{},
 								"transform": map[string]any{
-									"req": "`reqdata`",
+									"req": "`reqdata.cancellations`",
 									"res": "`body`",
 								},
 								"args": map[string]any{
 									"header": []any{
 										map[string]any{
 											"name": "x_correlation_id",
-											"orig": "x_correlation_id",
+											"orig": "X-Correlation-Id",
 											"type": "`$STRING`",
 											"kind": "header",
-										},
-									},
-									"query": []any{
-										map[string]any{
-											"name": "cancellation_request",
-											"orig": "cancellation_request",
-											"type": "`$ARRAY`",
-											"kind": "query",
-											"reqd": true,
 										},
 									},
 								},
 								"select": map[string]any{
 									"exist": []any{
-										"cancellation_request",
-										"x_correlation_id",
+										"cancellations",
 									},
+								},
+								"response": map[string]any{
+									"alternatives": []any{
+										map[string]any{
+											"kind": "json",
+											"media": "text/json",
+										},
+									},
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 						},
@@ -489,16 +508,22 @@ func MakeConfig() map[string]any {
 									"header": []any{
 										map[string]any{
 											"name": "x_correlation_id",
-											"orig": "x_correlation_id",
+											"orig": "X-Correlation-Id",
 											"type": "`$STRING`",
 											"kind": "header",
 										},
 									},
 								},
-								"select": map[string]any{
-									"exist": []any{
-										"x_correlation_id",
+								"select": map[string]any{},
+								"response": map[string]any{
+									"alternatives": []any{
+										map[string]any{
+											"kind": "json",
+											"media": "text/json",
+										},
 									},
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 						},
@@ -565,16 +590,22 @@ func MakeConfig() map[string]any {
 									"header": []any{
 										map[string]any{
 											"name": "x_correlation_id",
-											"orig": "x_correlation_id",
+											"orig": "X-Correlation-Id",
 											"type": "`$STRING`",
 											"kind": "header",
 										},
 									},
 								},
-								"select": map[string]any{
-									"exist": []any{
-										"x_correlation_id",
+								"select": map[string]any{},
+								"response": map[string]any{
+									"alternatives": []any{
+										map[string]any{
+											"kind": "json",
+											"media": "text/json",
+										},
 									},
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 						},
@@ -642,16 +673,22 @@ func MakeConfig() map[string]any {
 									"header": []any{
 										map[string]any{
 											"name": "x_correlation_id",
-											"orig": "x_correlation_id",
+											"orig": "X-Correlation-Id",
 											"type": "`$STRING`",
 											"kind": "header",
 										},
 									},
 								},
-								"select": map[string]any{
-									"exist": []any{
-										"x_correlation_id",
+								"select": map[string]any{},
+								"response": map[string]any{
+									"alternatives": []any{
+										map[string]any{
+											"kind": "json",
+											"media": "text/json",
+										},
 									},
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 						},
@@ -682,6 +719,11 @@ func MakeConfig() map[string]any {
 						"req": true,
 						"format": "int32",
 					},
+					map[string]any{
+						"name": "estimations",
+						"title": "Estimations",
+						"type": "`$ARRAY`",
+					},
 				},
 				"name": "estimate_price",
 				"op": map[string]any{
@@ -711,33 +753,33 @@ func MakeConfig() map[string]any {
 								},
 								"rename": map[string]any{},
 								"transform": map[string]any{
-									"req": "`reqdata`",
+									"req": "`reqdata.estimations`",
 									"res": "`body`",
 								},
 								"args": map[string]any{
 									"header": []any{
 										map[string]any{
 											"name": "x_correlation_id",
-											"orig": "x_correlation_id",
+											"orig": "X-Correlation-Id",
 											"type": "`$STRING`",
 											"kind": "header",
-										},
-									},
-									"query": []any{
-										map[string]any{
-											"name": "requested_estimation",
-											"orig": "requested_estimation",
-											"type": "`$ARRAY`",
-											"kind": "query",
-											"reqd": true,
 										},
 									},
 								},
 								"select": map[string]any{
 									"exist": []any{
-										"requested_estimation",
-										"x_correlation_id",
+										"estimations",
 									},
+								},
+								"response": map[string]any{
+									"alternatives": []any{
+										map[string]any{
+											"kind": "json",
+											"media": "text/json",
+										},
+									},
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 						},
@@ -749,6 +791,18 @@ func MakeConfig() map[string]any {
 			},
 			"list_transfer_record": map[string]any{
 				"fields": []any{
+					map[string]any{
+						"name": "AccountNumber",
+						"title": "Account Number",
+						"type": "`$STRING`",
+						"short": "Filter transfers by AccountNumber",
+					},
+					map[string]any{
+						"name": "DistributorRef",
+						"title": "Distributor Ref",
+						"type": "`$STRING`",
+						"short": "Filter transfers by DistributorRef.",
+					},
 					map[string]any{
 						"name": "ErrorCodes",
 						"title": "Error Codes",
@@ -770,11 +824,32 @@ func MakeConfig() map[string]any {
 						"format": "int32",
 					},
 					map[string]any{
+						"name": "Skip",
+						"title": "Skip",
+						"type": "`$INTEGER`",
+						"short": "The amount of records to by-pass before returning the remaining records",
+						"format": "int32",
+					},
+					map[string]any{
+						"name": "Take",
+						"title": "Take",
+						"type": "`$INTEGER`",
+						"req": true,
+						"short": "The amount of records to return",
+						"format": "int32",
+					},
+					map[string]any{
 						"name": "ThereAreMoreItems",
 						"title": "There Are More Items",
 						"type": "`$BOOLEAN`",
 						"req": true,
 						"short": "Indicates if the caller should execute the query again.",
+					},
+					map[string]any{
+						"name": "TransferRef",
+						"title": "Transfer Ref",
+						"type": "`$STRING`",
+						"short": "Filter by Ding TransferRef",
 					},
 				},
 				"name": "list_transfer_record",
@@ -812,26 +887,22 @@ func MakeConfig() map[string]any {
 									"header": []any{
 										map[string]any{
 											"name": "x_correlation_id",
-											"orig": "x_correlation_id",
+											"orig": "X-Correlation-Id",
 											"type": "`$STRING`",
 											"kind": "header",
 										},
 									},
-									"query": []any{
+								},
+								"select": map[string]any{},
+								"response": map[string]any{
+									"alternatives": []any{
 										map[string]any{
-											"name": "request",
-											"orig": "request",
-											"type": "`$OBJECT`",
-											"kind": "query",
-											"reqd": true,
+											"kind": "json",
+											"media": "text/json",
 										},
 									},
-								},
-								"select": map[string]any{
-									"exist": []any{
-										"request",
-										"x_correlation_id",
-									},
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 						},
@@ -843,6 +914,13 @@ func MakeConfig() map[string]any {
 			},
 			"lookup_bill": map[string]any{
 				"fields": []any{
+					map[string]any{
+						"name": "AccountNumber",
+						"title": "Account Number",
+						"type": "`$STRING`",
+						"req": true,
+						"short": "The account number to target",
+					},
 					map[string]any{
 						"name": "ErrorCodes",
 						"title": "Error Codes",
@@ -861,6 +939,19 @@ func MakeConfig() map[string]any {
 						"type": "`$INTEGER`",
 						"req": true,
 						"format": "int32",
+					},
+					map[string]any{
+						"name": "Settings",
+						"title": "Settings",
+						"type": "`$ARRAY`",
+						"short": "Product specific name/value pairs to be associated with the lookup bills request",
+					},
+					map[string]any{
+						"name": "SkuCode",
+						"title": "Sku Code",
+						"type": "`$STRING`",
+						"req": true,
+						"short": "Code provided by GetProducts API",
 					},
 				},
 				"name": "lookup_bill",
@@ -898,26 +989,22 @@ func MakeConfig() map[string]any {
 									"header": []any{
 										map[string]any{
 											"name": "x_correlation_id",
-											"orig": "x_correlation_id",
+											"orig": "X-Correlation-Id",
 											"type": "`$STRING`",
 											"kind": "header",
 										},
 									},
-									"query": []any{
+								},
+								"select": map[string]any{},
+								"response": map[string]any{
+									"alternatives": []any{
 										map[string]any{
-											"name": "request",
-											"orig": "request",
-											"type": "`$OBJECT`",
-											"kind": "query",
-											"reqd": true,
+											"kind": "json",
+											"media": "text/json",
 										},
 									},
-								},
-								"select": map[string]any{
-									"exist": []any{
-										"request",
-										"x_correlation_id",
-									},
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 						},
@@ -985,7 +1072,7 @@ func MakeConfig() map[string]any {
 									"header": []any{
 										map[string]any{
 											"name": "x_correlation_id",
-											"orig": "x_correlation_id",
+											"orig": "X-Correlation-Id",
 											"type": "`$STRING`",
 											"kind": "header",
 										},
@@ -993,52 +1080,53 @@ func MakeConfig() map[string]any {
 									"query": []any{
 										map[string]any{
 											"name": "account_number",
-											"orig": "account_number",
-											"type": "`$INTEGER`",
+											"orig": "accountNumber",
+											"type": "`$STRING`",
 											"kind": "query",
+											"example": "",
 										},
 										map[string]any{
 											"name": "benefit",
-											"orig": "benefit",
-											"type": "`$ANY`",
+											"orig": "benefits",
+											"type": "`$ARRAY`",
 											"kind": "query",
 										},
 										map[string]any{
 											"name": "country_iso",
-											"orig": "country_iso",
-											"type": "`$ANY`",
+											"orig": "countryIsos",
+											"type": "`$ARRAY`",
 											"kind": "query",
 										},
 										map[string]any{
 											"name": "provider_code",
-											"orig": "provider_code",
-											"type": "`$ANY`",
+											"orig": "providerCodes",
+											"type": "`$ARRAY`",
 											"kind": "query",
 										},
 										map[string]any{
 											"name": "region_code",
-											"orig": "region_code",
-											"type": "`$ANY`",
+											"orig": "regionCodes",
+											"type": "`$ARRAY`",
 											"kind": "query",
 										},
 										map[string]any{
 											"name": "sku_code",
-											"orig": "sku_code",
-											"type": "`$ANY`",
+											"orig": "skuCodes",
+											"type": "`$ARRAY`",
 											"kind": "query",
 										},
 									},
 								},
-								"select": map[string]any{
-									"exist": []any{
-										"account_number",
-										"benefit",
-										"country_iso",
-										"provider_code",
-										"region_code",
-										"sku_code",
-										"x_correlation_id",
+								"select": map[string]any{},
+								"response": map[string]any{
+									"alternatives": []any{
+										map[string]any{
+											"kind": "json",
+											"media": "text/json",
+										},
 									},
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 						},
@@ -1106,7 +1194,7 @@ func MakeConfig() map[string]any {
 									"header": []any{
 										map[string]any{
 											"name": "x_correlation_id",
-											"orig": "x_correlation_id",
+											"orig": "X-Correlation-Id",
 											"type": "`$STRING`",
 											"kind": "header",
 										},
@@ -1114,24 +1202,28 @@ func MakeConfig() map[string]any {
 									"query": []any{
 										map[string]any{
 											"name": "language_code",
-											"orig": "language_code",
-											"type": "`$ANY`",
+											"orig": "languageCodes",
+											"type": "`$ARRAY`",
 											"kind": "query",
 										},
 										map[string]any{
 											"name": "sku_code",
-											"orig": "sku_code",
-											"type": "`$ANY`",
+											"orig": "skuCodes",
+											"type": "`$ARRAY`",
 											"kind": "query",
 										},
 									},
 								},
-								"select": map[string]any{
-									"exist": []any{
-										"language_code",
-										"sku_code",
-										"x_correlation_id",
+								"select": map[string]any{},
+								"response": map[string]any{
+									"alternatives": []any{
+										map[string]any{
+											"kind": "json",
+											"media": "text/json",
+										},
 									},
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 						},
@@ -1199,7 +1291,7 @@ func MakeConfig() map[string]any {
 									"header": []any{
 										map[string]any{
 											"name": "x_correlation_id",
-											"orig": "x_correlation_id",
+											"orig": "X-Correlation-Id",
 											"type": "`$STRING`",
 											"kind": "header",
 										},
@@ -1207,31 +1299,35 @@ func MakeConfig() map[string]any {
 									"query": []any{
 										map[string]any{
 											"name": "account_number",
-											"orig": "account_number",
-											"type": "`$INTEGER`",
+											"orig": "accountNumber",
+											"type": "`$STRING`",
 											"kind": "query",
+											"example": "",
 										},
 										map[string]any{
 											"name": "country_iso",
-											"orig": "country_iso",
-											"type": "`$ANY`",
+											"orig": "countryIsos",
+											"type": "`$ARRAY`",
 											"kind": "query",
 										},
 										map[string]any{
 											"name": "provider_code",
-											"orig": "provider_code",
-											"type": "`$ANY`",
+											"orig": "providerCodes",
+											"type": "`$ARRAY`",
 											"kind": "query",
 										},
 									},
 								},
-								"select": map[string]any{
-									"exist": []any{
-										"account_number",
-										"country_iso",
-										"provider_code",
-										"x_correlation_id",
+								"select": map[string]any{},
+								"response": map[string]any{
+									"alternatives": []any{
+										map[string]any{
+											"kind": "json",
+											"media": "text/json",
+										},
 									},
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 						},
@@ -1299,7 +1395,7 @@ func MakeConfig() map[string]any {
 									"header": []any{
 										map[string]any{
 											"name": "x_correlation_id",
-											"orig": "x_correlation_id",
+											"orig": "X-Correlation-Id",
 											"type": "`$STRING`",
 											"kind": "header",
 										},
@@ -1307,17 +1403,22 @@ func MakeConfig() map[string]any {
 									"query": []any{
 										map[string]any{
 											"name": "language_code",
-											"orig": "language_code",
-											"type": "`$ANY`",
+											"orig": "languageCodes",
+											"type": "`$ARRAY`",
 											"kind": "query",
 										},
 									},
 								},
-								"select": map[string]any{
-									"exist": []any{
-										"language_code",
-										"x_correlation_id",
+								"select": map[string]any{},
+								"response": map[string]any{
+									"alternatives": []any{
+										map[string]any{
+											"kind": "json",
+											"media": "text/json",
+										},
 									},
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 						},
@@ -1385,7 +1486,7 @@ func MakeConfig() map[string]any {
 									"header": []any{
 										map[string]any{
 											"name": "x_correlation_id",
-											"orig": "x_correlation_id",
+											"orig": "X-Correlation-Id",
 											"type": "`$STRING`",
 											"kind": "header",
 										},
@@ -1393,38 +1494,41 @@ func MakeConfig() map[string]any {
 									"query": []any{
 										map[string]any{
 											"name": "account_number",
-											"orig": "account_number",
-											"type": "`$INTEGER`",
+											"orig": "accountNumber",
+											"type": "`$STRING`",
 											"kind": "query",
+											"example": "",
 										},
 										map[string]any{
 											"name": "country_iso",
-											"orig": "country_iso",
-											"type": "`$ANY`",
+											"orig": "countryIsos",
+											"type": "`$ARRAY`",
 											"kind": "query",
 										},
 										map[string]any{
 											"name": "provider_code",
-											"orig": "provider_code",
-											"type": "`$ANY`",
+											"orig": "providerCodes",
+											"type": "`$ARRAY`",
 											"kind": "query",
 										},
 										map[string]any{
 											"name": "region_code",
-											"orig": "region_code",
-											"type": "`$ANY`",
+											"orig": "regionCodes",
+											"type": "`$ARRAY`",
 											"kind": "query",
 										},
 									},
 								},
-								"select": map[string]any{
-									"exist": []any{
-										"account_number",
-										"country_iso",
-										"provider_code",
-										"region_code",
-										"x_correlation_id",
+								"select": map[string]any{},
+								"response": map[string]any{
+									"alternatives": []any{
+										map[string]any{
+											"kind": "json",
+											"media": "text/json",
+										},
 									},
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 						},
@@ -1491,7 +1595,7 @@ func MakeConfig() map[string]any {
 									"header": []any{
 										map[string]any{
 											"name": "x_correlation_id",
-											"orig": "x_correlation_id",
+											"orig": "X-Correlation-Id",
 											"type": "`$STRING`",
 											"kind": "header",
 										},
@@ -1499,17 +1603,22 @@ func MakeConfig() map[string]any {
 									"query": []any{
 										map[string]any{
 											"name": "provider_code",
-											"orig": "provider_code",
-											"type": "`$ANY`",
+											"orig": "providerCodes",
+											"type": "`$ARRAY`",
 											"kind": "query",
 										},
 									},
 								},
-								"select": map[string]any{
-									"exist": []any{
-										"provider_code",
-										"x_correlation_id",
+								"select": map[string]any{},
+								"response": map[string]any{
+									"alternatives": []any{
+										map[string]any{
+											"kind": "json",
+											"media": "text/json",
+										},
 									},
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 						},
@@ -1577,7 +1686,7 @@ func MakeConfig() map[string]any {
 									"header": []any{
 										map[string]any{
 											"name": "x_correlation_id",
-											"orig": "x_correlation_id",
+											"orig": "X-Correlation-Id",
 											"type": "`$STRING`",
 											"kind": "header",
 										},
@@ -1585,17 +1694,22 @@ func MakeConfig() map[string]any {
 									"query": []any{
 										map[string]any{
 											"name": "country_iso",
-											"orig": "country_iso",
-											"type": "`$ANY`",
+											"orig": "countryIsos",
+											"type": "`$ARRAY`",
 											"kind": "query",
 										},
 									},
 								},
-								"select": map[string]any{
-									"exist": []any{
-										"country_iso",
-										"x_correlation_id",
+								"select": map[string]any{},
+								"response": map[string]any{
+									"alternatives": []any{
+										map[string]any{
+											"kind": "json",
+											"media": "text/json",
+										},
 									},
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 						},
@@ -1607,6 +1721,26 @@ func MakeConfig() map[string]any {
 			},
 			"send_transfer": map[string]any{
 				"fields": []any{
+					map[string]any{
+						"name": "AccountNumber",
+						"title": "Account Number",
+						"type": "`$STRING`",
+						"req": true,
+						"short": "The account number to target",
+					},
+					map[string]any{
+						"name": "BillRef",
+						"title": "Bill Ref",
+						"type": "`$STRING`",
+						"short": "Bill reference.",
+					},
+					map[string]any{
+						"name": "DistributorRef",
+						"title": "Distributor Ref",
+						"type": "`$STRING`",
+						"req": true,
+						"short": "Unique identifier in the distributor system to be associated with the transfer",
+					},
 					map[string]any{
 						"name": "ErrorCodes",
 						"title": "Error Codes",
@@ -1621,10 +1755,44 @@ func MakeConfig() map[string]any {
 						"format": "int32",
 					},
 					map[string]any{
+						"name": "SendCurrencyIso",
+						"title": "Send Currency Iso",
+						"type": "`$STRING`",
+						"short": "The currency of the `SendValue`.",
+					},
+					map[string]any{
+						"name": "SendValue",
+						"title": "Send Value",
+						"type": "`$NUMBER`",
+						"req": true,
+						"short": "The transfer value to be sent.",
+						"format": "decimal",
+					},
+					map[string]any{
+						"name": "Settings",
+						"title": "Settings",
+						"type": "`$ARRAY`",
+						"short": "Product specific name/value pairs to be associated with the transfer request",
+					},
+					map[string]any{
+						"name": "SkuCode",
+						"title": "Sku Code",
+						"type": "`$STRING`",
+						"req": true,
+						"short": "Code provided by GetProducts API",
+					},
+					map[string]any{
 						"name": "TransferRecord",
 						"title": "Transfer Record",
 						"type": "`$OBJECT`",
 						"req": true,
+					},
+					map[string]any{
+						"name": "ValidateOnly",
+						"title": "Validate Only",
+						"type": "`$BOOLEAN`",
+						"req": true,
+						"short": "Validate the request with the provider without doing a transfer",
 					},
 				},
 				"name": "send_transfer",
@@ -1662,26 +1830,22 @@ func MakeConfig() map[string]any {
 									"header": []any{
 										map[string]any{
 											"name": "x_correlation_id",
-											"orig": "x_correlation_id",
+											"orig": "X-Correlation-Id",
 											"type": "`$STRING`",
 											"kind": "header",
 										},
 									},
-									"query": []any{
+								},
+								"select": map[string]any{},
+								"response": map[string]any{
+									"alternatives": []any{
 										map[string]any{
-											"name": "request",
-											"orig": "request",
-											"type": "`$OBJECT`",
-											"kind": "query",
-											"reqd": true,
+											"kind": "json",
+											"media": "text/json",
 										},
 									},
-								},
-								"select": map[string]any{
-									"exist": []any{
-										"request",
-										"x_correlation_id",
-									},
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 						},

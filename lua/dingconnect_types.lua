@@ -14,7 +14,7 @@
 ---@field ResultCode number
 
 ---@class AccountLookupListMatch
----@field account_number? number
+---@field account_number? string
 
 ---@class Balance
 ---@field Code string
@@ -28,12 +28,13 @@
 ---@field ErrorCodes table
 ---@field Items table
 ---@field ResultCode number
+---@field cancellations? table
 
 ---@class CancelTransferCreateData
----@field cancellation_request table
 ---@field ErrorCodes table
 ---@field Items table
 ---@field ResultCode number
+---@field cancellations? table
 
 ---@class Country
 ---@field ErrorCodes table
@@ -69,36 +70,51 @@
 ---@field ErrorCodes table
 ---@field Items table
 ---@field ResultCode number
+---@field estimations? table
 
 ---@class EstimatePriceCreateData
----@field requested_estimation table
 ---@field ErrorCodes table
 ---@field Items table
 ---@field ResultCode number
+---@field estimations? table
 
 ---@class ListTransferRecord
+---@field AccountNumber? string
+---@field DistributorRef? string
 ---@field ErrorCodes table
 ---@field Items table
 ---@field ResultCode number
+---@field Skip? number
+---@field Take number
 ---@field ThereAreMoreItems boolean
+---@field TransferRef? string
 
 ---@class ListTransferRecordCreateData
----@field request table
+---@field AccountNumber? string
+---@field DistributorRef? string
 ---@field ErrorCodes table
 ---@field Items table
 ---@field ResultCode number
+---@field Skip? number
+---@field Take number
 ---@field ThereAreMoreItems boolean
+---@field TransferRef? string
 
 ---@class LookupBill
+---@field AccountNumber string
 ---@field ErrorCodes table
 ---@field Items table
 ---@field ResultCode number
+---@field Settings? table
+---@field SkuCode string
 
 ---@class LookupBillCreateData
----@field request table
+---@field AccountNumber string
 ---@field ErrorCodes table
 ---@field Items table
 ---@field ResultCode number
+---@field Settings? table
+---@field SkuCode string
 
 ---@class Product
 ---@field ErrorCodes table
@@ -106,12 +122,12 @@
 ---@field ResultCode number
 
 ---@class ProductListMatch
----@field account_number? number
----@field benefit? any
----@field country_iso? any
----@field provider_code? any
----@field region_code? any
----@field sku_code? any
+---@field account_number? string
+---@field benefit? table
+---@field country_iso? table
+---@field provider_code? table
+---@field region_code? table
+---@field sku_code? table
 
 ---@class ProductDescription
 ---@field ErrorCodes table
@@ -119,8 +135,8 @@
 ---@field ResultCode number
 
 ---@class ProductDescriptionListMatch
----@field language_code? any
----@field sku_code? any
+---@field language_code? table
+---@field sku_code? table
 
 ---@class Promotion
 ---@field ErrorCodes table
@@ -128,9 +144,9 @@
 ---@field ResultCode number
 
 ---@class PromotionListMatch
----@field account_number? number
----@field country_iso? any
----@field provider_code? any
+---@field account_number? string
+---@field country_iso? table
+---@field provider_code? table
 
 ---@class PromotionDescription
 ---@field ErrorCodes table
@@ -138,7 +154,7 @@
 ---@field ResultCode number
 
 ---@class PromotionDescriptionListMatch
----@field language_code? any
+---@field language_code? table
 
 ---@class Provider
 ---@field ErrorCodes table
@@ -146,10 +162,10 @@
 ---@field ResultCode number
 
 ---@class ProviderListMatch
----@field account_number? number
----@field country_iso? any
----@field provider_code? any
----@field region_code? any
+---@field account_number? string
+---@field country_iso? table
+---@field provider_code? table
+---@field region_code? table
 
 ---@class ProviderStatus
 ---@field ErrorCodes table
@@ -157,7 +173,7 @@
 ---@field ResultCode number
 
 ---@class ProviderStatusListMatch
----@field provider_code? any
+---@field provider_code? table
 
 ---@class Region
 ---@field ErrorCodes table
@@ -165,18 +181,33 @@
 ---@field ResultCode number
 
 ---@class RegionListMatch
----@field country_iso? any
+---@field country_iso? table
 
 ---@class SendTransfer
+---@field AccountNumber string
+---@field BillRef? string
+---@field DistributorRef string
 ---@field ErrorCodes table
 ---@field ResultCode number
+---@field SendCurrencyIso? string
+---@field SendValue number
+---@field Settings? table
+---@field SkuCode string
 ---@field TransferRecord table
+---@field ValidateOnly boolean
 
 ---@class SendTransferCreateData
----@field request table
+---@field AccountNumber string
+---@field BillRef? string
+---@field DistributorRef string
 ---@field ErrorCodes table
 ---@field ResultCode number
+---@field SendCurrencyIso? string
+---@field SendValue number
+---@field Settings? table
+---@field SkuCode string
 ---@field TransferRecord table
+---@field ValidateOnly boolean
 
 local M = {}
 

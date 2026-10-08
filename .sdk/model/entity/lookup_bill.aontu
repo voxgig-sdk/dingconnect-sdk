@@ -5,6 +5,13 @@ main: kit: entity: lookup_bill: {
   alias: field: {}
 
   fields: {
+    AccountNumber: {
+      h: "Account Number"
+      n: "AccountNumber"
+      r: true
+      sh: "The account number to target"
+      t: "`$STRING`"
+    }
     ErrorCodes: {
       h: "Error Codes"
       n: "ErrorCodes"
@@ -24,6 +31,20 @@ main: kit: entity: lookup_bill: {
       r: true
       t: "`$INTEGER`"
     }
+    Settings: {
+      h: "Settings"
+      n: "Settings"
+      r: false
+      sh: "Product specific name/value pairs to be associated with the lookup bills request"
+      t: "`$ARRAY`"
+    }
+    SkuCode: {
+      h: "Sku Code"
+      n: "SkuCode"
+      r: true
+      sh: "Code provided by GetProducts API"
+      t: "`$STRING`"
+    }
   }
 
   name: "lookup_bill"
@@ -32,6 +53,11 @@ main: kit: entity: lookup_bill: {
       name: "create"
       points: [
         {
+          bf: [
+            "AccountNumber"
+            "Settings"
+            "SkuCode"
+          ]
           co: {
             id: "POST /api/V1/LookupBills"
             source: "swagger2"
@@ -42,28 +68,23 @@ main: kit: entity: lookup_bill: {
               {
                 k: "header"
                 n: "x_correlation_id"
-                or: "x_correlation_id"
+                or: "X-Correlation-Id"
                 r: false
                 t: "`$STRING`"
-              }
-            ]
-            query: [
-              {
-                k: "query"
-                n: "request"
-                or: "request"
-                r: true
-                t: "`$OBJECT`"
               }
             ]
           }
           m: "POST"
           o: "/api/V1/LookupBills"
-          q: {
-            exist: [
-              "request"
-              "x_correlation_id"
+          rs: {
+            alternatives: [
+              {
+                kind: "json"
+                media: "text/json"
+              }
             ]
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {

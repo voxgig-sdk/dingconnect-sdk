@@ -43,7 +43,7 @@ main: kit: entity: product_description: {
               {
                 k: "header"
                 n: "x_correlation_id"
-                or: "x_correlation_id"
+                or: "X-Correlation-Id"
                 r: false
                 t: "`$STRING`"
               }
@@ -52,27 +52,30 @@ main: kit: entity: product_description: {
               {
                 k: "query"
                 n: "language_code"
-                or: "language_code"
+                or: "languageCodes"
                 r: false
-                t: "`$ANY`"
+                t: "`$ARRAY`"
               }
               {
                 k: "query"
                 n: "sku_code"
-                or: "sku_code"
+                or: "skuCodes"
                 r: false
-                t: "`$ANY`"
+                t: "`$ARRAY`"
               }
             ]
           }
           m: "GET"
           o: "/api/V1/GetProductDescriptions"
-          q: {
-            exist: [
-              "language_code"
-              "sku_code"
-              "x_correlation_id"
+          rs: {
+            alternatives: [
+              {
+                kind: "json"
+                media: "text/json"
+              }
             ]
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {

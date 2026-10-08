@@ -167,7 +167,7 @@ $account_lookup = $client->AccountLookup();
 
 #### `list(?array $reqmatch = null, ?array $ctrl = null): mixed`
 
-List entities matching the given criteria (call with no argument to list all). Returns an array. Throws on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record, and throws on error.
 
 ```php
 $results = $client->AccountLookup()->list();
@@ -220,7 +220,7 @@ $balance = $client->Balance();
 
 #### `list(?array $reqmatch = null, ?array $ctrl = null): mixed`
 
-List entities matching the given criteria (call with no argument to list all). Returns an array. Throws on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record, and throws on error.
 
 ```php
 $results = $client->Balance()->list();
@@ -269,16 +269,16 @@ $cancel_transfer = $client->CancelTransfer();
 | `ErrorCodes` | `array` | Yes |  |
 | `Items` | `array` | Yes |  |
 | `ResultCode` | `int` | Yes |  |
+| `cancellations` | `array` | No | An explicit list of records to cancel. |
 
 ### Operations
 
 #### `create(array $reqdata, ?array $ctrl = null): mixed`
 
-Create a new entity with the given data. Throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```php
 $result = $client->CancelTransfer()->create([
-  "cancellation_request" => null, // array
   "ErrorCodes" => null, // array
   "Items" => null, // array
   "ResultCode" => null, // int
@@ -333,7 +333,7 @@ $country = $client->Country();
 
 #### `list(?array $reqmatch = null, ?array $ctrl = null): mixed`
 
-List entities matching the given criteria (call with no argument to list all). Returns an array. Throws on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record, and throws on error.
 
 ```php
 $results = $client->Country()->list();
@@ -387,7 +387,7 @@ $currency = $client->Currency();
 
 #### `list(?array $reqmatch = null, ?array $ctrl = null): mixed`
 
-List entities matching the given criteria (call with no argument to list all). Returns an array. Throws on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record, and throws on error.
 
 ```php
 $results = $client->Currency()->list();
@@ -441,7 +441,7 @@ $error_code_description = $client->ErrorCodeDescription();
 
 #### `list(?array $reqmatch = null, ?array $ctrl = null): mixed`
 
-List entities matching the given criteria (call with no argument to list all). Returns an array. Throws on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record, and throws on error.
 
 ```php
 $results = $client->ErrorCodeDescription()->list();
@@ -490,16 +490,16 @@ $estimate_price = $client->EstimatePrice();
 | `ErrorCodes` | `array` | Yes |  |
 | `Items` | `array` | Yes |  |
 | `ResultCode` | `int` | Yes |  |
+| `estimations` | `array` | No |  |
 
 ### Operations
 
 #### `create(array $reqdata, ?array $ctrl = null): mixed`
 
-Create a new entity with the given data. Throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```php
 $result = $client->EstimatePrice()->create([
-  "requested_estimation" => null, // array
   "ErrorCodes" => null, // array
   "Items" => null, // array
   "ResultCode" => null, // int
@@ -546,23 +546,28 @@ $list_transfer_record = $client->ListTransferRecord();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `AccountNumber` | `string` | No | Filter transfers by AccountNumber |
+| `DistributorRef` | `string` | No | Filter transfers by DistributorRef. |
 | `ErrorCodes` | `array` | Yes |  |
 | `Items` | `array` | Yes | The list of items satisfying the transfer query. |
 | `ResultCode` | `int` | Yes |  |
+| `Skip` | `int` | No | The amount of records to by-pass before returning the remaining records |
+| `Take` | `int` | Yes | The amount of records to return |
 | `ThereAreMoreItems` | `bool` | Yes | Indicates if the caller should execute the query again. |
+| `TransferRef` | `string` | No | Filter by Ding TransferRef |
 
 ### Operations
 
 #### `create(array $reqdata, ?array $ctrl = null): mixed`
 
-Create a new entity with the given data. Throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```php
 $result = $client->ListTransferRecord()->create([
-  "request" => null, // array
   "ErrorCodes" => null, // array
   "Items" => null, // array
   "ResultCode" => null, // int
+  "Take" => null, // int
   "ThereAreMoreItems" => null, // bool
 ]);
 ```
@@ -607,22 +612,26 @@ $lookup_bill = $client->LookupBill();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `AccountNumber` | `string` | Yes | The account number to target |
 | `ErrorCodes` | `array` | Yes |  |
 | `Items` | `array` | Yes |  |
 | `ResultCode` | `int` | Yes |  |
+| `Settings` | `array` | No | Product specific name/value pairs to be associated with the lookup bills request |
+| `SkuCode` | `string` | Yes | Code provided by GetProducts API |
 
 ### Operations
 
 #### `create(array $reqdata, ?array $ctrl = null): mixed`
 
-Create a new entity with the given data. Throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```php
 $result = $client->LookupBill()->create([
-  "request" => null, // array
+  "AccountNumber" => null, // string
   "ErrorCodes" => null, // array
   "Items" => null, // array
   "ResultCode" => null, // int
+  "SkuCode" => null, // string
 ]);
 ```
 
@@ -674,7 +683,7 @@ $product = $client->Product();
 
 #### `list(?array $reqmatch = null, ?array $ctrl = null): mixed`
 
-List entities matching the given criteria (call with no argument to list all). Returns an array. Throws on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record, and throws on error.
 
 ```php
 $results = $client->Product()->list();
@@ -728,7 +737,7 @@ $product_description = $client->ProductDescription();
 
 #### `list(?array $reqmatch = null, ?array $ctrl = null): mixed`
 
-List entities matching the given criteria (call with no argument to list all). Returns an array. Throws on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record, and throws on error.
 
 ```php
 $results = $client->ProductDescription()->list();
@@ -782,7 +791,7 @@ $promotion = $client->Promotion();
 
 #### `list(?array $reqmatch = null, ?array $ctrl = null): mixed`
 
-List entities matching the given criteria (call with no argument to list all). Returns an array. Throws on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record, and throws on error.
 
 ```php
 $results = $client->Promotion()->list();
@@ -836,7 +845,7 @@ $promotion_description = $client->PromotionDescription();
 
 #### `list(?array $reqmatch = null, ?array $ctrl = null): mixed`
 
-List entities matching the given criteria (call with no argument to list all). Returns an array. Throws on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record, and throws on error.
 
 ```php
 $results = $client->PromotionDescription()->list();
@@ -890,7 +899,7 @@ $provider = $client->Provider();
 
 #### `list(?array $reqmatch = null, ?array $ctrl = null): mixed`
 
-List entities matching the given criteria (call with no argument to list all). Returns an array. Throws on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record, and throws on error.
 
 ```php
 $results = $client->Provider()->list();
@@ -944,7 +953,7 @@ $provider_status = $client->ProviderStatus();
 
 #### `list(?array $reqmatch = null, ?array $ctrl = null): mixed`
 
-List entities matching the given criteria (call with no argument to list all). Returns an array. Throws on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record, and throws on error.
 
 ```php
 $results = $client->ProviderStatus()->list();
@@ -998,7 +1007,7 @@ $region = $client->Region();
 
 #### `list(?array $reqmatch = null, ?array $ctrl = null): mixed`
 
-List entities matching the given criteria (call with no argument to list all). Returns an array. Throws on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record, and throws on error.
 
 ```php
 $results = $client->Region()->list();
@@ -1044,22 +1053,34 @@ $send_transfer = $client->SendTransfer();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `AccountNumber` | `string` | Yes | The account number to target |
+| `BillRef` | `string` | No | Bill reference. |
+| `DistributorRef` | `string` | Yes | Unique identifier in the distributor system to be associated with the transfer |
 | `ErrorCodes` | `array` | Yes |  |
 | `ResultCode` | `int` | Yes |  |
+| `SendCurrencyIso` | `string` | No | The currency of the `SendValue`. |
+| `SendValue` | `float` | Yes | The transfer value to be sent. |
+| `Settings` | `array` | No | Product specific name/value pairs to be associated with the transfer request |
+| `SkuCode` | `string` | Yes | Code provided by GetProducts API |
 | `TransferRecord` | `array` | Yes |  |
+| `ValidateOnly` | `bool` | Yes | Validate the request with the provider without doing a transfer |
 
 ### Operations
 
 #### `create(array $reqdata, ?array $ctrl = null): mixed`
 
-Create a new entity with the given data. Throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```php
 $result = $client->SendTransfer()->create([
-  "request" => null, // array
+  "AccountNumber" => null, // string
+  "DistributorRef" => null, // string
   "ErrorCodes" => null, // array
   "ResultCode" => null, // int
+  "SendValue" => null, // float
+  "SkuCode" => null, // string
   "TransferRecord" => null, // array
+  "ValidateOnly" => null, // bool
 ]);
 ```
 
@@ -1383,6 +1404,7 @@ Timeout.
 | Option | Type |
 |---|---|
 | `clearTimer` | function |
+| `now` | function |
 | `setTimer` | function |
 
 These take no default: the feature behaves one way when you supply them and

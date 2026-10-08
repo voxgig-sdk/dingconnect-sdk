@@ -137,6 +137,7 @@ local function make_config()
         },
         ["optspec"] = {
           ["clearTimer"] = "`$FUNCTION`",
+          ["now"] = "`$FUNCTION`",
           ["setTimer"] = "`$FUNCTION`",
         },
         ["strict"] = false,
@@ -243,7 +244,7 @@ local function make_config()
                   ["header"] = {
                     {
                       ["name"] = "x_correlation_id",
-                      ["orig"] = "x_correlation_id",
+                      ["orig"] = "X-Correlation-Id",
                       ["type"] = "`$STRING`",
                       ["kind"] = "header",
                     },
@@ -251,17 +252,23 @@ local function make_config()
                   ["query"] = {
                     {
                       ["name"] = "account_number",
-                      ["orig"] = "account_number",
-                      ["type"] = "`$INTEGER`",
+                      ["orig"] = "accountNumber",
+                      ["type"] = "`$STRING`",
                       ["kind"] = "query",
+                      ["example"] = "",
                     },
                   },
                 },
-                ["select"] = {
-                  ["exist"] = {
-                    "account_number",
-                    "x_correlation_id",
+                ["select"] = {},
+                ["response"] = {
+                  ["alternatives"] = {
+                    {
+                      ["kind"] = "json",
+                      ["media"] = "text/json",
+                    },
                   },
+                  ["kind"] = "json",
+                  ["media"] = "application/json",
                 },
               },
             },
@@ -322,16 +329,22 @@ local function make_config()
                   ["header"] = {
                     {
                       ["name"] = "x_correlation_id",
-                      ["orig"] = "x_correlation_id",
+                      ["orig"] = "X-Correlation-Id",
                       ["type"] = "`$STRING`",
                       ["kind"] = "header",
                     },
                   },
                 },
-                ["select"] = {
-                  ["exist"] = {
-                    "x_correlation_id",
+                ["select"] = {},
+                ["response"] = {
+                  ["alternatives"] = {
+                    {
+                      ["kind"] = "json",
+                      ["media"] = "text/json",
+                    },
                   },
+                  ["kind"] = "json",
+                  ["media"] = "application/json",
                 },
               },
             },
@@ -362,6 +375,12 @@ local function make_config()
             ["req"] = true,
             ["format"] = "int32",
           },
+          {
+            ["name"] = "cancellations",
+            ["title"] = "Cancellations",
+            ["type"] = "`$ARRAY`",
+            ["short"] = "An explicit list of records to cancel.",
+          },
         },
         ["name"] = "cancel_transfer",
         ["op"] = {
@@ -391,33 +410,33 @@ local function make_config()
                 },
                 ["rename"] = {},
                 ["transform"] = {
-                  ["req"] = "`reqdata`",
+                  ["req"] = "`reqdata.cancellations`",
                   ["res"] = "`body`",
                 },
                 ["args"] = {
                   ["header"] = {
                     {
                       ["name"] = "x_correlation_id",
-                      ["orig"] = "x_correlation_id",
+                      ["orig"] = "X-Correlation-Id",
                       ["type"] = "`$STRING`",
                       ["kind"] = "header",
-                    },
-                  },
-                  ["query"] = {
-                    {
-                      ["name"] = "cancellation_request",
-                      ["orig"] = "cancellation_request",
-                      ["type"] = "`$ARRAY`",
-                      ["kind"] = "query",
-                      ["reqd"] = true,
                     },
                   },
                 },
                 ["select"] = {
                   ["exist"] = {
-                    "cancellation_request",
-                    "x_correlation_id",
+                    "cancellations",
                   },
+                },
+                ["response"] = {
+                  ["alternatives"] = {
+                    {
+                      ["kind"] = "json",
+                      ["media"] = "text/json",
+                    },
+                  },
+                  ["kind"] = "json",
+                  ["media"] = "application/json",
                 },
               },
             },
@@ -485,16 +504,22 @@ local function make_config()
                   ["header"] = {
                     {
                       ["name"] = "x_correlation_id",
-                      ["orig"] = "x_correlation_id",
+                      ["orig"] = "X-Correlation-Id",
                       ["type"] = "`$STRING`",
                       ["kind"] = "header",
                     },
                   },
                 },
-                ["select"] = {
-                  ["exist"] = {
-                    "x_correlation_id",
+                ["select"] = {},
+                ["response"] = {
+                  ["alternatives"] = {
+                    {
+                      ["kind"] = "json",
+                      ["media"] = "text/json",
+                    },
                   },
+                  ["kind"] = "json",
+                  ["media"] = "application/json",
                 },
               },
             },
@@ -561,16 +586,22 @@ local function make_config()
                   ["header"] = {
                     {
                       ["name"] = "x_correlation_id",
-                      ["orig"] = "x_correlation_id",
+                      ["orig"] = "X-Correlation-Id",
                       ["type"] = "`$STRING`",
                       ["kind"] = "header",
                     },
                   },
                 },
-                ["select"] = {
-                  ["exist"] = {
-                    "x_correlation_id",
+                ["select"] = {},
+                ["response"] = {
+                  ["alternatives"] = {
+                    {
+                      ["kind"] = "json",
+                      ["media"] = "text/json",
+                    },
                   },
+                  ["kind"] = "json",
+                  ["media"] = "application/json",
                 },
               },
             },
@@ -638,16 +669,22 @@ local function make_config()
                   ["header"] = {
                     {
                       ["name"] = "x_correlation_id",
-                      ["orig"] = "x_correlation_id",
+                      ["orig"] = "X-Correlation-Id",
                       ["type"] = "`$STRING`",
                       ["kind"] = "header",
                     },
                   },
                 },
-                ["select"] = {
-                  ["exist"] = {
-                    "x_correlation_id",
+                ["select"] = {},
+                ["response"] = {
+                  ["alternatives"] = {
+                    {
+                      ["kind"] = "json",
+                      ["media"] = "text/json",
+                    },
                   },
+                  ["kind"] = "json",
+                  ["media"] = "application/json",
                 },
               },
             },
@@ -678,6 +715,11 @@ local function make_config()
             ["req"] = true,
             ["format"] = "int32",
           },
+          {
+            ["name"] = "estimations",
+            ["title"] = "Estimations",
+            ["type"] = "`$ARRAY`",
+          },
         },
         ["name"] = "estimate_price",
         ["op"] = {
@@ -707,33 +749,33 @@ local function make_config()
                 },
                 ["rename"] = {},
                 ["transform"] = {
-                  ["req"] = "`reqdata`",
+                  ["req"] = "`reqdata.estimations`",
                   ["res"] = "`body`",
                 },
                 ["args"] = {
                   ["header"] = {
                     {
                       ["name"] = "x_correlation_id",
-                      ["orig"] = "x_correlation_id",
+                      ["orig"] = "X-Correlation-Id",
                       ["type"] = "`$STRING`",
                       ["kind"] = "header",
-                    },
-                  },
-                  ["query"] = {
-                    {
-                      ["name"] = "requested_estimation",
-                      ["orig"] = "requested_estimation",
-                      ["type"] = "`$ARRAY`",
-                      ["kind"] = "query",
-                      ["reqd"] = true,
                     },
                   },
                 },
                 ["select"] = {
                   ["exist"] = {
-                    "requested_estimation",
-                    "x_correlation_id",
+                    "estimations",
                   },
+                },
+                ["response"] = {
+                  ["alternatives"] = {
+                    {
+                      ["kind"] = "json",
+                      ["media"] = "text/json",
+                    },
+                  },
+                  ["kind"] = "json",
+                  ["media"] = "application/json",
                 },
               },
             },
@@ -745,6 +787,18 @@ local function make_config()
       },
       ["list_transfer_record"] = {
         ["fields"] = {
+          {
+            ["name"] = "AccountNumber",
+            ["title"] = "Account Number",
+            ["type"] = "`$STRING`",
+            ["short"] = "Filter transfers by AccountNumber",
+          },
+          {
+            ["name"] = "DistributorRef",
+            ["title"] = "Distributor Ref",
+            ["type"] = "`$STRING`",
+            ["short"] = "Filter transfers by DistributorRef.",
+          },
           {
             ["name"] = "ErrorCodes",
             ["title"] = "Error Codes",
@@ -766,11 +820,32 @@ local function make_config()
             ["format"] = "int32",
           },
           {
+            ["name"] = "Skip",
+            ["title"] = "Skip",
+            ["type"] = "`$INTEGER`",
+            ["short"] = "The amount of records to by-pass before returning the remaining records",
+            ["format"] = "int32",
+          },
+          {
+            ["name"] = "Take",
+            ["title"] = "Take",
+            ["type"] = "`$INTEGER`",
+            ["req"] = true,
+            ["short"] = "The amount of records to return",
+            ["format"] = "int32",
+          },
+          {
             ["name"] = "ThereAreMoreItems",
             ["title"] = "There Are More Items",
             ["type"] = "`$BOOLEAN`",
             ["req"] = true,
             ["short"] = "Indicates if the caller should execute the query again.",
+          },
+          {
+            ["name"] = "TransferRef",
+            ["title"] = "Transfer Ref",
+            ["type"] = "`$STRING`",
+            ["short"] = "Filter by Ding TransferRef",
           },
         },
         ["name"] = "list_transfer_record",
@@ -808,26 +883,22 @@ local function make_config()
                   ["header"] = {
                     {
                       ["name"] = "x_correlation_id",
-                      ["orig"] = "x_correlation_id",
+                      ["orig"] = "X-Correlation-Id",
                       ["type"] = "`$STRING`",
                       ["kind"] = "header",
                     },
                   },
-                  ["query"] = {
+                },
+                ["select"] = {},
+                ["response"] = {
+                  ["alternatives"] = {
                     {
-                      ["name"] = "request",
-                      ["orig"] = "request",
-                      ["type"] = "`$OBJECT`",
-                      ["kind"] = "query",
-                      ["reqd"] = true,
+                      ["kind"] = "json",
+                      ["media"] = "text/json",
                     },
                   },
-                },
-                ["select"] = {
-                  ["exist"] = {
-                    "request",
-                    "x_correlation_id",
-                  },
+                  ["kind"] = "json",
+                  ["media"] = "application/json",
                 },
               },
             },
@@ -839,6 +910,13 @@ local function make_config()
       },
       ["lookup_bill"] = {
         ["fields"] = {
+          {
+            ["name"] = "AccountNumber",
+            ["title"] = "Account Number",
+            ["type"] = "`$STRING`",
+            ["req"] = true,
+            ["short"] = "The account number to target",
+          },
           {
             ["name"] = "ErrorCodes",
             ["title"] = "Error Codes",
@@ -857,6 +935,19 @@ local function make_config()
             ["type"] = "`$INTEGER`",
             ["req"] = true,
             ["format"] = "int32",
+          },
+          {
+            ["name"] = "Settings",
+            ["title"] = "Settings",
+            ["type"] = "`$ARRAY`",
+            ["short"] = "Product specific name/value pairs to be associated with the lookup bills request",
+          },
+          {
+            ["name"] = "SkuCode",
+            ["title"] = "Sku Code",
+            ["type"] = "`$STRING`",
+            ["req"] = true,
+            ["short"] = "Code provided by GetProducts API",
           },
         },
         ["name"] = "lookup_bill",
@@ -894,26 +985,22 @@ local function make_config()
                   ["header"] = {
                     {
                       ["name"] = "x_correlation_id",
-                      ["orig"] = "x_correlation_id",
+                      ["orig"] = "X-Correlation-Id",
                       ["type"] = "`$STRING`",
                       ["kind"] = "header",
                     },
                   },
-                  ["query"] = {
+                },
+                ["select"] = {},
+                ["response"] = {
+                  ["alternatives"] = {
                     {
-                      ["name"] = "request",
-                      ["orig"] = "request",
-                      ["type"] = "`$OBJECT`",
-                      ["kind"] = "query",
-                      ["reqd"] = true,
+                      ["kind"] = "json",
+                      ["media"] = "text/json",
                     },
                   },
-                },
-                ["select"] = {
-                  ["exist"] = {
-                    "request",
-                    "x_correlation_id",
-                  },
+                  ["kind"] = "json",
+                  ["media"] = "application/json",
                 },
               },
             },
@@ -981,7 +1068,7 @@ local function make_config()
                   ["header"] = {
                     {
                       ["name"] = "x_correlation_id",
-                      ["orig"] = "x_correlation_id",
+                      ["orig"] = "X-Correlation-Id",
                       ["type"] = "`$STRING`",
                       ["kind"] = "header",
                     },
@@ -989,52 +1076,53 @@ local function make_config()
                   ["query"] = {
                     {
                       ["name"] = "account_number",
-                      ["orig"] = "account_number",
-                      ["type"] = "`$INTEGER`",
+                      ["orig"] = "accountNumber",
+                      ["type"] = "`$STRING`",
                       ["kind"] = "query",
+                      ["example"] = "",
                     },
                     {
                       ["name"] = "benefit",
-                      ["orig"] = "benefit",
-                      ["type"] = "`$ANY`",
+                      ["orig"] = "benefits",
+                      ["type"] = "`$ARRAY`",
                       ["kind"] = "query",
                     },
                     {
                       ["name"] = "country_iso",
-                      ["orig"] = "country_iso",
-                      ["type"] = "`$ANY`",
+                      ["orig"] = "countryIsos",
+                      ["type"] = "`$ARRAY`",
                       ["kind"] = "query",
                     },
                     {
                       ["name"] = "provider_code",
-                      ["orig"] = "provider_code",
-                      ["type"] = "`$ANY`",
+                      ["orig"] = "providerCodes",
+                      ["type"] = "`$ARRAY`",
                       ["kind"] = "query",
                     },
                     {
                       ["name"] = "region_code",
-                      ["orig"] = "region_code",
-                      ["type"] = "`$ANY`",
+                      ["orig"] = "regionCodes",
+                      ["type"] = "`$ARRAY`",
                       ["kind"] = "query",
                     },
                     {
                       ["name"] = "sku_code",
-                      ["orig"] = "sku_code",
-                      ["type"] = "`$ANY`",
+                      ["orig"] = "skuCodes",
+                      ["type"] = "`$ARRAY`",
                       ["kind"] = "query",
                     },
                   },
                 },
-                ["select"] = {
-                  ["exist"] = {
-                    "account_number",
-                    "benefit",
-                    "country_iso",
-                    "provider_code",
-                    "region_code",
-                    "sku_code",
-                    "x_correlation_id",
+                ["select"] = {},
+                ["response"] = {
+                  ["alternatives"] = {
+                    {
+                      ["kind"] = "json",
+                      ["media"] = "text/json",
+                    },
                   },
+                  ["kind"] = "json",
+                  ["media"] = "application/json",
                 },
               },
             },
@@ -1102,7 +1190,7 @@ local function make_config()
                   ["header"] = {
                     {
                       ["name"] = "x_correlation_id",
-                      ["orig"] = "x_correlation_id",
+                      ["orig"] = "X-Correlation-Id",
                       ["type"] = "`$STRING`",
                       ["kind"] = "header",
                     },
@@ -1110,24 +1198,28 @@ local function make_config()
                   ["query"] = {
                     {
                       ["name"] = "language_code",
-                      ["orig"] = "language_code",
-                      ["type"] = "`$ANY`",
+                      ["orig"] = "languageCodes",
+                      ["type"] = "`$ARRAY`",
                       ["kind"] = "query",
                     },
                     {
                       ["name"] = "sku_code",
-                      ["orig"] = "sku_code",
-                      ["type"] = "`$ANY`",
+                      ["orig"] = "skuCodes",
+                      ["type"] = "`$ARRAY`",
                       ["kind"] = "query",
                     },
                   },
                 },
-                ["select"] = {
-                  ["exist"] = {
-                    "language_code",
-                    "sku_code",
-                    "x_correlation_id",
+                ["select"] = {},
+                ["response"] = {
+                  ["alternatives"] = {
+                    {
+                      ["kind"] = "json",
+                      ["media"] = "text/json",
+                    },
                   },
+                  ["kind"] = "json",
+                  ["media"] = "application/json",
                 },
               },
             },
@@ -1195,7 +1287,7 @@ local function make_config()
                   ["header"] = {
                     {
                       ["name"] = "x_correlation_id",
-                      ["orig"] = "x_correlation_id",
+                      ["orig"] = "X-Correlation-Id",
                       ["type"] = "`$STRING`",
                       ["kind"] = "header",
                     },
@@ -1203,31 +1295,35 @@ local function make_config()
                   ["query"] = {
                     {
                       ["name"] = "account_number",
-                      ["orig"] = "account_number",
-                      ["type"] = "`$INTEGER`",
+                      ["orig"] = "accountNumber",
+                      ["type"] = "`$STRING`",
                       ["kind"] = "query",
+                      ["example"] = "",
                     },
                     {
                       ["name"] = "country_iso",
-                      ["orig"] = "country_iso",
-                      ["type"] = "`$ANY`",
+                      ["orig"] = "countryIsos",
+                      ["type"] = "`$ARRAY`",
                       ["kind"] = "query",
                     },
                     {
                       ["name"] = "provider_code",
-                      ["orig"] = "provider_code",
-                      ["type"] = "`$ANY`",
+                      ["orig"] = "providerCodes",
+                      ["type"] = "`$ARRAY`",
                       ["kind"] = "query",
                     },
                   },
                 },
-                ["select"] = {
-                  ["exist"] = {
-                    "account_number",
-                    "country_iso",
-                    "provider_code",
-                    "x_correlation_id",
+                ["select"] = {},
+                ["response"] = {
+                  ["alternatives"] = {
+                    {
+                      ["kind"] = "json",
+                      ["media"] = "text/json",
+                    },
                   },
+                  ["kind"] = "json",
+                  ["media"] = "application/json",
                 },
               },
             },
@@ -1295,7 +1391,7 @@ local function make_config()
                   ["header"] = {
                     {
                       ["name"] = "x_correlation_id",
-                      ["orig"] = "x_correlation_id",
+                      ["orig"] = "X-Correlation-Id",
                       ["type"] = "`$STRING`",
                       ["kind"] = "header",
                     },
@@ -1303,17 +1399,22 @@ local function make_config()
                   ["query"] = {
                     {
                       ["name"] = "language_code",
-                      ["orig"] = "language_code",
-                      ["type"] = "`$ANY`",
+                      ["orig"] = "languageCodes",
+                      ["type"] = "`$ARRAY`",
                       ["kind"] = "query",
                     },
                   },
                 },
-                ["select"] = {
-                  ["exist"] = {
-                    "language_code",
-                    "x_correlation_id",
+                ["select"] = {},
+                ["response"] = {
+                  ["alternatives"] = {
+                    {
+                      ["kind"] = "json",
+                      ["media"] = "text/json",
+                    },
                   },
+                  ["kind"] = "json",
+                  ["media"] = "application/json",
                 },
               },
             },
@@ -1381,7 +1482,7 @@ local function make_config()
                   ["header"] = {
                     {
                       ["name"] = "x_correlation_id",
-                      ["orig"] = "x_correlation_id",
+                      ["orig"] = "X-Correlation-Id",
                       ["type"] = "`$STRING`",
                       ["kind"] = "header",
                     },
@@ -1389,38 +1490,41 @@ local function make_config()
                   ["query"] = {
                     {
                       ["name"] = "account_number",
-                      ["orig"] = "account_number",
-                      ["type"] = "`$INTEGER`",
+                      ["orig"] = "accountNumber",
+                      ["type"] = "`$STRING`",
                       ["kind"] = "query",
+                      ["example"] = "",
                     },
                     {
                       ["name"] = "country_iso",
-                      ["orig"] = "country_iso",
-                      ["type"] = "`$ANY`",
+                      ["orig"] = "countryIsos",
+                      ["type"] = "`$ARRAY`",
                       ["kind"] = "query",
                     },
                     {
                       ["name"] = "provider_code",
-                      ["orig"] = "provider_code",
-                      ["type"] = "`$ANY`",
+                      ["orig"] = "providerCodes",
+                      ["type"] = "`$ARRAY`",
                       ["kind"] = "query",
                     },
                     {
                       ["name"] = "region_code",
-                      ["orig"] = "region_code",
-                      ["type"] = "`$ANY`",
+                      ["orig"] = "regionCodes",
+                      ["type"] = "`$ARRAY`",
                       ["kind"] = "query",
                     },
                   },
                 },
-                ["select"] = {
-                  ["exist"] = {
-                    "account_number",
-                    "country_iso",
-                    "provider_code",
-                    "region_code",
-                    "x_correlation_id",
+                ["select"] = {},
+                ["response"] = {
+                  ["alternatives"] = {
+                    {
+                      ["kind"] = "json",
+                      ["media"] = "text/json",
+                    },
                   },
+                  ["kind"] = "json",
+                  ["media"] = "application/json",
                 },
               },
             },
@@ -1487,7 +1591,7 @@ local function make_config()
                   ["header"] = {
                     {
                       ["name"] = "x_correlation_id",
-                      ["orig"] = "x_correlation_id",
+                      ["orig"] = "X-Correlation-Id",
                       ["type"] = "`$STRING`",
                       ["kind"] = "header",
                     },
@@ -1495,17 +1599,22 @@ local function make_config()
                   ["query"] = {
                     {
                       ["name"] = "provider_code",
-                      ["orig"] = "provider_code",
-                      ["type"] = "`$ANY`",
+                      ["orig"] = "providerCodes",
+                      ["type"] = "`$ARRAY`",
                       ["kind"] = "query",
                     },
                   },
                 },
-                ["select"] = {
-                  ["exist"] = {
-                    "provider_code",
-                    "x_correlation_id",
+                ["select"] = {},
+                ["response"] = {
+                  ["alternatives"] = {
+                    {
+                      ["kind"] = "json",
+                      ["media"] = "text/json",
+                    },
                   },
+                  ["kind"] = "json",
+                  ["media"] = "application/json",
                 },
               },
             },
@@ -1573,7 +1682,7 @@ local function make_config()
                   ["header"] = {
                     {
                       ["name"] = "x_correlation_id",
-                      ["orig"] = "x_correlation_id",
+                      ["orig"] = "X-Correlation-Id",
                       ["type"] = "`$STRING`",
                       ["kind"] = "header",
                     },
@@ -1581,17 +1690,22 @@ local function make_config()
                   ["query"] = {
                     {
                       ["name"] = "country_iso",
-                      ["orig"] = "country_iso",
-                      ["type"] = "`$ANY`",
+                      ["orig"] = "countryIsos",
+                      ["type"] = "`$ARRAY`",
                       ["kind"] = "query",
                     },
                   },
                 },
-                ["select"] = {
-                  ["exist"] = {
-                    "country_iso",
-                    "x_correlation_id",
+                ["select"] = {},
+                ["response"] = {
+                  ["alternatives"] = {
+                    {
+                      ["kind"] = "json",
+                      ["media"] = "text/json",
+                    },
                   },
+                  ["kind"] = "json",
+                  ["media"] = "application/json",
                 },
               },
             },
@@ -1603,6 +1717,26 @@ local function make_config()
       },
       ["send_transfer"] = {
         ["fields"] = {
+          {
+            ["name"] = "AccountNumber",
+            ["title"] = "Account Number",
+            ["type"] = "`$STRING`",
+            ["req"] = true,
+            ["short"] = "The account number to target",
+          },
+          {
+            ["name"] = "BillRef",
+            ["title"] = "Bill Ref",
+            ["type"] = "`$STRING`",
+            ["short"] = "Bill reference.",
+          },
+          {
+            ["name"] = "DistributorRef",
+            ["title"] = "Distributor Ref",
+            ["type"] = "`$STRING`",
+            ["req"] = true,
+            ["short"] = "Unique identifier in the distributor system to be associated with the transfer",
+          },
           {
             ["name"] = "ErrorCodes",
             ["title"] = "Error Codes",
@@ -1617,10 +1751,44 @@ local function make_config()
             ["format"] = "int32",
           },
           {
+            ["name"] = "SendCurrencyIso",
+            ["title"] = "Send Currency Iso",
+            ["type"] = "`$STRING`",
+            ["short"] = "The currency of the `SendValue`.",
+          },
+          {
+            ["name"] = "SendValue",
+            ["title"] = "Send Value",
+            ["type"] = "`$NUMBER`",
+            ["req"] = true,
+            ["short"] = "The transfer value to be sent.",
+            ["format"] = "decimal",
+          },
+          {
+            ["name"] = "Settings",
+            ["title"] = "Settings",
+            ["type"] = "`$ARRAY`",
+            ["short"] = "Product specific name/value pairs to be associated with the transfer request",
+          },
+          {
+            ["name"] = "SkuCode",
+            ["title"] = "Sku Code",
+            ["type"] = "`$STRING`",
+            ["req"] = true,
+            ["short"] = "Code provided by GetProducts API",
+          },
+          {
             ["name"] = "TransferRecord",
             ["title"] = "Transfer Record",
             ["type"] = "`$OBJECT`",
             ["req"] = true,
+          },
+          {
+            ["name"] = "ValidateOnly",
+            ["title"] = "Validate Only",
+            ["type"] = "`$BOOLEAN`",
+            ["req"] = true,
+            ["short"] = "Validate the request with the provider without doing a transfer",
           },
         },
         ["name"] = "send_transfer",
@@ -1658,26 +1826,22 @@ local function make_config()
                   ["header"] = {
                     {
                       ["name"] = "x_correlation_id",
-                      ["orig"] = "x_correlation_id",
+                      ["orig"] = "X-Correlation-Id",
                       ["type"] = "`$STRING`",
                       ["kind"] = "header",
                     },
                   },
-                  ["query"] = {
+                },
+                ["select"] = {},
+                ["response"] = {
+                  ["alternatives"] = {
                     {
-                      ["name"] = "request",
-                      ["orig"] = "request",
-                      ["type"] = "`$OBJECT`",
-                      ["kind"] = "query",
-                      ["reqd"] = true,
+                      ["kind"] = "json",
+                      ["media"] = "text/json",
                     },
                   },
-                },
-                ["select"] = {
-                  ["exist"] = {
-                    "request",
-                    "x_correlation_id",
-                  },
+                  ["kind"] = "json",
+                  ["media"] = "application/json",
                 },
               },
             },

@@ -110,6 +110,7 @@ declare class Config {
             };
             optspec: {
                 clearTimer: string;
+                now: string;
                 setTimer: string;
             };
             strict: boolean;
@@ -206,10 +207,17 @@ declare class Config {
                                 orig: string;
                                 type: string;
                                 kind: string;
+                                example: string;
                             }[];
                         };
-                        select: {
-                            exist: string[];
+                        select: {};
+                        response: {
+                            alternatives: {
+                                kind: string;
+                                media: string;
+                            }[];
+                            kind: string;
+                            media: string;
                         };
                     }[];
                 };
@@ -258,8 +266,14 @@ declare class Config {
                                 kind: string;
                             }[];
                         };
-                        select: {
-                            exist: string[];
+                        select: {};
+                        response: {
+                            alternatives: {
+                                kind: string;
+                                media: string;
+                            }[];
+                            kind: string;
+                            media: string;
                         };
                     }[];
                 };
@@ -275,12 +289,21 @@ declare class Config {
                 type: string;
                 req: boolean;
                 format?: undefined;
+                short?: undefined;
             } | {
                 name: string;
                 title: string;
                 type: string;
                 req: boolean;
                 format: string;
+                short?: undefined;
+            } | {
+                name: string;
+                title: string;
+                type: string;
+                short: string;
+                req?: undefined;
+                format?: undefined;
             })[];
             name: string;
             op: {
@@ -307,16 +330,17 @@ declare class Config {
                                 type: string;
                                 kind: string;
                             }[];
-                            query: {
-                                name: string;
-                                orig: string;
-                                type: string;
-                                kind: string;
-                                reqd: boolean;
-                            }[];
                         };
                         select: {
                             exist: string[];
+                        };
+                        response: {
+                            alternatives: {
+                                kind: string;
+                                media: string;
+                            }[];
+                            kind: string;
+                            media: string;
                         };
                     }[];
                 };
@@ -374,8 +398,14 @@ declare class Config {
                                 kind: string;
                             }[];
                         };
-                        select: {
-                            exist: string[];
+                        select: {};
+                        response: {
+                            alternatives: {
+                                kind: string;
+                                media: string;
+                            }[];
+                            kind: string;
+                            media: string;
                         };
                     }[];
                 };
@@ -424,8 +454,14 @@ declare class Config {
                                 kind: string;
                             }[];
                         };
-                        select: {
-                            exist: string[];
+                        select: {};
+                        response: {
+                            alternatives: {
+                                kind: string;
+                                media: string;
+                            }[];
+                            kind: string;
+                            media: string;
                         };
                     }[];
                 };
@@ -483,8 +519,14 @@ declare class Config {
                                 kind: string;
                             }[];
                         };
-                        select: {
-                            exist: string[];
+                        select: {};
+                        response: {
+                            alternatives: {
+                                kind: string;
+                                media: string;
+                            }[];
+                            kind: string;
+                            media: string;
                         };
                     }[];
                 };
@@ -506,6 +548,12 @@ declare class Config {
                 type: string;
                 req: boolean;
                 format: string;
+            } | {
+                name: string;
+                title: string;
+                type: string;
+                req?: undefined;
+                format?: undefined;
             })[];
             name: string;
             op: {
@@ -532,16 +580,17 @@ declare class Config {
                                 type: string;
                                 kind: string;
                             }[];
-                            query: {
-                                name: string;
-                                orig: string;
-                                type: string;
-                                kind: string;
-                                reqd: boolean;
-                            }[];
                         };
                         select: {
                             exist: string[];
+                        };
+                        response: {
+                            alternatives: {
+                                kind: string;
+                                media: string;
+                            }[];
+                            kind: string;
+                            media: string;
                         };
                     }[];
                 };
@@ -552,6 +601,13 @@ declare class Config {
         };
         list_transfer_record: {
             fields: ({
+                name: string;
+                title: string;
+                type: string;
+                short: string;
+                req?: undefined;
+                format?: undefined;
+            } | {
                 name: string;
                 title: string;
                 type: string;
@@ -572,62 +628,19 @@ declare class Config {
                 req: boolean;
                 format: string;
                 short?: undefined;
-            })[];
-            name: string;
-            op: {
-                create: {
-                    input: string;
-                    name: string;
-                    points: {
-                        kind: string;
-                        method: string;
-                        orig: string;
-                        segments: {
-                            lit: string;
-                        }[];
-                        parts: string[];
-                        rename: {};
-                        transform: {
-                            req: string;
-                            res: string;
-                        };
-                        args: {
-                            header: {
-                                name: string;
-                                orig: string;
-                                type: string;
-                                kind: string;
-                            }[];
-                            query: {
-                                name: string;
-                                orig: string;
-                                type: string;
-                                kind: string;
-                                reqd: boolean;
-                            }[];
-                        };
-                        select: {
-                            exist: string[];
-                        };
-                    }[];
-                };
-            };
-            relations: {
-                ancestors: never[];
-            };
-        };
-        lookup_bill: {
-            fields: ({
+            } | {
                 name: string;
                 title: string;
                 type: string;
-                req: boolean;
-                format?: undefined;
+                short: string;
+                format: string;
+                req?: undefined;
             } | {
                 name: string;
                 title: string;
                 type: string;
                 req: boolean;
+                short: string;
                 format: string;
             })[];
             name: string;
@@ -655,16 +668,87 @@ declare class Config {
                                 type: string;
                                 kind: string;
                             }[];
-                            query: {
+                        };
+                        select: {};
+                        response: {
+                            alternatives: {
+                                kind: string;
+                                media: string;
+                            }[];
+                            kind: string;
+                            media: string;
+                        };
+                    }[];
+                };
+            };
+            relations: {
+                ancestors: never[];
+            };
+        };
+        lookup_bill: {
+            fields: ({
+                name: string;
+                title: string;
+                type: string;
+                req: boolean;
+                short: string;
+                format?: undefined;
+            } | {
+                name: string;
+                title: string;
+                type: string;
+                req: boolean;
+                short?: undefined;
+                format?: undefined;
+            } | {
+                name: string;
+                title: string;
+                type: string;
+                req: boolean;
+                format: string;
+                short?: undefined;
+            } | {
+                name: string;
+                title: string;
+                type: string;
+                short: string;
+                req?: undefined;
+                format?: undefined;
+            })[];
+            name: string;
+            op: {
+                create: {
+                    input: string;
+                    name: string;
+                    points: {
+                        kind: string;
+                        method: string;
+                        orig: string;
+                        segments: {
+                            lit: string;
+                        }[];
+                        parts: string[];
+                        rename: {};
+                        transform: {
+                            req: string;
+                            res: string;
+                        };
+                        args: {
+                            header: {
                                 name: string;
                                 orig: string;
                                 type: string;
                                 kind: string;
-                                reqd: boolean;
                             }[];
                         };
-                        select: {
-                            exist: string[];
+                        select: {};
+                        response: {
+                            alternatives: {
+                                kind: string;
+                                media: string;
+                            }[];
+                            kind: string;
+                            media: string;
                         };
                     }[];
                 };
@@ -721,15 +805,28 @@ declare class Config {
                                 type: string;
                                 kind: string;
                             }[];
-                            query: {
+                            query: ({
                                 name: string;
                                 orig: string;
                                 type: string;
                                 kind: string;
-                            }[];
+                                example: string;
+                            } | {
+                                name: string;
+                                orig: string;
+                                type: string;
+                                kind: string;
+                                example?: undefined;
+                            })[];
                         };
-                        select: {
-                            exist: string[];
+                        select: {};
+                        response: {
+                            alternatives: {
+                                kind: string;
+                                media: string;
+                            }[];
+                            kind: string;
+                            media: string;
                         };
                     }[];
                 };
@@ -793,8 +890,14 @@ declare class Config {
                                 kind: string;
                             }[];
                         };
-                        select: {
-                            exist: string[];
+                        select: {};
+                        response: {
+                            alternatives: {
+                                kind: string;
+                                media: string;
+                            }[];
+                            kind: string;
+                            media: string;
                         };
                     }[];
                 };
@@ -851,15 +954,28 @@ declare class Config {
                                 type: string;
                                 kind: string;
                             }[];
-                            query: {
+                            query: ({
                                 name: string;
                                 orig: string;
                                 type: string;
                                 kind: string;
-                            }[];
+                                example: string;
+                            } | {
+                                name: string;
+                                orig: string;
+                                type: string;
+                                kind: string;
+                                example?: undefined;
+                            })[];
                         };
-                        select: {
-                            exist: string[];
+                        select: {};
+                        response: {
+                            alternatives: {
+                                kind: string;
+                                media: string;
+                            }[];
+                            kind: string;
+                            media: string;
                         };
                     }[];
                 };
@@ -923,8 +1039,14 @@ declare class Config {
                                 kind: string;
                             }[];
                         };
-                        select: {
-                            exist: string[];
+                        select: {};
+                        response: {
+                            alternatives: {
+                                kind: string;
+                                media: string;
+                            }[];
+                            kind: string;
+                            media: string;
                         };
                     }[];
                 };
@@ -981,15 +1103,28 @@ declare class Config {
                                 type: string;
                                 kind: string;
                             }[];
-                            query: {
+                            query: ({
                                 name: string;
                                 orig: string;
                                 type: string;
                                 kind: string;
-                            }[];
+                                example: string;
+                            } | {
+                                name: string;
+                                orig: string;
+                                type: string;
+                                kind: string;
+                                example?: undefined;
+                            })[];
                         };
-                        select: {
-                            exist: string[];
+                        select: {};
+                        response: {
+                            alternatives: {
+                                kind: string;
+                                media: string;
+                            }[];
+                            kind: string;
+                            media: string;
                         };
                     }[];
                 };
@@ -1044,8 +1179,14 @@ declare class Config {
                                 kind: string;
                             }[];
                         };
-                        select: {
-                            exist: string[];
+                        select: {};
+                        response: {
+                            alternatives: {
+                                kind: string;
+                                media: string;
+                            }[];
+                            kind: string;
+                            media: string;
                         };
                     }[];
                 };
@@ -1109,8 +1250,14 @@ declare class Config {
                                 kind: string;
                             }[];
                         };
-                        select: {
-                            exist: string[];
+                        select: {};
+                        response: {
+                            alternatives: {
+                                kind: string;
+                                media: string;
+                            }[];
+                            kind: string;
+                            media: string;
                         };
                     }[];
                 };
@@ -1125,12 +1272,35 @@ declare class Config {
                 title: string;
                 type: string;
                 req: boolean;
+                short: string;
+                format?: undefined;
+            } | {
+                name: string;
+                title: string;
+                type: string;
+                short: string;
+                req?: undefined;
                 format?: undefined;
             } | {
                 name: string;
                 title: string;
                 type: string;
                 req: boolean;
+                short?: undefined;
+                format?: undefined;
+            } | {
+                name: string;
+                title: string;
+                type: string;
+                req: boolean;
+                format: string;
+                short?: undefined;
+            } | {
+                name: string;
+                title: string;
+                type: string;
+                req: boolean;
+                short: string;
                 format: string;
             })[];
             name: string;
@@ -1158,16 +1328,15 @@ declare class Config {
                                 type: string;
                                 kind: string;
                             }[];
-                            query: {
-                                name: string;
-                                orig: string;
-                                type: string;
-                                kind: string;
-                                reqd: boolean;
-                            }[];
                         };
-                        select: {
-                            exist: string[];
+                        select: {};
+                        response: {
+                            alternatives: {
+                                kind: string;
+                                media: string;
+                            }[];
+                            kind: string;
+                            media: string;
                         };
                     }[];
                 };

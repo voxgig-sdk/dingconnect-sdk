@@ -54,6 +54,14 @@ const utility_1 = require("../../utility");
         const ent = testsdk.EstimatePrice();
         (0, node_assert_1.default)(null != ent);
     });
+    (0, node_test_1.test)('validate', async (t) => {
+        if (null == __1.config.feature?.validate) {
+            t.skip('feature not present in this SDK: validate');
+            return;
+        }
+        const client = __1.DingconnectSDK.test(undefined, { feature: { validate: { active: true } } });
+        await node_assert_1.default.rejects(client.EstimatePrice().create({ "ErrorCodes": "x", "Items": "x", "ResultCode": "x" }), (err) => 'validate_failed' === err.code);
+    });
     (0, node_test_1.test)('basic', async (t) => {
         const live = 'TRUE' === process.env.DINGCONNECT_TEST_LIVE;
         for (const op of ['create']) {
@@ -62,7 +70,7 @@ const utility_1 = require("../../utility");
         }
         const setup = basicSetup();
         if (setup.live) {
-            return (0, live_entity_1.runLiveEntity)(setup, { "active": true, "alias": { "field": {} }, "fields": { "ErrorCodes": { "a": true, "h": "Error Codes", "n": "ErrorCodes", "r": true, "t": "`$ARRAY`", "key$": "ErrorCodes", "index$": 0 }, "Items": { "a": true, "h": "Items", "n": "Items", "r": true, "t": "`$ARRAY`", "key$": "Items", "index$": 1 }, "ResultCode": { "a": true, "fo": "int32", "h": "Result Code", "n": "ResultCode", "r": true, "t": "`$INTEGER`", "key$": "ResultCode", "index$": 2 } }, "name": "estimate_price", "op": { "create": { "input": "data", "name": "create", "points": [{ "a": true, "co": { "id": "POST /api/V1/EstimatePrices", "source": "swagger2", "version": 2 }, "g": { "header": [{ "a": true, "k": "header", "n": "x_correlation_id", "or": "x_correlation_id", "r": false, "t": "`$STRING`", "index$": 0 }], "query": [{ "a": true, "k": "query", "n": "requested_estimation", "or": "requested_estimation", "r": true, "t": "`$ARRAY`", "index$": 0 }] }, "k": "http", "m": "POST", "o": "/api/V1/EstimatePrices", "q": { "exist": ["requested_estimation", "x_correlation_id"] }, "r": {}, "s": [{ "lit": "api" }, { "lit": "V1" }, { "lit": "EstimatePrices" }], "t": { "req": "`reqdata`", "res": "`body`" }, "index$": 0 }], "key$": "create" } }, "relations": { "ancestors": [] }, "key$": "estimate_price", "name__orig": "estimate_price", "Name": "EstimatePrice", "name_": "estimate_price", "name-": "estimate-price", "NAME": "ESTIMATE_PRICE", "index$": 6 }, { "active": true, "entity": "estimate_price", "key$": "BasicEstimatePriceFlow", "kind": "basic", "name": "BasicEstimatePriceFlow", "param": {}, "step": [{ "a": true, "d": {}, "i": { "ref": "estimate_price_ref01" }, "m": {}, "o": "create", "s": [], "v": [], "index$": 0 }] }, 'EstimatePrice', { "POST /api/V1/EstimatePrices": { "protocol": "http", "parameters": [{ "in": "header", "name": "X-Correlation-Id", "description": "Correlates HTTP requests between a client and server", "type": "String", "index$": 0 }, { "in": "body", "name": "requestedEstimations", "required": true, "schema": { "type": "array", "items": { "required": ["BatchItemRef", "SkuCode"], "type": "object", "properties": { "SendValue": { "format": "decimal", "description": "Desired send value", "type": "number" }, "SendCurrencyIso": { "description": "The currency of `SendValue`", "type": "string" }, "ReceiveValue": { "format": "decimal", "description": "Desired receive value", "type": "number" }, "SkuCode": { "description": "Product to estimate a price for", "type": "string" }, "BatchItemRef": { "description": "A unique reference for an item in a batched request.", "type": "string" } }, "additionalProperties": false, "x-ref": "#/definitions/EstimationRequest" } }, "index$": 1 }] } });
+            return (0, live_entity_1.runLiveEntity)(setup, { "active": true, "alias": { "field": {} }, "fields": { "ErrorCodes": { "a": true, "h": "Error Codes", "n": "ErrorCodes", "r": true, "t": "`$ARRAY`", "key$": "ErrorCodes", "index$": 0 }, "Items": { "a": true, "h": "Items", "n": "Items", "r": true, "t": "`$ARRAY`", "key$": "Items", "index$": 1 }, "ResultCode": { "a": true, "fo": "int32", "h": "Result Code", "n": "ResultCode", "r": true, "t": "`$INTEGER`", "key$": "ResultCode", "index$": 2 }, "estimations": { "a": true, "h": "Estimations", "n": "estimations", "r": false, "t": "`$ARRAY`", "key$": "estimations", "index$": 3 } }, "name": "estimate_price", "op": { "create": { "input": "data", "name": "create", "points": [{ "a": true, "bf": ["estimations"], "co": { "id": "POST /api/V1/EstimatePrices", "source": "swagger2", "version": 2 }, "g": { "header": [{ "a": true, "k": "header", "n": "x_correlation_id", "or": "X-Correlation-Id", "r": false, "t": "`$STRING`", "index$": 0 }] }, "k": "http", "m": "POST", "o": "/api/V1/EstimatePrices", "q": { "exist": ["estimations"] }, "r": {}, "rs": { "alternatives": [{ "kind": "json", "media": "text/json" }], "kind": "json", "media": "application/json" }, "s": [{ "lit": "api" }, { "lit": "V1" }, { "lit": "EstimatePrices" }], "t": { "req": "`reqdata.estimations`", "res": "`body`" }, "index$": 0 }], "key$": "create" } }, "relations": { "ancestors": [] }, "key$": "estimate_price", "name__orig": "estimate_price", "Name": "EstimatePrice", "name_": "estimate_price", "name-": "estimate-price", "NAME": "ESTIMATE_PRICE", "index$": 6 }, { "active": true, "entity": "estimate_price", "key$": "BasicEstimatePriceFlow", "kind": "basic", "name": "BasicEstimatePriceFlow", "param": {}, "step": [{ "a": true, "d": {}, "i": { "ref": "estimate_price_ref01" }, "m": {}, "o": "create", "s": [], "v": [], "index$": 0 }] }, 'EstimatePrice', { "POST /api/V1/EstimatePrices": { "protocol": "http", "parameters": [{ "in": "header", "name": "X-Correlation-Id", "description": "Correlates HTTP requests between a client and server", "type": "String", "index$": 0 }, { "in": "body", "name": "requestedEstimations", "required": true, "schema": { "type": "array", "items": { "required": ["BatchItemRef", "SkuCode"], "type": "object", "properties": { "SendValue": { "format": "decimal", "description": "Desired send value", "type": "number" }, "SendCurrencyIso": { "description": "The currency of `SendValue`", "type": "string" }, "ReceiveValue": { "format": "decimal", "description": "Desired receive value", "type": "number" }, "SkuCode": { "description": "Product to estimate a price for", "type": "string" }, "BatchItemRef": { "description": "A unique reference for an item in a batched request.", "type": "string" } }, "additionalProperties": false, "x-ref": "#/definitions/EstimationRequest" }, "index$": 1 }, "index$": 1 }] } }, { strict: LIVE_STRICT, t });
         }
         const client = setup.client;
         const struct = setup.struct;
@@ -75,6 +83,11 @@ const utility_1 = require("../../utility");
         (0, node_assert_1.default)(null != estimate_price_ref01_data);
     });
 });
+// main.kit.test.live.strict is true (the default is true): a live
+// request that fails, or a live test missing an input it needs,
+// fails the test.
+// An account with no record for a test to read skips it either way.
+const LIVE_STRICT = true;
 function basicSetup(extra) {
     // TODO: fix test def options
     const options = {}; // null

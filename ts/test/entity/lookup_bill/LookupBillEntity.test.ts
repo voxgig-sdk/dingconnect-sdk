@@ -9,7 +9,7 @@ import { createLiveTransport } from '../../live-runner'
 import { runLiveEntity } from '../../live-entity'
 
 
-import { DingconnectSDK, BaseFeature, stdutil } from '../../..'
+import { DingconnectSDK, BaseFeature, config, stdutil } from '../../..'
 
 import {
   envOverride,
@@ -41,6 +41,18 @@ describe('LookupBillEntity', async () => {
   })
 
 
+  test('validate', async (t) => {
+    if (null == (config as any).feature?.validate) {
+      t.skip('feature not present in this SDK: validate')
+      return
+    }
+    const client = DingconnectSDK.test(undefined, { feature: { validate: { active: true } } })
+    await assert.rejects(client.LookupBill().create({"AccountNumber":1,"ErrorCodes":"x","Items":"x","ResultCode":1,"SkuCode":"x"} as any),
+      (err: any) => 'validate_failed' === err.code)
+  })
+
+
+
   test('basic', async (t) => {
 
     const live = 'TRUE' === process.env.DINGCONNECT_TEST_LIVE
@@ -51,7 +63,7 @@ describe('LookupBillEntity', async () => {
     
     const setup = basicSetup()
     if (setup.live) {
-      return runLiveEntity(setup, {"active":true,"alias":{"field":{}},"fields":{"ErrorCodes":{"a":true,"h":"Error Codes","n":"ErrorCodes","r":true,"t":"`$ARRAY`","key$":"ErrorCodes","index$":0},"Items":{"a":true,"h":"Items","n":"Items","r":true,"t":"`$ARRAY`","key$":"Items","index$":1},"ResultCode":{"a":true,"fo":"int32","h":"Result Code","n":"ResultCode","r":true,"t":"`$INTEGER`","key$":"ResultCode","index$":2}},"name":"lookup_bill","op":{"create":{"input":"data","name":"create","points":[{"a":true,"co":{"id":"POST /api/V1/LookupBills","source":"swagger2","version":2},"g":{"header":[{"a":true,"k":"header","n":"x_correlation_id","or":"x_correlation_id","r":false,"t":"`$STRING`","index$":0}],"query":[{"a":true,"k":"query","n":"request","or":"request","r":true,"t":"`$OBJECT`","index$":0}]},"k":"http","m":"POST","o":"/api/V1/LookupBills","q":{"exist":["request","x_correlation_id"]},"r":{},"s":[{"lit":"api"},{"lit":"V1"},{"lit":"LookupBills"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"create"}},"relations":{"ancestors":[]},"key$":"lookup_bill","name__orig":"lookup_bill","Name":"LookupBill","name_":"lookup_bill","name-":"lookup-bill","NAME":"LOOKUP_BILL","index$":8}, {"active":true,"entity":"lookup_bill","key$":"BasicLookupBillFlow","kind":"basic","name":"BasicLookupBillFlow","param":{},"step":[{"a":true,"d":{},"i":{"ref":"lookup_bill_ref01"},"m":{},"o":"create","s":[],"v":[],"index$":0}]}, 'LookupBill', {"POST /api/V1/LookupBills":{"protocol":"http","parameters":[{"in":"header","name":"X-Correlation-Id","description":"Correlates HTTP requests between a client and server","type":"String","index$":0},{"in":"body","name":"request","required":true,"schema":{"required":["AccountNumber","SkuCode"],"type":"object","properties":{"SkuCode":{"description":"Code provided by GetProducts API","type":"string"},"AccountNumber":{"description":"The account number to target","type":"string"},"Settings":{"description":"Product specific name/value pairs to be associated with the lookup bills request","type":"array","items":{"description":"A simple name/value pair","required":["Name","Value"],"type":"object","properties":{"Name":{"description":"The name of the setting as defined in the SettingDefinition","type":"string"},"Value":{"description":"The transfer specific value to associate with the Name","type":"string"}},"additionalProperties":false,"x-ref":"#/definitions/Setting"}}},"additionalProperties":false,"x-ref":"#/definitions/LookupBillsRequest"},"index$":1}]}})
+      return runLiveEntity(setup, {"active":true,"alias":{"field":{}},"fields":{"AccountNumber":{"a":true,"h":"Account Number","n":"AccountNumber","r":true,"sh":"The account number to target","t":"`$STRING`","key$":"AccountNumber","index$":0},"ErrorCodes":{"a":true,"h":"Error Codes","n":"ErrorCodes","r":true,"t":"`$ARRAY`","key$":"ErrorCodes","index$":1},"Items":{"a":true,"h":"Items","n":"Items","r":true,"t":"`$ARRAY`","key$":"Items","index$":2},"ResultCode":{"a":true,"fo":"int32","h":"Result Code","n":"ResultCode","r":true,"t":"`$INTEGER`","key$":"ResultCode","index$":3},"Settings":{"a":true,"h":"Settings","n":"Settings","r":false,"sh":"Product specific name/value pairs to be associated with the lookup bills request","t":"`$ARRAY`","key$":"Settings","index$":4},"SkuCode":{"a":true,"h":"Sku Code","n":"SkuCode","r":true,"sh":"Code provided by GetProducts API","t":"`$STRING`","key$":"SkuCode","index$":5}},"name":"lookup_bill","op":{"create":{"input":"data","name":"create","points":[{"a":true,"bf":["AccountNumber","Settings","SkuCode"],"co":{"id":"POST /api/V1/LookupBills","source":"swagger2","version":2},"g":{"header":[{"a":true,"k":"header","n":"x_correlation_id","or":"X-Correlation-Id","r":false,"t":"`$STRING`","index$":0}]},"k":"http","m":"POST","o":"/api/V1/LookupBills","q":{},"r":{},"rs":{"alternatives":[{"kind":"json","media":"text/json"}],"kind":"json","media":"application/json"},"s":[{"lit":"api"},{"lit":"V1"},{"lit":"LookupBills"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"create"}},"relations":{"ancestors":[]},"key$":"lookup_bill","name__orig":"lookup_bill","Name":"LookupBill","name_":"lookup_bill","name-":"lookup-bill","NAME":"LOOKUP_BILL","index$":8}, {"active":true,"entity":"lookup_bill","key$":"BasicLookupBillFlow","kind":"basic","name":"BasicLookupBillFlow","param":{},"step":[{"a":true,"d":{},"i":{"ref":"lookup_bill_ref01"},"m":{},"o":"create","s":[],"v":[],"index$":0}]}, 'LookupBill', {"POST /api/V1/LookupBills":{"protocol":"http","parameters":[{"in":"header","name":"X-Correlation-Id","description":"Correlates HTTP requests between a client and server","type":"String","index$":0},{"in":"body","name":"request","required":true,"schema":{"required":["AccountNumber","SkuCode"],"type":"object","properties":{"SkuCode":{"description":"Code provided by GetProducts API","type":"string","key$":"SkuCode"},"AccountNumber":{"description":"The account number to target","type":"string","key$":"AccountNumber"},"Settings":{"description":"Product specific name/value pairs to be associated with the lookup bills request","type":"array","items":{"description":"A simple name/value pair","required":["Name","Value"],"type":"object","properties":{"Name":{"description":"The name of the setting as defined in the SettingDefinition","type":"string"},"Value":{"description":"The transfer specific value to associate with the Name","type":"string"}},"additionalProperties":false,"x-ref":"#/definitions/Setting"},"key$":"Settings"}},"additionalProperties":false,"x-ref":"#/definitions/LookupBillsRequest","index$":1},"index$":1}]}}, { strict: LIVE_STRICT, t })
     }
     const client = setup.client
     const struct = setup.struct
@@ -72,6 +84,12 @@ describe('LookupBillEntity', async () => {
 })
 
 
+
+// main.kit.test.live.strict is true (the default is true): a live
+// request that fails, or a live test missing an input it needs,
+// fails the test.
+// An account with no record for a test to read skips it either way.
+const LIVE_STRICT = true
 
 function basicSetup(extra?: any) {
   // TODO: fix test def options

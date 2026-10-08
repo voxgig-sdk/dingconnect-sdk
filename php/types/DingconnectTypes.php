@@ -25,7 +25,7 @@ class AccountLookup
 /** Request payload for AccountLookup#list. */
 class AccountLookupListMatch
 {
-    public ?int $account_number = null;
+    public ?string $account_number = null;
 }
 
 /** Balance entity data model. */
@@ -48,15 +48,16 @@ class CancelTransfer
     public array $ErrorCodes;
     public array $Items;
     public int $ResultCode;
+    public ?array $cancellations = null;
 }
 
 /** Request payload for CancelTransfer#create. */
 class CancelTransferCreateData
 {
-    public array $cancellation_request;
     public array $ErrorCodes;
     public array $Items;
     public int $ResultCode;
+    public ?array $cancellations = null;
 }
 
 /** Country entity data model. */
@@ -113,51 +114,66 @@ class EstimatePrice
     public array $ErrorCodes;
     public array $Items;
     public int $ResultCode;
+    public ?array $estimations = null;
 }
 
 /** Request payload for EstimatePrice#create. */
 class EstimatePriceCreateData
 {
-    public array $requested_estimation;
     public array $ErrorCodes;
     public array $Items;
     public int $ResultCode;
+    public ?array $estimations = null;
 }
 
 /** ListTransferRecord entity data model. */
 class ListTransferRecord
 {
+    public ?string $AccountNumber = null;
+    public ?string $DistributorRef = null;
     public array $ErrorCodes;
     public array $Items;
     public int $ResultCode;
+    public ?int $Skip = null;
+    public int $Take;
     public bool $ThereAreMoreItems;
+    public ?string $TransferRef = null;
 }
 
 /** Request payload for ListTransferRecord#create. */
 class ListTransferRecordCreateData
 {
-    public array $request;
+    public ?string $AccountNumber = null;
+    public ?string $DistributorRef = null;
     public array $ErrorCodes;
     public array $Items;
     public int $ResultCode;
+    public ?int $Skip = null;
+    public int $Take;
     public bool $ThereAreMoreItems;
+    public ?string $TransferRef = null;
 }
 
 /** LookupBill entity data model. */
 class LookupBill
 {
+    public string $AccountNumber;
     public array $ErrorCodes;
     public array $Items;
     public int $ResultCode;
+    public ?array $Settings = null;
+    public string $SkuCode;
 }
 
 /** Request payload for LookupBill#create. */
 class LookupBillCreateData
 {
-    public array $request;
+    public string $AccountNumber;
     public array $ErrorCodes;
     public array $Items;
     public int $ResultCode;
+    public ?array $Settings = null;
+    public string $SkuCode;
 }
 
 /** Product entity data model. */
@@ -171,12 +187,12 @@ class Product
 /** Request payload for Product#list. */
 class ProductListMatch
 {
-    public ?int $account_number = null;
-    public mixed $benefit = null;
-    public mixed $country_iso = null;
-    public mixed $provider_code = null;
-    public mixed $region_code = null;
-    public mixed $sku_code = null;
+    public ?string $account_number = null;
+    public ?array $benefit = null;
+    public ?array $country_iso = null;
+    public ?array $provider_code = null;
+    public ?array $region_code = null;
+    public ?array $sku_code = null;
 }
 
 /** ProductDescription entity data model. */
@@ -190,8 +206,8 @@ class ProductDescription
 /** Request payload for ProductDescription#list. */
 class ProductDescriptionListMatch
 {
-    public mixed $language_code = null;
-    public mixed $sku_code = null;
+    public ?array $language_code = null;
+    public ?array $sku_code = null;
 }
 
 /** Promotion entity data model. */
@@ -205,9 +221,9 @@ class Promotion
 /** Request payload for Promotion#list. */
 class PromotionListMatch
 {
-    public ?int $account_number = null;
-    public mixed $country_iso = null;
-    public mixed $provider_code = null;
+    public ?string $account_number = null;
+    public ?array $country_iso = null;
+    public ?array $provider_code = null;
 }
 
 /** PromotionDescription entity data model. */
@@ -221,7 +237,7 @@ class PromotionDescription
 /** Request payload for PromotionDescription#list. */
 class PromotionDescriptionListMatch
 {
-    public mixed $language_code = null;
+    public ?array $language_code = null;
 }
 
 /** Provider entity data model. */
@@ -235,10 +251,10 @@ class Provider
 /** Request payload for Provider#list. */
 class ProviderListMatch
 {
-    public ?int $account_number = null;
-    public mixed $country_iso = null;
-    public mixed $provider_code = null;
-    public mixed $region_code = null;
+    public ?string $account_number = null;
+    public ?array $country_iso = null;
+    public ?array $provider_code = null;
+    public ?array $region_code = null;
 }
 
 /** ProviderStatus entity data model. */
@@ -252,7 +268,7 @@ class ProviderStatus
 /** Request payload for ProviderStatus#list. */
 class ProviderStatusListMatch
 {
-    public mixed $provider_code = null;
+    public ?array $provider_code = null;
 }
 
 /** Region entity data model. */
@@ -266,23 +282,38 @@ class Region
 /** Request payload for Region#list. */
 class RegionListMatch
 {
-    public mixed $country_iso = null;
+    public ?array $country_iso = null;
 }
 
 /** SendTransfer entity data model. */
 class SendTransfer
 {
+    public string $AccountNumber;
+    public ?string $BillRef = null;
+    public string $DistributorRef;
     public array $ErrorCodes;
     public int $ResultCode;
+    public ?string $SendCurrencyIso = null;
+    public float $SendValue;
+    public ?array $Settings = null;
+    public string $SkuCode;
     public array $TransferRecord;
+    public bool $ValidateOnly;
 }
 
 /** Request payload for SendTransfer#create. */
 class SendTransferCreateData
 {
-    public array $request;
+    public string $AccountNumber;
+    public ?string $BillRef = null;
+    public string $DistributorRef;
     public array $ErrorCodes;
     public int $ResultCode;
+    public ?string $SendCurrencyIso = null;
+    public float $SendValue;
+    public ?array $Settings = null;
+    public string $SkuCode;
     public array $TransferRecord;
+    public bool $ValidateOnly;
 }
 

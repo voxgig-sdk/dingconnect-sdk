@@ -24,6 +24,12 @@ main: kit: entity: estimate_price: {
       r: true
       t: "`$INTEGER`"
     }
+    estimations: {
+      h: "Estimations"
+      n: "estimations"
+      r: false
+      t: "`$ARRAY`"
+    }
   }
 
   name: "estimate_price"
@@ -32,6 +38,9 @@ main: kit: entity: estimate_price: {
       name: "create"
       points: [
         {
+          bf: [
+            "estimations"
+          ]
           co: {
             id: "POST /api/V1/EstimatePrices"
             source: "swagger2"
@@ -42,18 +51,9 @@ main: kit: entity: estimate_price: {
               {
                 k: "header"
                 n: "x_correlation_id"
-                or: "x_correlation_id"
+                or: "X-Correlation-Id"
                 r: false
                 t: "`$STRING`"
-              }
-            ]
-            query: [
-              {
-                k: "query"
-                n: "requested_estimation"
-                or: "requested_estimation"
-                r: true
-                t: "`$ARRAY`"
               }
             ]
           }
@@ -61,9 +61,18 @@ main: kit: entity: estimate_price: {
           o: "/api/V1/EstimatePrices"
           q: {
             exist: [
-              "requested_estimation"
-              "x_correlation_id"
+              "estimations"
             ]
+          }
+          rs: {
+            alternatives: [
+              {
+                kind: "json"
+                media: "text/json"
+              }
+            ]
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {
@@ -77,7 +86,7 @@ main: kit: entity: estimate_price: {
             }
           ]
           t: {
-            req: "`reqdata`"
+            req: "`reqdata.estimations`"
             res: "`body`"
           }
         }

@@ -2,24 +2,39 @@
   "existing": {
     "list_transfer_record": {
       "LIST_TRANSFER_RECORD00": {
+        "AccountNumber": "s5a",
+        "DistributorRef": "s5b",
         "ErrorCodes": [],
         "Items": [],
-        "ResultCode": 42,
+        "ResultCode": 94,
+        "Skip": 95,
+        "Take": 96,
         "ThereAreMoreItems": false,
+        "TransferRef": "s62",
         "id": "LIST_TRANSFER_RECORD00"
       },
       "LIST_TRANSFER_RECORD01": {
+        "AccountNumber": "sb4",
+        "DistributorRef": "sb5",
         "ErrorCodes": [],
         "Items": [],
-        "ResultCode": 82,
+        "ResultCode": 184,
+        "Skip": 185,
+        "Take": 186,
         "ThereAreMoreItems": false,
+        "TransferRef": "sbc",
         "id": "LIST_TRANSFER_RECORD01"
       },
       "LIST_TRANSFER_RECORD02": {
+        "AccountNumber": "s10e",
+        "DistributorRef": "s10f",
         "ErrorCodes": [],
         "Items": [],
-        "ResultCode": 122,
+        "ResultCode": 274,
+        "Skip": 275,
+        "Take": 276,
         "ThereAreMoreItems": false,
+        "TransferRef": "s116",
         "id": "LIST_TRANSFER_RECORD02"
       }
     }
@@ -27,10 +42,15 @@
   "new": {
     "list_transfer_record": {
       "list_transfer_record_ref01": {
+        "AccountNumber": "s168",
+        "DistributorRef": "s169",
         "ErrorCodes": [],
         "Items": [],
-        "ResultCode": 162,
-        "ThereAreMoreItems": false
+        "ResultCode": 364,
+        "Skip": 365,
+        "Take": 366,
+        "ThereAreMoreItems": false,
+        "TransferRef": "s170"
       }
     }
   },

@@ -24,6 +24,13 @@ main: kit: entity: cancel_transfer: {
       r: true
       t: "`$INTEGER`"
     }
+    cancellations: {
+      h: "Cancellations"
+      n: "cancellations"
+      r: false
+      sh: "An explicit list of records to cancel."
+      t: "`$ARRAY`"
+    }
   }
 
   name: "cancel_transfer"
@@ -32,6 +39,9 @@ main: kit: entity: cancel_transfer: {
       name: "create"
       points: [
         {
+          bf: [
+            "cancellations"
+          ]
           co: {
             id: "POST /api/V1/CancelTransfers"
             source: "swagger2"
@@ -42,18 +52,9 @@ main: kit: entity: cancel_transfer: {
               {
                 k: "header"
                 n: "x_correlation_id"
-                or: "x_correlation_id"
+                or: "X-Correlation-Id"
                 r: false
                 t: "`$STRING`"
-              }
-            ]
-            query: [
-              {
-                k: "query"
-                n: "cancellation_request"
-                or: "cancellation_request"
-                r: true
-                t: "`$ARRAY`"
               }
             ]
           }
@@ -61,9 +62,18 @@ main: kit: entity: cancel_transfer: {
           o: "/api/V1/CancelTransfers"
           q: {
             exist: [
-              "cancellation_request"
-              "x_correlation_id"
+              "cancellations"
             ]
+          }
+          rs: {
+            alternatives: [
+              {
+                kind: "json"
+                media: "text/json"
+              }
+            ]
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {
@@ -77,7 +87,7 @@ main: kit: entity: cancel_transfer: {
             }
           ]
           t: {
-            req: "`reqdata`"
+            req: "`reqdata.cancellations`"
             res: "`body`"
           }
         }

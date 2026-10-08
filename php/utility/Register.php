@@ -37,6 +37,8 @@ require_once __DIR__ . '/TransformResponse.php';
 
 DingconnectUtility::setRegistrar(function (DingconnectUtility $u): void {
     $u->clean = [DingconnectClean::class, 'call'];
+    $u->clean_add = [DingconnectClean::class, 'add'];
+    $u->clean_explain = [DingconnectDone::class, 'clean_explain'];
     $u->done = [DingconnectDone::class, 'call'];
     $u->make_error = [DingconnectMakeError::class, 'call'];
     $u->feature_add = [DingconnectFeatureAdd::class, 'call'];

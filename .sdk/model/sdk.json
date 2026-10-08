@@ -53,7 +53,7 @@
         },
         "edition": {
           "github-pages": {
-            "active": true,
+            "active": false,
             "base": "node_modules/@voxgig/docgen/project/.sdk",
             "brand": {},
             "filter": {
@@ -188,7 +188,7 @@
                         "a": true,
                         "k": "header",
                         "n": "x_correlation_id",
-                        "or": "x_correlation_id",
+                        "or": "X-Correlation-Id",
                         "r": false,
                         "t": "`$STRING`"
                       }
@@ -196,24 +196,30 @@
                     "query": [
                       {
                         "a": true,
+                        "ex": "",
                         "k": "query",
                         "n": "account_number",
-                        "or": "account_number",
+                        "or": "accountNumber",
                         "r": false,
-                        "t": "`$INTEGER`"
+                        "t": "`$STRING`"
                       }
                     ]
                   },
                   "k": "http",
                   "m": "GET",
                   "o": "/api/V1/GetAccountLookup",
-                  "q": {
-                    "exist": [
-                      "account_number",
-                      "x_correlation_id"
-                    ]
-                  },
+                  "q": {},
                   "r": {},
+                  "rs": {
+                    "alternatives": [
+                      {
+                        "kind": "json",
+                        "media": "text/json"
+                      }
+                    ],
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "api"
@@ -279,7 +285,7 @@
                         "a": true,
                         "k": "header",
                         "n": "x_correlation_id",
-                        "or": "x_correlation_id",
+                        "or": "X-Correlation-Id",
                         "r": false,
                         "t": "`$STRING`"
                       }
@@ -288,12 +294,18 @@
                   "k": "http",
                   "m": "GET",
                   "o": "/api/V1/GetBalance",
-                  "q": {
-                    "exist": [
-                      "x_correlation_id"
-                    ]
-                  },
+                  "q": {},
                   "r": {},
+                  "rs": {
+                    "alternatives": [
+                      {
+                        "kind": "json",
+                        "media": "text/json"
+                      }
+                    ],
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "api"
@@ -344,6 +356,14 @@
               "n": "ResultCode",
               "r": true,
               "t": "`$INTEGER`"
+            },
+            "cancellations": {
+              "a": true,
+              "h": "Cancellations",
+              "n": "cancellations",
+              "r": false,
+              "sh": "An explicit list of records to cancel.",
+              "t": "`$ARRAY`"
             }
           },
           "name": "cancel_transfer",
@@ -354,6 +374,9 @@
               "points": [
                 {
                   "a": true,
+                  "bf": [
+                    "cancellations"
+                  ],
                   "co": {
                     "id": "POST /api/V1/CancelTransfers",
                     "source": "swagger2",
@@ -365,19 +388,9 @@
                         "a": true,
                         "k": "header",
                         "n": "x_correlation_id",
-                        "or": "x_correlation_id",
+                        "or": "X-Correlation-Id",
                         "r": false,
                         "t": "`$STRING`"
-                      }
-                    ],
-                    "query": [
-                      {
-                        "a": true,
-                        "k": "query",
-                        "n": "cancellation_request",
-                        "or": "cancellation_request",
-                        "r": true,
-                        "t": "`$ARRAY`"
                       }
                     ]
                   },
@@ -386,11 +399,20 @@
                   "o": "/api/V1/CancelTransfers",
                   "q": {
                     "exist": [
-                      "cancellation_request",
-                      "x_correlation_id"
+                      "cancellations"
                     ]
                   },
                   "r": {},
+                  "rs": {
+                    "alternatives": [
+                      {
+                        "kind": "json",
+                        "media": "text/json"
+                      }
+                    ],
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "api"
@@ -403,7 +425,7 @@
                     }
                   ],
                   "t": {
-                    "req": "`reqdata`",
+                    "req": "`reqdata.cancellations`",
                     "res": "`body`"
                   }
                 }
@@ -463,7 +485,7 @@
                         "a": true,
                         "k": "header",
                         "n": "x_correlation_id",
-                        "or": "x_correlation_id",
+                        "or": "X-Correlation-Id",
                         "r": false,
                         "t": "`$STRING`"
                       }
@@ -472,12 +494,18 @@
                   "k": "http",
                   "m": "GET",
                   "o": "/api/V1/GetCountries",
-                  "q": {
-                    "exist": [
-                      "x_correlation_id"
-                    ]
-                  },
+                  "q": {},
                   "r": {},
+                  "rs": {
+                    "alternatives": [
+                      {
+                        "kind": "json",
+                        "media": "text/json"
+                      }
+                    ],
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "api"
@@ -549,7 +577,7 @@
                         "a": true,
                         "k": "header",
                         "n": "x_correlation_id",
-                        "or": "x_correlation_id",
+                        "or": "X-Correlation-Id",
                         "r": false,
                         "t": "`$STRING`"
                       }
@@ -558,12 +586,18 @@
                   "k": "http",
                   "m": "GET",
                   "o": "/api/V1/GetCurrencies",
-                  "q": {
-                    "exist": [
-                      "x_correlation_id"
-                    ]
-                  },
+                  "q": {},
                   "r": {},
+                  "rs": {
+                    "alternatives": [
+                      {
+                        "kind": "json",
+                        "media": "text/json"
+                      }
+                    ],
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "api"
@@ -636,7 +670,7 @@
                         "a": true,
                         "k": "header",
                         "n": "x_correlation_id",
-                        "or": "x_correlation_id",
+                        "or": "X-Correlation-Id",
                         "r": false,
                         "t": "`$STRING`"
                       }
@@ -645,12 +679,18 @@
                   "k": "http",
                   "m": "GET",
                   "o": "/api/V1/GetErrorCodeDescriptions",
-                  "q": {
-                    "exist": [
-                      "x_correlation_id"
-                    ]
-                  },
+                  "q": {},
                   "r": {},
+                  "rs": {
+                    "alternatives": [
+                      {
+                        "kind": "json",
+                        "media": "text/json"
+                      }
+                    ],
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "api"
@@ -701,6 +741,13 @@
               "n": "ResultCode",
               "r": true,
               "t": "`$INTEGER`"
+            },
+            "estimations": {
+              "a": true,
+              "h": "Estimations",
+              "n": "estimations",
+              "r": false,
+              "t": "`$ARRAY`"
             }
           },
           "name": "estimate_price",
@@ -711,6 +758,9 @@
               "points": [
                 {
                   "a": true,
+                  "bf": [
+                    "estimations"
+                  ],
                   "co": {
                     "id": "POST /api/V1/EstimatePrices",
                     "source": "swagger2",
@@ -722,19 +772,9 @@
                         "a": true,
                         "k": "header",
                         "n": "x_correlation_id",
-                        "or": "x_correlation_id",
+                        "or": "X-Correlation-Id",
                         "r": false,
                         "t": "`$STRING`"
-                      }
-                    ],
-                    "query": [
-                      {
-                        "a": true,
-                        "k": "query",
-                        "n": "requested_estimation",
-                        "or": "requested_estimation",
-                        "r": true,
-                        "t": "`$ARRAY`"
                       }
                     ]
                   },
@@ -743,11 +783,20 @@
                   "o": "/api/V1/EstimatePrices",
                   "q": {
                     "exist": [
-                      "requested_estimation",
-                      "x_correlation_id"
+                      "estimations"
                     ]
                   },
                   "r": {},
+                  "rs": {
+                    "alternatives": [
+                      {
+                        "kind": "json",
+                        "media": "text/json"
+                      }
+                    ],
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "api"
@@ -760,7 +809,7 @@
                     }
                   ],
                   "t": {
-                    "req": "`reqdata`",
+                    "req": "`reqdata.estimations`",
                     "res": "`body`"
                   }
                 }
@@ -777,6 +826,22 @@
             "field": {}
           },
           "fields": {
+            "AccountNumber": {
+              "a": true,
+              "h": "Account Number",
+              "n": "AccountNumber",
+              "r": false,
+              "sh": "Filter transfers by AccountNumber",
+              "t": "`$STRING`"
+            },
+            "DistributorRef": {
+              "a": true,
+              "h": "Distributor Ref",
+              "n": "DistributorRef",
+              "r": false,
+              "sh": "Filter transfers by DistributorRef.",
+              "t": "`$STRING`"
+            },
             "ErrorCodes": {
               "a": true,
               "h": "Error Codes",
@@ -800,6 +865,24 @@
               "r": true,
               "t": "`$INTEGER`"
             },
+            "Skip": {
+              "a": true,
+              "fo": "int32",
+              "h": "Skip",
+              "n": "Skip",
+              "r": false,
+              "sh": "The amount of records to by-pass before returning the remaining records",
+              "t": "`$INTEGER`"
+            },
+            "Take": {
+              "a": true,
+              "fo": "int32",
+              "h": "Take",
+              "n": "Take",
+              "r": true,
+              "sh": "The amount of records to return",
+              "t": "`$INTEGER`"
+            },
             "ThereAreMoreItems": {
               "a": true,
               "h": "There Are More Items",
@@ -807,6 +890,14 @@
               "r": true,
               "sh": "Indicates if the caller should execute the query again.",
               "t": "`$BOOLEAN`"
+            },
+            "TransferRef": {
+              "a": true,
+              "h": "Transfer Ref",
+              "n": "TransferRef",
+              "r": false,
+              "sh": "Filter by Ding TransferRef",
+              "t": "`$STRING`"
             }
           },
           "name": "list_transfer_record",
@@ -817,6 +908,13 @@
               "points": [
                 {
                   "a": true,
+                  "bf": [
+                    "AccountNumber",
+                    "DistributorRef",
+                    "Skip",
+                    "Take",
+                    "TransferRef"
+                  ],
                   "co": {
                     "id": "POST /api/V1/ListTransferRecords",
                     "source": "swagger2",
@@ -828,32 +926,27 @@
                         "a": true,
                         "k": "header",
                         "n": "x_correlation_id",
-                        "or": "x_correlation_id",
+                        "or": "X-Correlation-Id",
                         "r": false,
                         "t": "`$STRING`"
-                      }
-                    ],
-                    "query": [
-                      {
-                        "a": true,
-                        "k": "query",
-                        "n": "request",
-                        "or": "request",
-                        "r": true,
-                        "t": "`$OBJECT`"
                       }
                     ]
                   },
                   "k": "http",
                   "m": "POST",
                   "o": "/api/V1/ListTransferRecords",
-                  "q": {
-                    "exist": [
-                      "request",
-                      "x_correlation_id"
-                    ]
-                  },
+                  "q": {},
                   "r": {},
+                  "rs": {
+                    "alternatives": [
+                      {
+                        "kind": "json",
+                        "media": "text/json"
+                      }
+                    ],
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "api"
@@ -883,6 +976,14 @@
             "field": {}
           },
           "fields": {
+            "AccountNumber": {
+              "a": true,
+              "h": "Account Number",
+              "n": "AccountNumber",
+              "r": true,
+              "sh": "The account number to target",
+              "t": "`$STRING`"
+            },
             "ErrorCodes": {
               "a": true,
               "h": "Error Codes",
@@ -904,6 +1005,22 @@
               "n": "ResultCode",
               "r": true,
               "t": "`$INTEGER`"
+            },
+            "Settings": {
+              "a": true,
+              "h": "Settings",
+              "n": "Settings",
+              "r": false,
+              "sh": "Product specific name/value pairs to be associated with the lookup bills request",
+              "t": "`$ARRAY`"
+            },
+            "SkuCode": {
+              "a": true,
+              "h": "Sku Code",
+              "n": "SkuCode",
+              "r": true,
+              "sh": "Code provided by GetProducts API",
+              "t": "`$STRING`"
             }
           },
           "name": "lookup_bill",
@@ -914,6 +1031,11 @@
               "points": [
                 {
                   "a": true,
+                  "bf": [
+                    "AccountNumber",
+                    "Settings",
+                    "SkuCode"
+                  ],
                   "co": {
                     "id": "POST /api/V1/LookupBills",
                     "source": "swagger2",
@@ -925,32 +1047,27 @@
                         "a": true,
                         "k": "header",
                         "n": "x_correlation_id",
-                        "or": "x_correlation_id",
+                        "or": "X-Correlation-Id",
                         "r": false,
                         "t": "`$STRING`"
-                      }
-                    ],
-                    "query": [
-                      {
-                        "a": true,
-                        "k": "query",
-                        "n": "request",
-                        "or": "request",
-                        "r": true,
-                        "t": "`$OBJECT`"
                       }
                     ]
                   },
                   "k": "http",
                   "m": "POST",
                   "o": "/api/V1/LookupBills",
-                  "q": {
-                    "exist": [
-                      "request",
-                      "x_correlation_id"
-                    ]
-                  },
+                  "q": {},
                   "r": {},
+                  "rs": {
+                    "alternatives": [
+                      {
+                        "kind": "json",
+                        "media": "text/json"
+                      }
+                    ],
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "api"
@@ -1023,7 +1140,7 @@
                         "a": true,
                         "k": "header",
                         "n": "x_correlation_id",
-                        "or": "x_correlation_id",
+                        "or": "X-Correlation-Id",
                         "r": false,
                         "t": "`$STRING`"
                       }
@@ -1031,69 +1148,70 @@
                     "query": [
                       {
                         "a": true,
+                        "ex": "",
                         "k": "query",
                         "n": "account_number",
-                        "or": "account_number",
+                        "or": "accountNumber",
                         "r": false,
-                        "t": "`$INTEGER`"
+                        "t": "`$STRING`"
                       },
                       {
                         "a": true,
                         "k": "query",
                         "n": "benefit",
-                        "or": "benefit",
+                        "or": "benefits",
                         "r": false,
-                        "t": "`$ANY`"
+                        "t": "`$ARRAY`"
                       },
                       {
                         "a": true,
                         "k": "query",
                         "n": "country_iso",
-                        "or": "country_iso",
+                        "or": "countryIsos",
                         "r": false,
-                        "t": "`$ANY`"
+                        "t": "`$ARRAY`"
                       },
                       {
                         "a": true,
                         "k": "query",
                         "n": "provider_code",
-                        "or": "provider_code",
+                        "or": "providerCodes",
                         "r": false,
-                        "t": "`$ANY`"
+                        "t": "`$ARRAY`"
                       },
                       {
                         "a": true,
                         "k": "query",
                         "n": "region_code",
-                        "or": "region_code",
+                        "or": "regionCodes",
                         "r": false,
-                        "t": "`$ANY`"
+                        "t": "`$ARRAY`"
                       },
                       {
                         "a": true,
                         "k": "query",
                         "n": "sku_code",
-                        "or": "sku_code",
+                        "or": "skuCodes",
                         "r": false,
-                        "t": "`$ANY`"
+                        "t": "`$ARRAY`"
                       }
                     ]
                   },
                   "k": "http",
                   "m": "GET",
                   "o": "/api/V1/GetProducts",
-                  "q": {
-                    "exist": [
-                      "account_number",
-                      "benefit",
-                      "country_iso",
-                      "provider_code",
-                      "region_code",
-                      "sku_code",
-                      "x_correlation_id"
-                    ]
-                  },
+                  "q": {},
                   "r": {},
+                  "rs": {
+                    "alternatives": [
+                      {
+                        "kind": "json",
+                        "media": "text/json"
+                      }
+                    ],
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "api"
@@ -1166,7 +1284,7 @@
                         "a": true,
                         "k": "header",
                         "n": "x_correlation_id",
-                        "or": "x_correlation_id",
+                        "or": "X-Correlation-Id",
                         "r": false,
                         "t": "`$STRING`"
                       }
@@ -1176,31 +1294,35 @@
                         "a": true,
                         "k": "query",
                         "n": "language_code",
-                        "or": "language_code",
+                        "or": "languageCodes",
                         "r": false,
-                        "t": "`$ANY`"
+                        "t": "`$ARRAY`"
                       },
                       {
                         "a": true,
                         "k": "query",
                         "n": "sku_code",
-                        "or": "sku_code",
+                        "or": "skuCodes",
                         "r": false,
-                        "t": "`$ANY`"
+                        "t": "`$ARRAY`"
                       }
                     ]
                   },
                   "k": "http",
                   "m": "GET",
                   "o": "/api/V1/GetProductDescriptions",
-                  "q": {
-                    "exist": [
-                      "language_code",
-                      "sku_code",
-                      "x_correlation_id"
-                    ]
-                  },
+                  "q": {},
                   "r": {},
+                  "rs": {
+                    "alternatives": [
+                      {
+                        "kind": "json",
+                        "media": "text/json"
+                      }
+                    ],
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "api"
@@ -1273,7 +1395,7 @@
                         "a": true,
                         "k": "header",
                         "n": "x_correlation_id",
-                        "or": "x_correlation_id",
+                        "or": "X-Correlation-Id",
                         "r": false,
                         "t": "`$STRING`"
                       }
@@ -1281,42 +1403,46 @@
                     "query": [
                       {
                         "a": true,
+                        "ex": "",
                         "k": "query",
                         "n": "account_number",
-                        "or": "account_number",
+                        "or": "accountNumber",
                         "r": false,
-                        "t": "`$INTEGER`"
+                        "t": "`$STRING`"
                       },
                       {
                         "a": true,
                         "k": "query",
                         "n": "country_iso",
-                        "or": "country_iso",
+                        "or": "countryIsos",
                         "r": false,
-                        "t": "`$ANY`"
+                        "t": "`$ARRAY`"
                       },
                       {
                         "a": true,
                         "k": "query",
                         "n": "provider_code",
-                        "or": "provider_code",
+                        "or": "providerCodes",
                         "r": false,
-                        "t": "`$ANY`"
+                        "t": "`$ARRAY`"
                       }
                     ]
                   },
                   "k": "http",
                   "m": "GET",
                   "o": "/api/V1/GetPromotions",
-                  "q": {
-                    "exist": [
-                      "account_number",
-                      "country_iso",
-                      "provider_code",
-                      "x_correlation_id"
-                    ]
-                  },
+                  "q": {},
                   "r": {},
+                  "rs": {
+                    "alternatives": [
+                      {
+                        "kind": "json",
+                        "media": "text/json"
+                      }
+                    ],
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "api"
@@ -1389,7 +1515,7 @@
                         "a": true,
                         "k": "header",
                         "n": "x_correlation_id",
-                        "or": "x_correlation_id",
+                        "or": "X-Correlation-Id",
                         "r": false,
                         "t": "`$STRING`"
                       }
@@ -1399,22 +1525,27 @@
                         "a": true,
                         "k": "query",
                         "n": "language_code",
-                        "or": "language_code",
+                        "or": "languageCodes",
                         "r": false,
-                        "t": "`$ANY`"
+                        "t": "`$ARRAY`"
                       }
                     ]
                   },
                   "k": "http",
                   "m": "GET",
                   "o": "/api/V1/GetPromotionDescriptions",
-                  "q": {
-                    "exist": [
-                      "language_code",
-                      "x_correlation_id"
-                    ]
-                  },
+                  "q": {},
                   "r": {},
+                  "rs": {
+                    "alternatives": [
+                      {
+                        "kind": "json",
+                        "media": "text/json"
+                      }
+                    ],
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "api"
@@ -1487,7 +1618,7 @@
                         "a": true,
                         "k": "header",
                         "n": "x_correlation_id",
-                        "or": "x_correlation_id",
+                        "or": "X-Correlation-Id",
                         "r": false,
                         "t": "`$STRING`"
                       }
@@ -1495,51 +1626,54 @@
                     "query": [
                       {
                         "a": true,
+                        "ex": "",
                         "k": "query",
                         "n": "account_number",
-                        "or": "account_number",
+                        "or": "accountNumber",
                         "r": false,
-                        "t": "`$INTEGER`"
+                        "t": "`$STRING`"
                       },
                       {
                         "a": true,
                         "k": "query",
                         "n": "country_iso",
-                        "or": "country_iso",
+                        "or": "countryIsos",
                         "r": false,
-                        "t": "`$ANY`"
+                        "t": "`$ARRAY`"
                       },
                       {
                         "a": true,
                         "k": "query",
                         "n": "provider_code",
-                        "or": "provider_code",
+                        "or": "providerCodes",
                         "r": false,
-                        "t": "`$ANY`"
+                        "t": "`$ARRAY`"
                       },
                       {
                         "a": true,
                         "k": "query",
                         "n": "region_code",
-                        "or": "region_code",
+                        "or": "regionCodes",
                         "r": false,
-                        "t": "`$ANY`"
+                        "t": "`$ARRAY`"
                       }
                     ]
                   },
                   "k": "http",
                   "m": "GET",
                   "o": "/api/V1/GetProviders",
-                  "q": {
-                    "exist": [
-                      "account_number",
-                      "country_iso",
-                      "provider_code",
-                      "region_code",
-                      "x_correlation_id"
-                    ]
-                  },
+                  "q": {},
                   "r": {},
+                  "rs": {
+                    "alternatives": [
+                      {
+                        "kind": "json",
+                        "media": "text/json"
+                      }
+                    ],
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "api"
@@ -1611,7 +1745,7 @@
                         "a": true,
                         "k": "header",
                         "n": "x_correlation_id",
-                        "or": "x_correlation_id",
+                        "or": "X-Correlation-Id",
                         "r": false,
                         "t": "`$STRING`"
                       }
@@ -1621,22 +1755,27 @@
                         "a": true,
                         "k": "query",
                         "n": "provider_code",
-                        "or": "provider_code",
+                        "or": "providerCodes",
                         "r": false,
-                        "t": "`$ANY`"
+                        "t": "`$ARRAY`"
                       }
                     ]
                   },
                   "k": "http",
                   "m": "GET",
                   "o": "/api/V1/GetProviderStatus",
-                  "q": {
-                    "exist": [
-                      "provider_code",
-                      "x_correlation_id"
-                    ]
-                  },
+                  "q": {},
                   "r": {},
+                  "rs": {
+                    "alternatives": [
+                      {
+                        "kind": "json",
+                        "media": "text/json"
+                      }
+                    ],
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "api"
@@ -1709,7 +1848,7 @@
                         "a": true,
                         "k": "header",
                         "n": "x_correlation_id",
-                        "or": "x_correlation_id",
+                        "or": "X-Correlation-Id",
                         "r": false,
                         "t": "`$STRING`"
                       }
@@ -1719,22 +1858,27 @@
                         "a": true,
                         "k": "query",
                         "n": "country_iso",
-                        "or": "country_iso",
+                        "or": "countryIsos",
                         "r": false,
-                        "t": "`$ANY`"
+                        "t": "`$ARRAY`"
                       }
                     ]
                   },
                   "k": "http",
                   "m": "GET",
                   "o": "/api/V1/GetRegions",
-                  "q": {
-                    "exist": [
-                      "country_iso",
-                      "x_correlation_id"
-                    ]
-                  },
+                  "q": {},
                   "r": {},
+                  "rs": {
+                    "alternatives": [
+                      {
+                        "kind": "json",
+                        "media": "text/json"
+                      }
+                    ],
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "api"
@@ -1764,6 +1908,30 @@
             "field": {}
           },
           "fields": {
+            "AccountNumber": {
+              "a": true,
+              "h": "Account Number",
+              "n": "AccountNumber",
+              "r": true,
+              "sh": "The account number to target",
+              "t": "`$STRING`"
+            },
+            "BillRef": {
+              "a": true,
+              "h": "Bill Ref",
+              "n": "BillRef",
+              "r": false,
+              "sh": "Bill reference.",
+              "t": "`$STRING`"
+            },
+            "DistributorRef": {
+              "a": true,
+              "h": "Distributor Ref",
+              "n": "DistributorRef",
+              "r": true,
+              "sh": "Unique identifier in the distributor system to be associated with the transfer",
+              "t": "`$STRING`"
+            },
             "ErrorCodes": {
               "a": true,
               "h": "Error Codes",
@@ -1779,12 +1947,53 @@
               "r": true,
               "t": "`$INTEGER`"
             },
+            "SendCurrencyIso": {
+              "a": true,
+              "h": "Send Currency Iso",
+              "n": "SendCurrencyIso",
+              "r": false,
+              "sh": "The currency of the `SendValue`.",
+              "t": "`$STRING`"
+            },
+            "SendValue": {
+              "a": true,
+              "fo": "decimal",
+              "h": "Send Value",
+              "n": "SendValue",
+              "r": true,
+              "sh": "The transfer value to be sent.",
+              "t": "`$NUMBER`"
+            },
+            "Settings": {
+              "a": true,
+              "h": "Settings",
+              "n": "Settings",
+              "r": false,
+              "sh": "Product specific name/value pairs to be associated with the transfer request",
+              "t": "`$ARRAY`"
+            },
+            "SkuCode": {
+              "a": true,
+              "h": "Sku Code",
+              "n": "SkuCode",
+              "r": true,
+              "sh": "Code provided by GetProducts API",
+              "t": "`$STRING`"
+            },
             "TransferRecord": {
               "a": true,
               "h": "Transfer Record",
               "n": "TransferRecord",
               "r": true,
               "t": "`$OBJECT`"
+            },
+            "ValidateOnly": {
+              "a": true,
+              "h": "Validate Only",
+              "n": "ValidateOnly",
+              "r": true,
+              "sh": "Validate the request with the provider without doing a transfer",
+              "t": "`$BOOLEAN`"
             }
           },
           "name": "send_transfer",
@@ -1795,6 +2004,16 @@
               "points": [
                 {
                   "a": true,
+                  "bf": [
+                    "AccountNumber",
+                    "BillRef",
+                    "DistributorRef",
+                    "SendCurrencyIso",
+                    "SendValue",
+                    "Settings",
+                    "SkuCode",
+                    "ValidateOnly"
+                  ],
                   "co": {
                     "id": "POST /api/V1/SendTransfer",
                     "source": "swagger2",
@@ -1806,32 +2025,27 @@
                         "a": true,
                         "k": "header",
                         "n": "x_correlation_id",
-                        "or": "x_correlation_id",
+                        "or": "X-Correlation-Id",
                         "r": false,
                         "t": "`$STRING`"
-                      }
-                    ],
-                    "query": [
-                      {
-                        "a": true,
-                        "k": "query",
-                        "n": "request",
-                        "or": "request",
-                        "r": true,
-                        "t": "`$OBJECT`"
                       }
                     ]
                   },
                   "k": "http",
                   "m": "POST",
                   "o": "/api/V1/SendTransfer",
-                  "q": {
-                    "exist": [
-                      "request",
-                      "x_correlation_id"
-                    ]
-                  },
+                  "q": {},
                   "r": {},
+                  "rs": {
+                    "alternatives": [
+                      {
+                        "kind": "json",
+                        "media": "text/json"
+                      }
+                    ],
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "api"
@@ -2608,6 +2822,7 @@
             },
             "optspec": {
               "clearTimer": "`$FUNCTION`",
+              "now": "`$FUNCTION`",
               "setTimer": "`$FUNCTION`"
             },
             "strict": false
@@ -3138,7 +3353,7 @@
       "optspec": {
         "allow": {
           "method": "GET,PUT,POST,PATCH,DELETE,OPTIONS",
-          "op": "create,update,load,list,remove,command,direct,graphql"
+          "op": "create,update,patch,load,list,remove,command,direct,graphql"
         },
         "apikey": "",
         "auth": {
@@ -3149,7 +3364,12 @@
         },
         "base": "http://localhost:8000",
         "clean": {
-          "keys": "key,token,id"
+          "active": true,
+          "hint": "0",
+          "keys": "key,secret,token,password,passwd,authorization,cookie,credential,signature",
+          "mask": "[redacted]",
+          "min": "4",
+          "values": ""
         },
         "entity": {
           "`$CHILD`": {
@@ -3186,6 +3406,11 @@
         "top": {
           "active": true
         }
+      },
+      "publisher": {
+        "name": "",
+        "security": "",
+        "url": ""
       },
       "repo": {
         "host": "github.com",
@@ -3416,7 +3641,10 @@
             "version": "0.1.1"
           },
           "superseded": [],
-          "title": "Go MCP server"
+          "title": "Go MCP server",
+          "tool": {
+            "write": false
+          }
         },
         "lua": {
           "active": true,
@@ -3793,6 +4021,17 @@
           "base": "",
           "strict": true
         }
+      },
+      "text": {
+        "about_md": "",
+        "docs_url": "",
+        "entity_desc": {},
+        "homepage": "",
+        "meta_source": "",
+        "summary": "",
+        "tagline": "",
+        "title": "",
+        "website": ""
       }
     }
   },

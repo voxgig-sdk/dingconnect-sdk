@@ -43,7 +43,7 @@ main: kit: entity: region: {
               {
                 k: "header"
                 n: "x_correlation_id"
-                or: "x_correlation_id"
+                or: "X-Correlation-Id"
                 r: false
                 t: "`$STRING`"
               }
@@ -52,19 +52,23 @@ main: kit: entity: region: {
               {
                 k: "query"
                 n: "country_iso"
-                or: "country_iso"
+                or: "countryIsos"
                 r: false
-                t: "`$ANY`"
+                t: "`$ARRAY`"
               }
             ]
           }
           m: "GET"
           o: "/api/V1/GetRegions"
-          q: {
-            exist: [
-              "country_iso"
-              "x_correlation_id"
+          rs: {
+            alternatives: [
+              {
+                kind: "json"
+                media: "text/json"
+              }
             ]
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {
